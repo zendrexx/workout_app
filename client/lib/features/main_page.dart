@@ -28,7 +28,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff141316),
-      appBar: AppBar(title: Text(labels[currentPage])),
+      appBar: AppBar(
+        title: Text(labels[currentPage], style: TextStyle(color: Colors.white)),
+        backgroundColor: Color(0xFF141316),
+      ),
       body: pages[currentPage],
       bottomNavigationBar: BottomAppBar(
         shadowColor: const Color(0xffEDA938),

@@ -1,3 +1,4 @@
+import 'package:client/features/history/widgets/history_workout_container_widget.dart';
 import 'package:flutter/material.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -5,6 +6,16 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("History"));
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            HistoryWorkoutContainerWidget(),
+            HistoryWorkoutContainerWidget(),
+          ],
+        ),
+      ),
+    );
   }
 }
