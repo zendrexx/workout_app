@@ -9,7 +9,7 @@ class LongCustomButton extends StatelessWidget {
       onTap: () {},
       child: Expanded(
         child: Container(
-          height: 40,
+          height: 45,
           decoration: BoxDecoration(
             color: Color(0xffD3C061),
             borderRadius: BorderRadius.circular(5),

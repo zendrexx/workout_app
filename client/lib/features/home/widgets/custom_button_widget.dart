@@ -24,9 +24,8 @@ class _CustomButtonWidgetState extends State<CustomButtonWidget> {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: 10),
             Icon(widget.icon, color: Colors.white),
             SizedBox(width: 8),
             Text(

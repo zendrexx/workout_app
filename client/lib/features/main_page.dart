@@ -3,6 +3,7 @@ import 'package:client/features/home/home_page.dart';
 import 'package:client/features/profile/profile_page.dart';
 import 'package:client/widgets/bottom_nav_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -33,22 +34,30 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Color(0xFF141316),
       ),
       body: pages[currentPage],
-      bottomNavigationBar: BottomAppBar(
-        shadowColor: const Color(0xffEDA938),
-        elevation: 50,
-        color: const Color(0xff141316),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(
-            icons.length,
-            (index) => BottomNavHandler(
-              isActive: currentPage == index,
-              icon: icons[index],
-              label: labels[index],
-              onTap: () {
-                setState(() => currentPage = index);
-              },
-            ),
+      bottomNavigationBar: Container(
+        color: const Color(0xff1e1c20),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+          child: GNav(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            tabs: [
+              GButton(icon: Icons.history, text: "History"),
+              GButton(icon: Icons.circle_outlined, text: "Home"),
+              GButton(icon: Icons.person, text: "Profile"),
+            ],
+            selectedIndex: currentPage,
+            onTabChange: (index) {
+              setState(() {
+                currentPage = index;
+              });
+            },
+            padding: EdgeInsetsGeometry.all(16),
+            haptic: false,
+            tabBackgroundColor: const Color(0xff292E28),
+            backgroundColor: const Color(0xff1e1c20),
+            color: Colors.white,
+            activeColor: Color(0xffEDA938),
+            gap: 8,
           ),
         ),
       ),

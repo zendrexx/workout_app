@@ -12,7 +12,7 @@ class HomeListWidget extends StatelessWidget {
         Text(
           "My Programs",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.normal,
             color: Color(0xff4E4E50),
           ),
@@ -20,7 +20,7 @@ class HomeListWidget extends StatelessWidget {
 
         SizedBox(height: 10),
         Container(
-          height: 170,
+          height: 175,
           width: double.infinity,
           decoration: BoxDecoration(
             border: Border.all(color: Color(0xff4E4A43)),
