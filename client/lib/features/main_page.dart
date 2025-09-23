@@ -23,14 +23,22 @@ class _MainPageState extends State<MainPage> {
     Icons.person,
   ];
 
-  final List<String> labels = ["History", "Home", "Profile"];
+  final List<String> labels = ["History", "Home", "ZHEVION"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff141316),
       appBar: AppBar(
-        title: Text(labels[currentPage], style: TextStyle(color: Colors.white)),
+        title: Text(
+          labels[currentPage],
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
+        ),
         backgroundColor: Color(0xFF141316),
       ),
       body: pages[currentPage],
