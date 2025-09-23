@@ -94,12 +94,39 @@ class ProfilePage extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Calendar Heatmap placeholder
-          Container(height: 250, child: HeatmapWidget()),
-
+          HeatmapWidget(),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: Color(0xff977F56),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text("Less"),
+              SizedBox(width: 10),
+              Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: Color(0xffEDA938),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text("More"),
+            ],
+          ),
           const SizedBox(height: 20),
 
           // Personal Records
           const Text("PERSONAL RECORDS", style: TextStyle(color: Colors.grey)),
+          const Divider(color: Colors.grey),
           const SizedBox(height: 12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -13,20 +13,21 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
   Widget build(BuildContext context) {
     return HeatMap(
       scrollable: true,
+      showColorTip: false,
+      size: 12,
+      fontSize: 10,
+      borderRadius: 1,
+
+      defaultColor: Color(0xff28292A),
       datasets: {
         DateTime(2025, 1, 1): 5,
         DateTime(2025, 1, 2): 3,
         DateTime(2025, 1, 3): 1,
         DateTime(2025, 1, 4): 4,
       },
-
-      colorsets: {
-        1: Colors.red,
-        2: Colors.orange,
-        3: Colors.yellow,
-        4: Colors.green,
-        5: Colors.blue,
-      },
+      startDate: DateTime(2025, 1, 5),
+      endDate: DateTime(2025, 12, 31),
+      colorsets: {1: Color(0xffEDA938), 2: Color(0xff977F56)},
     );
   }
 }

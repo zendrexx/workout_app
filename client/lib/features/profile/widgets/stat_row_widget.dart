@@ -11,12 +11,16 @@ class StatRowWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("• $title", style: const TextStyle(color: Colors.white70)),
+          Text(
+            "• $title",
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
           Text(
             value,
             style: const TextStyle(
               color: Colors.amber,
               fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
         ],
