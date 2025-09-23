@@ -20,24 +20,36 @@ class HomeListWidget extends StatelessWidget {
 
         SizedBox(height: 10),
         Container(
-          height: 175,
+          height: 180,
           width: double.infinity,
           decoration: BoxDecoration(
             border: Border.all(color: Color(0xff4E4A43)),
             borderRadius: BorderRadius.circular(3),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("PPL", style: TextStyle(fontSize: 16)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("PPL", style: TextStyle(fontSize: 16)),
+                    IconButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.zero, // removes default padding
+                      constraints: BoxConstraints(), // removes extra space
+                      icon: Icon(Icons.more_horiz, size: 30),
+                    ),
+                  ],
+                ),
+
                 Text(
                   "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
                   style: TextStyle(fontSize: 14),
                 ),
                 SizedBox(height: 10),
-                LongCustomButton(),
+                LongCustomButton(title: "Start Program"),
               ],
             ),
           ),

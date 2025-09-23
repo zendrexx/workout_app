@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 
 class LongCustomButton extends StatelessWidget {
-  const LongCustomButton({super.key});
+  final String title;
+  const LongCustomButton({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {},
-      child: Expanded(
-        child: Container(
-          height: 45,
-          decoration: BoxDecoration(
-            color: Color(0xffD3C061),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Center(
-            child: Text(
-              "Create Workout Session",
-              style: TextStyle(color: Colors.black, fontSize: 14),
-            ),
+      child: Container(
+        height: 45,
+        decoration: BoxDecoration(
+          color: Color(0xffD3C061),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(color: Colors.black, fontSize: 14),
           ),
         ),
       ),

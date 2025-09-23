@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LongCustomButton(),
+            LongCustomButton(title: "CREATE WORKOUT SESSIONS"),
             SizedBox(height: 20),
             Text(
               "Program",
