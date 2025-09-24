@@ -1,5 +1,4 @@
-import 'package:client/features/home/home_page.dart';
-import 'package:client/features/main_page.dart';
+import 'package:client/core/router/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -22,8 +21,7 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.white,
         ),
       ),
-
-      home: const MainPage(),
+      routerConfig: router,
     );
   }
 }
