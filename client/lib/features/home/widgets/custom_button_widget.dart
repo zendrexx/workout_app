@@ -20,7 +20,7 @@ class _CustomButtonWidgetState extends State<CustomButtonWidget> {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-          color: Color(0xff4E4A43),
+          color: Color(0xff3B4141),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(

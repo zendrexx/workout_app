@@ -1,7 +1,7 @@
 import 'package:client/core/config/app_destination.dart';
-import 'package:client/features/history/history_page.dart';
-import 'package:client/features/home/home_page.dart';
-import 'package:client/features/profile/profile_page.dart';
+import 'package:client/features/history/pages/history_page.dart';
+import 'package:client/features/home/pages/home_page.dart';
+import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -15,30 +15,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<String> labels = ["History", "Home", "ZHEVION"];
-
   @override
   Widget build(BuildContext context) {
     final currentIndex = widget.navigationShell.currentIndex;
 
     return Scaffold(
-      backgroundColor: const Color(0xff141316),
-      appBar: AppBar(
-        title: Text(
-          labels[currentIndex],
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-          ),
-        ),
-        backgroundColor: const Color(0xFF141316),
-      ),
       body: widget.navigationShell,
       bottomNavigationBar: Container(
-        color: const Color(0xff1e1c20),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+        decoration: BoxDecoration(
+          color: const Color(0xff0F0F0F),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5), // Shadow color
+              blurRadius: 8, // How soft the shadow is
+              spreadRadius: 2, // How wide the shadow spreads
+              offset: const Offset(0, -4), // Move shadow UP (negative Y)
+            ),
+          ],
+        ),
+
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: GNav(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           tabs: appDestination
@@ -51,14 +47,13 @@ class _MainPageState extends State<MainPage> {
               // if reselecting the same tab, reset stack
               initialLocation: index == currentIndex,
             );
-            //setState(() {});
           },
           padding: const EdgeInsets.all(16),
           haptic: false,
-          tabBackgroundColor: const Color(0xff292E28),
-          backgroundColor: const Color(0xff1e1c20),
+          tabBackgroundColor: const Color(0xff2F4F4F),
+          backgroundColor: const Color(0xff0F0F0F),
           color: Colors.white,
-          activeColor: const Color(0xffEDA938),
+          activeColor: const Color(0xffEAE0C8),
           gap: 8,
         ),
       ),

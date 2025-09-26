@@ -1,5 +1,6 @@
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends StatelessWidget {
   const HomeListWidget({super.key});
@@ -23,7 +24,7 @@ class HomeListWidget extends StatelessWidget {
           height: 180,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0xff4E4A43)),
+            border: Border.all(color: Color(0xff3B4141)),
             borderRadius: BorderRadius.circular(3),
           ),
           child: Padding(
@@ -39,17 +40,24 @@ class HomeListWidget extends StatelessWidget {
                       onPressed: () {},
                       padding: EdgeInsets.zero, // removes default padding
                       constraints: BoxConstraints(), // removes extra space
-                      icon: Icon(Icons.more_horiz, size: 30),
+                      icon: Icon(
+                        Icons.more_horiz,
+                        size: 30,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
 
                 Text(
                   "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: Color(0xffEAE0C8)),
                 ),
                 SizedBox(height: 10),
-                LongCustomButton(title: "Start Program"),
+                LongCustomButton(
+                  title: "Start Program",
+                  onTap: () => context.push('/home/session'),
+                ),
               ],
             ),
           ),

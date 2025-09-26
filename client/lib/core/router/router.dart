@@ -1,8 +1,9 @@
 import 'package:client/core/config/app_destination.dart';
-import 'package:client/features/history/history_page.dart';
-import 'package:client/features/home/home_page.dart';
+import 'package:client/features/history/pages/history_page.dart';
+import 'package:client/features/home/pages/home_page.dart';
+import 'package:client/features/home/pages/session_page.dart';
 import 'package:client/features/main_page.dart';
-import 'package:client/features/profile/profile_page.dart';
+import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,6 +30,12 @@ final router = GoRouter(
             GoRoute(
               path: appDestination[1].path,
               builder: (context, state) => const HomePage(),
+              routes: [
+                GoRoute(
+                  path: 'session', // still inside bottom nav
+                  builder: (context, state) => const SessionPage(),
+                ),
+              ],
             ),
           ],
         ),
