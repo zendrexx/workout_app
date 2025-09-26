@@ -16,10 +16,9 @@ class _HistoryWorkoutContainerWidgetState
     return Padding(
       padding: const EdgeInsets.only(bottom: 24.0),
       child: Container(
-        height: 335,
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff3B4141)),
+          border: Border.all(width: 2, color: Color(0xff3B4141)),
           borderRadius: BorderRadius.circular(3),
         ),
         child: Padding(
