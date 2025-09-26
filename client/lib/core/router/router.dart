@@ -1,6 +1,7 @@
 import 'package:client/core/config/app_destination.dart';
 import 'package:client/features/history/pages/history_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
+import 'package:client/features/home/pages/program_page.dart';
 import 'package:client/features/home/pages/session_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
@@ -32,8 +33,14 @@ final router = GoRouter(
               builder: (context, state) => const HomePage(),
               routes: [
                 GoRoute(
-                  path: 'session', // still inside bottom nav
-                  builder: (context, state) => const SessionPage(),
+                  path: 'program',
+                  builder: (context, state) => const ProgramPage(),
+                  routes: [
+                    GoRoute(
+                      path: 'session',
+                      builder: (context, state) => const SessionPage(),
+                    ),
+                  ],
                 ),
               ],
             ),

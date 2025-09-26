@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           "Home",
           style: const TextStyle(
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               LongCustomButton(
                 title: "CREATE WORKOUT SESSIONS",
-                onTap: () => context.push('/home/session'),
+                onTap: () => context.push('/home/program'),
                 Bcolor: Color(0xff3B4141),
               ),
               SizedBox(height: 20),

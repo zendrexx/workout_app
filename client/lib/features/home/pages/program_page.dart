@@ -1,16 +1,17 @@
+import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_card_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SessionPage extends StatefulWidget {
-  const SessionPage({super.key});
+class ProgramPage extends StatefulWidget {
+  const ProgramPage({super.key});
 
   @override
-  State<SessionPage> createState() => _SessionPageState();
+  State<ProgramPage> createState() => _ProgramPageState();
 }
 
-class _SessionPageState extends State<SessionPage> {
+class _ProgramPageState extends State<ProgramPage> {
   final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -89,6 +90,10 @@ class _SessionPageState extends State<SessionPage> {
               SizedBox(height: 10),
               SessionCardWidget(),
               SessionCardWidget(),
+              LongCustomButton(
+                title: "Add Sessions",
+                onTap: () => context.push('/home/program/session'),
+              ),
             ],
           ),
         ),

@@ -32,7 +32,7 @@ class _SessionCardWidgetState extends State<SessionCardWidget> {
                     onPressed: () {},
                     padding: EdgeInsets.zero, // removes default padding
                     constraints: BoxConstraints(), // removes extra space
-                    icon: Icon(Icons.more_horiz, size: 30),
+                    icon: Icon(Icons.more_horiz, size: 30, color: Colors.white),
                   ),
                 ],
               ),
