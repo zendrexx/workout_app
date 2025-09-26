@@ -7,6 +7,7 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
         title: Text(
           "History",
@@ -17,9 +18,12 @@ class HistoryPage extends StatelessWidget {
             letterSpacing: 2,
           ),
         ),
-        backgroundColor: const Color(0xff1D1D1D),
+        backgroundColor: const Color(0xff0F0F0F),
+        elevation: 5,
+        shadowColor: Colors.black.withOpacity(0.8),
+        scrolledUnderElevation: 6,
+        surfaceTintColor: Colors.transparent,
       ),
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

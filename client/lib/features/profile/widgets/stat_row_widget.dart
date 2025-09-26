@@ -13,12 +13,12 @@ class StatRowWidget extends StatelessWidget {
         children: [
           Text(
             "• $title",
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            style: const TextStyle(color: Color(0xffEAE0C8), fontSize: 12),
           ),
           Text(
             value,
             style: const TextStyle(
-              color: Colors.amber,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

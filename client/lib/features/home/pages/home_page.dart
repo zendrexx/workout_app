@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
               LongCustomButton(
                 title: "CREATE WORKOUT SESSIONS",
                 onTap: () => context.push('/home/session'),
+                Bcolor: Color(0xff3B4141),
               ),
               SizedBox(height: 20),
               Text(

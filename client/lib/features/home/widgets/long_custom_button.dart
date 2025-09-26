@@ -4,11 +4,13 @@ class LongCustomButton extends StatelessWidget {
   final String title;
   final Function onTap;
   final IconData? icon;
+  final Color? Bcolor;
   const LongCustomButton({
     super.key,
     required this.title,
     required this.onTap,
     this.icon,
+    this.Bcolor,
   });
 
   @override
@@ -20,7 +22,7 @@ class LongCustomButton extends StatelessWidget {
       child: Container(
         height: 45,
         decoration: BoxDecoration(
-          color: Color(0xff2F4F4F),
+          color: Bcolor != null ? Bcolor : Color(0xff2F4F4F),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(

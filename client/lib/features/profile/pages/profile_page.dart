@@ -9,6 +9,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
         title: Text(
           "ZHEVION",
@@ -19,9 +20,12 @@ class ProfilePage extends StatelessWidget {
             letterSpacing: 2,
           ),
         ),
-        backgroundColor: const Color(0xff1D1D1D),
+        backgroundColor: const Color(0xff0F0F0F),
+        elevation: 5,
+        shadowColor: Colors.black.withOpacity(0.8),
+        scrolledUnderElevation: 6,
+        surfaceTintColor: Colors.transparent,
       ),
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
@@ -117,7 +121,7 @@ class ProfilePage extends StatelessWidget {
                   width: 16,
                   height: 16,
                   decoration: BoxDecoration(
-                    color: Color(0xff977F56),
+                    color: Color(0xff132020),
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),
@@ -128,7 +132,7 @@ class ProfilePage extends StatelessWidget {
                   width: 16,
                   height: 16,
                   decoration: BoxDecoration(
-                    color: Color(0xffEDA938),
+                    color: Color(0xff2F4F4F),
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),

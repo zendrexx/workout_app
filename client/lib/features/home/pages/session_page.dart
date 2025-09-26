@@ -35,16 +35,13 @@ class _SessionPageState extends State<SessionPage> {
                 onTap: () {},
                 child: Text(
                   "Cancel",
-                  style: TextStyle(color: Color(0xffD3C061)),
+                  style: TextStyle(color: Color(0xffE2725B)),
                 ),
               ),
               SizedBox(width: 16),
               GestureDetector(
                 onTap: () {},
-                child: Text(
-                  "Create",
-                  style: TextStyle(color: Color(0xffD3C061)),
-                ),
+                child: Text("Create", style: TextStyle(color: Colors.white)),
               ),
               SizedBox(width: 16),
             ],

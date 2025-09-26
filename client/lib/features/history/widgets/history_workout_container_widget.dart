@@ -19,7 +19,7 @@ class _HistoryWorkoutContainerWidgetState
         height: 335,
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff4E4A43)),
+          border: Border.all(color: Color(0xff3B4141)),
           borderRadius: BorderRadius.circular(3),
         ),
         child: Padding(
@@ -27,14 +27,21 @@ class _HistoryWorkoutContainerWidgetState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("PUSH DAY", style: TextStyle(fontSize: 18, height: 1)),
+              Text(
+                "PUSH DAY",
+                style: TextStyle(
+                  fontSize: 18,
+                  height: 1,
+                  color: Color(0xffE2725B),
+                ),
+              ),
               Text(
                 "12 mins ago",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   height: 1.5,
-                  color: Color(0xff89898A),
+                  color: Color(0xff2F4F4F),
                 ),
               ),
               SizedBox(height: 10),

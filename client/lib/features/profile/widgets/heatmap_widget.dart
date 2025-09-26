@@ -27,7 +27,7 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
       },
       startDate: DateTime(2025, 1, 5),
       endDate: DateTime(2025, 12, 31),
-      colorsets: {1: Color(0xffEDA938), 2: Color(0xff977F56)},
+      colorsets: {1: Color(0xff2F4F4F), 2: Color(0xff2F4F4F)},
     );
   }
 }
