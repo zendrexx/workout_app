@@ -92,7 +92,7 @@ class _ProgramPageState extends State<ProgramPage> {
               SessionCardWidget(),
               LongCustomButton(
                 title: "Add Sessions",
-                onTap: () => context.push('/home/program/session'),
+                onTap: () => context.push('/home/program/select_session'),
               ),
             ],
           ),

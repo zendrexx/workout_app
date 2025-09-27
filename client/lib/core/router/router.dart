@@ -1,8 +1,9 @@
 import 'package:client/core/config/app_destination.dart';
 import 'package:client/features/history/pages/history_page.dart';
+import 'package:client/features/home/pages/create_session_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
 import 'package:client/features/home/pages/program_page.dart';
-import 'package:client/features/home/pages/session_page.dart';
+import 'package:client/features/home/pages/select_session_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,10 +38,14 @@ final router = GoRouter(
                   builder: (context, state) => const ProgramPage(),
                   routes: [
                     GoRoute(
-                      path: 'session',
-                      builder: (context, state) => const SessionPage(),
+                      path: 'select_session',
+                      builder: (context, state) => const SelectSessionPage(),
                     ),
                   ],
+                ),
+                GoRoute(
+                  path: 'create_sessions',
+                  builder: (context, state) => const CreateSessionPage(),
                 ),
               ],
             ),

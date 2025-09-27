@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               LongCustomButton(
                 title: "CREATE WORKOUT SESSIONS",
-                onTap: () => context.push('/home/program'),
+                onTap: () => context.push('/home/create_sessions'),
                 Bcolor: Color(0xff3B4141),
               ),
               SizedBox(height: 20),
@@ -53,11 +53,16 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomButtonWidget(title: "New Program", icon: Icons.add),
+                  CustomButtonWidget(
+                    title: "New Program",
+                    icon: Icons.add,
+                    onTap: () => context.push('/home/program'),
+                  ),
                   SizedBox(width: 10),
                   CustomButtonWidget(
                     title: "Explore",
                     icon: Icons.explore_outlined,
+                    onTap: () {},
                   ),
                 ],
               ),

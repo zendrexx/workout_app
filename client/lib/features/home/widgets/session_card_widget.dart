@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
-class SessionCardWidget extends StatefulWidget {
-  final bool? isClickable;
-  const SessionCardWidget({super.key, this.isClickable});
+class SessionCardWidget extends StatelessWidget {
+  final bool isSelectable;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
-  @override
-  State<SessionCardWidget> createState() => _SessionCardWidgetState();
-}
-
-class _SessionCardWidgetState extends State<SessionCardWidget> {
-  bool tapped = false;
-  void tap() {
-    setState(() => tapped = !tapped);
-  }
+  const SessionCardWidget({
+    super.key,
+    this.isSelectable = false,
+    this.isSelected = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10),
       child: GestureDetector(
-        onTap: widget.isClickable == true ? tap : null,
+        onTap: isSelectable ? null : onTap,
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
             border: Border.all(
               width: 2,
-              color: tapped ? Color(0xffE2725B) : Color(0xff4E4A43),
+              color: isSelected
+                  ? const Color(0xffE2725B)
+                  : const Color(0xff4E4A43),
             ),
             borderRadius: BorderRadius.circular(3),
           ),
@@ -33,17 +33,16 @@ class _SessionCardWidgetState extends State<SessionCardWidget> {
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             child: Row(
               children: [
-                // optional left indicator when tapped
-                if (tapped) ...[
+                if (isSelected) ...[
                   Container(
                     height: 100,
                     width: 5,
                     decoration: BoxDecoration(
-                      color: Color(0xffE2725B),
+                      color: const Color(0xffE2725B),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                 ],
 
                 Expanded(
@@ -56,27 +55,31 @@ class _SessionCardWidgetState extends State<SessionCardWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("PPL", style: TextStyle(fontSize: 16)),
-                            IconButton(
-                              onPressed: () {},
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(
-                                minWidth: 0,
-                                minHeight: 0,
-                              ), // optional
-                              icon: Icon(
-                                Icons.more_horiz,
-                                size: 30,
-                                color: Colors.white,
-                              ),
-                            ),
+                            const Text("PPL", style: TextStyle(fontSize: 16)),
+                            isSelectable
+                                ? const SizedBox.shrink()
+                                : IconButton(
+                                    onPressed: () {},
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(
+                                      minWidth: 0,
+                                      minHeight: 0,
+                                    ),
+                                    icon: const Icon(
+                                      Icons.more_horiz,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ],
                         ),
                       ),
 
-                      // Description (will wrap inside available width)
-                      Text(
-                        "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
+                      // Description
+                      const Text(
+                        "Push day - Bench press, Machine fly..\n"
+                        "Pull day - Lat PullDown, Pull ups, Row..\n"
+                        "Leg Day - Squat, Deadlift..",
                         style: TextStyle(fontSize: 14),
                       ),
                     ],

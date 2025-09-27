@@ -1,24 +1,23 @@
-import 'package:client/features/home/widgets/session_card_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SessionPage extends StatefulWidget {
-  const SessionPage({super.key});
+class CreateSessionPage extends StatefulWidget {
+  const CreateSessionPage({super.key});
 
   @override
-  State<SessionPage> createState() => _SessionPageState();
+  State<CreateSessionPage> createState() => _CreateSessionPageState();
 }
 
-class _SessionPageState extends State<SessionPage> {
-  final TextEditingController _controller = TextEditingController();
+class _CreateSessionPageState extends State<CreateSessionPage> {
+  TextEditingController _controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          "Create Program",
+          "Create Sessions",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -63,13 +62,13 @@ class _SessionPageState extends State<SessionPage> {
                 cursorColor: Colors.white,
                 controller: _controller,
                 decoration: InputDecoration(
-                  hintText: "Program Name",
+                  hintText: "Session Name",
                   suffixIcon: _controller.text.isNotEmpty
                       ? IconButton(
                           icon: const Icon(Icons.clear, color: Colors.white),
                           onPressed: () {
                             _controller.clear();
-                            setState(() {}); // refresh to hide the X
+                            setState(() {});
                           },
                         )
                       : null,
@@ -87,8 +86,8 @@ class _SessionPageState extends State<SessionPage> {
                 },
               ),
               SizedBox(height: 10),
-              SessionCardWidget(isClickable: true),
-              SessionCardWidget(isClickable: true),
+
+              LongCustomButton(title: "Add Exercises", onTap: () {}),
             ],
           ),
         ),

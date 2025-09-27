@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 
-class CustomButtonWidget extends StatefulWidget {
+class CustomButtonWidget extends StatelessWidget {
   final String title;
   final IconData icon;
+  final VoidCallback onTap;
+
   const CustomButtonWidget({
     super.key,
     required this.title,
     required this.icon,
+    required this.onTap,
   });
 
   @override
-  State<CustomButtonWidget> createState() => _CustomButtonWidgetState();
-}
-
-class _CustomButtonWidgetState extends State<CustomButtonWidget> {
-  @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xff3B4141),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(widget.icon, color: Colors.white),
-            SizedBox(width: 8),
-            Text(
-              widget.title,
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ],
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: const Color(0xff3B4141),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.white),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            ],
+          ),
         ),
       ),
     );
