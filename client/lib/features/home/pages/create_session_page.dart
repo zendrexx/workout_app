@@ -1,4 +1,5 @@
 import 'package:client/features/home/widgets/long_custom_button.dart';
+import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -86,7 +87,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                 },
               ),
               SizedBox(height: 10),
-
+              SessionWorkoutWidget(),
               LongCustomButton(title: "Add Exercises", onTap: () {}),
             ],
           ),
