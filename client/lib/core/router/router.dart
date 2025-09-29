@@ -1,5 +1,6 @@
 import 'package:client/core/config/app_destination.dart';
 import 'package:client/features/history/pages/history_page.dart';
+import 'package:client/features/home/pages/add_exercise_page.dart';
 import 'package:client/features/home/pages/create_session_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
 import 'package:client/features/home/pages/program_page.dart';
@@ -46,6 +47,12 @@ final router = GoRouter(
                 GoRoute(
                   path: 'create_sessions',
                   builder: (context, state) => const CreateSessionPage(),
+                  routes: [
+                    GoRoute(
+                      path: 'add_exercise',
+                      builder: (context, state) => const AddExercisePage(),
+                    ),
+                  ],
                 ),
               ],
             ),

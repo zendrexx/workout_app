@@ -95,7 +95,10 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                 Bcolor: Color(0xff3B4141),
               ),
               SizedBox(height: 10),
-              LongCustomButton(title: "+ Add Exercises", onTap: () {}),
+              LongCustomButton(
+                title: "+ Add Exercises",
+                onTap: () => context.push("/home/create_sessions/add_exercise"),
+              ),
             ],
           ),
         ),

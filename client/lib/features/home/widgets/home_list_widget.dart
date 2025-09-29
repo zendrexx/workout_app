@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends StatelessWidget {
-  const HomeListWidget({super.key});
+  final Function fOntap;
+  const HomeListWidget({super.key, required this.fOntap});
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +57,7 @@ class HomeListWidget extends StatelessWidget {
                 Text("hello no font"),
                 Text("hello with font", style: TextStyle(fontFamily: "Futura")),
                 SizedBox(height: 10),
-                LongCustomButton(
-                  title: "Start Program",
-                  onTap: () => context.push('/home/session'),
-                ),
+                LongCustomButton(title: "Start Program", onTap: () => fOntap),
               ],
             ),
           ),
