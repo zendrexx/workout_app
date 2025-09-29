@@ -28,7 +28,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          "Create Program",
+          "Create Session",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -70,47 +70,63 @@ class _AddExercisePageState extends State<AddExercisePage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      cursorColor: Colors.white,
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xff4E4A43),
-                        hintText: "Search sessions",
-                        hintStyle: TextStyle(color: Color(0xff89898A)),
-                        prefixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.search,
-                            color: Color(0xff89898A),
+                    SizedBox(
+                      height: 35,
+                      child: TextField(
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        cursorColor: Colors.white,
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(0),
+                          filled: true,
+                          fillColor: Color(0xff4E4A43),
+                          hintText: "Search Exercise",
+                          hintStyle: TextStyle(
+                            color: Color(0xff89898Ad),
+                            fontSize: 14,
                           ),
-                          onPressed: () {
-                            _controller.clear();
-                            setState(() {}); // refresh to hide the X
-                          },
+                          prefixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.search,
+                              color: Color(0xff89898A),
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              _controller.clear();
+                              setState(() {}); // refresh to hide the X
+                            },
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ), // rounded corners
+                            borderSide:
+                                BorderSide.none, // removes the border line
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ), // rounded corners
-                          borderSide:
-                              BorderSide.none, // removes the border line
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide.none,
-                        ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
                       ),
-                      onChanged: (value) {
-                        setState(() {});
-                      },
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
+                    Text(
+                      "All Exercises",
+                      style: TextStyle(color: Color(0xff4E4E50)),
+                    ),
                     // ListView.builder(
                     //   shrinkWrap: true,
                     //   physics: NeverScrollableScrollPhysics(),
