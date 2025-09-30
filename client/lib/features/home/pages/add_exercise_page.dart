@@ -1,3 +1,4 @@
+import 'package:client/features/home/widgets/exercise_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -127,20 +128,21 @@ class _AddExercisePageState extends State<AddExercisePage> {
                       "All Exercises",
                       style: TextStyle(color: Color(0xff4E4E50)),
                     ),
-                    // ListView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   itemCount: 5,
-                    //   itemBuilder: (context, index) {
-                    //     return GestureDetector(
-                    //       onTap: () => _toggleSession(index),
-                    //       child: exerciseCardWidget(
-                    //         isSelectable: true,
-                    //         isSelected: _selectedSessions.contains(index),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () => _toggleSession(index),
+                          child: ExerciseCardWidget(
+                            isSelectable: true,
+                            isSelected: _selectedSessions.contains(index),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
