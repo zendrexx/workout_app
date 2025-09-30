@@ -1,5 +1,6 @@
 import 'package:client/core/config/app_destination.dart';
 import 'package:client/features/history/pages/history_page.dart';
+import 'package:client/features/history/pages/view_history_page.dart';
 import 'package:client/features/home/pages/add_exercise_page.dart';
 import 'package:client/features/home/pages/create_session_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
@@ -25,6 +26,12 @@ final router = GoRouter(
             GoRoute(
               path: appDestination[0].path,
               builder: (context, state) => const HistoryPage(),
+              routes: [
+                GoRoute(
+                  path: 'view_history',
+                  builder: (context, state) => const ViewHistoryPage(),
+                ),
+              ],
             ),
           ],
         ),

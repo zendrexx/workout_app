@@ -1,5 +1,6 @@
 import 'package:client/features/history/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HistoryWorkoutContainerWidget extends StatefulWidget {
   const HistoryWorkoutContainerWidget({super.key});
@@ -86,13 +87,16 @@ class _HistoryWorkoutContainerWidgetState
               WorkoutRowWidget(),
               SizedBox(height: 15),
               Center(
-                child: Text(
-                  "See 4 more exercises",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5,
-                    color: Color(0xff89898A),
+                child: GestureDetector(
+                  onTap: () => context.push("/history/view_history"),
+                  child: Text(
+                    "See 4 more exercises",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                      color: Color(0xff89898A),
+                    ),
                   ),
                 ),
               ),
