@@ -1,6 +1,6 @@
 import 'package:client/features/profile/widgets/heatmap_widget.dart';
 import 'package:client/features/profile/widgets/pr_card_widget.dart';
-import 'package:client/features/profile/widgets/stat_row_widget.dart';
+import 'package:client/features/profile/widgets/stat_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -102,11 +102,29 @@ class ProfilePage extends StatelessWidget {
             const Text("STATS", style: TextStyle(color: Colors.grey)),
             const Divider(color: Colors.grey),
             const SizedBox(height: 10),
-            Column(
+            Row(
               children: const [
-                StatRowWidget(title: "TOTAL VOLUME", value: "38,000lbs"),
-                StatRowWidget(title: "TOTAL SETS", value: "73"),
-                StatRowWidget(title: "WEEK STREAK", value: "10"),
+                Expanded(
+                  child: StatCardWidget(
+                    title: "TOTAL VOLUME",
+                    value: "38,000lbs",
+                    imagePath: "assets/images/volume.png",
+                  ),
+                ),
+                Expanded(
+                  child: StatCardWidget(
+                    title: "TOTAL SETS",
+                    value: "73",
+                    imagePath: "assets/images/totalSets.png",
+                  ),
+                ),
+                Expanded(
+                  child: StatCardWidget(
+                    title: "WEEK STREAK",
+                    value: "10",
+                    imagePath: "assets/images/streakBw.png",
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 20),

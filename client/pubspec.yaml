@@ -67,6 +67,9 @@ flutter:
     - assets/images/squat.png
     - assets/images/gold_badge.png
     - assets/images/deadlift.png
+    - assets/images/streakBw.png
+    - assets/images/totalSets.png
+    - assets/images/volume.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
