@@ -127,9 +127,14 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             // Calendar Heatmap placeholder
+            Text(
+              "135 Days of working out",
+              style: TextStyle(color: Color(0xff8F8F8F), fontSize: 12),
+            ),
+            SizedBox(height: 5),
             HeatmapWidget(),
             SizedBox(height: 10),
             Row(
@@ -158,7 +163,7 @@ class ProfilePage extends StatelessWidget {
                 Text("More"),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             // Personal Records
             const Text(
@@ -171,7 +176,52 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 5),
+                      Text(
+                        "Leaderboards",
+                        style: TextStyle(fontWeight: FontWeight.w300),
+                      ),
+                      SizedBox(height: 10),
+                      SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: CircularProgressIndicator(
+                            value: 0.78,
+                            strokeWidth: 8,
+                            backgroundColor: Colors.grey,
+                            valueColor: AlwaysStoppedAnimation(Colors.green),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "TOP 22%",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      Text(
+                        "In Weight Class",
+                        style: TextStyle(
+                          color: Color(0xff494949),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
                       height: 50,
@@ -183,59 +233,7 @@ class ProfilePage extends StatelessWidget {
                         iconPath: "assets/images/squat.png",
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        SizedBox(height: 10),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Stronger Than",
-                              style: TextStyle(color: Color(0xffEDA938)),
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(height: 10),
-                        SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                width: 80,
-                                height: 80,
-                                child: CircularProgressIndicator(
-                                  value: 0.78,
-                                  strokeWidth: 8,
-                                  backgroundColor: Colors.grey,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Colors.green,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "78%",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                    SizedBox(height: 10),
                     SizedBox(
                       height: 50,
                       width: 150,
@@ -256,31 +254,6 @@ class ProfilePage extends StatelessWidget {
                         value: "350lbs",
                         iconPath: "assets/images/deadlift.png",
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/gold_badge.png",
-                          width: 50,
-                          height: 50,
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.amber,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            "Gold Rank",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
