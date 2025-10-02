@@ -1,0 +1,34 @@
+[
+  { 
+    "id": "push_up", 
+    "name": "Push Up", 
+    "primMuscle": "Chest",
+    "seconMuscle": "Tricep", 
+    "equipment": "Bodyweight",
+    "imagePath": "assets/images/benchpress.png"
+  },
+  { 
+    "id": "squat", 
+    "name": "Squat", 
+    "primMuscle": "Quads",
+    "seconMuscle": "Glutes", 
+    "equipment": "Bodyweight",
+    "imagePath": "assets/images/benchpress.png"
+  },
+  { 
+    "id": "bench_press", 
+    "name": "Bench Press", 
+    "primMuscle": "Chest",
+    "seconMuscle": "Tricep", 
+    "equipment": "Barbell",
+    "imagePath": "assets/images/benchpress.png"
+  },
+  { 
+    "id": "deadlift", 
+    "name": "Deadlift", 
+    "primMuscle": "Back",
+    "seconMuscle": "Hamstrings", 
+    "equipment": "Barbell",
+    "imagePath": "assets/images/benchpress.png"
+  }
+]

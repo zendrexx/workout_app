@@ -139,6 +139,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
                           child: ExerciseCardWidget(
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
+                            title: "a",
                           ),
                         );
                       },

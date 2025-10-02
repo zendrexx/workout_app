@@ -4,11 +4,13 @@ class ExerciseCardWidget extends StatelessWidget {
   final bool isSelectable;
   final bool isSelected;
   final VoidCallback? onTap;
+  final String title;
   const ExerciseCardWidget({
     super.key,
     this.isSelectable = false,
     this.isSelected = false,
     this.onTap,
+    required this.title,
   });
 
   @override
@@ -45,7 +47,7 @@ class ExerciseCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Incline Bench Press (Barbell)",
+                        title,
                         style: TextStyle(
                           fontSize: 16,
                           wordSpacing: .5,
