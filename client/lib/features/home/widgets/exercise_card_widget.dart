@@ -4,13 +4,19 @@ class ExerciseCardWidget extends StatelessWidget {
   final bool isSelectable;
   final bool isSelected;
   final VoidCallback? onTap;
-  final String title;
+  final String name;
+  final String imagePath;
+  final String primMuscle;
+  final String? equipment;
   const ExerciseCardWidget({
     super.key,
     this.isSelectable = false,
     this.isSelected = false,
     this.onTap,
-    required this.title,
+    required this.name,
+    required this.imagePath,
+    required this.primMuscle,
+    this.equipment,
   });
 
   @override
@@ -22,7 +28,7 @@ class ExerciseCardWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(),
           width: double.infinity,
-          height: 70,
+          height: 80,
           child: Column(
             children: [
               Row(
@@ -38,28 +44,27 @@ class ExerciseCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 20),
                   ],
-                  const CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage("assets/images/benchpress.png"),
+                  CircleAvatar(
+                    radius: 26,
+                    backgroundImage: AssetImage(imagePath),
                   ),
-                  SizedBox(width: 5),
+                  SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 5),
                       Text(
-                        title,
+                        equipment != null ? "$name ($equipment)" : name,
                         style: TextStyle(
-                          fontSize: 16,
-                          wordSpacing: .5,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       Text(
-                        "Upper Chest",
+                        primMuscle,
                         style: TextStyle(
                           color: Color(0xff919596),
                           fontSize: 12,
-                          wordSpacing: .5,
                         ),
                       ),
                     ],

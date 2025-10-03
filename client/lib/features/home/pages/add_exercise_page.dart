@@ -1,6 +1,11 @@
+import 'package:client/data/models/exercise.dart';
+import 'package:client/data/services/database_service.dart';
+import 'package:client/data/services/exercise_service.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
+import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
 
 class AddExercisePage extends StatefulWidget {
   const AddExercisePage({super.key});
@@ -23,13 +28,29 @@ class _AddExercisePageState extends State<AddExercisePage> {
     });
   }
 
+  List<Exercise> _exercise = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _initWorkouts();
+  }
+
+  void _initWorkouts() async {
+    final workouts = await DatabaseService.db.exercises.where().findAll();
+    print("Loaded ${workouts.length} exercises from Isar");
+    setState(() {
+      _exercise = workouts;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          "Create Session",
+          "Add Exercise",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -43,7 +64,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => context.push('/home'),
+                onTap: () => context.pop(),
                 child: Text(
                   "Cancel",
                   style: TextStyle(color: Color(0xffE2725B)),
@@ -132,14 +153,18 @@ class _AddExercisePageState extends State<AddExercisePage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 5,
+                      itemCount: _exercise.length,
                       itemBuilder: (context, index) {
+                        final exercise = _exercise[index];
                         return GestureDetector(
                           onTap: () => _toggleSession(index),
                           child: ExerciseCardWidget(
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
-                            title: "a",
+                            name: exercise.name,
+                            imagePath: exercise.imagePath,
+                            primMuscle: exercise.primMuscle,
+                            equipment: exercise.equipment,
                           ),
                         );
                       },
@@ -170,7 +195,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
                   elevation: 4,
                 ),
                 child: Text(
-                  "Add ${_selectedSessions.length} sessions",
+                  "Add ${_selectedSessions.length} exercise",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
