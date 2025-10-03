@@ -13,16 +13,23 @@ class Exercise {
   late String equipment;
   late String imagePath;
 
-  Exercise();
+  Exercise({
+    required this.exId,
+    required this.name,
+    required this.primMuscle,
+    required this.seconMuscle,
+    required this.equipment,
+    required this.imagePath,
+  });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
-    final e = Exercise()
-      ..exId = json['id']
-      ..name = json['name']
-      ..primMuscle = json['primMuscle']
-      ..seconMuscle = json['seconMuscle']
-      ..equipment = json['equipment']
-      ..imagePath = json['imagePath'];
-    return e;
+    return Exercise(
+      exId: json['id'],
+      name: json['name'],
+      primMuscle: json['primMuscle'],
+      seconMuscle: json['seconMuscle'],
+      equipment: json['equipment'],
+      imagePath: json['imagePath'],
+    );
   }
 }

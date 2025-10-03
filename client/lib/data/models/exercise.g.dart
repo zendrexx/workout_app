@@ -97,14 +97,15 @@ Exercise _exerciseDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Exercise();
-  object.equipment = reader.readString(offsets[0]);
-  object.exId = reader.readString(offsets[1]);
+  final object = Exercise(
+    equipment: reader.readString(offsets[0]),
+    exId: reader.readString(offsets[1]),
+    imagePath: reader.readString(offsets[2]),
+    name: reader.readString(offsets[3]),
+    primMuscle: reader.readString(offsets[4]),
+    seconMuscle: reader.readString(offsets[5]),
+  );
   object.id = id;
-  object.imagePath = reader.readString(offsets[2]);
-  object.name = reader.readString(offsets[3]);
-  object.primMuscle = reader.readString(offsets[4]);
-  object.seconMuscle = reader.readString(offsets[5]);
   return object;
 }
 
