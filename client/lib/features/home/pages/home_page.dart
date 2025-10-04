@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isProgramExpanded = true;
+  bool _isSessionExpanded = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +41,40 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              LongCustomButton(
-                title: "CREATE WORKOUT SESSIONS",
-                onTap: () => context.push('/home/create_sessions'),
-                Bcolor: Color(0xff3B4141),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xff2F4F4F),
+                        Color(0xff0F2027),
+                        Color(0xff2C5364),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'START WORKOUT',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Text(
-                "Program",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                "Quick Start",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff4E4E50),
+                ),
               ),
               SizedBox(height: 10),
               Row(
@@ -60,16 +87,118 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(width: 10),
                   CustomButtonWidget(
-                    title: "Explore",
+                    title: "New Session",
                     icon: Icons.explore_outlined,
                     onTap: () {},
                   ),
                 ],
               ),
               SizedBox(height: 20),
-              HomeListWidget(fOntap: () => context.push("create_sessions")),
-              SizedBox(height: 20),
-              // HomeListWidget(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(
+                      () => _isProgramExpanded = !_isProgramExpanded,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _isProgramExpanded
+                                ? Icons.keyboard_arrow_down
+                                : Icons.keyboard_arrow_right,
+                            color: Color(0xff4E4E50),
+                            size: 25,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            "My Programs",
+                            style: TextStyle(
+                              color: Color(0xff4E4E50),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Expand/Collapse content
+                  AnimatedCrossFade(
+                    duration: Duration(milliseconds: 250),
+
+                    crossFadeState: _isProgramExpanded
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstChild: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 2,
+                      itemBuilder: (context, index) =>
+                          HomeListWidget(fOntap: () {}),
+                    ),
+
+                    secondChild: SizedBox.shrink(),
+                  ),
+                ],
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(
+                      () => _isSessionExpanded = !_isSessionExpanded,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _isSessionExpanded
+                                ? Icons.keyboard_arrow_down
+                                : Icons.keyboard_arrow_right,
+                            color: Color(0xff4E4E50),
+                            size: 25,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            "My Sessions",
+                            style: TextStyle(
+                              color: Color(0xff4E4E50),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Expand/Collapse content
+                  AnimatedCrossFade(
+                    duration: Duration(milliseconds: 250),
+
+                    crossFadeState: _isSessionExpanded
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstChild: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 2,
+                      itemBuilder: (context, index) =>
+                          HomeListWidget(fOntap: () {}),
+                    ),
+
+                    secondChild: SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

@@ -11,15 +11,6 @@ class HomeListWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "My Programs",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-            color: Color(0xff4E4E50),
-          ),
-        ),
-
         SizedBox(height: 10),
         Container(
           height: 180,

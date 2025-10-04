@@ -6,8 +6,13 @@ part 'exercise.g.dart';
 class Exercise {
   Id id = Isar.autoIncrement;
 
+  @Index(type: IndexType.value)
   late String exId;
+
+  @Index(caseSensitive: false)
   late String name;
+
+  @Index(caseSensitive: false)
   late String primMuscle;
   late String seconMuscle;
   late String equipment;
