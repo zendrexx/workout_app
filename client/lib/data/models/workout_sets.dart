@@ -1,5 +1,8 @@
+import 'package:isar/isar.dart';
+
+@Collection()
 class Workoutsets {
-  int id;
+  Id id;
   double? estWeight;
   double actWeight;
   int? minRep;
