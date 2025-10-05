@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 
 part 'exercise.g.dart';
 
-@collection
+@Collection()
 class Exercise {
   Id id = Isar.autoIncrement;
 
@@ -14,9 +14,11 @@ class Exercise {
 
   @Index(caseSensitive: false)
   late String primMuscle;
+
   late String seconMuscle;
   late String equipment;
   late String imagePath;
+  late String? notes;
 
   Exercise({
     required this.exId,
@@ -25,6 +27,7 @@ class Exercise {
     required this.seconMuscle,
     required this.equipment,
     required this.imagePath,
+    this.notes,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -35,6 +38,7 @@ class Exercise {
       seconMuscle: json['seconMuscle'],
       equipment: json['equipment'],
       imagePath: json['imagePath'],
+      notes: json['notes'],
     );
   }
 }

@@ -53,7 +53,47 @@ const ExerciseSchema = CollectionSchema(
   deserialize: _exerciseDeserialize,
   deserializeProp: _exerciseDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'exId': IndexSchema(
+      id: 2382449665185005046,
+      name: r'exId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'exId',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'name': IndexSchema(
+      id: 879695947855722453,
+      name: r'name',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'name',
+          type: IndexType.hash,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'primMuscle': IndexSchema(
+      id: -8953997443157277351,
+      name: r'primMuscle',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'primMuscle',
+          type: IndexType.hash,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _exerciseGetId,
@@ -151,6 +191,14 @@ extension ExerciseQueryWhereSort on QueryBuilder<Exercise, Exercise, QWhere> {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhere> anyExId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'exId'),
+      );
+    });
+  }
 }
 
 extension ExerciseQueryWhere on QueryBuilder<Exercise, Exercise, QWhereClause> {
@@ -216,6 +264,230 @@ extension ExerciseQueryWhere on QueryBuilder<Exercise, Exercise, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdEqualTo(String exId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'exId',
+        value: [exId],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdNotEqualTo(
+      String exId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'exId',
+              lower: [],
+              upper: [exId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'exId',
+              lower: [exId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'exId',
+              lower: [exId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'exId',
+              lower: [],
+              upper: [exId],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdGreaterThan(
+    String exId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'exId',
+        lower: [exId],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdLessThan(
+    String exId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'exId',
+        lower: [],
+        upper: [exId],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdBetween(
+    String lowerExId,
+    String upperExId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'exId',
+        lower: [lowerExId],
+        includeLower: includeLower,
+        upper: [upperExId],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdStartsWith(
+      String ExIdPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'exId',
+        lower: [ExIdPrefix],
+        upper: ['$ExIdPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'exId',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> exIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'exId',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'exId',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'exId',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'exId',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> nameEqualTo(String name) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'name',
+        value: [name],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> nameNotEqualTo(
+      String name) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> primMuscleEqualTo(
+      String primMuscle) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'primMuscle',
+        value: [primMuscle],
+      ));
+    });
+  }
+
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> primMuscleNotEqualTo(
+      String primMuscle) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'primMuscle',
+              lower: [],
+              upper: [primMuscle],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'primMuscle',
+              lower: [primMuscle],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'primMuscle',
+              lower: [primMuscle],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'primMuscle',
+              lower: [],
+              upper: [primMuscle],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
