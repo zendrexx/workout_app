@@ -1,0 +1,13 @@
+import 'package:client/data/models/exercise.dart';
+import 'package:isar/isar.dart';
+
+@Collection()
+class Session {
+  Id id = Isar.autoIncrement;
+  late String name;
+  DateTime createdAt = DateTime.now();
+  bool isCompleted = false;
+
+  final exercises = IsarLinks<Exercise>();
+  Session({required this.name});
+}

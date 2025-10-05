@@ -1,8 +1,10 @@
 import 'package:isar/isar.dart';
 
+part 'workout_sets.g.dart';
+
 @Collection()
 class Workoutsets {
-  Id id;
+  Id id = Isar.autoIncrement;
   double? estWeight;
   double actWeight;
   int? minRep;
