@@ -1,6 +1,7 @@
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
+import 'package:client/features/home/widgets/streak_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
             letterSpacing: 2,
           ),
         ),
+        actions: [StreakWidget(count: 8)],
         backgroundColor: const Color(0xff0F0F0F),
         elevation: 5,
         shadowColor: Colors.black.withOpacity(0.8),
@@ -137,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                     firstChild: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 2,
+                      itemCount: 1,
                       itemBuilder: (context, index) =>
                           HomeListWidget(fOntap: () {}),
                     ),
@@ -190,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                     firstChild: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 2,
+                      itemCount: 0,
                       itemBuilder: (context, index) =>
                           HomeListWidget(fOntap: () {}),
                     ),

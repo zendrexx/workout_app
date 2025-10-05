@@ -41,12 +41,11 @@ class HomeListWidget extends StatelessWidget {
                   ],
                 ),
 
-                // Text(
-                //   "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
-                //   style: TextStyle(fontSize: 14, color: Color(0xffEAE0C8)),
-                // ),
-                Text("hello no font"),
-                Text("hello with font", style: TextStyle(fontFamily: "Futura")),
+                Text(
+                  "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
+                  style: TextStyle(fontSize: 14, color: Color(0xffEAE0C8)),
+                ),
+
                 SizedBox(height: 10),
                 LongCustomButton(title: "Start Program", onTap: () => fOntap),
               ],

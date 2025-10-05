@@ -120,8 +120,8 @@ class ProfilePage extends StatelessWidget {
                 ),
                 Expanded(
                   child: StatCardWidget(
-                    title: "WEEK STREAK",
-                    value: "10",
+                    title: "DAY STREAK",
+                    value: "8",
                     imagePath: "assets/images/streakBw.png",
                   ),
                 ),
