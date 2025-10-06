@@ -92,14 +92,14 @@ Workoutsets _workoutsetsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Workoutsets(
-    actWeight: reader.readDouble(offsets[0]),
+    actWeight: reader.readDoubleOrNull(offsets[0]),
     actualRep: reader.readLongOrNull(offsets[1]),
     estWeight: reader.readDoubleOrNull(offsets[2]),
-    id: id,
     isCompleted: reader.readBoolOrNull(offsets[3]) ?? false,
     maxRep: reader.readLongOrNull(offsets[4]),
     minRep: reader.readLongOrNull(offsets[5]),
   );
+  object.id = id;
   return object;
 }
 
@@ -111,7 +111,7 @@ P _workoutsetsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
@@ -221,8 +221,26 @@ extension WorkoutsetsQueryWhere
 extension WorkoutsetsQueryFilter
     on QueryBuilder<Workoutsets, Workoutsets, QFilterCondition> {
   QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
+      actWeightIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'actWeight',
+      ));
+    });
+  }
+
+  QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
+      actWeightIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'actWeight',
+      ));
+    });
+  }
+
+  QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
       actWeightEqualTo(
-    double value, {
+    double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -236,7 +254,7 @@ extension WorkoutsetsQueryFilter
 
   QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
       actWeightGreaterThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -252,7 +270,7 @@ extension WorkoutsetsQueryFilter
 
   QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
       actWeightLessThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -268,8 +286,8 @@ extension WorkoutsetsQueryFilter
 
   QueryBuilder<Workoutsets, Workoutsets, QAfterFilterCondition>
       actWeightBetween(
-    double lower,
-    double upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -865,7 +883,7 @@ extension WorkoutsetsQueryProperty
     });
   }
 
-  QueryBuilder<Workoutsets, double, QQueryOperations> actWeightProperty() {
+  QueryBuilder<Workoutsets, double?, QQueryOperations> actWeightProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'actWeight');
     });
