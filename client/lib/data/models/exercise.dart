@@ -1,3 +1,5 @@
+import 'package:client/data/models/planned_set.dart';
+import 'package:client/data/models/session.dart';
 import 'package:isar/isar.dart';
 
 part 'exercise.g.dart';
@@ -15,16 +17,18 @@ class Exercise {
   @Index(caseSensitive: false)
   late String primMuscle;
 
-  late String seconMuscle;
+  late String? seconMuscle;
   late String equipment;
   late String imagePath;
-  late String? notes;
+  String? notes;
+  final plannedSets = IsarLinks<PlannedSet>();
+  final session = IsarLink<Session>();
 
   Exercise({
     required this.exId,
     required this.name,
     required this.primMuscle,
-    required this.seconMuscle,
+    this.seconMuscle,
     required this.equipment,
     required this.imagePath,
     this.notes,
@@ -38,7 +42,6 @@ class Exercise {
       seconMuscle: json['seconMuscle'],
       equipment: json['equipment'],
       imagePath: json['imagePath'],
-      notes: json['notes'],
     );
   }
 }

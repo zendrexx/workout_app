@@ -1,6 +1,8 @@
 import 'package:client/data/models/exercise.dart';
 import 'package:isar/isar.dart';
 
+part 'session.g.dart';
+
 @Collection()
 class Session {
   Id id = Isar.autoIncrement;

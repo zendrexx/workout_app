@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                   CustomButtonWidget(
                     title: "New Session",
                     icon: Icons.explore_outlined,
-                    onTap: () {},
+                    onTap: () => context.push('/home/create_sessions'),
                   ),
                 ],
               ),
