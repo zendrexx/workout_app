@@ -1,7 +1,4 @@
 import 'package:client/core/config/app_destination.dart';
-import 'package:client/features/history/pages/history_page.dart';
-import 'package:client/features/home/pages/home_page.dart';
-import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

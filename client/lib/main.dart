@@ -1,10 +1,6 @@
 import 'package:client/core/router/router.dart';
-import 'package:client/data/models/exercise.dart';
 import 'package:client/data/services/database_service.dart';
-import 'package:client/data/services/exercise_service.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() async {
   runApp(const MyApp());
