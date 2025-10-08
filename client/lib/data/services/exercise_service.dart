@@ -16,8 +16,8 @@ Future<void> seedExercises(Isar isar) async {
       await isar.exercises.putAll(exercises);
     });
 
-    print("✅ Seeded ${exercises.length} exercises into Isar");
+    print("Seeded ${exercises.length} exercises into Isar");
   } else {
-    print("ℹ️ Exercises already seeded ($count in DB)");
+    print("Exercises already seeded ($count in DB)");
   }
 }

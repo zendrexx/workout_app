@@ -43,7 +43,7 @@ const SessionSchema = CollectionSchema(
     r'exercises': LinkSchema(
       id: 8850340098784568635,
       name: r'exercises',
-      target: r'Exercise',
+      target: r'PlannedExercise',
       single: false,
     )
   },
@@ -60,7 +60,12 @@ int _sessionEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.name.length * 3;
+  {
+    final value = object.name;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -82,7 +87,7 @@ Session _sessionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Session(
-    name: reader.readString(offsets[2]),
+    name: reader.readStringOrNull(offsets[2]),
   );
   object.createdAt = reader.readDateTime(offsets[0]);
   object.id = id;
@@ -102,7 +107,7 @@ P _sessionDeserializeProp<P>(
     case 1:
       return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -119,7 +124,7 @@ List<IsarLinkBase<dynamic>> _sessionGetLinks(Session object) {
 void _sessionAttach(IsarCollection<dynamic> col, Id id, Session object) {
   object.id = id;
   object.exercises
-      .attach(col, col.isar.collection<Exercise>(), r'exercises', id);
+      .attach(col, col.isar.collection<PlannedExercise>(), r'exercises', id);
 }
 
 extension SessionQueryWhereSort on QueryBuilder<Session, Session, QWhere> {
@@ -314,8 +319,24 @@ extension SessionQueryFilter
     });
   }
 
+  QueryBuilder<Session, Session, QAfterFilterCondition> nameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'name',
+      ));
+    });
+  }
+
+  QueryBuilder<Session, Session, QAfterFilterCondition> nameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'name',
+      ));
+    });
+  }
+
   QueryBuilder<Session, Session, QAfterFilterCondition> nameEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -328,7 +349,7 @@ extension SessionQueryFilter
   }
 
   QueryBuilder<Session, Session, QAfterFilterCondition> nameGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -343,7 +364,7 @@ extension SessionQueryFilter
   }
 
   QueryBuilder<Session, Session, QAfterFilterCondition> nameLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -358,8 +379,8 @@ extension SessionQueryFilter
   }
 
   QueryBuilder<Session, Session, QAfterFilterCondition> nameBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -451,7 +472,7 @@ extension SessionQueryObject
 extension SessionQueryLinks
     on QueryBuilder<Session, Session, QFilterCondition> {
   QueryBuilder<Session, Session, QAfterFilterCondition> exercises(
-      FilterQuery<Exercise> q) {
+      FilterQuery<PlannedExercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'exercises');
     });
@@ -639,7 +660,7 @@ extension SessionQueryProperty
     });
   }
 
-  QueryBuilder<Session, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Session, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

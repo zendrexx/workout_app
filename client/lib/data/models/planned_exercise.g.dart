@@ -33,7 +33,7 @@ const PlannedExerciseSchema = CollectionSchema(
     r'exercise': LinkSchema(
       id: 5151150248761124407,
       name: r'exercise',
-      target: r'PlannedExercise',
+      target: r'Exercise',
       single: true,
     ),
     r'sets': LinkSchema(
@@ -118,8 +118,7 @@ List<IsarLinkBase<dynamic>> _plannedExerciseGetLinks(PlannedExercise object) {
 void _plannedExerciseAttach(
     IsarCollection<dynamic> col, Id id, PlannedExercise object) {
   object.id = id;
-  object.exercise
-      .attach(col, col.isar.collection<PlannedExercise>(), r'exercise', id);
+  object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
   object.sets.attach(col, col.isar.collection<PlannedSet>(), r'sets', id);
   object.session.attach(col, col.isar.collection<Session>(), r'session', id);
 }
@@ -423,7 +422,7 @@ extension PlannedExerciseQueryObject
 extension PlannedExerciseQueryLinks
     on QueryBuilder<PlannedExercise, PlannedExercise, QFilterCondition> {
   QueryBuilder<PlannedExercise, PlannedExercise, QAfterFilterCondition>
-      exercise(FilterQuery<PlannedExercise> q) {
+      exercise(FilterQuery<Exercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'exercise');
     });

@@ -1,5 +1,6 @@
 class TempSet {
-  double estWeight = 0;
-  int minRep = 0;
-  int maxRep = 0;
+  int minReps;
+  int maxReps;
+  double weight;
+  TempSet({required this.minReps, required this.maxReps, required this.weight});
 }

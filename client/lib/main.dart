@@ -1,9 +1,10 @@
 import 'package:client/core/router/router.dart';
 import 'package:client/data/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
   await _setup();
 }
 

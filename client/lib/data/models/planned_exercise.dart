@@ -9,7 +9,7 @@ part 'planned_exercise.g.dart';
 class PlannedExercise {
   Id id = Isar.autoIncrement;
 
-  final exercise = IsarLink<PlannedExercise>();
+  final exercise = IsarLink<Exercise>();
 
   String? notes;
 
