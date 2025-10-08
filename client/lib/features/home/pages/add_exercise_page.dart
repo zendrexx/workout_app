@@ -33,6 +33,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
   @override
   void initState() {
     super.initState();
+    print("AddExercisePage initState called ✅");
     _initWorkouts();
   }
 

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  runApp(ProviderScope(child: const MyApp()));
   await _setup();
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 Future<void> _setup() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await DatabaseService.setup();
 }
 

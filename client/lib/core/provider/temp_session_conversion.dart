@@ -3,7 +3,7 @@ import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/session.dart';
 import 'package:client/data/repositories/planned_session_repository.dart';
 
-extension TempSessionX on TempSession {
+extension TempSessionConversion on TempSession {
   Session toPlannedSession() {
     final session = Session()..name = name;
 

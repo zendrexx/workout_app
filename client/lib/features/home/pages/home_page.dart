@@ -1,22 +1,34 @@
+import 'package:client/core/provider/temp_session_provider.dart';
+import 'package:client/data/repositories/planned_session_repository.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    // You can use ref here
+    final repo = ref.read(tempSessionProvider);
+    // Preload, listen, etc.
+  }
+
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
   @override
   Widget build(BuildContext context) {
+    final repo = ref.watch(tempSessionProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
