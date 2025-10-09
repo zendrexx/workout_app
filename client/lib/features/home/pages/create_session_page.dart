@@ -87,13 +87,12 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                 },
               ),
               SizedBox(height: 10),
-              SessionWorkoutWidget(),
               SizedBox(height: 10),
-              LongCustomButton(
-                title: "+ Add Sets",
-                onTap: () {},
-                Bcolor: Color(0xff3B4141),
-              ),
+              // LongCustomButton(
+              //   title: "+ Add Sets",
+              //   onTap: () {},
+              //   Bcolor: Color(0xff3B4141),
+              // ),
               SizedBox(height: 10),
               LongCustomButton(
                 title: "+ Add Exercises",

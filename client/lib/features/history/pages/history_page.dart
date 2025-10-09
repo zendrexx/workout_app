@@ -27,10 +27,8 @@ class HistoryPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              HistoryWorkoutContainerWidget(),
-              HistoryWorkoutContainerWidget(),
+          child: Column(children: [
+             
             ],
           ),
         ),

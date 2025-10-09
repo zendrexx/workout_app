@@ -27,7 +27,7 @@ class StatCardWidget extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 "$title",
-                style: const TextStyle(color: Color(0xffEAE0C8), fontSize: 12),
+                style: const TextStyle(color: Color(0xffEAE0C8), fontSize: 10),
               ),
               Text(
                 value,

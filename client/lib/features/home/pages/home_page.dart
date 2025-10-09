@@ -152,8 +152,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: 1,
-                      itemBuilder: (context, index) =>
-                          HomeListWidget(fOntap: () {}),
+                      itemBuilder: (context, index) {},
                     ),
 
                     secondChild: SizedBox.shrink(),
