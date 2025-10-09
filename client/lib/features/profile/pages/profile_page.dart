@@ -107,21 +107,21 @@ class ProfilePage extends StatelessWidget {
                 Expanded(
                   child: StatCardWidget(
                     title: "TOTAL VOLUME",
-                    value: "38,000lbs",
+                    value: "0lbs",
                     imagePath: "assets/images/volume.png",
                   ),
                 ),
                 Expanded(
                   child: StatCardWidget(
                     title: "TOTAL SETS",
-                    value: "73",
+                    value: "0",
                     imagePath: "assets/images/totalSets.png",
                   ),
                 ),
                 Expanded(
                   child: StatCardWidget(
                     title: "DAY STREAK",
-                    value: "8",
+                    value: "0",
                     imagePath: "assets/images/streakBw.png",
                   ),
                 ),
@@ -193,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                           width: 80,
                           height: 80,
                           child: CircularProgressIndicator(
-                            value: 0.78,
+                            value: 0,
                             strokeWidth: 8,
                             backgroundColor: Colors.grey,
                             valueColor: AlwaysStoppedAnimation(Colors.green),
@@ -202,7 +202,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        "TOP 22%",
+                        "TOP 0%",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -229,7 +229,7 @@ class ProfilePage extends StatelessWidget {
                       child: PrCardWidget(
                         color: Colors.orange,
                         title: "Squat",
-                        value: "280lbs",
+                        value: "0lbs",
                         iconPath: "assets/images/squat.png",
                       ),
                     ),
@@ -240,7 +240,7 @@ class ProfilePage extends StatelessWidget {
                       child: PrCardWidget(
                         color: Colors.green,
                         title: "Bench",
-                        value: "150lbs",
+                        value: "0bs",
                         iconPath: "assets/images/bench.png",
                       ),
                     ),
@@ -251,7 +251,7 @@ class ProfilePage extends StatelessWidget {
                       child: PrCardWidget(
                         color: Colors.blue,
                         title: "Deadlift",
-                        value: "350lbs",
+                        value: "0lbs",
                         iconPath: "assets/images/deadlift.png",
                       ),
                     ),
