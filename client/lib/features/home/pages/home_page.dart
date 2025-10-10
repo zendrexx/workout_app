@@ -16,19 +16,10 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    // You can use ref here
-    final repo = ref.read(tempSessionProvider);
-    // Preload, listen, etc.
-  }
-
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
   @override
   Widget build(BuildContext context) {
-    final repo = ref.watch(tempSessionProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
