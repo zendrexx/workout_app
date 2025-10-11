@@ -1,19 +1,23 @@
+import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CreateSessionPage extends StatefulWidget {
+class CreateSessionPage extends ConsumerStatefulWidget {
   const CreateSessionPage({super.key});
 
   @override
-  State<CreateSessionPage> createState() => _CreateSessionPageState();
+  ConsumerState<CreateSessionPage> createState() => _CreateSessionPageState();
 }
 
-class _CreateSessionPageState extends State<CreateSessionPage> {
+class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   TextEditingController _controller = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final exercise = ref.watch(tempSessionProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -87,12 +91,18 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                 },
               ),
               SizedBox(height: 10),
-              SizedBox(height: 10),
-              // LongCustomButton(
-              //   title: "+ Add Sets",
-              //   onTap: () {},
-              //   Bcolor: Color(0xff3B4141),
-              // ),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: ((context, index) {
+                  return SessionWorkoutWidget(
+                    title: exercise.exercises[index].name,
+                    equipment: exercise.exercises[index].equipment,
+                  );
+                }),
+                itemCount: exercise.exercises.length,
+                shrinkWrap: true,
+              ),
+
               SizedBox(height: 10),
               LongCustomButton(
                 title: "+ Add Exercises",

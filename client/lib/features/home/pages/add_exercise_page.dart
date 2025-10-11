@@ -1,20 +1,22 @@
+import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/services/database_service.dart';
 import 'package:client/data/services/exercise_service.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
 import 'package:client/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
-class AddExercisePage extends StatefulWidget {
+class AddExercisePage extends ConsumerStatefulWidget {
   const AddExercisePage({super.key});
 
   @override
-  State<AddExercisePage> createState() => _AddExercisePageState();
+  ConsumerState<AddExercisePage> createState() => _AddExercisePageState();
 }
 
-class _AddExercisePageState extends State<AddExercisePage> {
+class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   final Set<int> _selectedSessions = {};
   final TextEditingController _controller = TextEditingController();
 
@@ -43,6 +45,10 @@ class _AddExercisePageState extends State<AddExercisePage> {
     setState(() {
       _exercise = workouts;
     });
+  }
+
+  void addExercise(WidgetRef ref, Exercise value) {
+    ref.read(tempSessionProvider.notifier).addExercise(value);
   }
 
   @override
@@ -180,7 +186,12 @@ class _AddExercisePageState extends State<AddExercisePage> {
               right: 0,
               bottom: 30,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  for (final sessionIndex in _selectedSessions) {
+                    addExercise(ref, _exercise[sessionIndex]);
+                  }
+                  context.pop();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),
                   shape: const RoundedRectangleBorder(

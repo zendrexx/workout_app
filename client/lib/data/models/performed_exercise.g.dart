@@ -43,7 +43,7 @@ const PerformedExerciseSchema = CollectionSchema(
     r'workoutSession': LinkSchema(
       id: 1198258412370041084,
       name: r'workoutSession',
-      target: r'WorkoutSession',
+      target: r'PerformedSession',
       single: true,
     ),
     r'workoutSets': LinkSchema(
@@ -133,7 +133,7 @@ void _performedExerciseAttach(
     IsarCollection<dynamic> col, Id id, PerformedExercise object) {
   object.id = id;
   object.workoutSession.attach(
-      col, col.isar.collection<WorkoutSession>(), r'workoutSession', id);
+      col, col.isar.collection<PerformedSession>(), r'workoutSession', id);
   object.workoutSets
       .attach(col, col.isar.collection<Workoutsets>(), r'workoutSets', id);
 }
@@ -657,7 +657,7 @@ extension PerformedExerciseQueryObject
 extension PerformedExerciseQueryLinks
     on QueryBuilder<PerformedExercise, PerformedExercise, QFilterCondition> {
   QueryBuilder<PerformedExercise, PerformedExercise, QAfterFilterCondition>
-      workoutSession(FilterQuery<WorkoutSession> q) {
+      workoutSession(FilterQuery<PerformedSession> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'workoutSession');
     });

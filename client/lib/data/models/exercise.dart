@@ -1,10 +1,10 @@
 import 'package:client/data/models/planned_set.dart';
-import 'package:client/data/models/session.dart';
+import 'package:client/data/models/planned_session.dart';
 import 'package:isar/isar.dart';
 
 part 'exercise.g.dart';
 
-@Collection()
+@collection
 class Exercise {
   Id id = Isar.autoIncrement;
 
@@ -20,9 +20,6 @@ class Exercise {
   late String? seconMuscle;
   late String equipment;
   late String imagePath;
-  String? notes;
-  final plannedSets = IsarLinks<PlannedSet>();
-  final session = IsarLink<Session>();
 
   Exercise({
     required this.exId,
@@ -31,7 +28,6 @@ class Exercise {
     this.seconMuscle,
     required this.equipment,
     required this.imagePath,
-    this.notes,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {

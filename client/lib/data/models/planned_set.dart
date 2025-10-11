@@ -3,7 +3,7 @@ import 'exercise.dart';
 
 part 'planned_set.g.dart';
 
-@Collection()
+@collection
 class PlannedSet {
   Id id = Isar.autoIncrement;
 

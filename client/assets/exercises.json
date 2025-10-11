@@ -12,7 +12,7 @@
     "name": "Squat", 
     "primMuscle": "Quads",
     "seconMuscle": "Glutes", 
-    "equipment": "Bodyweight",
+    "equipment": "Barbell",
     "imagePath": "assets/images/benchpress.png"
   },
   { 

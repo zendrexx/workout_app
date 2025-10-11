@@ -1,4 +1,4 @@
-import 'package:client/core/provider/temp_session_provider.dart';
+import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/repositories/planned_session_repository.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';

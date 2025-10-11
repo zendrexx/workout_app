@@ -1,9 +1,12 @@
 import 'package:client/features/history/widgets/workout_row_widget.dart';
+import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 
 class SessionWorkoutWidget extends StatelessWidget {
-  const SessionWorkoutWidget({super.key});
+  final String title;
+  final String? equipment;
+  const SessionWorkoutWidget({super.key, required this.title, this.equipment});
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +17,29 @@ class SessionWorkoutWidget extends StatelessWidget {
           Row(
             children: [
               const CircleAvatar(
-                radius: 30,
+                radius: 20,
                 backgroundImage: AssetImage("assets/images/benchpress.png"),
               ),
               SizedBox(width: 5),
-              Text(
-                "Incline Bench Press (Barbell)",
-                style: TextStyle(
-                  color: Color(0xffE2725B),
-                  fontSize: 16,
-                  wordSpacing: .5,
-                ),
+              Row(
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Color(0xffE2725B),
+                      fontSize: 16,
+                      wordSpacing: .5,
+                    ),
+                  ),
+                  Text(
+                    equipment != null ? " ($equipment)" : "",
+                    style: TextStyle(
+                      color: Color(0xffE2725B),
+                      fontSize: 16,
+                      wordSpacing: .5,
+                    ),
+                  ),
+                ],
               ),
               Spacer(),
               GestureDetector(
@@ -34,7 +49,7 @@ class SessionWorkoutWidget extends StatelessWidget {
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: "Add session notes here",
+              hintText: "Add notes here",
               border: InputBorder.none,
               hintStyle: TextStyle(fontSize: 14),
             ),
@@ -44,21 +59,19 @@ class SessionWorkoutWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   "SETS",
-                  style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Expanded(
                 child: Text(
                   "LBS",
-                  style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Expanded(
-                child: FittedBox(
-                  child: Text(
-                    "REP RANGE",
-                    style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
-                  ),
+                child: Text(
+                  "REP RANGE",
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Spacer(),
@@ -68,6 +81,12 @@ class SessionWorkoutWidget extends StatelessWidget {
           WorkoutSetWidget(),
           WorkoutSetWidget(),
           WorkoutSetWidget(),
+          SizedBox(height: 10),
+          LongCustomButton(
+            title: "+ Add Sets",
+            onTap: () {},
+            Bcolor: Color(0xff242727),
+          ),
         ],
       ),
     );

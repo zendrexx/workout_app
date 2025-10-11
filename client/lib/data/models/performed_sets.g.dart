@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'workout_sets.dart';
+part of 'performed_sets.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator

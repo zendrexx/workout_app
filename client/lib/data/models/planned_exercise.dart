@@ -1,11 +1,11 @@
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_set.dart';
-import 'package:client/data/models/session.dart';
+import 'package:client/data/models/planned_session.dart';
 import 'package:isar/isar.dart';
 
 part 'planned_exercise.g.dart';
 
-@Collection()
+@collection
 class PlannedExercise {
   Id id = Isar.autoIncrement;
 
@@ -15,7 +15,7 @@ class PlannedExercise {
 
   final sets = IsarLinks<PlannedSet>();
 
-  final session = IsarLink<Session>();
+  final session = IsarLink<PlannedSession>();
 
   PlannedExercise({this.notes});
 }

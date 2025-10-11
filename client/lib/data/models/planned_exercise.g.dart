@@ -45,7 +45,7 @@ const PlannedExerciseSchema = CollectionSchema(
     r'session': LinkSchema(
       id: 6345234935340735891,
       name: r'session',
-      target: r'Session',
+      target: r'PlannedSession',
       single: true,
     )
   },
@@ -120,7 +120,8 @@ void _plannedExerciseAttach(
   object.id = id;
   object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
   object.sets.attach(col, col.isar.collection<PlannedSet>(), r'sets', id);
-  object.session.attach(col, col.isar.collection<Session>(), r'session', id);
+  object.session
+      .attach(col, col.isar.collection<PlannedSession>(), r'session', id);
 }
 
 extension PlannedExerciseQueryWhereSort
@@ -497,7 +498,7 @@ extension PlannedExerciseQueryLinks
   }
 
   QueryBuilder<PlannedExercise, PlannedExercise, QAfterFilterCondition> session(
-      FilterQuery<Session> q) {
+      FilterQuery<PlannedSession> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'session');
     });

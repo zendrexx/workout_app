@@ -1,13 +1,13 @@
 import 'package:client/data/models/performed_exercise.dart';
-import 'package:client/data/models/session.dart';
+import 'package:client/data/models/planned_session.dart';
 import 'package:isar/isar.dart';
 
-part 'workout_session.g.dart';
+part 'performed_session.g.dart';
 
-@Collection()
-class WorkoutSession {
+@collection
+class PerformedSession {
   Id id = Isar.autoIncrement;
-  final baseSession = IsarLink<Session>(); // which plan was followed
+  final baseSession = IsarLink<PlannedSession>(); // which plan was followed
 
   DateTime startTime = DateTime.now();
   DateTime? endTime;
@@ -17,5 +17,5 @@ class WorkoutSession {
   // you could also snapshot the performed exercises separately if needed
   final performedExercises = IsarLinks<PerformedExercise>();
 
-  WorkoutSession();
+  PerformedSession();
 }

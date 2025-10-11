@@ -1,16 +1,16 @@
-import 'package:client/data/models/workout_session.dart';
-import 'package:client/data/models/workout_sets.dart';
+import 'package:client/data/models/performed_session.dart';
+import 'package:client/data/models/performed_sets.dart';
 import 'package:isar/isar.dart';
 
 part 'performed_exercise.g.dart';
 
-@Collection()
+@collection
 class PerformedExercise {
   Id id = Isar.autoIncrement;
   String name;
   double? volume; // total per exercise
   String? notes;
-  final workoutSession = IsarLink<WorkoutSession>();
+  final workoutSession = IsarLink<PerformedSession>();
   final workoutSets = IsarLinks<Workoutsets>();
 
   PerformedExercise({required this.name});
