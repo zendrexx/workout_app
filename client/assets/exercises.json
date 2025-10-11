@@ -5,7 +5,7 @@
     "primMuscle": "Chest",
     "seconMuscle": "Tricep", 
     "equipment": "Bodyweight",
-    "imagePath": "assets/images/benchpress.png"
+    "imagePath": "assets/images/pushupW.png"
   },
   { 
     "id": "squat", 
@@ -13,7 +13,7 @@
     "primMuscle": "Quads",
     "seconMuscle": "Glutes", 
     "equipment": "Barbell",
-    "imagePath": "assets/images/benchpress.png"
+    "imagePath": "assets/images/squatW.png"
   },
   { 
     "id": "bench_press", 
@@ -29,6 +29,6 @@
     "primMuscle": "Back",
     "seconMuscle": "Hamstrings", 
     "equipment": "Barbell",
-    "imagePath": "assets/images/benchpress.png"
+    "imagePath": "assets/images/deadliftW.png"
   }
 ]

@@ -43,6 +43,64 @@ class SessionWorkoutWidget extends StatelessWidget {
               ),
               Spacer(),
               GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 300,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0,
+                            ),
+                            child: Container(
+                              height: 150,
+                              decoration: BoxDecoration(
+                                color: Color(0xff2A2A2A),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      child: Center(
+                                        child: Text(
+                                          "Replace Exercise",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      child: Center(
+                                        child: Text(
+                                          "Delete Exercise",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff9A1A1A),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    backgroundColor: Color(0xff131313),
+                    useRootNavigator: true,
+                  );
+                },
                 child: Icon(Icons.more_vert_outlined, color: Colors.white),
               ),
             ],
@@ -79,8 +137,7 @@ class SessionWorkoutWidget extends StatelessWidget {
           ),
           SizedBox(height: 5),
           WorkoutSetWidget(),
-          WorkoutSetWidget(),
-          WorkoutSetWidget(),
+
           SizedBox(height: 10),
           LongCustomButton(
             title: "+ Add Sets",

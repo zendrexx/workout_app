@@ -16,7 +16,7 @@ class WorkoutSetWidget extends StatelessWidget {
               style: TextStyle(fontSize: 18, color: Color(0xff4E4E50)),
             ),
           ),
-          Expanded(child: Text("10-12", style: TextStyle(fontSize: 14))),
+          Expanded(child: Text("0", style: TextStyle(fontSize: 14))),
           Spacer(),
         ],
       ),

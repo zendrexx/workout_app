@@ -16,7 +16,12 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
   }
 
   void addExercise(Exercise exercise) {
-    final updatedExercises = [...state.exercises!, exercise];
-    state = state.copyWith();
+    final updatedExercises = [...state.exercises, exercise];
+    state = state.copyWith(exercises: updatedExercises);
+  }
+
+  void deleteExercise(int id) {
+    final updatedExercises = state.exercises.where((e) => e.id != id).toList();
+    state = state.copyWith(exercises: updatedExercises);
   }
 }

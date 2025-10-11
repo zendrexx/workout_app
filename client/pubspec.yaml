@@ -78,6 +78,9 @@ flutter:
     - assets/images/totalSets.png
     - assets/images/volume.png
     - assets/exercises.json
+    - assets/images/pushupW.png
+    - assets/images/deadliftW.png
+    - assets/images/squatW.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
