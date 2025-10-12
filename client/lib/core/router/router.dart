@@ -6,6 +6,7 @@ import 'package:client/features/home/pages/create_session_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
 import 'package:client/features/home/pages/program_page.dart';
 import 'package:client/features/home/pages/select_session_page.dart';
+import 'package:client/features/home/pages/update_exercise.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,6 +59,13 @@ final router = GoRouter(
                     GoRoute(
                       path: 'add_exercise',
                       builder: (context, state) => const AddExercisePage(),
+                    ),
+                    GoRoute(
+                      path: 'update_exercise/:index',
+                      builder: (context, state) {
+                        final index = int.parse(state.pathParameters['index']!);
+                        return UpdateExercise(index: index);
+                      },
                     ),
                   ],
                 ),

@@ -1,23 +1,29 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/models/exercise.dart';
 import 'package:client/features/history/widgets/workout_row_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SessionWorkoutWidget extends ConsumerWidget {
   final String title;
   final String? equipment;
+  final String imagePath;
+  final int index;
   final int id;
   const SessionWorkoutWidget({
     super.key,
     required this.title,
     this.equipment,
+    required this.imagePath,
+    required this.index,
     required this.id,
   });
 
-  void deleteExercise(WidgetRef ref, int id) {
-    ref.read(tempSessionProvider.notifier).deleteExercise(id);
+  void deleteExercise(WidgetRef ref, int index) {
+    ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
 
   @override
@@ -28,10 +34,7 @@ class SessionWorkoutWidget extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage("assets/images/benchpress.png"),
-              ),
+              CircleAvatar(radius: 20, backgroundImage: AssetImage(imagePath)),
               SizedBox(width: 5),
               Row(
                 children: [
@@ -76,6 +79,13 @@ class SessionWorkoutWidget extends ConsumerWidget {
                                 children: [
                                   Expanded(
                                     child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        context.push(
+                                          "/home/create_sessions/update_exercise/$index",
+                                        );
+                                      },
+                                      behavior: HitTestBehavior.opaque,
                                       child: Center(
                                         child: Text(
                                           "Replace Exercise",
@@ -90,8 +100,9 @@ class SessionWorkoutWidget extends ConsumerWidget {
                                   Divider(),
                                   Expanded(
                                     child: GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: () {
-                                        deleteExercise(ref, id);
+                                        deleteExercise(ref, index);
                                         Navigator.pop(context);
                                       },
                                       child: Center(
