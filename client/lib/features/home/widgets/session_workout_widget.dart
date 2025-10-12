@@ -1,15 +1,27 @@
+import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/features/history/widgets/workout_row_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SessionWorkoutWidget extends StatelessWidget {
+class SessionWorkoutWidget extends ConsumerWidget {
   final String title;
   final String? equipment;
-  const SessionWorkoutWidget({super.key, required this.title, this.equipment});
+  final int id;
+  const SessionWorkoutWidget({
+    super.key,
+    required this.title,
+    this.equipment,
+    required this.id,
+  });
+
+  void deleteExercise(WidgetRef ref, int id) {
+    ref.read(tempSessionProvider.notifier).deleteExercise(id);
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Column(
@@ -78,6 +90,10 @@ class SessionWorkoutWidget extends StatelessWidget {
                                   Divider(),
                                   Expanded(
                                     child: GestureDetector(
+                                      onTap: () {
+                                        deleteExercise(ref, id);
+                                        Navigator.pop(context);
+                                      },
                                       child: Center(
                                         child: Text(
                                           "Delete Exercise",

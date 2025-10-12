@@ -12,7 +12,7 @@ Future<void> _setup() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await DatabaseService.setup();
-  //await DatabaseService.resetExercises();
+  await DatabaseService.resetExercises();
 }
 
 class MyApp extends StatelessWidget {

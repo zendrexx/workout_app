@@ -97,6 +97,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                   return SessionWorkoutWidget(
                     title: exercise.exercises[index].name,
                     equipment: exercise.exercises[index].equipment,
+                    id: exercise.exercises[index].id,
                   );
                 }),
                 itemCount: exercise.exercises.length,

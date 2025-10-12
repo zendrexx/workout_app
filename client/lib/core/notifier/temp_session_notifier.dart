@@ -1,6 +1,7 @@
 import 'package:client/data/model_temp/temp_session.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_session.dart';
+import 'package:client/data/models/planned_set.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
