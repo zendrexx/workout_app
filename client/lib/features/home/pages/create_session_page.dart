@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final exercise = ref.watch(tempSessionProvider);
+    final plannedExercise = ref.watch(tempSessionProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -94,15 +95,40 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: ((context, index) {
+                  final current = plannedExercise.plannedExercise[index];
                   return SessionWorkoutWidget(
-                    title: exercise.exercises[index].name,
-                    equipment: exercise.exercises[index].equipment,
-                    imagePath: exercise.exercises[index].imagePath,
+                    title:
+                        plannedExercise
+                            .plannedExercise[index]
+                            .exercise
+                            .value
+                            ?.name ??
+                        '',
+                    equipment:
+                        plannedExercise
+                            .plannedExercise[index]
+                            .exercise
+                            .value
+                            ?.equipment ??
+                        '',
+                    imagePath:
+                        plannedExercise
+                            .plannedExercise[index]
+                            .exercise
+                            .value
+                            ?.imagePath ??
+                        '',
                     index: index,
-                    id: exercise.exercises[index].id,
+                    id:
+                        plannedExercise
+                            .plannedExercise[index]
+                            .exercise
+                            .value
+                            ?.id ??
+                        0,
                   );
                 }),
-                itemCount: exercise.exercises.length,
+                itemCount: plannedExercise.plannedExercise.length,
                 shrinkWrap: true,
               ),
 

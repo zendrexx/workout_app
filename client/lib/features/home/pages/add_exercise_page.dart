@@ -1,5 +1,7 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/planned_exercise.dart';
+import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/services/database_service.dart';
 import 'package:client/data/services/exercise_service.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
@@ -48,7 +50,9 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   }
 
   void addExercise(WidgetRef ref, Exercise value) {
-    ref.read(tempSessionProvider.notifier).addExercise(value);
+    PlannedExercise plannedExercise = new PlannedExercise();
+    plannedExercise.exercise.value = value;
+    ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
   }
 
   @override
@@ -131,11 +135,8 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                             },
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ), // rounded corners
-                            borderSide:
-                                BorderSide.none, // removes the border line
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),

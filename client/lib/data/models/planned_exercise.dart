@@ -1,7 +1,11 @@
-import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/planned_set.dart';
-import 'package:client/data/models/planned_session.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:isar/isar.dart';
+
+import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/planned_session.dart';
+import 'package:client/data/models/planned_set.dart';
 
 part 'planned_exercise.g.dart';
 
@@ -9,13 +13,13 @@ part 'planned_exercise.g.dart';
 class PlannedExercise {
   Id id = Isar.autoIncrement;
 
-  final exercise = IsarLink<Exercise>();
+  var exercise = IsarLink<Exercise>();
 
   String? notes;
 
-  final sets = IsarLinks<PlannedSet>();
+  var sets = IsarLinks<PlannedSet>();
 
-  final session = IsarLink<PlannedSession>();
+  var session = IsarLink<PlannedSession>();
 
   PlannedExercise({this.notes});
 }

@@ -1,5 +1,6 @@
 import 'package:client/data/model_temp/temp_session.dart';
 import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/models/planned_set.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,24 +17,27 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     state = state.copyWith(name: newName);
   }
 
-  void addExercise(Exercise exercise) {
-    final updatedExercises = [...state.exercises, exercise];
-    state = state.copyWith(exercises: updatedExercises);
+  void addExercise(PlannedExercise exercise) {
+    final updatedExercises = [...state.plannedExercise, exercise];
+    state = state.copyWith(plannedExercise: updatedExercises);
   }
 
   void deleteExercise(int index) {
-    final updatedExercises = [...state.exercises];
+    final updatedExercises = [...state.plannedExercise];
     updatedExercises.removeAt(index);
-    state = state.copyWith(exercises: updatedExercises);
+    state = state.copyWith(plannedExercise: updatedExercises);
   }
 
-  void updateExerciseAt(int index, Exercise updatedExercise) {
-    final updatedExercises = [...state.exercises];
+  void updateExerciseAt(int index, PlannedExercise updatedExercise) {
+    final updatedExercises = [...state.plannedExercise];
     if (index >= 0 && index < updatedExercises.length) {
       updatedExercises[index] = updatedExercise;
-      state = state.copyWith(exercises: updatedExercises);
+      state = state.copyWith(plannedExercise: updatedExercises);
     }
   }
 
-  void addSetToExercise() {}
+  void addSetToExercise(int index, PlannedSet sets) {
+    final addsets = [...state.plannedExercise[index].sets, sets];
+     state = state.copyWith(plannedExercise[index].sets: addsets);
+  }
 }

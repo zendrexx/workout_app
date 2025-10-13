@@ -2,27 +2,28 @@
 import 'dart:convert';
 
 import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/planned_exercise.dart';
 
 class TempSession {
   late String? name;
   DateTime createdAt = DateTime.now();
   bool isCompleted = false;
-  final List<Exercise> exercises;
+  final List<PlannedExercise> plannedExercise;
   TempSession({
     this.name,
     required this.isCompleted,
-    this.exercises = const [],
+    this.plannedExercise = const [],
   });
 
   TempSession copyWith({
     String? name,
     bool? isCompleted,
-    List<Exercise>? exercises,
+    List<PlannedExercise>? plannedExercise,
   }) {
     return TempSession(
       name: name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,
-      exercises: exercises ?? this.exercises,
+      plannedExercise: plannedExercise ?? this.plannedExercise,
     );
   }
 }
