@@ -98,33 +98,23 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                   final current = plannedExercise.plannedExercise[index];
                   return SessionWorkoutWidget(
                     title:
-                        plannedExercise
-                            .plannedExercise[index]
-                            .exercise
-                            .value
-                            ?.name ??
+                        plannedExercise.plannedExercise[index].exercise?.name ??
                         '',
                     equipment:
                         plannedExercise
                             .plannedExercise[index]
                             .exercise
-                            .value
                             ?.equipment ??
                         '',
                     imagePath:
                         plannedExercise
                             .plannedExercise[index]
                             .exercise
-                            .value
                             ?.imagePath ??
                         '',
                     index: index,
                     id:
-                        plannedExercise
-                            .plannedExercise[index]
-                            .exercise
-                            .value
-                            ?.id ??
+                        plannedExercise.plannedExercise[index].exercise?.id ??
                         0,
                   );
                 }),

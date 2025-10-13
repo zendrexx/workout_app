@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
@@ -50,8 +51,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   }
 
   void addExercise(WidgetRef ref, Exercise value) {
-    PlannedExercise plannedExercise = new PlannedExercise();
-    plannedExercise.exercise.value = value;
+    final plannedExercise = TempPlannedExercise(exercise: value);
     ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
   }
 
