@@ -60,10 +60,10 @@ class WorkoutDetailsWidget extends StatelessWidget {
               Spacer(),
             ],
           ),
-          WorkoutSetWidget(),
+          // WorkoutSetWidget(),
 
-          WorkoutSetWidget(),
-          WorkoutSetWidget(),
+          // WorkoutSetWidget(),
+          // WorkoutSetWidget(),
         ],
       ),
     );

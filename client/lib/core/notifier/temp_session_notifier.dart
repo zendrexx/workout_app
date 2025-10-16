@@ -55,4 +55,8 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     // 5. Update the state immutably
     state = state.copyWith(plannedExercise: updatedExercises);
   }
+
+  void reset() {
+    state = TempSession(name: null, isCompleted: false, plannedExercise: []);
+  }
 }

@@ -1,5 +1,7 @@
+import 'package:client/core/notifier/planned_session_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/repositories/planned_session_repository.dart';
+import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
@@ -18,8 +20,10 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
+
   @override
   Widget build(BuildContext context) {
+    final plannedSessionsAsync = ref.watch(plannedSessionListProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -191,12 +195,31 @@ class _HomePageState extends ConsumerState<HomePage> {
                     crossFadeState: _isSessionExpanded
                         ? CrossFadeState.showFirst
                         : CrossFadeState.showSecond,
-                    firstChild: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 0,
-                      itemBuilder: (context, index) =>
-                          HomeListWidget(fOntap: () {}),
+                    firstChild: plannedSessionsAsync.when(
+                      data: (sessions) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: sessions.length,
+                          itemBuilder: (context, index) {
+                            final session = sessions[index];
+                            return HomeListWidget(
+                              id: session.id,
+                              fOntap: () {
+                                // open details page or start workout
+                                print("Selected session: ${session.name}");
+                              },
+                              title: session.name ?? "Untitled Session",
+                            );
+                          },
+                        );
+                      },
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (err, stack) => Text(
+                        'Error: $err',
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
 
                     secondChild: SizedBox.shrink(),

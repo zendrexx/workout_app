@@ -21,5 +21,5 @@ class PlannedExercise {
 
   var session = IsarLink<PlannedSession>();
 
-  PlannedExercise({this.notes});
+  PlannedExercise({this.notes, sets});
 }

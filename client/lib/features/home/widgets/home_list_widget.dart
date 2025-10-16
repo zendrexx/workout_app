@@ -1,11 +1,19 @@
+import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends StatelessWidget {
   final Function fOntap;
-  const HomeListWidget({super.key, required this.fOntap});
-
+  final String title;
+  final int id;
+  HomeListWidget({
+    super.key,
+    required this.fOntap,
+    required this.id,
+    this.title = "prac",
+  });
+  final sesService = PlannedSessionService();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,27 +35,26 @@ class HomeListWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("PPL", style: TextStyle(fontSize: 16)),
+                    Text(title, style: TextStyle(fontSize: 16)),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        sesService.deleteSession(id);
+                        print("tappedd");
+                      },
                       padding: EdgeInsets.zero, // removes default padding
                       constraints: BoxConstraints(), // removes extra space
-                      icon: Icon(
-                        Icons.more_horiz,
-                        size: 30,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.delete, size: 20, color: Colors.white),
                     ),
                   ],
                 ),
 
                 Text(
-                  "Push day - Bench press, Machine fly..\nPull day - Lat PullDown, Pull ups, Row..\nLeg Day - Squat, Deadlift..",
+                  "Bench press\nPull ups\nSquat",
                   style: TextStyle(fontSize: 14, color: Color(0xffEAE0C8)),
                 ),
 
                 SizedBox(height: 10),
-                LongCustomButton(title: "Start Program", onTap: () => fOntap),
+                LongCustomButton(title: "Session", onTap: () => fOntap),
               ],
             ),
           ),

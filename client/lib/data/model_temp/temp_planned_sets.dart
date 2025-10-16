@@ -1,7 +1,7 @@
 import 'package:client/data/models/exercise.dart';
 
 class TempPlannedSets {
-  double? estWeight;
-  int? minRep;
+  double estWeight = 0;
+  int? minRep = 0;
   int? maxRep;
 }

@@ -1,5 +1,8 @@
+import 'package:client/core/notifier/planned_session_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/models/planned_exercise.dart';
+import 'package:client/data/repositories/session_converter.dart';
+import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,7 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   TextEditingController _controller = new TextEditingController();
+  final sesService = PlannedSessionService();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,18 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               ),
               SizedBox(width: 16),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  final tempSession = ref.read(tempSessionProvider);
+                  final plannedSession = tempSession.toPlannedSession();
+
+                  await sesService.addSession(plannedSession);
+
+                  ref.read(tempSessionProvider.notifier).reset();
+                  ref.invalidate(plannedSessionListProvider);
+
+                  Navigator.pop(context);
+                },
+
                 child: Text("Create", style: TextStyle(color: Colors.white)),
               ),
               SizedBox(width: 16),

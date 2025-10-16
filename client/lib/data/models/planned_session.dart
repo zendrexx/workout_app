@@ -12,5 +12,5 @@ class PlannedSession {
   bool isCompleted = false;
 
   final exercises = IsarLinks<PlannedExercise>();
-  PlannedSession({this.name});
+  PlannedSession({this.name, exercises});
 }

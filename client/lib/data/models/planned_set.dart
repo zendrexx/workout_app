@@ -17,11 +17,10 @@ class PlannedSet {
 
   final exercise = IsarLink<Exercise>();
 
-  PlannedSet({required this.id, this.estWeight, this.minRep, this.maxRep});
+  PlannedSet({this.estWeight, this.minRep, this.maxRep});
 
-  PlannedSet copyWith({Id? id, double? estWeight, int? minRep, int? maxRep}) {
+  PlannedSet copyWith({double? estWeight, int? minRep, int? maxRep}) {
     return PlannedSet(
-      id: id ?? this.id,
       estWeight: estWeight ?? this.estWeight,
       minRep: minRep ?? this.minRep,
       maxRep: maxRep ?? this.maxRep,

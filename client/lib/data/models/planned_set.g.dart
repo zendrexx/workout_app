@@ -82,10 +82,10 @@ PlannedSet _plannedSetDeserialize(
 ) {
   final object = PlannedSet(
     estWeight: reader.readDoubleOrNull(offsets[0]),
-    id: id,
     maxRep: reader.readLongOrNull(offsets[1]),
     minRep: reader.readLongOrNull(offsets[2]),
   );
+  object.id = id;
   return object;
 }
 

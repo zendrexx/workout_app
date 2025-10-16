@@ -1,5 +1,7 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/planned_set.dart';
 import 'package:client/features/history/widgets/workout_row_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
@@ -26,8 +28,15 @@ class SessionWorkoutWidget extends ConsumerWidget {
     ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
 
+  void addSets(WidgetRef ref, TempPlannedSets value) {
+    ref.watch(tempSessionProvider.notifier).addSetToExercise(index, value);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(tempSessionProvider);
+    final sets = session.plannedExercise[index].sets;
+    final plannedSet = ref.watch(tempSessionProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Column(
@@ -163,12 +172,22 @@ class SessionWorkoutWidget extends ConsumerWidget {
             ],
           ),
           SizedBox(height: 5),
-          WorkoutSetWidget(),
 
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: ((context, setIndex) {
+              return WorkoutSetWidget(setNum: (setIndex + 1).toString());
+            }),
+            itemCount: sets.length,
+            shrinkWrap: true,
+          ),
           SizedBox(height: 10),
           LongCustomButton(
             title: "+ Add Sets",
-            onTap: () {},
+            onTap: () {
+              TempPlannedSets sets = TempPlannedSets();
+              addSets(ref, sets);
+            },
             Bcolor: Color(0xff242727),
           ),
         ],

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class WorkoutSetWidget extends StatelessWidget {
-  const WorkoutSetWidget({super.key});
+  final String setNum;
+  const WorkoutSetWidget({super.key, required this.setNum});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 5),
-      child: const Row(
+      child: Row(
         children: [
-          Expanded(child: Text("1", style: TextStyle(fontSize: 14))),
+          Expanded(child: Text(setNum, style: TextStyle(fontSize: 14))),
           Expanded(
             child: Text(
               "-",
