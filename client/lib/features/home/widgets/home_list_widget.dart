@@ -48,11 +48,6 @@ class HomeListWidget extends StatelessWidget {
                   ],
                 ),
 
-                Text(
-                  "Bench press\nPull ups\nSquat",
-                  style: TextStyle(fontSize: 14, color: Color(0xffEAE0C8)),
-                ),
-
                 SizedBox(height: 10),
                 LongCustomButton(title: "Session", onTap: () => fOntap),
               ],

@@ -1,5 +1,6 @@
 import 'package:client/core/notifier/planned_session_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/model_temp/temp_session.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/repositories/session_converter.dart';
 import 'package:client/data/services/planned_session_service.dart';
@@ -19,6 +20,31 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   TextEditingController _controller = new TextEditingController();
   final sesService = PlannedSessionService();
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void addTitle(WidgetRef ref, String title) {
+    ref.read(tempSessionProvider.notifier).addTitle(title);
+  }
+
+  void addSession() async {
+    if (_controller.text.trim().isEmpty) {
+      return;
+    }
+    addTitle(ref, _controller.text.trim());
+    final tempSession = ref.read(tempSessionProvider);
+    final plannedSession = tempSession.toPlannedSession();
+
+    await sesService.addSession(plannedSession);
+
+    ref.read(tempSessionProvider.notifier).reset();
+    ref.invalidate(plannedSessionListProvider);
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +76,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               SizedBox(width: 16),
               GestureDetector(
                 onTap: () async {
-                  final tempSession = ref.read(tempSessionProvider);
-                  final plannedSession = tempSession.toPlannedSession();
-
-                  await sesService.addSession(plannedSession);
-
-                  ref.read(tempSessionProvider.notifier).reset();
-                  ref.invalidate(plannedSessionListProvider);
-
-                  Navigator.pop(context);
+                  addSession();
                 },
 
                 child: Text("Create", style: TextStyle(color: Colors.white)),

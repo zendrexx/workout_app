@@ -209,6 +209,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // open details page or start workout
                                 print("Selected session: ${session.name}");
                               },
+
                               title: session.name ?? "Untitled Session",
                             );
                           },
