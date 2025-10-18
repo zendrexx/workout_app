@@ -36,6 +36,8 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     }
     addTitle(ref, _controller.text.trim());
     final tempSession = ref.read(tempSessionProvider);
+    print("\n\nEXERCISE\n\n");
+    print("this is exer\n" + tempSession.plannedExercise[0].exercise!.name);
     final plannedSession = tempSession.toPlannedSession();
 
     await sesService.addSession(plannedSession);
@@ -130,25 +132,11 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                 itemBuilder: ((context, index) {
                   final current = plannedExercise.plannedExercise[index];
                   return SessionWorkoutWidget(
-                    title:
-                        plannedExercise.plannedExercise[index].exercise?.name ??
-                        '',
-                    equipment:
-                        plannedExercise
-                            .plannedExercise[index]
-                            .exercise
-                            ?.equipment ??
-                        '',
-                    imagePath:
-                        plannedExercise
-                            .plannedExercise[index]
-                            .exercise
-                            ?.imagePath ??
-                        '',
+                    title: current.exercise?.name ?? '',
+                    equipment: current.exercise?.equipment ?? '',
+                    imagePath: current.exercise?.imagePath ?? '',
                     index: index,
-                    id:
-                        plannedExercise.plannedExercise[index].exercise?.id ??
-                        0,
+                    id: current.exercise?.id ?? 0,
                   );
                 }),
                 itemCount: plannedExercise.plannedExercise.length,

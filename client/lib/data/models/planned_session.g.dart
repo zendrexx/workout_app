@@ -40,9 +40,9 @@ const PlannedSessionSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
-    r'exercises': LinkSchema(
-      id: -1231350891270974139,
-      name: r'exercises',
+    r'plannedExercise': LinkSchema(
+      id: 6195836111921285743,
+      name: r'plannedExercise',
       target: r'PlannedExercise',
       single: false,
     )
@@ -118,14 +118,14 @@ Id _plannedSessionGetId(PlannedSession object) {
 }
 
 List<IsarLinkBase<dynamic>> _plannedSessionGetLinks(PlannedSession object) {
-  return [object.exercises];
+  return [object.plannedExercise];
 }
 
 void _plannedSessionAttach(
     IsarCollection<dynamic> col, Id id, PlannedSession object) {
   object.id = id;
-  object.exercises
-      .attach(col, col.isar.collection<PlannedExercise>(), r'exercises', id);
+  object.plannedExercise.attach(
+      col, col.isar.collection<PlannedExercise>(), r'plannedExercise', id);
 }
 
 extension PlannedSessionQueryWhereSort
@@ -492,56 +492,57 @@ extension PlannedSessionQueryObject
 
 extension PlannedSessionQueryLinks
     on QueryBuilder<PlannedSession, PlannedSession, QFilterCondition> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition> exercises(
-      FilterQuery<PlannedExercise> q) {
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      plannedExercise(FilterQuery<PlannedExercise> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'exercises');
+      return query.link(q, r'plannedExercise');
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesLengthEqualTo(int length) {
+      plannedExerciseLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercises', length, true, length, true);
+      return query.linkLength(r'plannedExercise', length, true, length, true);
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesIsEmpty() {
+      plannedExerciseIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercises', 0, true, 0, true);
+      return query.linkLength(r'plannedExercise', 0, true, 0, true);
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesIsNotEmpty() {
+      plannedExerciseIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercises', 0, false, 999999, true);
+      return query.linkLength(r'plannedExercise', 0, false, 999999, true);
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesLengthLessThan(
+      plannedExerciseLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercises', 0, true, length, include);
+      return query.linkLength(r'plannedExercise', 0, true, length, include);
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesLengthGreaterThan(
+      plannedExerciseLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercises', length, include, 999999, true);
+      return query.linkLength(
+          r'plannedExercise', length, include, 999999, true);
     });
   }
 
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      exercisesLengthBetween(
+      plannedExerciseLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -549,7 +550,7 @@ extension PlannedSessionQueryLinks
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
-          r'exercises', lower, includeLower, upper, includeUpper);
+          r'plannedExercise', lower, includeLower, upper, includeUpper);
     });
   }
 }

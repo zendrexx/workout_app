@@ -11,6 +11,6 @@ class PlannedSession {
   DateTime createdAt = DateTime.now();
   bool isCompleted = false;
 
-  final exercises = IsarLinks<PlannedExercise>();
+  final plannedExercise = IsarLinks<PlannedExercise>();
   PlannedSession({this.name, exercises});
 }

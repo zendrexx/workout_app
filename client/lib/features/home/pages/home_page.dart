@@ -1,8 +1,4 @@
 import 'package:client/core/notifier/planned_session_provider.dart';
-import 'package:client/core/notifier/temp_session_notifier.dart';
-import 'package:client/data/repositories/planned_session_repository.dart';
-import 'package:client/data/services/planned_session_service.dart';
-import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
@@ -203,14 +199,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                           itemCount: sessions.length,
                           itemBuilder: (context, index) {
                             final session = sessions[index];
+                            final exercises = session.plannedExercise.toList();
+                            () async {
+                              for (final e in session.plannedExercise) {
+                                await e.exercise.load();
+                                print(
+                                  "PlannedExercise -> ${e.exercise.value?.name}",
+                                );
+                              }
+                            }();
                             return HomeListWidget(
                               id: session.id,
                               fOntap: () {
-                                // open details page or start workout
                                 print("Selected session: ${session.name}");
                               },
 
                               title: session.name ?? "Untitled Session",
+                              exercises: exercises,
                             );
                           },
                         );

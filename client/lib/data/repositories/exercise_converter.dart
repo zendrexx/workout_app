@@ -5,8 +5,11 @@ import 'package:client/data/repositories/sets_converter.dart';
 
 extension TempPlannedExerciseMapper on TempPlannedExercise {
   PlannedExercise toPlannedExercise() {
-    return PlannedExercise(
+    final plannedExercise = PlannedExercise(
       sets: sets.map((tempSet) => tempSet.toPlannedSet()).toList(),
     );
+
+    plannedExercise.exercise.value = exercise;
+    return plannedExercise;
   }
 }

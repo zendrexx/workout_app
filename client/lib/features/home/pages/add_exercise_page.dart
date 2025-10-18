@@ -53,6 +53,9 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   void addExercise(WidgetRef ref, Exercise value) {
     final plannedExercise = TempPlannedExercise(exercise: value);
     ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
+    final temp = ref.read(tempSessionProvider);
+    print("Temp session exercises count: ${temp.plannedExercise.length}");
+    print("First exercise name: ${temp.plannedExercise.first.exercise?.name}");
   }
 
   @override
