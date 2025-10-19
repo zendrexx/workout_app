@@ -1,7 +1,6 @@
-import 'package:client/core/notifier/planned_session_provider.dart';
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
-import 'package:client/data/model_temp/temp_session.dart';
-import 'package:client/data/models/planned_exercise.dart';
+import 'package:client/data/repositories/save_session.dart';
 import 'package:client/data/repositories/session_converter.dart';
 import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
@@ -36,15 +35,10 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     }
     addTitle(ref, _controller.text.trim());
     final tempSession = ref.read(tempSessionProvider);
-    print("\n\nEXERCISE\n\n");
-    print("this is exer\n" + tempSession.plannedExercise[0].exercise!.name);
-    final plannedSession = tempSession.toPlannedSession();
+    saveSession(tempSession, ref);
 
-    await sesService.addSession(plannedSession);
-
-    ref.read(tempSessionProvider.notifier).reset();
-    ref.invalidate(plannedSessionListProvider);
-
+    ref.invalidate(tempSessionProvider);
+    _controller.clear();
     Navigator.pop(context);
   }
 

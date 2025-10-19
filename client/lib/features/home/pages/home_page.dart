@@ -1,4 +1,5 @@
-import 'package:client/core/notifier/planned_session_provider.dart';
+import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
@@ -19,7 +20,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final plannedSessionsAsync = ref.watch(plannedSessionListProvider);
+    final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
+
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -215,7 +217,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                               },
 
                               title: session.name ?? "Untitled Session",
-                              exercises: exercises,
                             );
                           },
                         );
