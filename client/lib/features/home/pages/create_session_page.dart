@@ -35,10 +35,24 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     }
     addTitle(ref, _controller.text.trim());
     final tempSession = ref.read(tempSessionProvider);
-    saveSession(tempSession, ref);
+    await saveSession(tempSession, ref);
 
     ref.invalidate(tempSessionProvider);
     _controller.clear();
+    final sessions = await sesService.getAllPlannedSession();
+
+    print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
+    for (final session in sessions) {
+      print("📘 Session: ${session.name} (id: ${session.id})");
+      print("   Contains ${session.plannedExercise.length} planned exercises");
+
+      for (final plannedEx in session.plannedExercise) {
+        final exercise = plannedEx.exercise.value;
+        print("   🔹 PlannedExercise id: ${plannedEx.id}");
+        print("      ↳ Exercise: ${exercise?.id ?? '❌ NULL'}");
+        print("      ↳ Sets: ${plannedEx.sets.length}");
+      }
+    }
     Navigator.pop(context);
   }
 

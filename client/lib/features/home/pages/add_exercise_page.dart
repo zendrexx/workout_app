@@ -51,11 +51,17 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   }
 
   void addExercise(WidgetRef ref, Exercise value) {
+    if (value.id == Isar.autoIncrement || value.id == 0) {
+      debugPrint("⚠️ Exercise must come from Isar, not a new instance.");
+      return;
+    }
+
     final plannedExercise = TempPlannedExercise(exercise: value);
     ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
+
     final temp = ref.read(tempSessionProvider);
-    print("Temp session exercises count: ${temp.plannedExercise.length}");
-    print("First exercise name: ${temp.plannedExercise.first.exercise?.name}");
+    debugPrint("✅ Added exercise: ${value.name}");
+    debugPrint("Temp session exercises count: ${temp.plannedExercise.length}");
   }
 
   @override

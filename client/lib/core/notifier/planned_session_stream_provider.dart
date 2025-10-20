@@ -8,5 +8,13 @@ final plannedSessionStreamProvider = StreamProvider<List<PlannedSession>>((
   ref,
 ) async* {
   final isar = DatabaseService.db;
-  yield* isar.plannedSessions.where().watch(fireImmediately: true);
+  final service = PlannedSessionService();
+
+  // Watch all session changes and reload with links each time
+  yield* isar.plannedSessions.where().watch(fireImmediately: true).asyncMap((
+    _,
+  ) async {
+    final sessions = await service.getAllPlannedSession();
+    return sessions;
+  });
 });

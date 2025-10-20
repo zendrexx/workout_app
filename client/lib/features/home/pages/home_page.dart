@@ -1,5 +1,6 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/data/models/planned_session.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/widgets/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
@@ -17,11 +18,33 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
+  void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
+    plannedSessionsAsync.when(
+      data: (sessions) {
+        print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
+        for (final session in sessions) {
+          print("📘 Session: ${session.name} (id: ${session.id})");
+          print(
+            "   Contains ${session.plannedExercise.length} planned exercises",
+          );
+
+          for (final plannedEx in session.plannedExercise) {
+            final exercise = plannedEx.exercise.value;
+            print("   🔹 PlannedExercise id: ${plannedEx.id}");
+            print("      ↳ Exercise: ${exercise?.id ?? '❌ NULL'}");
+            print("      ↳ Sets: ${plannedEx.sets.length}");
+          }
+        }
+      },
+      loading: () => print("⏳ Loading sessions..."),
+      error: (err, stack) => print("❌ Error: $err"),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
-
+    printWorkouts(plannedSessionsAsync);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(

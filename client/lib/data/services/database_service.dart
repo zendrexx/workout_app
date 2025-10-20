@@ -10,13 +10,22 @@ class DatabaseService {
   static late final Isar db;
 
   static Future<void> setup() async {
+    // 👇 Check if Isar is already open
+    if (Isar.instanceNames.isNotEmpty) {
+      db = Isar.getInstance()!;
+      return;
+    }
+
     final appDir = await getApplicationDocumentsDirectory();
+
     db = await Isar.open([
       PlannedSessionSchema,
       PlannedExerciseSchema,
       PlannedSetSchema,
       ExerciseSchema,
     ], directory: appDir.path);
+
+    print("✅ Isar database opened at: ${appDir.path}");
   }
 
   static Future<void> resetExercises() async {
@@ -24,6 +33,5 @@ class DatabaseService {
       await db.exercises.clear();
     });
     await seedExercises(db);
-    print("✅ Exercises reset and reloaded from JSON");
   }
 }
