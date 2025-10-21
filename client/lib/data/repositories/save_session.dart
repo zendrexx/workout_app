@@ -29,18 +29,19 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
       Exercise? linkedExercise;
 
       if (exercise != null) {
-        // ✅ Always fetch from Isar to get a managed instance
+        // Always use the persisted one, or insert and get the new ID
         linkedExercise = await isar.exercises.get(exercise.id);
 
-        // Optional: fallback if not found (shouldn’t happen if seeded)
         if (linkedExercise == null) {
-          await isar.exercises.put(exercise);
-          linkedExercise = exercise;
+          final newId = await isar.exercises.put(exercise);
+          linkedExercise = await isar.exercises.get(
+            newId,
+          ); // ✅ refetch persisted one
         }
       }
 
       final plannedEx = PlannedExercise()
-        ..exercise.value = linkedExercise; // ✅ correct link now
+        ..exercise.value = linkedExercise; // ✅ link persisted object
 
       for (final tempSet in tempPlanned.sets) {
         final set = PlannedSet()
@@ -51,7 +52,7 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
       }
 
       await isar.plannedExercises.put(plannedEx);
-      await plannedEx.exercise.save();
+      await plannedEx.exercise.save(); // ✅ ensure link persisted
       await plannedEx.sets.save();
 
       plannedExercises.add(plannedEx);
@@ -60,27 +61,4 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
     plannedSession.plannedExercise.addAll(plannedExercises);
     await plannedSession.plannedExercise.save();
   });
-  final plannedSessionsAsync = ref.read(plannedSessionStreamProvider);
-  final service = PlannedSessionService();
-  final sessions = await service.getAllPlannedSession();
-  plannedSessionsAsync.when(
-    data: (sessions) {
-      print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
-      for (final session in sessions) {
-        print("📘 Session: ${session.name} (id: ${session.id})");
-        print(
-          "   Contains ${session.plannedExercise.length} planned exercises",
-        );
-
-        for (final plannedEx in session.plannedExercise) {
-          final exercise = plannedEx.exercise.value;
-          print("   🔹 PlannedExercise id: ${plannedEx.id}");
-          print("      ↳ Exercise: ${exercise?.name ?? '❌ NULL'}");
-          print("      ↳ Sets: ${plannedEx.sets.length}");
-        }
-      }
-    },
-    loading: () => print("⏳ Loading sessions..."),
-    error: (err, stack) => print("❌ Error: $err"),
-  );
 }
