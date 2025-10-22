@@ -16,49 +16,4 @@ import 'package:isar/isar.dart';
 
 Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
   final isar = DatabaseService.db;
-
-  await isar.writeTxn(() async {
-    final plannedSession = PlannedSession()..name = tempSession.name;
-    await isar.plannedSessions.put(plannedSession);
-
-    final plannedExercises = <PlannedExercise>[];
-
-    for (final tempPlanned in tempSession.plannedExercise) {
-      final exercise = tempPlanned.exercise;
-
-      Exercise? linkedExercise;
-
-      if (exercise != null) {
-        // Always use the persisted one, or insert and get the new ID
-        linkedExercise = await isar.exercises.get(exercise.id);
-
-        if (linkedExercise == null) {
-          final newId = await isar.exercises.put(exercise);
-          linkedExercise = await isar.exercises.get(
-            newId,
-          ); // ✅ refetch persisted one
-        }
-      }
-
-      final plannedEx = PlannedExercise()
-        ..exercise.value = linkedExercise; // ✅ link persisted object
-
-      for (final tempSet in tempPlanned.sets) {
-        final set = PlannedSet()
-          ..estWeight = tempSet.estWeight
-          ..maxRep = tempSet.maxRep
-          ..minRep = tempSet.minRep;
-        plannedEx.sets.add(set);
-      }
-
-      await isar.plannedExercises.put(plannedEx);
-      await plannedEx.exercise.save(); // ✅ ensure link persisted
-      await plannedEx.sets.save();
-
-      plannedExercises.add(plannedEx);
-    }
-
-    plannedSession.plannedExercise.addAll(plannedExercises);
-    await plannedSession.plannedExercise.save();
-  });
 }
