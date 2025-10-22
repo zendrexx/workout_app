@@ -60,6 +60,15 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     state = state.copyWith(plannedExercise: updatedExercises);
   }
 
+  void addNotesToExercise(int index, String note) {
+    final updatedExercises = [...state.plannedExercise];
+    final target = updatedExercises[index].copyWith(notes: note);
+
+    updatedExercises[index] = target;
+
+    state = state.copyWith(plannedExercise: updatedExercises);
+  }
+
   void reset() {
     state = TempSession(name: null, isCompleted: false, plannedExercise: []);
   }

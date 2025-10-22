@@ -1,7 +1,6 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/repositories/save_session.dart';
-import 'package:client/data/repositories/session_converter.dart';
 import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
@@ -41,18 +40,6 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     _controller.clear();
     final sessions = await sesService.getAllPlannedSession();
 
-    print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
-    for (final session in sessions) {
-      print("📘 Session: ${session.name} (id: ${session.id})");
-      print("   Contains ${session.plannedExercise.length} planned exercises");
-
-      for (final plannedEx in session.plannedExercise) {
-        final exercise = plannedEx.exercise.value;
-        print("   🔹 PlannedExercise id: ${plannedEx.id}");
-        print("      ↳ Exercise: ${exercise?.id ?? '❌ NULL'}");
-        print("      ↳ Sets: ${plannedEx.sets.length}");
-      }
-    }
     Navigator.pop(context);
   }
 

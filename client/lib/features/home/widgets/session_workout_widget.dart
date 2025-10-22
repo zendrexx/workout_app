@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SessionWorkoutWidget extends ConsumerWidget {
+class SessionWorkoutWidget extends ConsumerStatefulWidget {
   final String title;
   final String? equipment;
   final String imagePath;
   final int index;
   final int id;
-  const SessionWorkoutWidget({
+  SessionWorkoutWidget({
     super.key,
     required this.title,
     this.equipment,
@@ -24,31 +24,58 @@ class SessionWorkoutWidget extends ConsumerWidget {
     required this.id,
   });
 
+  @override
+  ConsumerState<SessionWorkoutWidget> createState() =>
+      _SessionWorkoutWidgetState();
+}
+
+class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
   void deleteExercise(WidgetRef ref, int index) {
     ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
 
   void addSets(WidgetRef ref, TempPlannedSets value) {
-    ref.watch(tempSessionProvider.notifier).addSetToExercise(index, value);
+    ref
+        .read(tempSessionProvider.notifier)
+        .addSetToExercise(widget.index, value);
+  }
+
+  void addNotes(WidgetRef ref, String note) {
+    ref
+        .read(tempSessionProvider.notifier)
+        .addNotesToExercise(widget.index, note);
+  }
+
+  late TextEditingController notesController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    final session = ref.read(tempSessionProvider);
+    final existingNote = session.plannedExercise[widget.index].notes ?? '';
+    notesController = TextEditingController(text: existingNote);
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final session = ref.watch(tempSessionProvider);
-    final sets = session.plannedExercise[index].sets;
+    final sets = session.plannedExercise[widget.index].sets;
     final plannedSet = ref.watch(tempSessionProvider);
+
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         children: [
           Row(
             children: [
-              CircleAvatar(radius: 20, backgroundImage: AssetImage(imagePath)),
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage(widget.imagePath),
+              ),
               SizedBox(width: 5),
               Row(
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       color: Color(0xffE2725B),
                       fontSize: 16,
@@ -56,7 +83,7 @@ class SessionWorkoutWidget extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    equipment != null ? " ($equipment)" : "",
+                    widget.equipment != null ? " (${widget.equipment})" : "",
                     style: TextStyle(
                       color: Color(0xffE2725B),
                       fontSize: 16,
@@ -91,7 +118,7 @@ class SessionWorkoutWidget extends ConsumerWidget {
                                       onTap: () {
                                         Navigator.pop(context);
                                         context.push(
-                                          "/home/create_sessions/update_exercise/$index",
+                                          "/home/create_sessions/update_exercise/${widget.index}",
                                         );
                                       },
                                       behavior: HitTestBehavior.opaque,
@@ -111,7 +138,7 @@ class SessionWorkoutWidget extends ConsumerWidget {
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () {
-                                        deleteExercise(ref, index);
+                                        deleteExercise(ref, widget.index);
                                         Navigator.pop(context);
                                       },
                                       child: Center(
@@ -142,11 +169,15 @@ class SessionWorkoutWidget extends ConsumerWidget {
             ],
           ),
           TextField(
+            controller: notesController,
             decoration: InputDecoration(
               hintText: "Add notes here",
               border: InputBorder.none,
               hintStyle: TextStyle(fontSize: 14),
             ),
+            onChanged: (value) {
+              addNotes(ref, value);
+            },
           ),
           Row(
             children: [

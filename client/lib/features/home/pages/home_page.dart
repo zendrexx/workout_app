@@ -33,6 +33,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             print("   🔹 PlannedExercise id: ${plannedEx.id}");
             print("      ↳ Exercise: ${exercise?.id ?? '❌ NULL'}");
             print("      ↳ Sets: ${plannedEx.sets.length}");
+            print("      ↳ NOTES: ${plannedEx.notes}");
           }
         }
       },

@@ -16,4 +16,21 @@ import 'package:isar/isar.dart';
 
 Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
   final isar = DatabaseService.db;
+
+  // Converting tempExercises to plannedExercises
+  final plannedExercises = tempSession.plannedExercise.map((temp) {
+    final plannedExercise = PlannedExercise()..notes = temp.notes;
+    plannedExercise.exercise.value = temp.exercise;
+
+    return plannedExercise;
+  }).toList();
+  final plannedSession = PlannedSession()
+    ..name = tempSession.name
+    ..plannedExercise.addAll(plannedExercises);
+  await isar.writeTxn(() async {
+    await isar.plannedExercises.putAll(plannedExercises);
+    await isar.plannedSessions.put(plannedSession);
+
+    await plannedSession.plannedExercise.save();
+  });
 }
