@@ -7,6 +7,7 @@ import 'package:client/features/home/pages/home_page.dart';
 import 'package:client/features/home/pages/program_page.dart';
 import 'package:client/features/home/pages/select_session_page.dart';
 import 'package:client/features/home/pages/update_exercise.dart';
+import 'package:client/features/home/pages/view_session_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,6 +43,13 @@ final router = GoRouter(
               path: appDestination[1].path,
               builder: (context, state) => const HomePage(),
               routes: [
+                GoRoute(
+                  path: 'view_session/:id',
+                  builder: (context, state) {
+                    final id = int.parse(state.pathParameters['id']!);
+                    return ViewSessionPage(id: id);
+                  },
+                ),
                 GoRoute(
                   path: 'program',
                   builder: (context, state) => const ProgramPage(),
