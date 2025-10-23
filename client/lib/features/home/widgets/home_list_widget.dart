@@ -48,20 +48,38 @@ class HomeListWidget extends ConsumerWidget {
                       },
                       padding: EdgeInsets.zero, // removes default padding
                       constraints: BoxConstraints(), // removes extra space
-                      icon: Icon(Icons.delete, size: 20, color: Colors.white),
+                      icon: Icon(
+                        Icons.more_horiz,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
 
                 plannedExerciseAsync.when(
-                  data: (exercise) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: exercise.map((ex) {
-                      final exerciseName =
-                          ex.exercise.value?.name ?? 'Unnamed Exercise';
-                      return Text(exerciseName);
-                    }).toList(),
-                  ),
+                  data: (exercise) {
+                    // Combine all exercises into a single string separated by commas
+                    final exerciseList = exercise
+                        .map((ex) {
+                          final name = ex.exerciseName ?? 'Unnamed Exercise';
+                          final equipment = ex.equipment ?? '';
+                          return '$name ($equipment)';
+                        })
+                        .join(', ');
+
+                    return Text(
+                      exerciseList,
+                      maxLines: 2, // limit to 2 lines
+                      overflow: TextOverflow.ellipsis, // show ... when overflow
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        height: 1.4, // optional for spacing
+                      ),
+                    );
+                  },
+
                   error: (err, stack) => Text('Error: $err'),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),

@@ -29,9 +29,9 @@ class _HomePageState extends ConsumerState<HomePage> {
           );
 
           for (final plannedEx in session.plannedExercise) {
-            final exercise = plannedEx.exercise.value;
+            final exercise = plannedEx.exerciseName;
             print("   🔹 PlannedExercise id: ${plannedEx.id}");
-            print("      ↳ Exercise: ${exercise?.id ?? '❌ NULL'}");
+            print("      ↳ Exercise: ${exercise ?? '❌ NULL'}");
             print("      ↳ Sets: ${plannedEx.sets.length}");
             print("      ↳ NOTES: ${plannedEx.notes}");
           }
@@ -226,14 +226,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           itemBuilder: (context, index) {
                             final session = sessions[index];
                             final exercises = session.plannedExercise.toList();
-                            () async {
-                              for (final e in session.plannedExercise) {
-                                await e.exercise.load();
-                                print(
-                                  "PlannedExercise -> ${e.exercise.value?.name}",
-                                );
-                              }
-                            }();
+                            () async {}();
                             return HomeListWidget(
                               id: session.id,
                               fOntap: () {

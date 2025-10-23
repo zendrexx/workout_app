@@ -15,9 +15,6 @@ class PlannedSessionService {
       await session.plannedExercise.load();
       print("  🟨plannedExercise count: ${session.plannedExercise.length}");
       // Then for each plannedExercise, load its exercise link
-      for (final plannedExercise in session.plannedExercise) {
-        await plannedExercise.exercise.load();
-      }
     }
 
     return sessions;

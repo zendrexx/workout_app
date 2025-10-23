@@ -15,10 +15,6 @@ final plannedExercisesStreamProvider =
             await session.plannedExercise.load();
             final exercises = session.plannedExercise.toList();
 
-            for (final plannedEx in exercises) {
-              await plannedEx.exercise.load();
-            }
-
             return exercises;
           });
     });

@@ -175,6 +175,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
               border: InputBorder.none,
               hintStyle: TextStyle(fontSize: 14),
             ),
+            cursorColor: Colors.white,
             onChanged: (value) {
               addNotes(ref, value);
             },
@@ -207,7 +208,10 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(setNum: (setIndex + 1).toString());
+              return WorkoutSetWidget(
+                setNum: (setIndex + 1).toString(),
+                index: widget.index,
+              );
             }),
             itemCount: sets.length,
             shrinkWrap: true,

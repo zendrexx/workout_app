@@ -19,11 +19,13 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
 
   // Converting tempExercises to plannedExercises
   final plannedExercises = tempSession.plannedExercise.map((temp) {
-    final plannedExercise = PlannedExercise()..notes = temp.notes;
-    plannedExercise.exercise.value = temp.exercise;
-
-    return plannedExercise;
+    return PlannedExercise()
+      ..notes = temp.notes
+      ..exerciseName = temp.exercise!.name
+      ..exercisePath = temp.exercise!.imagePath
+      ..equipment = temp.exercise!.equipment;
   }).toList();
+
   final plannedSession = PlannedSession()
     ..name = tempSession.name
     ..plannedExercise.addAll(plannedExercises);

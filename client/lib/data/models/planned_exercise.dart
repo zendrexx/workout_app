@@ -13,7 +13,9 @@ part 'planned_exercise.g.dart';
 class PlannedExercise {
   Id id = Isar.autoIncrement;
 
-  var exercise = IsarLink<Exercise>();
+  String? exerciseName;
+  String? exercisePath;
+  String? equipment;
 
   String? notes;
 

@@ -28,6 +28,11 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     ref.read(tempSessionProvider.notifier).addTitle(title);
   }
 
+  void cancel() {
+    context.push('/home');
+    ref.invalidate(tempSessionProvider);
+  }
+
   void addSession() async {
     if (_controller.text.trim().isEmpty) {
       return;
@@ -64,7 +69,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => context.push('/home'),
+                onTap: () => cancel(),
                 child: Text(
                   "Cancel",
                   style: TextStyle(color: Color(0xffE2725B)),
