@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WorkoutSetWidget extends ConsumerStatefulWidget {
-  final String setNum;
+  final int setNum;
   final int index;
   const WorkoutSetWidget({
     super.key,
@@ -18,20 +18,28 @@ class WorkoutSetWidget extends ConsumerStatefulWidget {
 
 class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
   void addWeight(WidgetRef ref, String weight) {
-    final double rweight = weight as double;
-    final int setIndex = widget.setNum as int;
+    // Convert safely to double
+    final double? rweight = double.tryParse(weight);
+    if (rweight == null) return;
+
+    // Convert the set number to int (since it's a String like "1")
 
     ref
         .read(tempSessionProvider.notifier)
-        .addWeightToSets(widget.index, setIndex - 1, rweight);
+        .addWeightToSets(widget.index, widget.setNum, rweight);
   }
 
   void addRepRange(WidgetRef ref, String repRange) {
-    final int setIndex = widget.setNum as int;
-
     ref
         .read(tempSessionProvider.notifier)
-        .addRepRangeToSets(widget.index, setIndex - 1, repRange);
+        .addRepRangeToSets(widget.index, widget.setNum, repRange);
+  }
+
+  @override
+  void dispose() {
+    weightController.dispose();
+    repRangeController.dispose();
+    super.dispose();
   }
 
   late TextEditingController weightController = TextEditingController();
@@ -42,7 +50,12 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
       padding: const EdgeInsets.only(top: 5, bottom: 5),
       child: Row(
         children: [
-          Expanded(child: Text(widget.setNum, style: TextStyle(fontSize: 14))),
+          Expanded(
+            child: Text(
+              (widget.setNum + 1).toString(),
+              style: TextStyle(fontSize: 14),
+            ),
+          ),
           Expanded(
             child: TextField(
               keyboardType: TextInputType.numberWithOptions(

@@ -15,7 +15,7 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
   final String imagePath;
   final int index;
   final int id;
-  SessionWorkoutWidget({
+  const SessionWorkoutWidget({
     super.key,
     required this.title,
     this.equipment,
@@ -36,7 +36,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
 
   void addSets(WidgetRef ref, TempPlannedSets value) {
     ref
-        .read(tempSessionProvider.notifier)
+        .watch(tempSessionProvider.notifier)
         .addSetToExercise(widget.index, value);
   }
 
@@ -208,10 +208,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(
-                setNum: (setIndex + 1).toString(),
-                index: widget.index,
-              );
+              return WorkoutSetWidget(setNum: setIndex, index: widget.index);
             }),
             itemCount: sets.length,
             shrinkWrap: true,

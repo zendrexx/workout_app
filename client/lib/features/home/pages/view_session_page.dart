@@ -16,7 +16,6 @@ class ViewSessionPage extends ConsumerWidget {
     final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
           "Create Sessions",
           style: const TextStyle(
@@ -45,20 +44,22 @@ class ViewSessionPage extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 10),
-              plannedSessionsAsync.when(
-                data: (sessions) {
-                  return ListView.builder(
+          child: plannedSessionsAsync.when(
+            data: (sessions) {
+              final session = sessions.firstWhere(
+                (s) => s.id == id,
+                orElse: () => throw Exception('Session with id $id not found'),
+              );
+              final exercises = session.plannedExercise.toList();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(session.name!, style: TextStyle(fontSize: 24)),
+                  ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: sessions.length,
+                    itemCount: exercises.length,
                     itemBuilder: (context, index) {
-                      final session = sessions[index];
-                      final exercises = session.plannedExercise.toList();
-                      () async {}();
                       return SessionWorkoutWidget(
                         title: exercises[index].exerciseName ?? '',
                         equipment: exercises[index].equipment ?? '',
@@ -67,15 +68,13 @@ class ViewSessionPage extends ConsumerWidget {
                         id: exercises[index].id,
                       );
                     },
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Text(
-                  'Error: $err',
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) =>
+                Text('Error: $err', style: const TextStyle(color: Colors.red)),
           ),
         ),
       ),

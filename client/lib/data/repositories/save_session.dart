@@ -17,22 +17,46 @@ import 'package:isar/isar.dart';
 Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
   final isar = DatabaseService.db;
 
-  // Converting tempExercises to plannedExercises
-  final plannedExercises = tempSession.plannedExercise.map((temp) {
-    return PlannedExercise()
-      ..notes = temp.notes
-      ..exerciseName = temp.exercise!.name
-      ..exercisePath = temp.exercise!.imagePath
-      ..equipment = temp.exercise!.equipment;
-  }).toList();
-
-  final plannedSession = PlannedSession()
-    ..name = tempSession.name
-    ..plannedExercise.addAll(plannedExercises);
   await isar.writeTxn(() async {
-    await isar.plannedExercises.putAll(plannedExercises);
-    await isar.plannedSessions.put(plannedSession);
+    // STEP 1: Create and store all PlannedSets first
+    final allSets = <PlannedSet>[];
+    for (final tempExercise in tempSession.plannedExercise) {
+      for (final tempSet in tempExercise.sets) {
+        final set = PlannedSet()
+          ..estWeight = tempSet.estWeight
+          ..maxRep = tempSet.maxRep
+          ..minRep = tempSet.minRep;
+        allSets.add(set);
+      }
+    }
+    await isar.plannedSets.putAll(allSets);
 
+    // STEP 2: Create PlannedExercises and link sets
+    final plannedExercises = <PlannedExercise>[];
+    int setIndex = 0;
+    for (final tempExercise in tempSession.plannedExercise) {
+      final numSets = tempExercise.sets.length;
+      final exerciseSets = allSets.sublist(setIndex, setIndex + numSets);
+      setIndex += numSets;
+
+      final plannedExercise = PlannedExercise()
+        ..notes = tempExercise.notes
+        ..exerciseName = tempExercise.exercise!.name
+        ..exercisePath = tempExercise.exercise!.imagePath
+        ..equipment = tempExercise.exercise!.equipment;
+
+      await isar.plannedExercises.put(plannedExercise);
+      plannedExercise.sets.addAll(exerciseSets);
+      await plannedExercise.sets.save();
+
+      plannedExercises.add(plannedExercise);
+    }
+
+    // STEP 3: Create PlannedSession and link exercises
+    final plannedSession = PlannedSession()..name = tempSession.name;
+
+    await isar.plannedSessions.put(plannedSession);
+    plannedSession.plannedExercise.addAll(plannedExercises);
     await plannedSession.plannedExercise.save();
   });
 }

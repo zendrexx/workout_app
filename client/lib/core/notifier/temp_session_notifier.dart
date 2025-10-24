@@ -42,6 +42,15 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     }
   }
 
+  void addNotesToExercise(int index, String note) {
+    final updatedExercises = [...state.plannedExercise];
+    final target = updatedExercises[index].copyWith(notes: note);
+
+    updatedExercises[index] = target;
+
+    state = state.copyWith(plannedExercise: updatedExercises);
+  }
+
   void addSetToExercise(int index, TempPlannedSets set) {
     // 1. Copy current exercise
     final exercise = state.plannedExercise[index];
@@ -57,15 +66,6 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     updatedExercises[index] = updatedExercise;
 
     // 5. Update the state immutably
-    state = state.copyWith(plannedExercise: updatedExercises);
-  }
-
-  void addNotesToExercise(int index, String note) {
-    final updatedExercises = [...state.plannedExercise];
-    final target = updatedExercises[index].copyWith(notes: note);
-
-    updatedExercises[index] = target;
-
     state = state.copyWith(plannedExercise: updatedExercises);
   }
 
@@ -129,6 +129,6 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
   }
 
   void reset() {
-    state = TempSession(name: null, isCompleted: false, plannedExercise: []);
+    state = TempSession(name: '', isCompleted: false, plannedExercise: []);
   }
 }
