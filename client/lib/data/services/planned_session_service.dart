@@ -20,6 +20,24 @@ class PlannedSessionService {
     return sessions;
   }
 
+  Future<PlannedSession?> getSessionById(int id) async {
+    final isar = DatabaseService.db;
+
+    final session = await isar.plannedSessions.get(id);
+    if (session == null) {
+      print("❌ Session with id $id not found");
+      return null;
+    }
+
+    // Load linked exercises
+    await session.plannedExercise.load();
+
+    print(
+      "✅ Loaded session '${session.name}' with ${session.plannedExercise.length} planned exercises",
+    );
+    return session;
+  }
+
   Future<void> addSession(PlannedSession plannedSession) async {
     final isar = DatabaseService.db;
     await isar.writeTxn(
