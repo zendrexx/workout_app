@@ -1,4 +1,6 @@
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/models/planned_set.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +12,7 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String imagePath;
   final int index;
   final int id;
+  final List<PlannedSet> plannedSets;
   const ViewSessionWorkoutWidget({
     required this.title,
     this.equipment,
@@ -17,6 +20,7 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
     required this.index,
     required this.id,
     super.key,
+    required this.plannedSets,
   });
 
   @override
@@ -28,9 +32,7 @@ class _ViewSessionWorkoutWidgetState
     extends ConsumerState<ViewSessionWorkoutWidget> {
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(tempSessionProvider);
-    final sets = session.plannedExercise[widget.index].sets;
-    final plannedSet = ref.watch(tempSessionProvider);
+    final sets = widget.plannedSets;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -42,33 +44,29 @@ class _ViewSessionWorkoutWidgetState
                 radius: 20,
                 backgroundImage: AssetImage(widget.imagePath),
               ),
-              SizedBox(width: 5),
-              Row(
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: Color(0xffE2725B),
-                      fontSize: 16,
-                      wordSpacing: .5,
-                    ),
-                  ),
-                  Text(
-                    widget.equipment != null ? " (${widget.equipment})" : "",
-                    style: TextStyle(
-                      color: Color(0xffE2725B),
-                      fontSize: 16,
-                      wordSpacing: .5,
-                    ),
-                  ),
-                ],
+              const SizedBox(width: 5),
+              Text(
+                widget.title,
+                style: const TextStyle(
+                  color: Color(0xffE2725B),
+                  fontSize: 16,
+                  wordSpacing: .5,
+                ),
               ),
-              Spacer(),
+              if (widget.equipment != null)
+                Text(
+                  " (${widget.equipment})",
+                  style: const TextStyle(
+                    color: Color(0xffE2725B),
+                    fontSize: 16,
+                    wordSpacing: .5,
+                  ),
+                ),
+              const Spacer(),
             ],
           ),
-          TextField(
+          const TextField(
             enabled: false,
-            //controller: notesController,
             decoration: InputDecoration(
               hintText: "Add notes here",
               border: InputBorder.none,
@@ -77,7 +75,7 @@ class _ViewSessionWorkoutWidgetState
             cursorColor: Colors.white,
           ),
           Row(
-            children: [
+            children: const [
               Expanded(
                 child: Text(
                   "SETS",
@@ -99,15 +97,14 @@ class _ViewSessionWorkoutWidgetState
               Spacer(),
             ],
           ),
-          SizedBox(height: 5),
-
+          const SizedBox(height: 5),
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(setNum: setIndex, index: widget.index);
-            }),
-            itemCount: sets.length,
             shrinkWrap: true,
+            itemCount: sets.length,
+            itemBuilder: (context, setIndex) {
+              return WorkoutSetWidget(setNum: setIndex, index: widget.index);
+            },
           ),
         ],
       ),

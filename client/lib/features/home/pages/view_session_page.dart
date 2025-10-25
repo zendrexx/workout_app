@@ -78,6 +78,7 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
                         imagePath: exercises[index].exercisePath ?? '',
                         index: index,
                         id: exercises[index].id,
+                        plannedSets: exercises[index].sets.toList(),
                       );
                     },
                   ),
