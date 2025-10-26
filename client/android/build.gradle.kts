@@ -16,8 +16,18 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
-    project.evaluationDependsOn(":app")
+    afterEvaluate {
+        if (project.hasProperty("android")) {
+            project.extensions.getByType<com.android.build.gradle.BaseExtension>().apply {
+                compileSdkVersion(36)
+                defaultConfig {
+                    targetSdk = 36
+                }
+            }
+        }
+    }
 }
+
 
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
