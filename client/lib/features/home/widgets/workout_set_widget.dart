@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/data/models/planned_set.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,10 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class WorkoutSetWidget extends ConsumerStatefulWidget {
   final int setNum;
   final int index;
+  final bool viewing;
+  final String? estWeight;
+  final String? repRange;
   const WorkoutSetWidget({
     super.key,
     required this.setNum,
     required this.index,
+    this.viewing = false,
+    this.estWeight,
+    this.repRange,
   });
 
   @override
@@ -17,6 +24,22 @@ class WorkoutSetWidget extends ConsumerStatefulWidget {
 }
 
 class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
+  late TextEditingController weightController = TextEditingController();
+  late TextEditingController repRangeController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.viewing) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          weightController.text = widget.estWeight ?? '0';
+          repRangeController.text = widget.repRange ?? '0';
+        });
+      });
+    }
+  }
+
   void addWeight(WidgetRef ref, String weight) {
     // Convert safely to double
     final double? rweight = double.tryParse(weight);
@@ -42,8 +65,6 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
     super.dispose();
   }
 
-  late TextEditingController weightController = TextEditingController();
-  late TextEditingController repRangeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,6 +79,8 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
           ),
           Expanded(
             child: TextField(
+              controller: weightController,
+              enabled: !widget.viewing,
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,
                 signed: true,
@@ -88,6 +111,8 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
           ),
           Expanded(
             child: TextField(
+              controller: repRangeController,
+              enabled: !widget.viewing,
               onChanged: (value) {
                 addRepRange(ref, value);
               },

@@ -31,12 +31,14 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
     final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          "Create Sessions",
+          "View Session",
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            fontWeight: FontWeight.w300,
             letterSpacing: 1,
           ),
         ),
@@ -57,37 +59,50 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
       ),
       backgroundColor: Color.fromRGBO(15, 15, 15, 1),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: plannedSessionsAsync.when(
-            data: (sessions) {
-              final session = sessions.firstWhere((s) => s.id == widget.id);
-              final exercises = session.plannedExercise.toList();
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(session.name!, style: TextStyle(fontSize: 24)),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: exercises.length,
-                    itemBuilder: (context, index) {
-                      return ViewSessionWorkoutWidget(
-                        title: exercises[index].exerciseName ?? '',
-                        equipment: exercises[index].equipment ?? '',
-                        imagePath: exercises[index].exercisePath ?? '',
-                        index: index,
-                        id: exercises[index].id,
-                        plannedSets: exercises[index].sets.toList(),
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) =>
-                Text('Error: $err', style: const TextStyle(color: Colors.red)),
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: plannedSessionsAsync.when(
+              data: (sessions) {
+                final session = sessions.firstWhere((s) => s.id == widget.id);
+                final exercises = session.plannedExercise.toList();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      session.name!.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: exercises.length,
+                      itemBuilder: (context, index) {
+                        return ViewSessionWorkoutWidget(
+                          title: exercises[index].exerciseName ?? '',
+                          equipment: exercises[index].equipment ?? '',
+                          imagePath: exercises[index].exercisePath ?? '',
+                          index: index,
+                          exerciseId: exercises[index].id,
+                          plannedSets: exercises[index].sets.toList(),
+                          notes: exercises[index].notes,
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Text(
+                'Error: $err',
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
           ),
         ),
       ),

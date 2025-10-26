@@ -11,16 +11,18 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String? equipment;
   final String imagePath;
   final int index;
-  final int id;
+  final int exerciseId;
   final List<PlannedSet> plannedSets;
+  final String? notes;
   const ViewSessionWorkoutWidget({
     required this.title,
     this.equipment,
     required this.imagePath,
     required this.index,
-    required this.id,
+    required this.exerciseId,
     super.key,
     required this.plannedSets,
+    this.notes,
   });
 
   @override
@@ -30,6 +32,30 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
 
 class _ViewSessionWorkoutWidgetState
     extends ConsumerState<ViewSessionWorkoutWidget> {
+  String? plannedRepRange(int index) {
+    String? repRange;
+
+    if (widget.plannedSets[index].minRep == widget.plannedSets[index].maxRep) {
+      repRange = widget.plannedSets[index].minRep.toString();
+    } else {
+      repRange =
+          '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
+    }
+
+    print("THIS IS THE REP RANGE " + repRange);
+    return repRange;
+  }
+
+  TextEditingController _controller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    if (widget.notes != null) {
+      _controller.text = widget.notes!;
+    }
+    print(widget.plannedSets);
+  }
+
   @override
   Widget build(BuildContext context) {
     final sets = widget.plannedSets;
@@ -65,12 +91,13 @@ class _ViewSessionWorkoutWidgetState
               const Spacer(),
             ],
           ),
-          const TextField(
+          TextField(
             enabled: false,
+            controller: _controller,
             decoration: InputDecoration(
-              hintText: "Add notes here",
+              hintText: "Notes here",
               border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 14),
+              hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
             ),
             cursorColor: Colors.white,
           ),
@@ -103,7 +130,13 @@ class _ViewSessionWorkoutWidgetState
             shrinkWrap: true,
             itemCount: sets.length,
             itemBuilder: (context, setIndex) {
-              return WorkoutSetWidget(setNum: setIndex, index: widget.index);
+              return WorkoutSetWidget(
+                setNum: setIndex,
+                index: widget.index,
+                estWeight: sets[setIndex].estWeight.toString(),
+                repRange: plannedRepRange(setIndex),
+                viewing: true,
+              );
             },
           ),
         ],
