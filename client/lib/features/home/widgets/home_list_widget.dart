@@ -28,9 +28,14 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    void deleteExercise(WidgetRef ref, int id) {
+    void deleteSession(WidgetRef ref, int id) {
       final service = PlannedSessionService();
       service.deleteSession(id);
+    }
+
+    void duplicateSession(WidgetRef ref, int id) {
+      final service = PlannedSessionService();
+      service.duplicateSession(id);
     }
 
     final plannedExerciseAsync = ref.watch(
@@ -75,7 +80,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                               context: context,
                               builder: (context) {
                                 return SizedBox(
-                                  height: 250,
+                                  height: 300,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -108,7 +113,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                         ),
 
                                         child: Container(
-                                          height: 120,
+                                          height: 170,
                                           decoration: BoxDecoration(
                                             color: Color(0xff2A2A2A),
                                             borderRadius: BorderRadius.circular(
@@ -122,10 +127,11 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
+                                                    duplicateSession(
+                                                      ref,
+                                                      widget.id,
+                                                    );
                                                     Navigator.pop(context);
-                                                    // context.push(
-                                                    //   "/home/create_sessions/update_exercise/${widget.index}",
-                                                    // );
                                                   },
                                                   behavior:
                                                       HitTestBehavior.opaque,
@@ -147,10 +153,37 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                               Divider(thickness: .2),
                                               Expanded(
                                                 child: GestureDetector(
+                                                  onTap: () {
+                                                    duplicateSession(
+                                                      ref,
+                                                      widget.id,
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        "Edit Session",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Divider(thickness: .2),
+                                              Expanded(
+                                                child: GestureDetector(
                                                   behavior:
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
-                                                    deleteExercise(
+                                                    deleteSession(
                                                       ref,
                                                       widget.id,
                                                     );
