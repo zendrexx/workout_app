@@ -33,8 +33,18 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
     if (widget.viewing) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {
-          weightController.text = widget.estWeight ?? '0';
-          repRangeController.text = widget.repRange ?? '0';
+          weightController.text =
+              (widget.estWeight == null ||
+                  widget.estWeight == 'null' ||
+                  widget.estWeight!.isEmpty)
+              ? '-'
+              : widget.estWeight!;
+          repRangeController.text =
+              (widget.repRange == null ||
+                  widget.repRange == 'null' ||
+                  widget.repRange!.isEmpty)
+              ? '-'
+              : widget.repRange!;
         });
       });
     }

@@ -77,7 +77,14 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-
+                    Text(
+                      "Exercises",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white30,
+                      ),
+                    ),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
