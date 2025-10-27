@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/services/planned_session_service.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeListWidget extends ConsumerWidget {
+class HomeListWidget extends ConsumerStatefulWidget {
   final Function fOntap;
   final String title;
   final int id;
@@ -17,16 +18,30 @@ class HomeListWidget extends ConsumerWidget {
     required this.id,
     required this.title,
   });
-  final sesService = PlannedSessionService();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final plannedExerciseAsync = ref.watch(plannedExercisesStreamProvider(id));
+  ConsumerState<HomeListWidget> createState() => _HomeListWidgetState();
+}
+
+class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
+  final sesService = PlannedSessionService();
+
+  @override
+  Widget build(BuildContext context) {
+    void deleteExercise(WidgetRef ref, int id) {
+      final service = PlannedSessionService();
+      service.deleteSession(id);
+    }
+
+    final plannedExerciseAsync = ref.watch(
+      plannedExercisesStreamProvider(widget.id),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: InkWell(
         onTap: () {
-          context.push('/home/view_session/$id');
+          context.push('/home/view_session/${widget.id}');
         }, // call your tap function
         borderRadius: BorderRadius.circular(3),
         splashColor: Colors.white.withOpacity(0.1), // light ripple
@@ -52,11 +67,124 @@ class HomeListWidget extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(title, style: TextStyle(fontSize: 16)),
+                        Text(widget.title, style: TextStyle(fontSize: 16)),
+
                         IconButton(
                           onPressed: () {
-                            sesService.deleteSession(id);
-                            print("tappedd");
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return SizedBox(
+                                  height: 250,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: Container(
+                                          width: 100,
+                                          height: 5,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              5,
+                                            ),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        widget.title,
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      Divider(thickness: .2),
+                                      SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24.0,
+                                        ),
+
+                                        child: Container(
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff2A2A2A),
+                                            borderRadius: BorderRadius.circular(
+                                              5,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                    // context.push(
+                                                    //   "/home/create_sessions/update_exercise/${widget.index}",
+                                                    // );
+                                                  },
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        "Duplicate Session",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Divider(thickness: .2),
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  onTap: () {
+                                                    deleteExercise(
+                                                      ref,
+                                                      widget.id,
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(width: 10),
+                                                      Text(
+                                                        "Delete Session",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Color(
+                                                            0xff9A1A1A,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              backgroundColor: Color(0xff131313),
+                              useRootNavigator: true,
+                            );
                           },
                           padding: EdgeInsets.zero, // removes default padding
                           constraints: BoxConstraints(), // removes extra space
@@ -99,7 +227,10 @@ class HomeListWidget extends ConsumerWidget {
                           const Center(child: CircularProgressIndicator()),
                     ),
                     SizedBox(height: 10),
-                    LongCustomButton(title: "Session", onTap: () => fOntap),
+                    LongCustomButton(
+                      title: "Session",
+                      onTap: () => widget.fOntap,
+                    ),
                   ],
                 ),
               ),

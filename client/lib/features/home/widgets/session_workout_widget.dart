@@ -99,20 +99,33 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                     context: context,
                     builder: (context) {
                       return SizedBox(
-                        height: 300,
+                        height: 200,
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24.0,
                             ),
                             child: Container(
-                              height: 150,
+                              height: 120,
                               decoration: BoxDecoration(
                                 color: Color(0xff2A2A2A),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Column(
                                 children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    child: Container(
+                                      width: 100,
+                                      height: 5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {
@@ -122,18 +135,21 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                                         );
                                       },
                                       behavior: HitTestBehavior.opaque,
-                                      child: Center(
-                                        child: Text(
-                                          "Replace Exercise",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 10),
+                                          Text(
+                                            "Replace Exercise",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  Divider(),
+                                  Divider(thickness: .2),
                                   Expanded(
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
@@ -141,15 +157,20 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                                         deleteExercise(ref, widget.index);
                                         Navigator.pop(context);
                                       },
-                                      child: Center(
-                                        child: Text(
-                                          "Delete Exercise",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff9A1A1A),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(width: 10),
+                                          Text(
+                                            "Delete Exercise",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff9A1A1A),
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                   ),
