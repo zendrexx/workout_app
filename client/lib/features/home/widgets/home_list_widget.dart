@@ -72,7 +72,14 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.title, style: TextStyle(fontSize: 16)),
+                        Expanded(
+                          child: Text(
+                            widget.title,
+                            style: TextStyle(fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
 
                         IconButton(
                           onPressed: () {
@@ -261,7 +268,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                     ),
                     SizedBox(height: 10),
                     LongCustomButton(
-                      title: "Session",
+                      title: "Start Session",
                       onTap: () => widget.fOntap,
                     ),
                   ],
