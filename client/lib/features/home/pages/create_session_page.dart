@@ -2,6 +2,7 @@ import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/repositories/save_session.dart';
 import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:client/widgets/animeted_snackbar.dart';
@@ -11,7 +12,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateSessionPage extends ConsumerStatefulWidget {
-  const CreateSessionPage({super.key});
+  final int? sessionId;
+  const CreateSessionPage({super.key, this.sessionId});
 
   @override
   ConsumerState<CreateSessionPage> createState() => _CreateSessionPageState();
@@ -52,8 +54,20 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.sessionId != null) {
+      var save = SaveToTemp(ref: ref);
+      save.convertToTemp(widget.sessionId!);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final plannedExercise = ref.watch(tempSessionProvider);
+    if (plannedExercise.name != _controller.text) {
+      _controller.text = plannedExercise.name ?? '';
+    }
     return Form(
       key: _formKey,
       child: Scaffold(

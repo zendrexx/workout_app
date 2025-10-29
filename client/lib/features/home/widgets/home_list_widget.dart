@@ -24,8 +24,6 @@ class HomeListWidget extends ConsumerStatefulWidget {
 }
 
 class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
-  final sesService = PlannedSessionService();
-
   @override
   Widget build(BuildContext context) {
     void deleteSession(WidgetRef ref, int id) {
@@ -161,10 +159,10 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    duplicateSession(
-                                                      ref,
-                                                      widget.id,
+                                                    context.push(
+                                                      '/home/create_sessions?sessionId=${widget.id}',
                                                     );
+
                                                     Navigator.pop(context);
                                                   },
                                                   behavior:

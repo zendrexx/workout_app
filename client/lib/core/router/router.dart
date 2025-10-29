@@ -62,7 +62,14 @@ final router = GoRouter(
                 ),
                 GoRoute(
                   path: 'create_sessions',
-                  builder: (context, state) => const CreateSessionPage(),
+                  builder: (context, state) {
+                    // Access optional query parameter (?sessionId=123)
+                    final sessionIdStr = state.uri.queryParameters['sessionId'];
+                    final sessionId = sessionIdStr != null
+                        ? int.tryParse(sessionIdStr)
+                        : null;
+                    return CreateSessionPage(sessionId: sessionId);
+                  },
                   routes: [
                     GoRoute(
                       path: 'add_exercise',
