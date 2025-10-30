@@ -1,2 +1,2 @@
 
-Just a simple app to track my workouts and progress.
+Just a simple app to track my workouts and progress. Offline first.
