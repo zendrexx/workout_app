@@ -1,5 +1,6 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
+import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
@@ -24,6 +25,10 @@ class SaveToTemp {
     ref.read(tempSessionProvider.notifier).addNotesToExercise(index, note);
   }
 
+  void addPlannedExerciseSets(int index, TempPlannedSets sets) {
+    ref.read(tempSessionProvider.notifier).addSetToExercise(index, sets);
+  }
+
   void convertToTemp(int id) async {
     final sessionService = PlannedSessionService();
 
@@ -33,6 +38,7 @@ class SaveToTemp {
         addName(session.name!);
       }
       await session.plannedExercise.load();
+
       final workouts = session.plannedExercise;
       if (workouts != null) {
         final list = workouts.toList();
@@ -53,6 +59,18 @@ class SaveToTemp {
             final plannedExercise = TempPlannedExercise(exercise: exercise);
 
             addExercise(plannedExercise);
+          }
+          await w.sets.load();
+          final sets = w.sets;
+
+          final setList = sets.toList();
+          for (int j = 0; j < setList.length; j++) {
+            final s = setList[j];
+            TempPlannedSets plannedsets = TempPlannedSets()
+              ..estWeight = s.estWeight
+              ..minRep = s.minRep
+              ..maxRep = s.maxRep;
+            addPlannedExerciseSets(i, plannedsets);
           }
         }
       }
