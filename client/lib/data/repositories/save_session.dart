@@ -43,7 +43,8 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
         ..notes = tempExercise.notes
         ..exerciseName = tempExercise.exercise!.name
         ..exercisePath = tempExercise.exercise!.imagePath
-        ..equipment = tempExercise.exercise!.equipment;
+        ..equipment = tempExercise.exercise!.equipment
+        ..exId = tempExercise.exercise!.exId;
 
       await isar.plannedExercises.put(plannedExercise);
       plannedExercise.sets.addAll(exerciseSets);

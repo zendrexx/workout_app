@@ -16,7 +16,7 @@ class PlannedExercise {
   String? exerciseName;
   String? exercisePath;
   String? equipment;
-
+  String? exId;
   String? notes;
 
   var sets = IsarLinks<PlannedSet>();
