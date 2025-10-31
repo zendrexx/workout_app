@@ -35,16 +35,19 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
     final plannedExercises = <PlannedExercise>[];
     int setIndex = 0;
     for (final tempExercise in tempSession.plannedExercise) {
+      print(
+        "TEMP EXERCISE -> exercise: ${tempExercise.exercise}, exId: ${tempExercise.exercise?.exId}",
+      );
       final numSets = tempExercise.sets.length;
       final exerciseSets = allSets.sublist(setIndex, setIndex + numSets);
       setIndex += numSets;
 
       final plannedExercise = PlannedExercise()
+        ..exId = tempExercise.exercise!.exId
         ..notes = tempExercise.notes
         ..exerciseName = tempExercise.exercise!.name
         ..exercisePath = tempExercise.exercise!.imagePath
-        ..equipment = tempExercise.exercise!.equipment
-        ..exId = tempExercise.exercise!.exId;
+        ..equipment = tempExercise.exercise!.equipment;
 
       await isar.plannedExercises.put(plannedExercise);
       plannedExercise.sets.addAll(exerciseSets);

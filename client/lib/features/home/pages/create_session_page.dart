@@ -23,6 +23,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _controller = new TextEditingController();
   final sesService = PlannedSessionService();
+  bool checkName = true;
   @override
   void dispose() {
     _controller.dispose();
@@ -48,7 +49,6 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
     ref.invalidate(tempSessionProvider);
     _controller.clear();
-    final sessions = await sesService.getAllPlannedSession();
 
     Navigator.pop(context);
   }
@@ -62,12 +62,20 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     }
   }
 
+  void addExerciseName(plannedExercise) {
+    if (plannedExercise.name != _controller.text) {
+      _controller.text = plannedExercise.name ?? '';
+      checkName = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final plannedExercise = ref.watch(tempSessionProvider);
-    if (plannedExercise.name != _controller.text) {
-      _controller.text = plannedExercise.name ?? '';
+    if (checkName) {
+      addExerciseName(plannedExercise);
     }
+
     return Form(
       key: _formKey,
       child: Scaffold(

@@ -32,22 +32,26 @@ class SaveToTemp {
       if (session.name != null) {
         addName(session.name!);
       }
+      await session.plannedExercise.load();
       final workouts = session.plannedExercise;
       if (workouts != null) {
         final list = workouts.toList();
+
         for (int i = 0; i < list.length; i++) {
           final w = list[i];
-          TempPlannedExercise temp = new TempPlannedExercise();
-          addExercise(temp);
+
           if (w.notes != null) {
             addPlannedExerciseNotes(i, w.notes!);
           }
+          print("EXERCISE NAME");
+          print("EX ID${w.exId}");
           if (w.exId != null) {
             final exercise = await DatabaseService.db.exercises
                 .filter()
                 .exIdEqualTo(w.exId!)
                 .findFirst();
             final plannedExercise = TempPlannedExercise(exercise: exercise);
+
             addExercise(plannedExercise);
           }
         }

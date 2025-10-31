@@ -44,7 +44,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
 
   void _initWorkouts() async {
     final workouts = await DatabaseService.db.exercises.where().findAll();
-    print("Loaded ${workouts.length} exercises from Isar");
+    print("Loaded ${workouts[0].exId} exercises from Isar");
     setState(() {
       _exercise = workouts;
     });
