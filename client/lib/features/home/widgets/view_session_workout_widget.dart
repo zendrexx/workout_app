@@ -133,7 +133,12 @@ class _ViewSessionWorkoutWidgetState
               return WorkoutSetWidget(
                 setNum: setIndex,
                 index: widget.index,
-                estWeight: sets[setIndex].estWeight.toString(),
+                estWeight: (sets[setIndex].estWeight == null)
+                    ? '' // or '' if you prefer empty
+                    : (sets[setIndex].estWeight! % 1 == 0
+                          ? sets[setIndex].estWeight!.toInt().toString()
+                          : sets[setIndex].estWeight!.toString()),
+
                 repRange: plannedRepRange(setIndex),
                 viewing: true,
               );

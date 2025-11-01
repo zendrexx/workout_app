@@ -18,7 +18,40 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
   final isar = DatabaseService.db;
 
   await isar.writeTxn(() async {
-    // STEP 1: Create and store all PlannedSets first
+    PlannedSession? plannedSession;
+
+    //Check if editing an existing session
+    if (tempSession.id != null) {
+      plannedSession = await isar.plannedSessions.get(tempSession.id!);
+
+      if (plannedSession != null) {
+        //Clean up old linked data before replacing
+        await plannedSession.plannedExercise.load();
+
+        for (final oldEx in plannedSession.plannedExercise) {
+          await oldEx.sets.load();
+          // delete all sets linked to old exercise
+          await isar.plannedSets.deleteAll(
+            oldEx.sets.map((e) => e.id).toList(),
+          );
+        }
+
+        // delete all old exercises linked to the session
+        await isar.plannedExercises.deleteAll(
+          plannedSession.plannedExercise.map((e) => e.id).toList(),
+        );
+
+        plannedSession.plannedExercise.clear();
+      }
+    }
+
+    // STEP 1: Create new if null
+    plannedSession ??= PlannedSession();
+
+    // STEP 2: Update session name
+    plannedSession.name = tempSession.name;
+
+    // STEP 3: Recreate all sets and exercises
     final allSets = <PlannedSet>[];
     for (final tempExercise in tempSession.plannedExercise) {
       for (final tempSet in tempExercise.sets) {
@@ -31,23 +64,19 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
     }
     await isar.plannedSets.putAll(allSets);
 
-    // STEP 2: Create PlannedExercises and link sets
     final plannedExercises = <PlannedExercise>[];
     int setIndex = 0;
     for (final tempExercise in tempSession.plannedExercise) {
-      print(
-        "TEMP EXERCISE -> exercise: ${tempExercise.exercise}, exId: ${tempExercise.exercise?.exId}",
-      );
       final numSets = tempExercise.sets.length;
       final exerciseSets = allSets.sublist(setIndex, setIndex + numSets);
       setIndex += numSets;
 
       final plannedExercise = PlannedExercise()
-        ..exId = tempExercise.exercise!.exId
+        ..exId = tempExercise.exercise?.exId
         ..notes = tempExercise.notes
-        ..exerciseName = tempExercise.exercise!.name
-        ..exercisePath = tempExercise.exercise!.imagePath
-        ..equipment = tempExercise.exercise!.equipment;
+        ..exerciseName = tempExercise.exercise?.name
+        ..exercisePath = tempExercise.exercise?.imagePath
+        ..equipment = tempExercise.exercise?.equipment;
 
       await isar.plannedExercises.put(plannedExercise);
       plannedExercise.sets.addAll(exerciseSets);
@@ -56,9 +85,7 @@ Future<void> saveSession(TempSession tempSession, WidgetRef ref) async {
       plannedExercises.add(plannedExercise);
     }
 
-    // STEP 3: Create PlannedSession and link exercises
-    final plannedSession = PlannedSession()..name = tempSession.name;
-
+    // Save session and link exercises
     await isar.plannedSessions.put(plannedSession);
     plannedSession.plannedExercise.addAll(plannedExercises);
     await plannedSession.plannedExercise.save();

@@ -55,11 +55,23 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
     notesController = TextEditingController(text: existingNote);
   }
 
+  String? plannedRepRange(int index, int? minRep, int? maxRep) {
+    String? repRange;
+
+    if (minRep == maxRep) {
+      repRange = minRep.toString();
+    } else {
+      repRange = '$minRep-$maxRep';
+    }
+
+    print("THIS IS THE REP RANGE " + repRange);
+    return repRange;
+  }
+
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(tempSessionProvider);
     final sets = session.plannedExercise[widget.index].sets;
-    final plannedSet = ref.watch(tempSessionProvider);
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -229,7 +241,21 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(setNum: setIndex, index: widget.index);
+              return WorkoutSetWidget(
+                setNum: setIndex,
+                index: widget.index,
+                estWeight: (sets[setIndex].estWeight == null)
+                    ? '' // or '' if you prefer empty
+                    : (sets[setIndex].estWeight! % 1 == 0
+                          ? sets[setIndex].estWeight!.toInt().toString()
+                          : sets[setIndex].estWeight!.toString()),
+
+                repRange: plannedRepRange(
+                  setIndex,
+                  sets[setIndex].minRep,
+                  sets[setIndex].maxRep,
+                ),
+              );
             }),
             itemCount: sets.length,
             shrinkWrap: true,

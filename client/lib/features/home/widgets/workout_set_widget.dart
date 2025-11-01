@@ -30,24 +30,22 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
   void initState() {
     super.initState();
 
-    if (widget.viewing) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          weightController.text =
-              (widget.estWeight == null ||
-                  widget.estWeight == 'null' ||
-                  widget.estWeight!.isEmpty)
-              ? '-'
-              : widget.estWeight!;
-          repRangeController.text =
-              (widget.repRange == null ||
-                  widget.repRange == 'null' ||
-                  widget.repRange!.isEmpty)
-              ? '-'
-              : widget.repRange!;
-        });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        weightController.text =
+            (widget.estWeight == null ||
+                widget.estWeight == 'null' ||
+                widget.estWeight!.isEmpty)
+            ? '-'
+            : widget.estWeight!;
+        repRangeController.text =
+            (widget.repRange == null ||
+                widget.repRange == 'null' ||
+                widget.repRange!.isEmpty)
+            ? '-'
+            : widget.repRange!;
       });
-    }
+    });
   }
 
   void addWeight(WidgetRef ref, String weight) {

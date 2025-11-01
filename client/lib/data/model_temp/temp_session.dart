@@ -6,6 +6,7 @@ import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 
 class TempSession {
+  int? id;
   late String? name;
   DateTime createdAt = DateTime.now();
   bool isCompleted = false;
@@ -14,14 +15,17 @@ class TempSession {
     this.name,
     required this.isCompleted,
     this.plannedExercise = const [],
+    this.id,
   });
 
   TempSession copyWith({
+    int? id,
     String? name,
     bool? isCompleted,
     List<TempPlannedExercise>? plannedExercise,
   }) {
     return TempSession(
+      id: id ?? this.id,
       name: name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,
       plannedExercise: plannedExercise ?? this.plannedExercise,

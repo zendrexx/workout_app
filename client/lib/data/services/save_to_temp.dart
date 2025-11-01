@@ -21,6 +21,10 @@ class SaveToTemp {
     ref.read(tempSessionProvider.notifier).addExercise(exercise);
   }
 
+  void addId(int sessionId) {
+    ref.read(tempSessionProvider.notifier).addSessionId(sessionId);
+  }
+
   void addPlannedExerciseNotes(int index, String note) {
     ref.read(tempSessionProvider.notifier).addNotesToExercise(index, note);
   }
@@ -33,6 +37,7 @@ class SaveToTemp {
     final sessionService = PlannedSessionService();
 
     final session = await sessionService.getSessionById(id);
+    addId(id);
     if (session != null) {
       if (session.name != null) {
         addName(session.name!);
@@ -45,12 +50,6 @@ class SaveToTemp {
 
         for (int i = 0; i < list.length; i++) {
           final w = list[i];
-
-          if (w.notes != null) {
-            addPlannedExerciseNotes(i, w.notes!);
-          }
-          print("EXERCISE NAME");
-          print("EX ID${w.exId}");
           if (w.exId != null) {
             final exercise = await DatabaseService.db.exercises
                 .filter()
@@ -60,6 +59,12 @@ class SaveToTemp {
 
             addExercise(plannedExercise);
           }
+          if (w.notes != null) {
+            addPlannedExerciseNotes(i, w.notes!);
+          }
+          print("EXERCISE NAME");
+          print("EX ID${w.exId}");
+
           await w.sets.load();
           final sets = w.sets;
 

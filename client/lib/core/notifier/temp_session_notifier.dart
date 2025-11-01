@@ -23,6 +23,10 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     state = state.copyWith(name: title);
   }
 
+  void addSessionId(int sessionId) {
+    state = state.copyWith(id: sessionId);
+  }
+
   void addExercise(TempPlannedExercise exercise) {
     final updatedExercises = [...state.plannedExercise, exercise];
     state = state.copyWith(plannedExercise: updatedExercises);

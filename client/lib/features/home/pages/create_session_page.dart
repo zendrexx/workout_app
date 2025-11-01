@@ -24,6 +24,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   TextEditingController _controller = new TextEditingController();
   final sesService = PlannedSessionService();
   bool checkName = true;
+  bool isEditMode = false;
   @override
   void dispose() {
     _controller.dispose();
@@ -57,6 +58,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   void initState() {
     super.initState();
     if (widget.sessionId != null) {
+      isEditMode = true;
       var save = SaveToTemp(ref: ref);
       save.convertToTemp(widget.sessionId!);
     }
@@ -82,7 +84,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
-            "Create Sessions",
+            isEditMode ? "Edit Session" : "Create Session",
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -116,7 +118,10 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                     }
                   },
 
-                  child: Text("Create", style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    isEditMode ? "Confirm" : "Create",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 SizedBox(width: 16),
               ],
