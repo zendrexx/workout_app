@@ -4,6 +4,7 @@ import 'package:client/features/history/pages/view_history_page.dart';
 import 'package:client/features/home/pages/add_exercise_page.dart';
 import 'package:client/features/home/pages/create_session_page.dart';
 import 'package:client/features/home/pages/home_page.dart';
+import 'package:client/features/home/pages/log_workout_page.dart';
 import 'package:client/features/home/pages/program_page.dart';
 import 'package:client/features/home/pages/select_session_page.dart';
 import 'package:client/features/home/pages/update_exercise.dart';
@@ -59,6 +60,10 @@ final router = GoRouter(
                       builder: (context, state) => const SelectSessionPage(),
                     ),
                   ],
+                ),
+                GoRoute(
+                  path: 'log_workout',
+                  builder: (context, state) => const LogWorkoutPage(),
                 ),
                 GoRoute(
                   path: 'create_sessions',

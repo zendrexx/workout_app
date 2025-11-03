@@ -8,13 +8,14 @@ import 'package:client/data/models/planned_set.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final tempSessionProvider =
-    StateNotifierProvider<TempSessionNotifier, TempSession>(
-      (ref) => TempSessionNotifier(),
+final tempPerformedSessionProvider =
+    StateNotifierProvider<TempPerformedSessionNotifier, TempSession>(
+      (ref) => TempPerformedSessionNotifier(),
     );
 
-class TempSessionNotifier extends StateNotifier<TempSession> {
-  TempSessionNotifier() : super(TempSession(name: "", isCompleted: false));
+class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
+  TempPerformedSessionNotifier()
+    : super(TempSession(name: "", isCompleted: false));
   void updateName(String newName) {
     state = state.copyWith(name: newName);
   }

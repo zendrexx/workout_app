@@ -229,9 +229,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                             () async {}();
                             return HomeListWidget(
                               id: session.id,
-                              fOntap: () {
-                                print("Selected session: ${session.name}");
-                              },
 
                               title: session.name ?? "Untitled Session",
                             );

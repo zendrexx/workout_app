@@ -36,13 +36,13 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
             (widget.estWeight == null ||
                 widget.estWeight == 'null' ||
                 widget.estWeight!.isEmpty)
-            ? '-'
+            ? ''
             : widget.estWeight!;
         repRangeController.text =
             (widget.repRange == null ||
                 widget.repRange == 'null' ||
                 widget.repRange!.isEmpty)
-            ? '-'
+            ? ''
             : widget.repRange!;
       });
     });

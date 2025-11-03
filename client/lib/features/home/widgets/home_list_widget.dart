@@ -9,15 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends ConsumerStatefulWidget {
-  final Function fOntap;
   final String title;
   final int id;
-  HomeListWidget({
-    super.key,
-    required this.fOntap,
-    required this.id,
-    required this.title,
-  });
+  const HomeListWidget({super.key, required this.id, required this.title});
 
   @override
   ConsumerState<HomeListWidget> createState() => _HomeListWidgetState();
@@ -267,7 +261,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                     SizedBox(height: 10),
                     LongCustomButton(
                       title: "Start Session",
-                      onTap: () => widget.fOntap,
+                      onTap: () => context.push('/home/log_workout'),
                     ),
                   ],
                 ),
