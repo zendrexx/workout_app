@@ -2,16 +2,18 @@
 import 'package:client/data/models/exercise.dart';
 
 class TempPerformedSets {
-  double? estWeight = 0;
-  int? minRep = 0;
-  int? maxRep;
-  TempPerformedSets({this.estWeight, this.minRep, this.maxRep});
+  double? actWeight;
+  double? prevWeight;
+  int? actRep;
+  bool isDone;
 
-  TempPerformedSets copyWith({double? estWeight, int? minRep, int? maxRep}) {
+  TempPerformedSets({this.actWeight, this.actRep, this.isDone = false});
+
+  TempPerformedSets copyWith({double? actWeight, int? actRep, bool? isDone}) {
     return TempPerformedSets(
-      estWeight: estWeight ?? this.estWeight,
-      minRep: minRep ?? this.minRep,
-      maxRep: maxRep ?? this.maxRep,
+      actWeight: actWeight ?? this.actWeight,
+      actRep: actRep ?? this.actRep,
+      isDone: isDone ?? this.isDone,
     );
   }
 }

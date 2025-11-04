@@ -1,4 +1,6 @@
+import 'package:client/data/model_temp/temp_performed_exercise.dart';
 import 'package:client/data/model_temp/temp_performed_session.dart';
+import 'package:client/data/model_temp/temp_performed_sets.dart';
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/model_temp/temp_session.dart';
@@ -10,11 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 final tempPerformedSessionProvider =
-    StateNotifierProvider<TempPerformedSessionNotifier, TempSession>(
+    StateNotifierProvider<TempPerformedSessionNotifier, TempPerformedSession>(
       (ref) => TempPerformedSessionNotifier(),
     );
 
-class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
+class TempPerformedSessionNotifier extends StateNotifier<TempPerformedSession> {
   TempPerformedSessionNotifier()
     : super(TempPerformedSession(isCompleted: false));
 
@@ -22,37 +24,37 @@ class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
     state = state.copyWith(id: sessionId);
   }
 
-  void addExercise(TempPlannedExercise exercise) {
-    final updatedExercises = [...state.plannedExercise, exercise];
-    state = state.copyWith(plannedExercise: updatedExercises);
+  void addExercise(TempPerformedExercise exercise) {
+    final performedExercise = [...state.performedExercise, exercise];
+    state = state.copyWith(performedExercise: performedExercise);
   }
 
   void deleteExercise(int index) {
-    final updatedExercises = [...state.plannedExercise];
+    final updatedExercises = [...state.performedExercise];
     updatedExercises.removeAt(index);
-    state = state.copyWith(plannedExercise: updatedExercises);
+    state = state.copyWith(performedExercise: updatedExercises);
   }
 
-  void updateExerciseAt(int index, TempPlannedExercise updatedExercise) {
-    final updatedExercises = [...state.plannedExercise];
+  void updateExerciseAt(int index, TempPerformedExercise updatedExercise) {
+    final updatedExercises = [...state.performedExercise];
     if (index >= 0 && index < updatedExercises.length) {
       updatedExercises[index] = updatedExercise;
-      state = state.copyWith(plannedExercise: updatedExercises);
+      state = state.copyWith(performedExercise: updatedExercises);
     }
   }
 
   void addNotesToExercise(int index, String note) {
-    final updatedExercises = [...state.plannedExercise];
+    final updatedExercises = [...state.performedExercise];
     final target = updatedExercises[index].copyWith(notes: note);
 
     updatedExercises[index] = target;
 
-    state = state.copyWith(plannedExercise: updatedExercises);
+    state = state.copyWith(performedExercise: updatedExercises);
   }
 
-  void addSetToExercise(int index, TempPlannedSets set) {
+  void addSetToExercise(int index, TempPerformedSets set) {
     // 1. Copy current exercise
-    final exercise = state.plannedExercise[index];
+    final exercise = state.performedExercise[index];
 
     // 2. Create a new list of sets (immutably add new one)
     final updatedSets = [...exercise.sets, set];
@@ -61,16 +63,16 @@ class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
     final updatedExercise = exercise.copyWith(sets: updatedSets);
 
     // 4. Replace that exercise in the plannedExercise list
-    final updatedExercises = [...state.plannedExercise];
+    final updatedExercises = [...state.performedExercise];
     updatedExercises[index] = updatedExercise;
 
     // 5. Update the state immutably
-    state = state.copyWith(plannedExercise: updatedExercises);
+    state = state.copyWith(performedExercise: updatedExercises);
   }
 
   void addWeightToSets(int exerciseIndex, int setIndex, double weight) {
     // Get a copy of all exercises
-    final updatedExercises = [...state.plannedExercise];
+    final updatedExercises = [...state.performedExercise];
 
     // Get the current exercise
     final currentExercise = updatedExercises[exerciseIndex];
@@ -79,7 +81,7 @@ class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
     final updatedSets = [...currentExercise.sets];
 
     // Update the specific set with the new weight
-    final updatedSet = updatedSets[setIndex].copyWith(estWeight: weight);
+    final updatedSet = updatedSets[setIndex].copyWith(actWeight: weight);
     updatedSets[setIndex] = updatedSet;
 
     // Update the exercise with the modified sets
@@ -87,60 +89,16 @@ class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
     updatedExercises[exerciseIndex] = updatedExercise;
 
     // Update the state with the modified exercises
-    state = state.copyWith(plannedExercise: updatedExercises);
+    state = state.copyWith(performedExercise: updatedExercises);
   }
 
-  void addRepRangeToSets(int exerciseIndex, int setIndex, String repRange) {
-    // Get a copy of all exercises
-    final updatedExercises = [...state.plannedExercise];
-    final currentExercise = updatedExercises[exerciseIndex];
-    final updatedSets = [...currentExercise.sets];
-
-    int? minRep;
-    int? maxRep;
-
-    // Check if it contains a '-'
-    if (repRange.contains('-')) {
-      final parts = repRange.split('-').map((e) => e.trim()).toList();
-      if (parts.length == 2) {
-        if (int.tryParse(parts[0]) == null && int.tryParse(parts[1]) != null) {
-          minRep = int.tryParse(parts[1]);
-          maxRep = minRep;
-        } else if (int.tryParse(parts[0]) != null &&
-            int.tryParse(parts[1]) == null) {
-          minRep = int.tryParse(parts[0]);
-          maxRep = minRep;
-        } else if (int.tryParse(parts[0]) == null &&
-            int.tryParse(parts[1]) == null) {
-          minRep = null;
-          maxRep = null;
-        } else {
-          minRep = int.tryParse(parts[0]);
-          maxRep = int.tryParse(parts[1]);
-        }
-      }
-    } else {
-      // Single value (e.g., "10")
-      minRep = int.tryParse(repRange);
-      maxRep = minRep;
-    }
-
-    // Update the specific set
-    final updatedSet = updatedSets[setIndex].copyWith(
-      minRep: minRep,
-      maxRep: maxRep,
-    );
-    updatedSets[setIndex] = updatedSet;
-
-    // Update the exercise
-    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
-    updatedExercises[exerciseIndex] = updatedExercise;
-
-    // Update the state
-    state = state.copyWith(plannedExercise: updatedExercises);
-  }
+  void addRepToSets(int exerciseIndex, int setIndex, String repRange) {}
 
   void reset() {
-    state = TempSession(name: '', isCompleted: false, plannedExercise: []);
+    state = TempPerformedSession(
+      name: "",
+      isCompleted: false,
+      performedExercise: [],
+    );
   }
 }
