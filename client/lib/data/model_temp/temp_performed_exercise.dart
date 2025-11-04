@@ -1,0 +1,30 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:client/data/model_temp/temp_performed_sets.dart';
+import 'package:client/data/model_temp/temp_planned_sets.dart';
+import 'package:client/data/models/exercise.dart';
+
+class TempPerformedExercise {
+  final Exercise? exercise;
+
+  final String? notes;
+
+  final List<TempPerformedSets> sets;
+
+  TempPerformedExercise({
+    this.exercise,
+    this.notes,
+    this.sets = const [], // Default to empty list
+  });
+
+  TempPerformedExercise copyWith({
+    Exercise? exercise,
+    String? notes,
+    List<TempPerformedSets>? sets,
+  }) {
+    return TempPerformedExercise(
+      exercise: exercise ?? this.exercise,
+      notes: notes ?? this.notes,
+      sets: sets ?? this.sets,
+    );
+  }
+}

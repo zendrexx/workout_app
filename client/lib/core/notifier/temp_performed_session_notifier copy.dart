@@ -1,3 +1,4 @@
+import 'package:client/data/model_temp/temp_performed_session.dart';
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/model_temp/temp_session.dart';
@@ -15,14 +16,7 @@ final tempPerformedSessionProvider =
 
 class TempPerformedSessionNotifier extends StateNotifier<TempSession> {
   TempPerformedSessionNotifier()
-    : super(TempSession(name: "", isCompleted: false));
-  void updateName(String newName) {
-    state = state.copyWith(name: newName);
-  }
-
-  void addTitle(String title) {
-    state = state.copyWith(name: title);
-  }
+    : super(TempPerformedSession(isCompleted: false));
 
   void addSessionId(int sessionId) {
     state = state.copyWith(id: sessionId);
