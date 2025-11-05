@@ -27,13 +27,18 @@ const PerformedSessionSchema = CollectionSchema(
       name: r'isCompleted',
       type: IsarType.bool,
     ),
-    r'startTime': PropertySchema(
+    r'name': PropertySchema(
       id: 2,
+      name: r'name',
+      type: IsarType.string,
+    ),
+    r'startTime': PropertySchema(
+      id: 3,
       name: r'startTime',
       type: IsarType.dateTime,
     ),
     r'totalVolume': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'totalVolume',
       type: IsarType.double,
     )
@@ -45,12 +50,6 @@ const PerformedSessionSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
-    r'baseSession': LinkSchema(
-      id: 768241650207872614,
-      name: r'baseSession',
-      target: r'PlannedSession',
-      single: true,
-    ),
     r'performedExercises': LinkSchema(
       id: -6347777387453188089,
       name: r'performedExercises',
@@ -71,6 +70,12 @@ int _performedSessionEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.name;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -82,8 +87,9 @@ void _performedSessionSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.endTime);
   writer.writeBool(offsets[1], object.isCompleted);
-  writer.writeDateTime(offsets[2], object.startTime);
-  writer.writeDouble(offsets[3], object.totalVolume);
+  writer.writeString(offsets[2], object.name);
+  writer.writeDateTime(offsets[3], object.startTime);
+  writer.writeDouble(offsets[4], object.totalVolume);
 }
 
 PerformedSession _performedSessionDeserialize(
@@ -96,8 +102,9 @@ PerformedSession _performedSessionDeserialize(
   object.endTime = reader.readDateTimeOrNull(offsets[0]);
   object.id = id;
   object.isCompleted = reader.readBool(offsets[1]);
-  object.startTime = reader.readDateTime(offsets[2]);
-  object.totalVolume = reader.readDoubleOrNull(offsets[3]);
+  object.name = reader.readStringOrNull(offsets[2]);
+  object.startTime = reader.readDateTime(offsets[3]);
+  object.totalVolume = reader.readDoubleOrNull(offsets[4]);
   return object;
 }
 
@@ -113,8 +120,10 @@ P _performedSessionDeserializeProp<P>(
     case 1:
       return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
+      return (reader.readDateTime(offset)) as P;
+    case 4:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -126,14 +135,12 @@ Id _performedSessionGetId(PerformedSession object) {
 }
 
 List<IsarLinkBase<dynamic>> _performedSessionGetLinks(PerformedSession object) {
-  return [object.baseSession, object.performedExercises];
+  return [object.performedExercises];
 }
 
 void _performedSessionAttach(
     IsarCollection<dynamic> col, Id id, PerformedSession object) {
   object.id = id;
-  object.baseSession
-      .attach(col, col.isar.collection<PlannedSession>(), r'baseSession', id);
   object.performedExercises.attach(
       col, col.isar.collection<PerformedExercise>(), r'performedExercises', id);
 }
@@ -360,6 +367,160 @@ extension PerformedSessionQueryFilter
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'name',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'name',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
       startTimeEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -506,20 +667,6 @@ extension PerformedSessionQueryObject
 extension PerformedSessionQueryLinks
     on QueryBuilder<PerformedSession, PerformedSession, QFilterCondition> {
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      baseSession(FilterQuery<PlannedSession> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'baseSession');
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      baseSessionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'baseSession', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
       performedExercises(FilterQuery<PerformedExercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'performedExercises');
@@ -613,6 +760,19 @@ extension PerformedSessionQuerySortBy
     });
   }
 
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy> sortByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      sortByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       sortByStartTime() {
     return QueryBuilder.apply(this, (query) {
@@ -685,6 +845,19 @@ extension PerformedSessionQuerySortThenBy
     });
   }
 
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy> thenByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      thenByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       thenByStartTime() {
     return QueryBuilder.apply(this, (query) {
@@ -730,6 +903,13 @@ extension PerformedSessionQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PerformedSession, PerformedSession, QDistinct> distinctByName(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QDistinct>
       distinctByStartTime() {
     return QueryBuilder.apply(this, (query) {
@@ -763,6 +943,12 @@ extension PerformedSessionQueryProperty
   QueryBuilder<PerformedSession, bool, QQueryOperations> isCompletedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isCompleted');
+    });
+  }
+
+  QueryBuilder<PerformedSession, String?, QQueryOperations> nameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'name');
     });
   }
 

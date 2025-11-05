@@ -1,4 +1,5 @@
 import 'package:client/data/models/performed_session.dart';
+import 'package:client/data/models/performed_set.dart';
 import 'package:client/data/models/performed_sets.dart';
 import 'package:isar/isar.dart';
 
@@ -13,9 +14,7 @@ class PerformedExercise {
   String? exId;
   String? notes;
 
-  var sets = IsarLinks<PlannedSet>();
+  var sets = IsarLinks<PerformedSet>();
 
-  var session = IsarLink<PlannedSession>();
-
-  PerformedExercise({required this.name});
+  var session = IsarLink<PerformedSession>();
 }

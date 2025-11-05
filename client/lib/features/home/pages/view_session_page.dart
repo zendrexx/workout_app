@@ -19,11 +19,9 @@ class ViewSessionPage extends ConsumerStatefulWidget {
 class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
   final sesService = PlannedSessionService();
 
-  late Future<PlannedSession?> _sessionFuture;
   @override
   void initState() {
     super.initState();
-    _sessionFuture = sesService.getSessionById(widget.id);
   }
 
   @override

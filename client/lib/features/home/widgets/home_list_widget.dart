@@ -261,7 +261,9 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                     SizedBox(height: 10),
                     LongCustomButton(
                       title: "Start Session",
-                      onTap: () => context.push('/home/log_workout'),
+
+                      onTap: () =>
+                          context.push('/home/log_workout/${widget.id}'),
                     ),
                   ],
                 ),

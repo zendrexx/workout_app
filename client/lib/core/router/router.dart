@@ -62,8 +62,11 @@ final router = GoRouter(
                   ],
                 ),
                 GoRoute(
-                  path: 'log_workout',
-                  builder: (context, state) => const LogWorkoutPage(),
+                  path: 'log_workout/:id',
+                  builder: (context, state) {
+                    final id = int.parse(state.pathParameters['id']!);
+                    return LogWorkoutPage(id: id);
+                  },
                 ),
                 GoRoute(
                   path: 'create_sessions',

@@ -1,20 +1,26 @@
 import 'dart:async';
 
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/features/home/widgets/log_workout_detail_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_card_widget.dart';
+import 'package:client/features/home/widgets/view_session_workout_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LogWorkoutPage extends StatefulWidget {
-  const LogWorkoutPage({super.key});
+class LogWorkoutPage extends ConsumerStatefulWidget {
+  final int id;
+  const LogWorkoutPage({super.key, required this.id});
 
   @override
-  State<LogWorkoutPage> createState() => _LogWorkoutPageState();
+  ConsumerState<LogWorkoutPage> createState() => _LogWorkoutPageState();
 }
 
-class _LogWorkoutPageState extends State<LogWorkoutPage> {
+class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
+  final sesService = PlannedSessionService();
   Timer? _timer;
   int _seconds = 0;
 
@@ -54,6 +60,7 @@ class _LogWorkoutPageState extends State<LogWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -108,6 +115,38 @@ class _LogWorkoutPageState extends State<LogWorkoutPage> {
                 ],
               ),
               Divider(thickness: .4),
+              plannedSessionsAsync.when(
+                data: (sessions) {
+                  final session = sessions.firstWhere((s) => s.id == widget.id);
+                  final exercises = session.plannedExercise.toList();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: exercises.length,
+                        itemBuilder: (context, index) {
+                          return ViewSessionWorkoutWidget(
+                            title: exercises[index].exerciseName ?? '',
+                            equipment: exercises[index].equipment ?? '',
+                            imagePath: exercises[index].exercisePath ?? '',
+                            index: index,
+                            exerciseId: exercises[index].id,
+                            plannedSets: exercises[index].sets.toList(),
+                            notes: exercises[index].notes,
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Text(
+                  'Error: $err',
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
             ],
           ),
         ),
