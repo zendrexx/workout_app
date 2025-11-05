@@ -24,6 +24,10 @@ class TempPerformedSessionNotifier extends StateNotifier<TempPerformedSession> {
     state = state.copyWith(id: sessionId);
   }
 
+  void addTitle(String title) {
+    state = state.copyWith(name: title);
+  }
+
   void addExercise(TempPerformedExercise exercise) {
     final performedExercise = [...state.performedExercise, exercise];
     state = state.copyWith(performedExercise: performedExercise);
@@ -93,12 +97,4 @@ class TempPerformedSessionNotifier extends StateNotifier<TempPerformedSession> {
   }
 
   void addRepToSets(int exerciseIndex, int setIndex, String repRange) {}
-
-  void reset() {
-    state = TempPerformedSession(
-      name: "",
-      isCompleted: false,
-      performedExercise: [],
-    );
-  }
 }

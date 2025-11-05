@@ -7,8 +7,7 @@ part 'performed_session.g.dart';
 @collection
 class PerformedSession {
   Id id = Isar.autoIncrement;
-  final baseSession = IsarLink<PlannedSession>(); // which plan was followed
-
+  String? name;
   DateTime startTime = DateTime.now();
   DateTime? endTime;
   double? totalVolume; // sum of (weight × reps)

@@ -7,11 +7,15 @@ part 'performed_exercise.g.dart';
 @collection
 class PerformedExercise {
   Id id = Isar.autoIncrement;
-  String name;
-  double? volume; // total per exercise
+  String? exerciseName;
+  String? exercisePath;
+  String? equipment;
+  String? exId;
   String? notes;
-  final workoutSession = IsarLink<PerformedSession>();
-  final workoutSets = IsarLinks<Workoutsets>();
+
+  var sets = IsarLinks<PlannedSet>();
+
+  var session = IsarLink<PlannedSession>();
 
   PerformedExercise({required this.name});
 }
