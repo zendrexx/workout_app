@@ -1,77 +1,70 @@
+import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
-import 'package:client/data/model_temp/temp_planned_sets.dart';
-import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_set.dart';
-import 'package:client/features/history/widgets/workout_row_widget.dart';
-import 'package:client/features/home/widgets/long_custom_button.dart';
+import 'package:client/features/home/widgets/performed_workout_set_widget.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SessionWorkoutWidget extends ConsumerStatefulWidget {
+class LogSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String title;
   final String? equipment;
   final String imagePath;
   final int index;
-  final int id;
-  const SessionWorkoutWidget({
-    super.key,
+  final int exerciseId;
+  final List<PlannedSet> plannedSets;
+  final String? notes;
+  const LogSessionWorkoutWidget({
     required this.title,
     this.equipment,
     required this.imagePath,
     required this.index,
-    required this.id,
+    required this.exerciseId,
+    super.key,
+    required this.plannedSets,
+    this.notes,
   });
 
   @override
-  ConsumerState<SessionWorkoutWidget> createState() =>
-      _SessionWorkoutWidgetState();
+  ConsumerState<LogSessionWorkoutWidget> createState() =>
+      _LogSessionWorkoutWidgetState();
 }
 
-class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
-  void deleteExercise(WidgetRef ref, int index) {
-    ref.read(tempSessionProvider.notifier).deleteExercise(index);
-  }
-
-  void addSets(WidgetRef ref, TempPlannedSets value) {
-    ref
-        .watch(tempSessionProvider.notifier)
-        .addSetToExercise(widget.index, value);
-  }
-
-  void addNotes(WidgetRef ref, String note) {
-    ref
-        .read(tempSessionProvider.notifier)
-        .addNotesToExercise(widget.index, note);
-  }
-
-  late TextEditingController notesController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    final session = ref.read(tempSessionProvider);
-    final existingNote = session.plannedExercise[widget.index].notes ?? '';
-    notesController = TextEditingController(text: existingNote);
-  }
-
-  String? plannedRepRange(int index, int? minRep, int? maxRep) {
+class _LogSessionWorkoutWidgetState
+    extends ConsumerState<LogSessionWorkoutWidget> {
+  String? plannedRepRange(int index) {
     String? repRange;
 
-    if (minRep == maxRep) {
-      repRange = minRep.toString();
+    if (widget.plannedSets[index].minRep == widget.plannedSets[index].maxRep) {
+      repRange = widget.plannedSets[index].minRep.toString();
     } else {
-      repRange = '$minRep-$maxRep';
+      repRange =
+          '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
     }
 
     print("THIS IS THE REP RANGE " + repRange);
     return repRange;
   }
 
+  void deleteExercise(WidgetRef ref, int index) {
+    ref.read(tempSessionProvider.notifier).deleteExercise(index);
+  }
+
+  TextEditingController _controller = TextEditingController();
+  String? note;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.notes != null) {
+      note = widget.notes!;
+    }
+    print(widget.plannedSets);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(tempSessionProvider);
-    final sets = session.plannedExercise[widget.index].sets;
+    final sets = widget.plannedSets;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -83,28 +76,25 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                 radius: 20,
                 backgroundImage: AssetImage(widget.imagePath),
               ),
-              SizedBox(width: 5),
-              Row(
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: Color(0xffE2725B),
-                      fontSize: 16,
-                      wordSpacing: .5,
-                    ),
-                  ),
-                  Text(
-                    widget.equipment != null ? " (${widget.equipment})" : "",
-                    style: TextStyle(
-                      color: Color(0xffE2725B),
-                      fontSize: 16,
-                      wordSpacing: .5,
-                    ),
-                  ),
-                ],
+              const SizedBox(width: 5),
+              Text(
+                widget.title,
+                style: const TextStyle(
+                  color: Color(0xffE2725B),
+                  fontSize: 16,
+                  wordSpacing: .5,
+                ),
               ),
-              Spacer(),
+              if (widget.equipment != null)
+                Text(
+                  " (${widget.equipment})",
+                  style: const TextStyle(
+                    color: Color(0xffE2725B),
+                    fontSize: 16,
+                    wordSpacing: .5,
+                  ),
+                ),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
@@ -203,19 +193,16 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
             ],
           ),
           TextField(
-            controller: notesController,
+            controller: _controller,
             decoration: InputDecoration(
-              hintText: "Add notes here",
+              hintText: note ?? "Notes here",
               border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 14),
+              hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
             ),
             cursorColor: Colors.white,
-            onChanged: (value) {
-              addNotes(ref, value);
-            },
           ),
           Row(
-            children: [
+            children: const [
               Expanded(
                 child: Text(
                   "SETS",
@@ -237,12 +224,13 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
               Spacer(),
             ],
           ),
-          SizedBox(height: 5),
-
+          const SizedBox(height: 5),
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(
+            shrinkWrap: true,
+            itemCount: sets.length,
+            itemBuilder: (context, setIndex) {
+              return PerformedWorkoutSetWidget(
                 setNum: setIndex,
                 index: widget.index,
                 estWeight: (sets[setIndex].estWeight == null)
@@ -251,24 +239,9 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                           ? sets[setIndex].estWeight!.toInt().toString()
                           : sets[setIndex].estWeight!.toString()),
 
-                repRange: plannedRepRange(
-                  setIndex,
-                  sets[setIndex].minRep,
-                  sets[setIndex].maxRep,
-                ),
+                repRange: plannedRepRange(setIndex),
               );
-            }),
-            itemCount: sets.length,
-            shrinkWrap: true,
-          ),
-          SizedBox(height: 10),
-          LongCustomButton(
-            title: "+ Add Sets",
-            onTap: () {
-              TempPlannedSets sets = TempPlannedSets();
-              addSets(ref, sets);
             },
-            Bcolor: Color(0xff242727),
           ),
         ],
       ),

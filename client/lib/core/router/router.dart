@@ -62,10 +62,13 @@ final router = GoRouter(
                   ],
                 ),
                 GoRoute(
-                  path: 'log_workout/:id',
+                  path: 'log_workout',
                   builder: (context, state) {
-                    final id = int.parse(state.pathParameters['id']!);
-                    return LogWorkoutPage(id: id);
+                    final sessionIdStr = state.uri.queryParameters['sessionId'];
+                    final sessionId = sessionIdStr != null
+                        ? int.tryParse(sessionIdStr)
+                        : null;
+                    return LogWorkoutPage(sessionId: sessionId);
                   },
                 ),
                 GoRoute(
