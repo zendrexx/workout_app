@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/log_session_workout_widget.dart';
 import 'package:client/features/home/widgets/log_workout_detail_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
@@ -21,7 +23,6 @@ class LogWorkoutPage extends ConsumerStatefulWidget {
 }
 
 class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
-  final sesService = PlannedSessionService();
   Timer? _timer;
   int _seconds = 0;
 
@@ -29,6 +30,9 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   void initState() {
     super.initState();
     _startTimer();
+
+    var save = SaveToTemp(ref: ref);
+    save.convertToTemp(widget.sessionId!);
   }
 
   void _startTimer() {
@@ -37,6 +41,11 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
         _seconds++;
       });
     });
+  }
+
+  void cancel() {
+    context.push('/home');
+    ref.invalidate(tempSessionProvider);
   }
 
   String _formatDuration(int totalSeconds) {
@@ -61,7 +70,9 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final plannedExercise = ref.watch(tempSessionProvider);
     final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -80,7 +91,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => context.push('/home'),
+                onTap: () => cancel(),
                 child: Text(
                   "Cancel",
                   style: TextStyle(color: Color(0xffE2725B)),
@@ -104,57 +115,63 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
       backgroundColor: Color(0xff0F0F0F),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(top: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  SizedBox(width: 5),
-                  LogWorkoutDetailWidget(
-                    title: "Duration",
-                    color: Color(0xff3C6996),
-                    value: _formatDuration(_seconds),
-                  ),
-                  LogWorkoutDetailWidget(title: "Volume"),
-                  LogWorkoutDetailWidget(title: "Sets"),
-                ],
-              ),
-              Divider(thickness: .4),
-              plannedSessionsAsync.when(
-                data: (sessions) {
-                  final session = sessions.firstWhere(
-                    (s) => s.id == widget.sessionId,
-                  );
-                  final exercises = session.plannedExercise.toList();
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: exercises.length,
-                        itemBuilder: (context, index) {
-                          return LogSessionWorkoutWidget(
-                            title: exercises[index].exerciseName ?? '',
-                            equipment: exercises[index].equipment ?? '',
-                            imagePath: exercises[index].exercisePath ?? '',
-                            index: index,
-                            exerciseId: exercises[index].id,
-                            plannedSets: exercises[index].sets.toList(),
-                            notes: exercises[index].notes,
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Text(
-                  'Error: $err',
-                  style: const TextStyle(color: Colors.red),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    SizedBox(width: 5),
+                    LogWorkoutDetailWidget(
+                      title: "Duration",
+                      color: Color(0xff3C6996),
+                      value: _formatDuration(_seconds),
+                    ),
+                    LogWorkoutDetailWidget(title: "Volume"),
+                    LogWorkoutDetailWidget(title: "Sets"),
+                  ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Divider(thickness: .4),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: plannedExercise.plannedExercise.length,
+
+                    itemBuilder: (context, index) {
+                      final current = plannedExercise.plannedExercise[index];
+                      return LogSessionWorkoutWidget(
+                        title: current.exercise?.name ?? '',
+                        equipment: current.exercise?.equipment ?? '',
+                        imagePath: current.exercise?.imagePath ?? '',
+                        index: index,
+                        exerciseId: current.exercise?.id ?? 0,
+                        plannedSets: current.sets,
+                        notes: current.notes ?? '',
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: LongCustomButton(
+                  title: "+ Add Exercises",
+                  onTap: () =>
+                      context.push("/home/create_sessions/add_exercise"),
+                ),
+              ),
+              SizedBox(height: 10),
             ],
           ),
         ),

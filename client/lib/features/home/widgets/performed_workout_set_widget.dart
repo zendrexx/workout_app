@@ -28,6 +28,7 @@ class _PerformedWorkoutSetWidgetState
     extends ConsumerState<PerformedWorkoutSetWidget> {
   late TextEditingController weightController = TextEditingController();
   late TextEditingController repRangeController = TextEditingController();
+
   String estweight = '-';
   String reprange = '-';
   bool isDone = false;
@@ -41,7 +42,13 @@ class _PerformedWorkoutSetWidgetState
   @override
   void initState() {
     super.initState();
-    estweight = normalizeValue(widget.estWeight);
+    if (widget.estWeight != null ||
+        widget.estWeight != "null" ||
+        widget.estWeight!.isNotEmpty) {
+      weightController.text = widget.estWeight!;
+    } else {
+      weightController.text = "";
+    }
     reprange = normalizeValue(widget.repRange);
   }
 
@@ -74,88 +81,134 @@ class _PerformedWorkoutSetWidgetState
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 5),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              (widget.setNum + 1).toString(),
-              style: TextStyle(fontSize: 14),
-            ),
-          ),
-          Expanded(child: Text("-")),
-          Expanded(
-            child: TextField(
-              controller: weightController,
-
-              keyboardType: TextInputType.numberWithOptions(
-                decimal: true,
-                signed: true,
-              ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
-              ],
-              onChanged: (value) {
-                addWeight(ref, value);
-              },
-              decoration: InputDecoration(
-                hintText: estweight,
-                isDense: true, // makes it smaller vertically
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 0,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: isDone ? Color(0xff18341B) : Colors.transparent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  (widget.setNum + 1).toString(),
+                  style: TextStyle(fontSize: 14),
                 ),
-                border: InputBorder.none, // removes the underline
-                focusedBorder:
-                    InputBorder.none, // removes underline when focused
-                enabledBorder:
-                    InputBorder.none, // removes underline when enabled
               ),
-              style: TextStyle(fontSize: 14), // makes text smaller
-              textAlign: TextAlign.start,
-              cursorColor: Colors.white,
-            ),
-          ),
-          Expanded(
-            child: TextField(
-              controller: repRangeController,
-
-              onChanged: (value) {
-                addRepRange(ref, value);
-              },
-              keyboardType: TextInputType.numberWithOptions(
-                decimal: true,
-                signed: true,
-              ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9\-]')),
-              ],
-              decoration: InputDecoration(
-                hintText: reprange,
-                isDense: true, // makes it smaller vertically
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 0,
+              Expanded(
+                child: TextField(
+                  readOnly: true,
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
+                  ],
+                  onChanged: (value) {
+                    addWeight(ref, value);
+                  },
+                  decoration: InputDecoration(
+                    hintText: "-",
+                    isDense: true, // makes it smaller vertically
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
+                    ),
+                    border: InputBorder.none, // removes the underline
+                    focusedBorder:
+                        InputBorder.none, // removes underline when focused
+                    enabledBorder:
+                        InputBorder.none, // removes underline when enabled
+                  ),
+                  style: TextStyle(fontSize: 14), // makes text smaller
+                  textAlign: TextAlign.start,
+                  cursorColor: Colors.white,
                 ),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
               ),
-              style: TextStyle(fontSize: 14),
-              textAlign: TextAlign.start,
-              cursorColor: Colors.white,
-            ),
+              Expanded(
+                child: TextField(
+                  controller: weightController,
+
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
+                  ],
+                  onChanged: (value) {
+                    addWeight(ref, value);
+                  },
+                  decoration: InputDecoration(
+                    hintText: estweight,
+                    isDense: true, // makes it smaller vertically
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
+                    ),
+                    border: InputBorder.none, // removes the underline
+                    focusedBorder:
+                        InputBorder.none, // removes underline when focused
+                    enabledBorder:
+                        InputBorder.none, // removes underline when enabled
+                  ),
+                  style: TextStyle(fontSize: 14), // makes text smaller
+                  textAlign: TextAlign.start,
+                  cursorColor: Colors.white,
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: repRangeController,
+
+                  onChanged: (value) {
+                    addRepRange(ref, value);
+                  },
+                  keyboardType: TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9\-]')),
+                  ],
+                  decoration: InputDecoration(
+                    hintText: reprange,
+                    isDense: true, // makes it smaller vertically
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
+                    ),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                  ),
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.start,
+                  cursorColor: Colors.white,
+                ),
+              ),
+              Expanded(
+                child: Checkbox(
+                  fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Color(0xff27B82C); // green when checked
+                    }
+                    return Colors.transparent; // grey when unchecked
+                  }),
+                  checkColor: Colors.white,
+                  value: isDone,
+                  onChanged: (bool? value) {
+                    setState(() => isDone = value ?? false);
+                  },
+                  visualDensity: VisualDensity.compact,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: Checkbox(
-              value: isDone,
-              onChanged: (bool? value) {
-                setState(() => isDone = value ?? false);
-              },
-              visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
