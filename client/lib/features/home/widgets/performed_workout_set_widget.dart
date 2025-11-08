@@ -7,14 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
   final int setNum;
   final int index;
-  final bool viewing;
+
   final String? estWeight;
   final String? repRange;
   const PerformedWorkoutSetWidget({
     super.key,
     required this.setNum,
     required this.index,
-    this.viewing = false,
+
     this.estWeight,
     this.repRange,
   });
@@ -28,26 +28,21 @@ class _PerformedWorkoutSetWidgetState
     extends ConsumerState<PerformedWorkoutSetWidget> {
   late TextEditingController weightController = TextEditingController();
   late TextEditingController repRangeController = TextEditingController();
+  String estweight = '-';
+  String reprange = '-';
+  bool isDone = false;
+  String normalizeValue(String? value) {
+    if (value == null || value == "null" || value.isEmpty) {
+      return "-";
+    }
+    return value;
+  }
+
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        weightController.text =
-            (widget.estWeight == null ||
-                widget.estWeight == 'null' ||
-                widget.estWeight!.isEmpty)
-            ? ''
-            : widget.estWeight!;
-        repRangeController.text =
-            (widget.repRange == null ||
-                widget.repRange == 'null' ||
-                widget.repRange!.isEmpty)
-            ? ''
-            : widget.repRange!;
-      });
-    });
+    estweight = normalizeValue(widget.estWeight);
+    reprange = normalizeValue(widget.repRange);
   }
 
   void addWeight(WidgetRef ref, String weight) {
@@ -87,10 +82,11 @@ class _PerformedWorkoutSetWidgetState
               style: TextStyle(fontSize: 14),
             ),
           ),
+          Expanded(child: Text("-")),
           Expanded(
             child: TextField(
               controller: weightController,
-              enabled: !widget.viewing,
+
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,
                 signed: true,
@@ -102,7 +98,7 @@ class _PerformedWorkoutSetWidgetState
                 addWeight(ref, value);
               },
               decoration: InputDecoration(
-                hintText: "-",
+                hintText: estweight,
                 isDense: true, // makes it smaller vertically
                 contentPadding: EdgeInsets.symmetric(
                   vertical: 0,
@@ -122,7 +118,7 @@ class _PerformedWorkoutSetWidgetState
           Expanded(
             child: TextField(
               controller: repRangeController,
-              enabled: !widget.viewing,
+
               onChanged: (value) {
                 addRepRange(ref, value);
               },
@@ -134,24 +130,31 @@ class _PerformedWorkoutSetWidgetState
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9\-]')),
               ],
               decoration: InputDecoration(
-                hintText: "-",
+                hintText: reprange,
                 isDense: true, // makes it smaller vertically
                 contentPadding: EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 0,
                 ),
-                border: InputBorder.none, // removes the underline
-                focusedBorder:
-                    InputBorder.none, // removes underline when focused
-                enabledBorder:
-                    InputBorder.none, // removes underline when enabled
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
               ),
-              style: TextStyle(fontSize: 14), // makes text smaller
+              style: TextStyle(fontSize: 14),
               textAlign: TextAlign.start,
               cursorColor: Colors.white,
             ),
           ),
-          Spacer(),
+          Expanded(
+            child: Checkbox(
+              value: isDone,
+              onChanged: (bool? value) {
+                setState(() => isDone = value ?? false);
+              },
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ),
         ],
       ),
     );

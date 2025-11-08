@@ -217,10 +217,11 @@ class _LogSessionWorkoutWidgetState
               ),
               Expanded(
                 child: Text(
-                  "REP RANGE",
+                  "REPS",
                   style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
+
               Spacer(),
             ],
           ),
