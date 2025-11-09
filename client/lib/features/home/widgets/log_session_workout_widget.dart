@@ -64,9 +64,12 @@ class _LogSessionWorkoutWidgetState
   @override
   void initState() {
     super.initState();
-    if (widget.notes != null) {
-      note = widget.notes!;
+    if (widget.notes != null &&
+        widget.notes!.isNotEmpty &&
+        widget.notes != "null") {
+      _controller.text = widget.notes!;
     }
+    note = "Add notes here";
     print(widget.plannedSets);
   }
 
@@ -210,7 +213,7 @@ class _LogSessionWorkoutWidgetState
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
-                hintText: note ?? "Notes here",
+                hintText: note,
                 border: InputBorder.none,
                 hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
               ),
