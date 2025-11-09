@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/core/notifier/temp_workout_stats.dart';
 import 'package:client/data/models/planned_set.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
 class _PerformedWorkoutSetWidgetState
     extends ConsumerState<PerformedWorkoutSetWidget> {
   late TextEditingController weightController = TextEditingController();
-  late TextEditingController repRangeController = TextEditingController();
+  late TextEditingController repController = TextEditingController();
 
   String estweight = '-';
   String reprange = '-';
@@ -37,6 +38,14 @@ class _PerformedWorkoutSetWidgetState
       return "-";
     }
     return value;
+  }
+
+  void addStats(double lbs, int reps) {
+    ref.read(tempWorkoutStatsProvider.notifier).addStats(lbs, reps);
+  }
+
+  void removeStats(double lbs, int reps) {
+    ref.read(tempWorkoutStatsProvider.notifier).removeStats(lbs, reps);
   }
 
   @override
@@ -73,7 +82,7 @@ class _PerformedWorkoutSetWidgetState
   @override
   void dispose() {
     weightController.dispose();
-    repRangeController.dispose();
+    repController.dispose();
     super.dispose();
   }
 
@@ -130,7 +139,7 @@ class _PerformedWorkoutSetWidgetState
               Expanded(
                 child: TextField(
                   controller: weightController,
-
+                  readOnly: isDone,
                   keyboardType: TextInputType.numberWithOptions(
                     decimal: true,
                     signed: true,
@@ -161,8 +170,8 @@ class _PerformedWorkoutSetWidgetState
               ),
               Expanded(
                 child: TextField(
-                  controller: repRangeController,
-
+                  controller: repController,
+                  readOnly: isDone,
                   onChanged: (value) {
                     addRepRange(ref, value);
                   },
@@ -201,6 +210,14 @@ class _PerformedWorkoutSetWidgetState
                   value: isDone,
                   onChanged: (bool? value) {
                     setState(() => isDone = value ?? false);
+                    final double weight =
+                        double.tryParse(weightController.text) ?? 0.0;
+                    final int reps = int.tryParse(repController.text) ?? 0;
+                    if (isDone) {
+                      addStats(weight, reps);
+                    } else {
+                      removeStats(weight, reps);
+                    }
                   },
                   visualDensity: VisualDensity.compact,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

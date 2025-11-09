@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/core/notifier/temp_workout_stats.dart';
 import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/log_session_workout_widget.dart';
@@ -35,6 +36,14 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
     save.convertToTemp(widget.sessionId!);
   }
 
+  String formatVolume(double volume) {
+    return volume % 1 == 0
+        ? volume
+              .toInt()
+              .toString() // if whole number, show as int
+        : volume.toStringAsFixed(1); // if has decimal, keep 1 decimal
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -46,6 +55,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   void cancel() {
     context.push('/home');
     ref.invalidate(tempSessionProvider);
+    ref.invalidate(tempWorkoutStatsProvider);
   }
 
   String _formatDuration(int totalSeconds) {
@@ -62,6 +72,16 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
     }
   }
 
+  void saveLogSession() async {
+    final tempLogSession = ref.read(tempSessionProvider);
+    await saveSession(tempSession, ref);
+
+    ref.invalidate(tempSessionProvider);
+    _controller.clear();
+
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -71,7 +91,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   @override
   Widget build(BuildContext context) {
     final plannedExercise = ref.watch(tempSessionProvider);
-    final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
+    final workoutStats = ref.watch(tempWorkoutStatsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -129,8 +149,14 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                       color: Color(0xff3C6996),
                       value: _formatDuration(_seconds),
                     ),
-                    LogWorkoutDetailWidget(title: "Volume"),
-                    LogWorkoutDetailWidget(title: "Sets"),
+                    LogWorkoutDetailWidget(
+                      title: "Volume",
+                      value: formatVolume(workoutStats.tempTotalVolume ?? 0),
+                    ),
+                    LogWorkoutDetailWidget(
+                      title: "Sets",
+                      value: (workoutStats.tempTotalSets ?? 0).toString(),
+                    ),
                   ],
                 ),
               ),
