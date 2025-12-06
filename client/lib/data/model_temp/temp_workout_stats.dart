@@ -2,11 +2,11 @@
 import 'dart:ffi';
 
 class TempWorkoutStats {
-  final int? hours;
-  final int? minutes;
-  final int? seconds;
-  final double? tempTotalVolume;
-  final int? tempTotalSets;
+  int? hours;
+  int? minutes;
+  int? seconds;
+  double? tempTotalVolume;
+  int? tempTotalSets;
   TempWorkoutStats({
     this.tempTotalVolume = 0,
     this.tempTotalSets = 0,

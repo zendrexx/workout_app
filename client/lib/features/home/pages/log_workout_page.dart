@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/core/notifier/temp_session_notifier.dart';
 import 'package:client/core/notifier/temp_workout_stats.dart';
+import 'package:client/data/repositories/save_log_session.dart';
 import 'package:client/data/services/planned_session_service.dart';
 import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/log_session_workout_widget.dart';
@@ -72,12 +73,13 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
     }
   }
 
-  void saveLogSession() async {
-    final tempLogSession = ref.read(tempSessionProvider);
-    await saveSession(tempSession, ref);
+  void addSession() async {
+    final tempSession = ref.read(tempSessionProvider);
+    final tempStats = ref.read(tempWorkoutStatsProvider);
+    await saveLogSession(tempSession, tempStats, ref);
 
     ref.invalidate(tempSessionProvider);
-    _controller.clear();
+    ref.invalidate(tempWorkoutStatsProvider);
 
     Navigator.pop(context);
   }
@@ -119,7 +121,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
               ),
               SizedBox(width: 16),
               GestureDetector(
-                onTap: () => context.push('/home'),
+                onTap: () => addSession(),
                 child: Text("Finish", style: TextStyle(color: Colors.white)),
               ),
 
