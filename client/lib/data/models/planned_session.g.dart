@@ -40,6 +40,12 @@ const PlannedSessionSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
+    r'workoutStats': LinkSchema(
+      id: -4680063163054398742,
+      name: r'workoutStats',
+      target: r'WorkoutStats',
+      single: false,
+    ),
     r'plannedExercise': LinkSchema(
       id: 6195836111921285743,
       name: r'plannedExercise',
@@ -118,12 +124,14 @@ Id _plannedSessionGetId(PlannedSession object) {
 }
 
 List<IsarLinkBase<dynamic>> _plannedSessionGetLinks(PlannedSession object) {
-  return [object.plannedExercise];
+  return [object.workoutStats, object.plannedExercise];
 }
 
 void _plannedSessionAttach(
     IsarCollection<dynamic> col, Id id, PlannedSession object) {
   object.id = id;
+  object.workoutStats
+      .attach(col, col.isar.collection<WorkoutStats>(), r'workoutStats', id);
   object.plannedExercise.attach(
       col, col.isar.collection<PlannedExercise>(), r'plannedExercise', id);
 }
@@ -492,6 +500,67 @@ extension PlannedSessionQueryObject
 
 extension PlannedSessionQueryLinks
     on QueryBuilder<PlannedSession, PlannedSession, QFilterCondition> {
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStats(FilterQuery<WorkoutStats> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'workoutStats');
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+      workoutStatsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'workoutStats', lower, includeLower, upper, includeUpper);
+    });
+  }
+
   QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
       plannedExercise(FilterQuery<PlannedExercise> q) {
     return QueryBuilder.apply(this, (query) {

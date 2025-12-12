@@ -17,25 +17,25 @@ const PerformedSessionSchema = CollectionSchema(
   name: r'PerformedSession',
   id: 4533096295120083339,
   properties: {
-    r'endTime': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 0,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'endTime': PropertySchema(
+      id: 1,
       name: r'endTime',
       type: IsarType.dateTime,
     ),
     r'isCompleted': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'isCompleted',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
-    ),
-    r'startTime': PropertySchema(
-      id: 3,
-      name: r'startTime',
-      type: IsarType.dateTime,
     ),
     r'totalVolume': PropertySchema(
       id: 4,
@@ -50,6 +50,12 @@ const PerformedSessionSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
+    r'workoutStats': LinkSchema(
+      id: -6490455185469628109,
+      name: r'workoutStats',
+      target: r'WorkoutStats',
+      single: false,
+    ),
     r'performedExercises': LinkSchema(
       id: -6347777387453188089,
       name: r'performedExercises',
@@ -85,10 +91,10 @@ void _performedSessionSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.endTime);
-  writer.writeBool(offsets[1], object.isCompleted);
-  writer.writeString(offsets[2], object.name);
-  writer.writeDateTime(offsets[3], object.startTime);
+  writer.writeDateTime(offsets[0], object.createdAt);
+  writer.writeDateTime(offsets[1], object.endTime);
+  writer.writeBool(offsets[2], object.isCompleted);
+  writer.writeString(offsets[3], object.name);
   writer.writeDouble(offsets[4], object.totalVolume);
 }
 
@@ -99,11 +105,11 @@ PerformedSession _performedSessionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PerformedSession();
-  object.endTime = reader.readDateTimeOrNull(offsets[0]);
+  object.createdAt = reader.readDateTime(offsets[0]);
+  object.endTime = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
-  object.isCompleted = reader.readBool(offsets[1]);
-  object.name = reader.readStringOrNull(offsets[2]);
-  object.startTime = reader.readDateTime(offsets[3]);
+  object.isCompleted = reader.readBool(offsets[2]);
+  object.name = reader.readStringOrNull(offsets[3]);
   object.totalVolume = reader.readDoubleOrNull(offsets[4]);
   return object;
 }
@@ -116,13 +122,13 @@ P _performedSessionDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 1:
-      return (reader.readBool(offset)) as P;
-    case 2:
-      return (reader.readStringOrNull(offset)) as P;
-    case 3:
       return (reader.readDateTime(offset)) as P;
+    case 1:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
@@ -135,12 +141,14 @@ Id _performedSessionGetId(PerformedSession object) {
 }
 
 List<IsarLinkBase<dynamic>> _performedSessionGetLinks(PerformedSession object) {
-  return [object.performedExercises];
+  return [object.workoutStats, object.performedExercises];
 }
 
 void _performedSessionAttach(
     IsarCollection<dynamic> col, Id id, PerformedSession object) {
   object.id = id;
+  object.workoutStats
+      .attach(col, col.isar.collection<WorkoutStats>(), r'workoutStats', id);
   object.performedExercises.attach(
       col, col.isar.collection<PerformedExercise>(), r'performedExercises', id);
 }
@@ -226,6 +234,62 @@ extension PerformedSessionQueryWhere
 
 extension PerformedSessionQueryFilter
     on QueryBuilder<PerformedSession, PerformedSession, QFilterCondition> {
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      createdAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      createdAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
       endTimeIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -521,62 +585,6 @@ extension PerformedSessionQueryFilter
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      startTimeEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'startTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      startTimeGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'startTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      startTimeLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'startTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      startTimeBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'startTime',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
       totalVolumeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -667,6 +675,67 @@ extension PerformedSessionQueryObject
 extension PerformedSessionQueryLinks
     on QueryBuilder<PerformedSession, PerformedSession, QFilterCondition> {
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStats(FilterQuery<WorkoutStats> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'workoutStats');
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'workoutStats', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      workoutStatsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'workoutStats', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
       performedExercises(FilterQuery<PerformedExercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'performedExercises');
@@ -733,6 +802,20 @@ extension PerformedSessionQueryLinks
 extension PerformedSessionQuerySortBy
     on QueryBuilder<PerformedSession, PerformedSession, QSortBy> {
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       sortByEndTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'endTime', Sort.asc);
@@ -774,20 +857,6 @@ extension PerformedSessionQuerySortBy
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      sortByStartTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'startTime', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      sortByStartTimeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'startTime', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       sortByTotalVolume() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalVolume', Sort.asc);
@@ -804,6 +873,20 @@ extension PerformedSessionQuerySortBy
 
 extension PerformedSessionQuerySortThenBy
     on QueryBuilder<PerformedSession, PerformedSession, QSortThenBy> {
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
+      thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       thenByEndTime() {
     return QueryBuilder.apply(this, (query) {
@@ -859,20 +942,6 @@ extension PerformedSessionQuerySortThenBy
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      thenByStartTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'startTime', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      thenByStartTimeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'startTime', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
       thenByTotalVolume() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalVolume', Sort.asc);
@@ -889,6 +958,13 @@ extension PerformedSessionQuerySortThenBy
 
 extension PerformedSessionQueryWhereDistinct
     on QueryBuilder<PerformedSession, PerformedSession, QDistinct> {
+  QueryBuilder<PerformedSession, PerformedSession, QDistinct>
+      distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
   QueryBuilder<PerformedSession, PerformedSession, QDistinct>
       distinctByEndTime() {
     return QueryBuilder.apply(this, (query) {
@@ -911,13 +987,6 @@ extension PerformedSessionQueryWhereDistinct
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QDistinct>
-      distinctByStartTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'startTime');
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QDistinct>
       distinctByTotalVolume() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalVolume');
@@ -930,6 +999,13 @@ extension PerformedSessionQueryProperty
   QueryBuilder<PerformedSession, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<PerformedSession, DateTime, QQueryOperations>
+      createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 
@@ -949,13 +1025,6 @@ extension PerformedSessionQueryProperty
   QueryBuilder<PerformedSession, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
-    });
-  }
-
-  QueryBuilder<PerformedSession, DateTime, QQueryOperations>
-      startTimeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'startTime');
     });
   }
 
