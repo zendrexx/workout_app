@@ -1,4 +1,7 @@
 import 'package:client/data/models/exercise.dart';
+import 'package:client/data/models/performed_exercise.dart';
+import 'package:client/data/models/performed_session.dart';
+import 'package:client/data/models/performed_set.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_set.dart';
 import 'package:client/data/models/planned_session.dart';
@@ -25,6 +28,9 @@ class DatabaseService {
       PlannedSetSchema,
       ExerciseSchema,
       WorkoutStatsSchema,
+      PerformedSetSchema,
+      PerformedExerciseSchema,
+      PerformedSessionSchema,
     ], directory: appDir.path);
 
     print("✅ Isar database opened at: ${appDir.path}");

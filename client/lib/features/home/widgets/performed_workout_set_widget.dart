@@ -61,7 +61,7 @@ class _PerformedWorkoutSetWidgetState
     reprange = normalizeValue(widget.repRange);
   }
 
-  void addWeight(WidgetRef ref, String weight) {
+  void addActWeight(WidgetRef ref, String weight) {
     // Convert safely to double
     final double? rweight = double.tryParse(weight);
     if (rweight == null) return;
@@ -70,13 +70,15 @@ class _PerformedWorkoutSetWidgetState
 
     ref
         .read(tempSessionProvider.notifier)
-        .addWeightToSets(widget.index, widget.setNum, rweight);
+        .addActWeightToSets(widget.index, widget.setNum, rweight);
   }
 
-  void addRepRange(WidgetRef ref, String repRange) {
+  void addActRep(WidgetRef ref, String actRep) {
+    final int? iActRep = int.tryParse(actRep);
+    if (iActRep == null) return;
     ref
         .read(tempSessionProvider.notifier)
-        .addRepRangeToSets(widget.index, widget.setNum, repRange);
+        .addActRepToSets(widget.index, widget.setNum, iActRep);
   }
 
   @override
@@ -115,9 +117,7 @@ class _PerformedWorkoutSetWidgetState
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                   ],
-                  onChanged: (value) {
-                    addWeight(ref, value);
-                  },
+
                   decoration: InputDecoration(
                     hintText: "-",
                     isDense: true, // makes it smaller vertically
@@ -148,7 +148,7 @@ class _PerformedWorkoutSetWidgetState
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                   ],
                   onChanged: (value) {
-                    addWeight(ref, value);
+                    addActWeight(ref, value);
                   },
                   decoration: InputDecoration(
                     hintText: estweight,
@@ -173,14 +173,14 @@ class _PerformedWorkoutSetWidgetState
                   controller: repController,
                   readOnly: isDone,
                   onChanged: (value) {
-                    addRepRange(ref, value);
+                    addActRep(ref, value);
                   },
                   keyboardType: TextInputType.numberWithOptions(
                     decimal: true,
                     signed: true,
                   ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9\-]')),
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                   ],
                   decoration: InputDecoration(
                     hintText: reprange,

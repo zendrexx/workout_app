@@ -145,6 +145,50 @@ class TempSessionNotifier extends StateNotifier<TempSession> {
     state = state.copyWith(plannedExercise: updatedExercises);
   }
 
+  void addActWeightToSets(int exerciseIndex, int setIndex, double weight) {
+    // Get a copy of all exercises
+    final updatedExercises = [...state.plannedExercise];
+
+    // Get the current exercise
+    final currentExercise = updatedExercises[exerciseIndex];
+
+    // Copy the sets of that exercise
+    final updatedSets = [...currentExercise.sets];
+
+    // Update the specific set with the new weight
+    final updatedSet = updatedSets[setIndex].copyWith(estWeight: weight);
+    updatedSets[setIndex] = updatedSet;
+
+    // Update the exercise with the modified sets
+    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
+    updatedExercises[exerciseIndex] = updatedExercise;
+
+    // Update the state with the modified exercises
+    state = state.copyWith(plannedExercise: updatedExercises);
+  }
+
+  void addActRepToSets(int exerciseIndex, int setIndex, int actRep) {
+    // Get a copy of all exercises
+    final updatedExercises = [...state.plannedExercise];
+
+    // Get the current exercise
+    final currentExercise = updatedExercises[exerciseIndex];
+
+    // Copy the sets of that exercise
+    final updatedSets = [...currentExercise.sets];
+
+    // Update the specific set with the new weight
+    final updatedSet = updatedSets[setIndex].copyWith(actRep: actRep);
+    updatedSets[setIndex] = updatedSet;
+
+    // Update the exercise with the modified sets
+    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
+    updatedExercises[exerciseIndex] = updatedExercise;
+
+    // Update the state with the modified exercises
+    state = state.copyWith(plannedExercise: updatedExercises);
+  }
+
   void reset() {
     state = TempSession(name: '', isCompleted: false, plannedExercise: []);
   }

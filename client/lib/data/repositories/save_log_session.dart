@@ -1,5 +1,8 @@
 import 'package:client/data/model_temp/temp_session.dart';
 import 'package:client/data/model_temp/temp_workout_stats.dart';
+import 'package:client/data/models/performed_exercise.dart';
+import 'package:client/data/models/performed_session.dart';
+import 'package:client/data/models/performed_set.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/models/planned_set.dart';
@@ -14,51 +17,51 @@ Future<void> saveLogSession(
   final isar = DatabaseService.db;
 
   await isar.writeTxn(() async {
-    PlannedSession plannedSession = PlannedSession();
+    PerformedSession performedSession = PerformedSession();
 
-    plannedSession.name = tempSession.name;
-    plannedSession.isCompleted = true;
+    performedSession.name = tempSession.name;
+    performedSession.isCompleted = true;
     // STEP 3: Recreate all sets and exercises
-    final allSets = <PlannedSet>[];
+    final allSets = <PerformedSet>[];
     for (final tempExercise in tempSession.plannedExercise) {
       for (final tempSet in tempExercise.sets) {
-        final set = PlannedSet()
-          ..estWeight = tempSet.estWeight
-          ..maxRep = tempSet.maxRep
-          ..minRep = tempSet.minRep;
+        final set = PerformedSet()
+          ..performedWeight = tempSet.actWeight
+          ..performedRep = tempSet.actRep;
+
         allSets.add(set);
       }
     }
-    await isar.plannedSets.putAll(allSets);
+    await isar.performedSets.putAll(allSets);
 
-    final plannedExercises = <PlannedExercise>[];
+    final performedExercises = <PerformedExercise>[];
     int setIndex = 0;
     for (final tempExercise in tempSession.plannedExercise) {
       final numSets = tempExercise.sets.length;
       final exerciseSets = allSets.sublist(setIndex, setIndex + numSets);
       setIndex += numSets;
 
-      final plannedExercise = PlannedExercise()
+      final performedExercise = PerformedExercise()
         ..exId = tempExercise.exercise?.exId
         ..notes = tempExercise.notes
         ..exerciseName = tempExercise.exercise?.name
         ..exercisePath = tempExercise.exercise?.imagePath
         ..equipment = tempExercise.exercise?.equipment;
 
-      await isar.plannedExercises.put(plannedExercise);
-      plannedExercise.sets.addAll(exerciseSets);
-      await plannedExercise.sets.save();
+      await isar.performedExercises.put(performedExercise);
+      performedExercise.sets.addAll(exerciseSets);
+      await performedExercise.sets.save();
 
-      plannedExercises.add(plannedExercise);
+      performedExercises.add(performedExercise);
     }
 
-    final tempWorkoutStats = TempWorkoutStats()
-      ..tempTotalVolume = tempStats.tempTotalVolume
-      ..tempTotalSets = tempStats.tempTotalSets;
+    // final tempWorkoutStats = TempWorkoutStats()
+    //   ..tempTotalVolume = tempStats.tempTotalVolume
+    //   ..tempTotalSets = tempStats.tempTotalSets;
 
     // Save session and link exercises
-    await isar.plannedSessions.put(plannedSession);
-    plannedSession.plannedExercise.addAll(plannedExercises);
-    await plannedSession.plannedExercise.save();
+    await isar.performedSessions.put(performedSession);
+    performedSession.performedExercises.addAll(performedExercises);
+    await performedSession.performedExercises.save();
   });
 }

@@ -17,20 +17,15 @@ const PerformedSetSchema = CollectionSchema(
   name: r'PerformedSet',
   id: -807446212502387918,
   properties: {
-    r'estWeight': PropertySchema(
+    r'performedRep': PropertySchema(
       id: 0,
-      name: r'estWeight',
-      type: IsarType.double,
+      name: r'performedRep',
+      type: IsarType.long,
     ),
-    r'maxRep': PropertySchema(
+    r'performedWeight': PropertySchema(
       id: 1,
-      name: r'maxRep',
-      type: IsarType.long,
-    ),
-    r'minRep': PropertySchema(
-      id: 2,
-      name: r'minRep',
-      type: IsarType.long,
+      name: r'performedWeight',
+      type: IsarType.double,
     )
   },
   estimateSize: _performedSetEstimateSize,
@@ -69,9 +64,8 @@ void _performedSetSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.estWeight);
-  writer.writeLong(offsets[1], object.maxRep);
-  writer.writeLong(offsets[2], object.minRep);
+  writer.writeLong(offsets[0], object.performedRep);
+  writer.writeDouble(offsets[1], object.performedWeight);
 }
 
 PerformedSet _performedSetDeserialize(
@@ -81,9 +75,8 @@ PerformedSet _performedSetDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PerformedSet(
-    estWeight: reader.readDoubleOrNull(offsets[0]),
-    maxRep: reader.readLongOrNull(offsets[1]),
-    minRep: reader.readLongOrNull(offsets[2]),
+    performedRep: reader.readLongOrNull(offsets[0]),
+    performedWeight: reader.readDoubleOrNull(offsets[1]),
   );
   object.id = id;
   return object;
@@ -97,11 +90,9 @@ P _performedSetDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
-    case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -202,90 +193,6 @@ extension PerformedSetQueryWhere
 
 extension PerformedSetQueryFilter
     on QueryBuilder<PerformedSet, PerformedSet, QFilterCondition> {
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'estWeight',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'estWeight',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'estWeight',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightGreaterThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'estWeight',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightLessThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'estWeight',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      estWeightBetween(
-    double? lower,
-    double? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'estWeight',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -340,62 +247,63 @@ extension PerformedSetQueryFilter
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      maxRepIsNull() {
+      performedRepIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'maxRep',
+        property: r'performedRep',
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      maxRepIsNotNull() {
+      performedRepIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'maxRep',
+        property: r'performedRep',
       ));
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> maxRepEqualTo(
-      int? value) {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
+      performedRepEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'maxRep',
+        property: r'performedRep',
         value: value,
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      maxRepGreaterThan(
+      performedRepGreaterThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'maxRep',
+        property: r'performedRep',
         value: value,
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      maxRepLessThan(
+      performedRepLessThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'maxRep',
+        property: r'performedRep',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> maxRepBetween(
+  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
+      performedRepBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -403,7 +311,7 @@ extension PerformedSetQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'maxRep',
+        property: r'performedRep',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -413,74 +321,85 @@ extension PerformedSetQueryFilter
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      minRepIsNull() {
+      performedWeightIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'minRep',
+        property: r'performedWeight',
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      minRepIsNotNull() {
+      performedWeightIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'minRep',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> minRepEqualTo(
-      int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'minRep',
-        value: value,
+        property: r'performedWeight',
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      minRepGreaterThan(
-    int? value, {
+      performedWeightEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'performedWeight',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
+      performedWeightGreaterThan(
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'minRep',
+        property: r'performedWeight',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
-      minRepLessThan(
-    int? value, {
+      performedWeightLessThan(
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'minRep',
+        property: r'performedWeight',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> minRepBetween(
-    int? lower,
-    int? upper, {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition>
+      performedWeightBetween(
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'minRep',
+        property: r'performedWeight',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -508,57 +427,36 @@ extension PerformedSetQueryLinks
 
 extension PerformedSetQuerySortBy
     on QueryBuilder<PerformedSet, PerformedSet, QSortBy> {
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByEstWeight() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByPerformedRep() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.asc);
+      return query.addSortBy(r'performedRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByEstWeightDesc() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      sortByPerformedRepDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.desc);
+      return query.addSortBy(r'performedRep', Sort.desc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByMaxRep() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      sortByPerformedWeight() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.asc);
+      return query.addSortBy(r'performedWeight', Sort.asc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByMaxRepDesc() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      sortByPerformedWeightDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByMinRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> sortByMinRepDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.desc);
+      return query.addSortBy(r'performedWeight', Sort.desc);
     });
   }
 }
 
 extension PerformedSetQuerySortThenBy
     on QueryBuilder<PerformedSet, PerformedSet, QSortThenBy> {
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByEstWeight() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByEstWeightDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.desc);
-    });
-  }
-
   QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -571,48 +469,46 @@ extension PerformedSetQuerySortThenBy
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByMaxRep() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByPerformedRep() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.asc);
+      return query.addSortBy(r'performedRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByMaxRepDesc() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      thenByPerformedRepDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.desc);
+      return query.addSortBy(r'performedRep', Sort.desc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByMinRep() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      thenByPerformedWeight() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.asc);
+      return query.addSortBy(r'performedWeight', Sort.asc);
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy> thenByMinRepDesc() {
+  QueryBuilder<PerformedSet, PerformedSet, QAfterSortBy>
+      thenByPerformedWeightDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.desc);
+      return query.addSortBy(r'performedWeight', Sort.desc);
     });
   }
 }
 
 extension PerformedSetQueryWhereDistinct
     on QueryBuilder<PerformedSet, PerformedSet, QDistinct> {
-  QueryBuilder<PerformedSet, PerformedSet, QDistinct> distinctByEstWeight() {
+  QueryBuilder<PerformedSet, PerformedSet, QDistinct> distinctByPerformedRep() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'estWeight');
+      return query.addDistinctBy(r'performedRep');
     });
   }
 
-  QueryBuilder<PerformedSet, PerformedSet, QDistinct> distinctByMaxRep() {
+  QueryBuilder<PerformedSet, PerformedSet, QDistinct>
+      distinctByPerformedWeight() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'maxRep');
-    });
-  }
-
-  QueryBuilder<PerformedSet, PerformedSet, QDistinct> distinctByMinRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'minRep');
+      return query.addDistinctBy(r'performedWeight');
     });
   }
 }
@@ -625,21 +521,16 @@ extension PerformedSetQueryProperty
     });
   }
 
-  QueryBuilder<PerformedSet, double?, QQueryOperations> estWeightProperty() {
+  QueryBuilder<PerformedSet, int?, QQueryOperations> performedRepProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'estWeight');
+      return query.addPropertyName(r'performedRep');
     });
   }
 
-  QueryBuilder<PerformedSet, int?, QQueryOperations> maxRepProperty() {
+  QueryBuilder<PerformedSet, double?, QQueryOperations>
+      performedWeightProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'maxRep');
-    });
-  }
-
-  QueryBuilder<PerformedSet, int?, QQueryOperations> minRepProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'minRep');
+      return query.addPropertyName(r'performedWeight');
     });
   }
 }

@@ -11,19 +11,17 @@ part 'performed_set.g.dart';
 class PerformedSet {
   Id id = Isar.autoIncrement;
 
-  double? estWeight;
-  int? minRep;
-  int? maxRep;
+  double? performedWeight;
+  int? performedRep;
 
   final exercise = IsarLink<Exercise>();
 
-  PerformedSet({this.estWeight, this.minRep, this.maxRep});
+  PerformedSet({this.performedWeight, this.performedRep});
 
-  PerformedSet copyWith({double? estWeight, int? minRep, int? maxRep}) {
+  PerformedSet copyWith({double? performedWeight, int? performedRep}) {
     return PerformedSet(
-      estWeight: estWeight ?? this.estWeight,
-      minRep: minRep ?? this.minRep,
-      maxRep: maxRep ?? this.maxRep,
+      performedWeight: performedWeight ?? this.performedWeight,
+      performedRep: performedRep ?? this.performedRep,
     );
   }
 }
