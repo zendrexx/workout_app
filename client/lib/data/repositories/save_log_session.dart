@@ -6,6 +6,7 @@ import 'package:client/data/models/performed_set.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/models/planned_set.dart';
+import 'package:client/data/models/workout_stats.dart';
 import 'package:client/data/services/database_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +22,7 @@ Future<void> saveLogSession(
 
     performedSession.name = tempSession.name;
     performedSession.isCompleted = true;
-    // STEP 3: Recreate all sets and exercises
+
     final allSets = <PerformedSet>[];
     for (final tempExercise in tempSession.plannedExercise) {
       for (final tempSet in tempExercise.sets) {
@@ -54,14 +55,18 @@ Future<void> saveLogSession(
 
       performedExercises.add(performedExercise);
     }
+    //WorkoutStats
+    final performedWorkoutStats = WorkoutStats()
+      ..totalVolume = tempStats.tempTotalVolume
+      ..totalSets = tempStats.tempTotalSets
+      ..hours = tempStats.hours
+      ..minutes = tempStats.minutes
+      ..seconds = tempStats.seconds;
 
-    // final tempWorkoutStats = TempWorkoutStats()
-    //   ..tempTotalVolume = tempStats.tempTotalVolume
-    //   ..tempTotalSets = tempStats.tempTotalSets;
-
-    // Save session and link exercises
     await isar.performedSessions.put(performedSession);
     performedSession.performedExercises.addAll(performedExercises);
+    performedSession.workoutStats.add(performedWorkoutStats);
     await performedSession.performedExercises.save();
+    await performedSession.workoutStats.save();
   });
 }

@@ -32,14 +32,14 @@ const WorkoutStatsSchema = CollectionSchema(
       name: r'seconds',
       type: IsarType.long,
     ),
-    r'tempTotalSets': PropertySchema(
+    r'totalSets': PropertySchema(
       id: 3,
-      name: r'tempTotalSets',
+      name: r'totalSets',
       type: IsarType.long,
     ),
-    r'tempTotalVolume': PropertySchema(
+    r'totalVolume': PropertySchema(
       id: 4,
-      name: r'tempTotalVolume',
+      name: r'totalVolume',
       type: IsarType.double,
     )
   },
@@ -75,8 +75,8 @@ void _workoutStatsSerialize(
   writer.writeLong(offsets[0], object.hours);
   writer.writeLong(offsets[1], object.minutes);
   writer.writeLong(offsets[2], object.seconds);
-  writer.writeLong(offsets[3], object.tempTotalSets);
-  writer.writeDouble(offsets[4], object.tempTotalVolume);
+  writer.writeLong(offsets[3], object.totalSets);
+  writer.writeDouble(offsets[4], object.totalVolume);
 }
 
 WorkoutStats _workoutStatsDeserialize(
@@ -89,8 +89,8 @@ WorkoutStats _workoutStatsDeserialize(
     hours: reader.readLongOrNull(offsets[0]),
     minutes: reader.readLongOrNull(offsets[1]),
     seconds: reader.readLongOrNull(offsets[2]),
-    tempTotalSets: reader.readLongOrNull(offsets[3]),
-    tempTotalVolume: reader.readDoubleOrNull(offsets[4]),
+    totalSets: reader.readLongOrNull(offsets[3]),
+    totalVolume: reader.readDoubleOrNull(offsets[4]),
   );
   object.id = id;
   return object;
@@ -486,63 +486,63 @@ extension WorkoutStatsQueryFilter
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsIsNull() {
+      totalSetsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tempTotalSets',
+        property: r'totalSets',
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsIsNotNull() {
+      totalSetsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tempTotalSets',
+        property: r'totalSets',
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsEqualTo(int? value) {
+      totalSetsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'tempTotalSets',
+        property: r'totalSets',
         value: value,
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsGreaterThan(
+      totalSetsGreaterThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'tempTotalSets',
+        property: r'totalSets',
         value: value,
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsLessThan(
+      totalSetsLessThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'tempTotalSets',
+        property: r'totalSets',
         value: value,
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalSetsBetween(
+      totalSetsBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -550,7 +550,7 @@ extension WorkoutStatsQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'tempTotalSets',
+        property: r'totalSets',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -560,31 +560,31 @@ extension WorkoutStatsQueryFilter
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeIsNull() {
+      totalVolumeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeIsNotNull() {
+      totalVolumeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
       ));
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeEqualTo(
+      totalVolumeEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
         value: value,
         epsilon: epsilon,
       ));
@@ -592,7 +592,7 @@ extension WorkoutStatsQueryFilter
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeGreaterThan(
+      totalVolumeGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -600,7 +600,7 @@ extension WorkoutStatsQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
         value: value,
         epsilon: epsilon,
       ));
@@ -608,7 +608,7 @@ extension WorkoutStatsQueryFilter
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeLessThan(
+      totalVolumeLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -616,7 +616,7 @@ extension WorkoutStatsQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
         value: value,
         epsilon: epsilon,
       ));
@@ -624,7 +624,7 @@ extension WorkoutStatsQueryFilter
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterFilterCondition>
-      tempTotalVolumeBetween(
+      totalVolumeBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -633,7 +633,7 @@ extension WorkoutStatsQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'tempTotalVolume',
+        property: r'totalVolume',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -688,30 +688,28 @@ extension WorkoutStatsQuerySortBy
     });
   }
 
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> sortByTempTotalSets() {
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> sortByTotalSets() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalSets', Sort.asc);
+      return query.addSortBy(r'totalSets', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> sortByTotalSetsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalSets', Sort.desc);
+    });
+  }
+
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> sortByTotalVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalVolume', Sort.asc);
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      sortByTempTotalSetsDesc() {
+      sortByTotalVolumeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalSets', Sort.desc);
-    });
-  }
-
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      sortByTempTotalVolume() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalVolume', Sort.asc);
-    });
-  }
-
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      sortByTempTotalVolumeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalVolume', Sort.desc);
+      return query.addSortBy(r'totalVolume', Sort.desc);
     });
   }
 }
@@ -766,30 +764,28 @@ extension WorkoutStatsQuerySortThenBy
     });
   }
 
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> thenByTempTotalSets() {
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> thenByTotalSets() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalSets', Sort.asc);
+      return query.addSortBy(r'totalSets', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> thenByTotalSetsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalSets', Sort.desc);
+    });
+  }
+
+  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy> thenByTotalVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalVolume', Sort.asc);
     });
   }
 
   QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      thenByTempTotalSetsDesc() {
+      thenByTotalVolumeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalSets', Sort.desc);
-    });
-  }
-
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      thenByTempTotalVolume() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalVolume', Sort.asc);
-    });
-  }
-
-  QueryBuilder<WorkoutStats, WorkoutStats, QAfterSortBy>
-      thenByTempTotalVolumeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'tempTotalVolume', Sort.desc);
+      return query.addSortBy(r'totalVolume', Sort.desc);
     });
   }
 }
@@ -814,17 +810,15 @@ extension WorkoutStatsQueryWhereDistinct
     });
   }
 
-  QueryBuilder<WorkoutStats, WorkoutStats, QDistinct>
-      distinctByTempTotalSets() {
+  QueryBuilder<WorkoutStats, WorkoutStats, QDistinct> distinctByTotalSets() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'tempTotalSets');
+      return query.addDistinctBy(r'totalSets');
     });
   }
 
-  QueryBuilder<WorkoutStats, WorkoutStats, QDistinct>
-      distinctByTempTotalVolume() {
+  QueryBuilder<WorkoutStats, WorkoutStats, QDistinct> distinctByTotalVolume() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'tempTotalVolume');
+      return query.addDistinctBy(r'totalVolume');
     });
   }
 }
@@ -855,16 +849,15 @@ extension WorkoutStatsQueryProperty
     });
   }
 
-  QueryBuilder<WorkoutStats, int?, QQueryOperations> tempTotalSetsProperty() {
+  QueryBuilder<WorkoutStats, int?, QQueryOperations> totalSetsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'tempTotalSets');
+      return query.addPropertyName(r'totalSets');
     });
   }
 
-  QueryBuilder<WorkoutStats, double?, QQueryOperations>
-      tempTotalVolumeProperty() {
+  QueryBuilder<WorkoutStats, double?, QQueryOperations> totalVolumeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'tempTotalVolume');
+      return query.addPropertyName(r'totalVolume');
     });
   }
 }

@@ -5,14 +5,14 @@ part 'workout_stats.g.dart';
 @collection
 class WorkoutStats {
   Id id = Isar.autoIncrement;
-  final int? hours;
-  final int? minutes;
-  final int? seconds;
-  final double? tempTotalVolume;
-  final int? tempTotalSets;
+  int? hours;
+  int? minutes;
+  int? seconds;
+  double? totalVolume;
+  int? totalSets;
   WorkoutStats({
-    this.tempTotalVolume = 0,
-    this.tempTotalSets = 0,
+    this.totalVolume = 0,
+    this.totalSets = 0,
     this.hours,
     this.minutes,
     this.seconds,

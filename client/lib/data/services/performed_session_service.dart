@@ -6,7 +6,7 @@ import 'package:client/data/services/database_service.dart';
 import 'package:isar/isar.dart';
 
 class PerformedSessionService {
-  Future<List<PerformedSession>> getAllPlannedSession() async {
+  Future<List<PerformedSession>> getAllPerformedSession() async {
     final isar = DatabaseService.db;
 
     // Fetch all sessions
