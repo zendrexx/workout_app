@@ -1,60 +1,53 @@
 import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/performed_session.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/services/database_service.dart';
 import 'package:isar/isar.dart';
 
-class PerformedSessionService {
-  Future<List<PerformedSession>> getAllPerformedSession() async {
-    final isar = DatabaseService.db;
-
+class PlannedSessionService {
+  final Isar isar;
+  PlannedSessionService(this.isar);
+  Future<List<PlannedSession>> getAllPlannedSession() async {
     // Fetch all sessions
-    final sessions = await isar.performedSessions.where().findAll();
+    final sessions = await isar.plannedSessions.where().findAll();
     print("🟦 Found ${sessions.length} sessions");
     // Load all links (PlannedExercise and Exercise)
     for (final session in sessions) {
-      await session.performedExercises.load();
-      print("  🟨plannedExercise count: ${session.performedExercises.length}");
+      await session.plannedExercise.load();
+      print("  🟨plannedExercise count: ${session.plannedExercise.length}");
       // Then for each plannedExercise, load its exercise link
     }
 
     return sessions;
   }
 
-  Future<PerformedSession?> getSessionById(int id) async {
-    final isar = DatabaseService.db;
-
-    final session = await isar.performedSessions.get(id);
+  Future<PlannedSession?> getSessionById(int id) async {
+    final session = await isar.plannedSessions.get(id);
     if (session == null) {
       print("❌ Session with id $id not found");
       return null;
     }
 
     // Load linked exercises
-    await session.performedExercises.load();
+    await session.plannedExercise.load();
 
     print(
-      "✅ Loaded session '${session.name}' with ${session.performedExercises.length} planned exercises",
+      "✅ Loaded session '${session.name}' with ${session.plannedExercise.length} planned exercises",
     );
     return session;
   }
 
   Future<void> addSession(PlannedSession plannedSession) async {
-    final isar = DatabaseService.db;
     await isar.writeTxn(
       () async => await isar.plannedSessions.put(plannedSession),
     );
   }
 
   Future<void> deleteSession(int id) async {
-    final isar = DatabaseService.db;
     await isar.writeTxn(() async => await isar.plannedSessions.delete(id));
   }
 
   Future<PlannedSession?> duplicateSession(int id) async {
-    final isar = DatabaseService.db;
-
     final original = await isar.plannedSessions.get(id);
     if (original == null) {
       print("❌ Session with id $id not found for duplication");

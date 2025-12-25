@@ -12,7 +12,6 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -31,13 +30,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: 
-          
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(16.0),
+      //     child:
+
+      //   ),
+      // ),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:isar/isar.dart';
 
 class SaveToTemp {
   final WidgetRef ref;
+
   const SaveToTemp({required this.ref});
 
   void addName(String title) {

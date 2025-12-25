@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  await _setup();
-  runApp(ProviderScope(child: const MyApp()));
-}
+  final databaseService = DatabaseService();
+  await databaseService.setup();
 
-Future<void> _setup() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await DatabaseService.setup();
-  await DatabaseService.resetExercises();
+  runApp(
+    ProviderScope(
+      overrides: [isarProvider.overrideWithValue(databaseService.isar)],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
