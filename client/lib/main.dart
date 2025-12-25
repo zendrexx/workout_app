@@ -1,18 +1,11 @@
+import 'package:client/core/providers/isar_provider.dart';
 import 'package:client/core/router/router.dart';
-import 'package:client/data/services/database_service.dart';
+import 'package:client/core/database/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() async {
-  final databaseService = DatabaseService();
-  await databaseService.setup();
-
-  runApp(
-    ProviderScope(
-      overrides: [isarProvider.overrideWithValue(databaseService.isar)],
-      child: MyApp(),
-    ),
-  );
+void main() {
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
