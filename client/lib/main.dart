@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
+  //providerscope only hindi na init ng dbase
   runApp(ProviderScope(child: MyApp()));
 }
 
