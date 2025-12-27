@@ -1,12 +1,12 @@
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
-import 'package:client/data/services/database_service.dart';
+import 'package:client/core/database/database_service.dart';
 import 'package:isar/isar.dart';
 
-class PlannedSessionService {
+class PlannedSessionRepo {
   final Isar isar;
-  PlannedSessionService(this.isar);
+  PlannedSessionRepo(this.isar);
   Future<List<PlannedSession>> getAllPlannedSession() async {
     // Fetch all sessions
     final sessions = await isar.plannedSessions.where().findAll();
