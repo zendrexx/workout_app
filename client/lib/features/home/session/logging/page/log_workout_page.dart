@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/core/notifier/temp_session_notifier.dart';
-import 'package:client/core/notifier/temp_workout_stats.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_workout_stats.dart';
 import 'package:client/data/repositories/save_log_session.dart';
-import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';
-import 'package:client/features/home/widgets/log_session_workout_widget.dart';
-import 'package:client/features/home/widgets/log_workout_detail_widget.dart';
+import 'package:client/features/home/session/logging/widget/log_session_workout_widget.dart';
+import 'package:client/features/home/session/logging/widget/log_workout_detail_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:client/features/home/widgets/session_card_widget.dart';
-import 'package:client/features/home/widgets/view_session_workout_widget.dart';
+import 'package:client/features/home/session/planning/widget/view_session_workout_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

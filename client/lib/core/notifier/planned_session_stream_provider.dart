@@ -1,6 +1,6 @@
 import 'package:client/data/models/planned_session.dart';
-import 'package:client/data/services/database_service.dart';
-import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/core/database/database_service.dart';
+import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 

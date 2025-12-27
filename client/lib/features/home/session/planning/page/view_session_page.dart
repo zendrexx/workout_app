@@ -1,10 +1,10 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
 import 'package:client/data/models/planned_session.dart';
-import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
-import 'package:client/features/home/widgets/view_session_workout_widget.dart';
+import 'package:client/features/home/session/planning/widget/view_session_workout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

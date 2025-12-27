@@ -2,7 +2,7 @@ import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
-import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -8,7 +8,7 @@ import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/data/models/planned_set.dart';
 import 'package:client/data/models/workout_stats.dart';
-import 'package:client/data/services/database_service.dart';
+import 'package:client/core/database/database_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 

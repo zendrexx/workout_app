@@ -1,11 +1,11 @@
-import 'package:client/core/notifier/temp_session_notifier.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
-import 'package:client/data/services/database_service.dart';
-import 'package:client/data/services/planned_session_service.dart';
+import 'package:client/core/database/database_service.dart';
+import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 

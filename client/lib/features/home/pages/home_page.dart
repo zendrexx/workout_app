@@ -2,7 +2,7 @@ import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
-import 'package:client/features/home/widgets/home_list_widget.dart';
+import 'package:client/features/home/session/planning/widget/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

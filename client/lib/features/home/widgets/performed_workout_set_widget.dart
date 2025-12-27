@@ -1,5 +1,5 @@
-import 'package:client/core/notifier/temp_session_notifier.dart';
-import 'package:client/core/notifier/temp_workout_stats.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
+import 'package:client/features/home/session/planning/viewmodel/temp_workout_stats.dart';
 import 'package:client/data/models/planned_set.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
