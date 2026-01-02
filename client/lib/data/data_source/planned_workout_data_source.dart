@@ -2,9 +2,9 @@ import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/models/planned_session.dart';
 import 'package:isar/isar.dart';
 
-class WorkoutLocalDataSource {
+class PlannedWorkoutDataSource {
   final Isar isar;
-  WorkoutLocalDataSource(this.isar);
+  PlannedWorkoutDataSource(this.isar);
 
   Future<List<PlannedSession>> getAllPlannedSession() async {
     // Fetch all sessions
