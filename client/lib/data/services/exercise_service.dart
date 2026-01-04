@@ -7,7 +7,7 @@ Future<void> seedExercises(Isar isar) async {
   final count = await isar.exercises.count();
 
   if (count == 0) {
-    final jsonString = await rootBundle.loadstring('assets/exercises.json');
+    final jsonString = await rootBundle.loadString('assets/exercises.json');
     final data = jsonDecode(jsonString) as List;
 
     final exercises = data.map((e) => Exercise.fromJson(e)).toList();

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'planned_set.dart';
+part of 'planned_set_isar.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,13 @@ part of 'planned_set.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetPlannedSetCollection on Isar {
-  IsarCollection<PlannedSet> get plannedSets => this.collection();
+extension GetPlannedSetIsarCollection on Isar {
+  IsarCollection<PlannedSetIsar> get plannedSetIsars => this.collection();
 }
 
-const PlannedSetSchema = CollectionSchema(
-  name: r'PlannedSet',
-  id: 274001502372112171,
+const PlannedSetIsarSchema = CollectionSchema(
+  name: r'PlannedSetIsar',
+  id: -8044381193899721445,
   properties: {
     r'estWeight': PropertySchema(
       id: 0,
@@ -33,29 +33,29 @@ const PlannedSetSchema = CollectionSchema(
       type: IsarType.long,
     )
   },
-  estimateSize: _plannedSetEstimateSize,
-  serialize: _plannedSetSerialize,
-  deserialize: _plannedSetDeserialize,
-  deserializeProp: _plannedSetDeserializeProp,
+  estimateSize: _plannedSetIsarEstimateSize,
+  serialize: _plannedSetIsarSerialize,
+  deserialize: _plannedSetIsarDeserialize,
+  deserializeProp: _plannedSetIsarDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {
     r'exercise': LinkSchema(
-      id: -2975236721772223910,
+      id: -740809821568161114,
       name: r'exercise',
       target: r'Exercise',
       single: true,
     )
   },
   embeddedSchemas: {},
-  getId: _plannedSetGetId,
-  getLinks: _plannedSetGetLinks,
-  attach: _plannedSetAttach,
+  getId: _plannedSetIsarGetId,
+  getLinks: _plannedSetIsarGetLinks,
+  attach: _plannedSetIsarAttach,
   version: '3.1.0+1',
 );
 
-int _plannedSetEstimateSize(
-  PlannedSet object,
+int _plannedSetIsarEstimateSize(
+  PlannedSetIsar object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -63,8 +63,8 @@ int _plannedSetEstimateSize(
   return bytesCount;
 }
 
-void _plannedSetSerialize(
-  PlannedSet object,
+void _plannedSetIsarSerialize(
+  PlannedSetIsar object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -74,13 +74,13 @@ void _plannedSetSerialize(
   writer.writeLong(offsets[2], object.minRep);
 }
 
-PlannedSet _plannedSetDeserialize(
+PlannedSetIsar _plannedSetIsarDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = PlannedSet(
+  final object = PlannedSetIsar(
     estWeight: reader.readDoubleOrNull(offsets[0]),
     maxRep: reader.readLongOrNull(offsets[1]),
     minRep: reader.readLongOrNull(offsets[2]),
@@ -89,7 +89,7 @@ PlannedSet _plannedSetDeserialize(
   return object;
 }
 
-P _plannedSetDeserializeProp<P>(
+P _plannedSetIsarDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -107,31 +107,33 @@ P _plannedSetDeserializeProp<P>(
   }
 }
 
-Id _plannedSetGetId(PlannedSet object) {
+Id _plannedSetIsarGetId(PlannedSetIsar object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _plannedSetGetLinks(PlannedSet object) {
+List<IsarLinkBase<dynamic>> _plannedSetIsarGetLinks(PlannedSetIsar object) {
   return [object.exercise];
 }
 
-void _plannedSetAttach(IsarCollection<dynamic> col, Id id, PlannedSet object) {
+void _plannedSetIsarAttach(
+    IsarCollection<dynamic> col, Id id, PlannedSetIsar object) {
   object.id = id;
   object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
 }
 
-extension PlannedSetQueryWhereSort
-    on QueryBuilder<PlannedSet, PlannedSet, QWhere> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhere> anyId() {
+extension PlannedSetIsarQueryWhereSort
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QWhere> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension PlannedSetQueryWhere
-    on QueryBuilder<PlannedSet, PlannedSet, QWhereClause> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhereClause> idEqualTo(Id id) {
+extension PlannedSetIsarQueryWhere
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QWhereClause> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -140,7 +142,8 @@ extension PlannedSetQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idNotEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -162,7 +165,8 @@ extension PlannedSetQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idGreaterThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -171,7 +175,8 @@ extension PlannedSetQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idLessThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -180,7 +185,7 @@ extension PlannedSetQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterWhereClause> idBetween(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -197,9 +202,9 @@ extension PlannedSetQueryWhere
   }
 }
 
-extension PlannedSetQueryFilter
-    on QueryBuilder<PlannedSet, PlannedSet, QFilterCondition> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition>
+extension PlannedSetIsarQueryFilter
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
       estWeightIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -208,7 +213,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition>
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
       estWeightIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -217,7 +222,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> estWeightEqualTo(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      estWeightEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -230,7 +236,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition>
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
       estWeightGreaterThan(
     double? value, {
     bool include = false,
@@ -246,7 +252,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> estWeightLessThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      estWeightLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -261,7 +268,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> estWeightBetween(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      estWeightBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -280,7 +288,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -290,7 +298,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -303,7 +312,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> idLessThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -316,7 +326,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> idBetween(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -333,7 +343,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> maxRepIsNull() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      maxRepIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'maxRep',
@@ -341,7 +352,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition>
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
       maxRepIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -350,8 +361,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> maxRepEqualTo(
-      int? value) {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      maxRepEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'maxRep',
@@ -360,7 +371,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> maxRepGreaterThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      maxRepGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -373,7 +385,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> maxRepLessThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      maxRepLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -386,7 +399,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> maxRepBetween(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      maxRepBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -403,7 +417,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> minRepIsNull() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      minRepIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'minRep',
@@ -411,7 +426,7 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition>
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
       minRepIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -420,8 +435,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> minRepEqualTo(
-      int? value) {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      minRepEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'minRep',
@@ -430,7 +445,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> minRepGreaterThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      minRepGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -443,7 +459,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> minRepLessThan(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      minRepLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -456,7 +473,8 @@ extension PlannedSetQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> minRepBetween(
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      minRepBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -474,157 +492,165 @@ extension PlannedSetQueryFilter
   }
 }
 
-extension PlannedSetQueryObject
-    on QueryBuilder<PlannedSet, PlannedSet, QFilterCondition> {}
+extension PlannedSetIsarQueryObject
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {}
 
-extension PlannedSetQueryLinks
-    on QueryBuilder<PlannedSet, PlannedSet, QFilterCondition> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> exercise(
+extension PlannedSetIsarQueryLinks
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> exercise(
       FilterQuery<Exercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'exercise');
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterFilterCondition> exerciseIsNull() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      exerciseIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'exercise', 0, true, 0, true);
     });
   }
 }
 
-extension PlannedSetQuerySortBy
-    on QueryBuilder<PlannedSet, PlannedSet, QSortBy> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByEstWeight() {
+extension PlannedSetIsarQuerySortBy
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QSortBy> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByEstWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'estWeight', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByEstWeightDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      sortByEstWeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'estWeight', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByMaxRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByMaxRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByMaxRepDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      sortByMaxRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxRep', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByMinRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByMinRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'minRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> sortByMinRepDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      sortByMinRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'minRep', Sort.desc);
     });
   }
 }
 
-extension PlannedSetQuerySortThenBy
-    on QueryBuilder<PlannedSet, PlannedSet, QSortThenBy> {
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByEstWeight() {
+extension PlannedSetIsarQuerySortThenBy
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QSortThenBy> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByEstWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'estWeight', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByEstWeightDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      thenByEstWeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'estWeight', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenById() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByMaxRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByMaxRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByMaxRepDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      thenByMaxRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxRep', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByMinRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByMinRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'minRep', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QAfterSortBy> thenByMinRepDesc() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
+      thenByMinRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'minRep', Sort.desc);
     });
   }
 }
 
-extension PlannedSetQueryWhereDistinct
-    on QueryBuilder<PlannedSet, PlannedSet, QDistinct> {
-  QueryBuilder<PlannedSet, PlannedSet, QDistinct> distinctByEstWeight() {
+extension PlannedSetIsarQueryWhereDistinct
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct>
+      distinctByEstWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'estWeight');
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QDistinct> distinctByMaxRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> distinctByMaxRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'maxRep');
     });
   }
 
-  QueryBuilder<PlannedSet, PlannedSet, QDistinct> distinctByMinRep() {
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> distinctByMinRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'minRep');
     });
   }
 }
 
-extension PlannedSetQueryProperty
-    on QueryBuilder<PlannedSet, PlannedSet, QQueryProperty> {
-  QueryBuilder<PlannedSet, int, QQueryOperations> idProperty() {
+extension PlannedSetIsarQueryProperty
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QQueryProperty> {
+  QueryBuilder<PlannedSetIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<PlannedSet, double?, QQueryOperations> estWeightProperty() {
+  QueryBuilder<PlannedSetIsar, double?, QQueryOperations> estWeightProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'estWeight');
     });
   }
 
-  QueryBuilder<PlannedSet, int?, QQueryOperations> maxRepProperty() {
+  QueryBuilder<PlannedSetIsar, int?, QQueryOperations> maxRepProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'maxRep');
     });
   }
 
-  QueryBuilder<PlannedSet, int?, QQueryOperations> minRepProperty() {
+  QueryBuilder<PlannedSetIsar, int?, QQueryOperations> minRepProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'minRep');
     });

@@ -3,12 +3,12 @@ import 'dart:convert';
 
 import 'package:isar/isar.dart';
 
-import 'exercise.dart';
+import '../../../../data/models/exercise.dart';
 
-part 'planned_set.g.dart';
+part 'planned_set_isar.g.dart';
 
 @collection
-class PlannedSet {
+class PlannedSetIsar {
   Id id = Isar.autoIncrement;
 
   double? estWeight;
@@ -17,10 +17,10 @@ class PlannedSet {
 
   final exercise = IsarLink<Exercise>();
 
-  PlannedSet({this.estWeight, this.minRep, this.maxRep});
+  PlannedSetIsar({this.estWeight, this.minRep, this.maxRep});
 
-  PlannedSet copyWith({double? estWeight, int? minRep, int? maxRep}) {
-    return PlannedSet(
+  PlannedSetIsar copyWith({double? estWeight, int? minRep, int? maxRep}) {
+    return PlannedSetIsar(
       estWeight: estWeight ?? this.estWeight,
       minRep: minRep ?? this.minRep,
       maxRep: maxRep ?? this.maxRep,

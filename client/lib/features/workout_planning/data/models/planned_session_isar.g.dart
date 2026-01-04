@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'planned_session.dart';
+part of 'planned_session_isar.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,14 @@ part of 'planned_session.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetPlannedSessionCollection on Isar {
-  IsarCollection<PlannedSession> get plannedSessions => this.collection();
+extension GetPlannedSessionIsarCollection on Isar {
+  IsarCollection<PlannedSessionIsar> get plannedSessionIsars =>
+      this.collection();
 }
 
-const PlannedSessionSchema = CollectionSchema(
-  name: r'PlannedSession',
-  id: -662277018486409028,
+const PlannedSessionIsarSchema = CollectionSchema(
+  name: r'PlannedSessionIsar',
+  id: 6442067316243507880,
   properties: {
     r'createdAt': PropertySchema(
       id: 0,
@@ -33,35 +34,35 @@ const PlannedSessionSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _plannedSessionEstimateSize,
-  serialize: _plannedSessionSerialize,
-  deserialize: _plannedSessionDeserialize,
-  deserializeProp: _plannedSessionDeserializeProp,
+  estimateSize: _plannedSessionIsarEstimateSize,
+  serialize: _plannedSessionIsarSerialize,
+  deserialize: _plannedSessionIsarDeserialize,
+  deserializeProp: _plannedSessionIsarDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {
     r'workoutStats': LinkSchema(
-      id: -4680063163054398742,
+      id: 2695046919954672214,
       name: r'workoutStats',
       target: r'WorkoutStats',
       single: false,
     ),
     r'plannedExercise': LinkSchema(
-      id: 6195836111921285743,
+      id: -1460240402367288691,
       name: r'plannedExercise',
-      target: r'PlannedExercise',
+      target: r'PlannedExerciseIsar',
       single: false,
     )
   },
   embeddedSchemas: {},
-  getId: _plannedSessionGetId,
-  getLinks: _plannedSessionGetLinks,
-  attach: _plannedSessionAttach,
+  getId: _plannedSessionIsarGetId,
+  getLinks: _plannedSessionIsarGetLinks,
+  attach: _plannedSessionIsarAttach,
   version: '3.1.0+1',
 );
 
-int _plannedSessionEstimateSize(
-  PlannedSession object,
+int _plannedSessionIsarEstimateSize(
+  PlannedSessionIsar object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -75,8 +76,8 @@ int _plannedSessionEstimateSize(
   return bytesCount;
 }
 
-void _plannedSessionSerialize(
-  PlannedSession object,
+void _plannedSessionIsarSerialize(
+  PlannedSessionIsar object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -86,13 +87,13 @@ void _plannedSessionSerialize(
   writer.writeString(offsets[2], object.name);
 }
 
-PlannedSession _plannedSessionDeserialize(
+PlannedSessionIsar _plannedSessionIsarDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = PlannedSession(
+  final object = PlannedSessionIsar(
     name: reader.readStringOrNull(offsets[2]),
   );
   object.createdAt = reader.readDateTime(offsets[0]);
@@ -101,7 +102,7 @@ PlannedSession _plannedSessionDeserialize(
   return object;
 }
 
-P _plannedSessionDeserializeProp<P>(
+P _plannedSessionIsarDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -119,36 +120,37 @@ P _plannedSessionDeserializeProp<P>(
   }
 }
 
-Id _plannedSessionGetId(PlannedSession object) {
+Id _plannedSessionIsarGetId(PlannedSessionIsar object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _plannedSessionGetLinks(PlannedSession object) {
+List<IsarLinkBase<dynamic>> _plannedSessionIsarGetLinks(
+    PlannedSessionIsar object) {
   return [object.workoutStats, object.plannedExercise];
 }
 
-void _plannedSessionAttach(
-    IsarCollection<dynamic> col, Id id, PlannedSession object) {
+void _plannedSessionIsarAttach(
+    IsarCollection<dynamic> col, Id id, PlannedSessionIsar object) {
   object.id = id;
   object.workoutStats
       .attach(col, col.isar.collection<WorkoutStats>(), r'workoutStats', id);
   object.plannedExercise.attach(
-      col, col.isar.collection<PlannedExercise>(), r'plannedExercise', id);
+      col, col.isar.collection<PlannedExerciseIsar>(), r'plannedExercise', id);
 }
 
-extension PlannedSessionQueryWhereSort
-    on QueryBuilder<PlannedSession, PlannedSession, QWhere> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhere> anyId() {
+extension PlannedSessionIsarQueryWhereSort
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QWhere> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension PlannedSessionQueryWhere
-    on QueryBuilder<PlannedSession, PlannedSession, QWhereClause> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhereClause> idEqualTo(
-      Id id) {
+extension PlannedSessionIsarQueryWhere
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QWhereClause> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -157,8 +159,8 @@ extension PlannedSessionQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -180,9 +182,8 @@ extension PlannedSessionQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhereClause> idGreaterThan(
-      Id id,
-      {bool include = false}) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -190,9 +191,8 @@ extension PlannedSessionQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhereClause> idLessThan(
-      Id id,
-      {bool include = false}) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -200,7 +200,8 @@ extension PlannedSessionQueryWhere
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterWhereClause> idBetween(
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -217,9 +218,9 @@ extension PlannedSessionQueryWhere
   }
 }
 
-extension PlannedSessionQueryFilter
-    on QueryBuilder<PlannedSession, PlannedSession, QFilterCondition> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+extension PlannedSessionIsarQueryFilter
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       createdAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -229,7 +230,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       createdAtGreaterThan(
     DateTime value, {
     bool include = false,
@@ -243,7 +244,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       createdAtLessThan(
     DateTime value, {
     bool include = false,
@@ -257,7 +258,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       createdAtBetween(
     DateTime lower,
     DateTime upper, {
@@ -275,8 +276,8 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition> idEqualTo(
-      Id value) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -285,7 +286,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       idGreaterThan(
     Id value, {
     bool include = false,
@@ -299,7 +300,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       idLessThan(
     Id value, {
     bool include = false,
@@ -313,7 +314,8 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition> idBetween(
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -330,7 +332,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       isCompletedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -340,7 +342,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -349,7 +351,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -358,7 +360,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -372,7 +374,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameGreaterThan(
     String? value, {
     bool include = false,
@@ -388,7 +390,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameLessThan(
     String? value, {
     bool include = false,
@@ -404,7 +406,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameBetween(
     String? lower,
     String? upper, {
@@ -424,7 +426,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -438,7 +440,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -452,7 +454,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -463,7 +465,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -474,7 +476,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -484,7 +486,7 @@ extension PlannedSessionQueryFilter
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -495,40 +497,40 @@ extension PlannedSessionQueryFilter
   }
 }
 
-extension PlannedSessionQueryObject
-    on QueryBuilder<PlannedSession, PlannedSession, QFilterCondition> {}
+extension PlannedSessionIsarQueryObject
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {}
 
-extension PlannedSessionQueryLinks
-    on QueryBuilder<PlannedSession, PlannedSession, QFilterCondition> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+extension PlannedSessionIsarQueryLinks
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStats(FilterQuery<WorkoutStats> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'workoutStats');
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'workoutStats', length, true, length, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'workoutStats', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'workoutStats', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsLengthLessThan(
     int length, {
     bool include = false,
@@ -538,7 +540,7 @@ extension PlannedSessionQueryLinks
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsLengthGreaterThan(
     int length, {
     bool include = false,
@@ -548,7 +550,7 @@ extension PlannedSessionQueryLinks
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       workoutStatsLengthBetween(
     int lower,
     int upper, {
@@ -561,35 +563,35 @@ extension PlannedSessionQueryLinks
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
-      plannedExercise(FilterQuery<PlannedExercise> q) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      plannedExercise(FilterQuery<PlannedExerciseIsar> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'plannedExercise');
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'plannedExercise', length, true, length, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'plannedExercise', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'plannedExercise', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseLengthLessThan(
     int length, {
     bool include = false,
@@ -599,7 +601,7 @@ extension PlannedSessionQueryLinks
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseLengthGreaterThan(
     int length, {
     bool include = false,
@@ -610,7 +612,7 @@ extension PlannedSessionQueryLinks
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterFilterCondition>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       plannedExerciseLengthBetween(
     int lower,
     int upper, {
@@ -624,147 +626,157 @@ extension PlannedSessionQueryLinks
   }
 }
 
-extension PlannedSessionQuerySortBy
-    on QueryBuilder<PlannedSession, PlannedSession, QSortBy> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> sortByCreatedAt() {
+extension PlannedSessionIsarQuerySortBy
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortBy> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       sortByIsCompleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isCompleted', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       sortByIsCompletedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isCompleted', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> sortByName() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension PlannedSessionQuerySortThenBy
-    on QueryBuilder<PlannedSession, PlannedSession, QSortThenBy> {
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> thenByCreatedAt() {
+extension PlannedSessionIsarQuerySortThenBy
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortThenBy> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> thenById() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       thenByIsCompleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isCompleted', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       thenByIsCompletedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isCompleted', Sort.desc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> thenByName() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension PlannedSessionQueryWhereDistinct
-    on QueryBuilder<PlannedSession, PlannedSession, QDistinct> {
-  QueryBuilder<PlannedSession, PlannedSession, QDistinct>
+extension PlannedSessionIsarQueryWhereDistinct
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
       distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QDistinct>
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
       distinctByIsCompleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isCompleted');
     });
   }
 
-  QueryBuilder<PlannedSession, PlannedSession, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
+      distinctByName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension PlannedSessionQueryProperty
-    on QueryBuilder<PlannedSession, PlannedSession, QQueryProperty> {
-  QueryBuilder<PlannedSession, int, QQueryOperations> idProperty() {
+extension PlannedSessionIsarQueryProperty
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QQueryProperty> {
+  QueryBuilder<PlannedSessionIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<PlannedSession, DateTime, QQueryOperations> createdAtProperty() {
+  QueryBuilder<PlannedSessionIsar, DateTime, QQueryOperations>
+      createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });
   }
 
-  QueryBuilder<PlannedSession, bool, QQueryOperations> isCompletedProperty() {
+  QueryBuilder<PlannedSessionIsar, bool, QQueryOperations>
+      isCompletedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isCompleted');
     });
   }
 
-  QueryBuilder<PlannedSession, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<PlannedSessionIsar, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

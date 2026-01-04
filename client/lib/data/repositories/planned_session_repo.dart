@@ -1,8 +1,8 @@
-import 'package:client/data/abstract/planned_session_abstract.dart';
+import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
 import 'package:client/data/data_source/planned_workout_data_source.dart';
 import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/planned_exercise.dart';
-import 'package:client/data/models/planned_session.dart';
+import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/core/database/database_service.dart';
 import 'package:isar/isar.dart';
 

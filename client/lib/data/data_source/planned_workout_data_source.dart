@@ -1,5 +1,5 @@
-import 'package:client/data/models/planned_exercise.dart';
-import 'package:client/data/models/planned_session.dart';
+import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:isar/isar.dart';
 
 class PlannedWorkoutDataSource {

@@ -1,5 +1,5 @@
-import 'package:client/data/models/planned_set.dart';
-import 'package:client/data/models/planned_session.dart';
+import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:isar/isar.dart';
 
 part 'exercise.g.dart';

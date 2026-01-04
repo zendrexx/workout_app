@@ -1,6 +1,6 @@
 import 'package:client/core/providers/planned_repo_provider.dart';
-import 'package:client/data/abstract/planned_session_abstract.dart';
-import 'package:client/data/models/planned_session.dart';
+import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
+import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final plannedSessionProvider =

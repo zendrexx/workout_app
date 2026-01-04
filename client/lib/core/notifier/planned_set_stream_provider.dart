@@ -1,6 +1,6 @@
 import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/planned_exercise.dart';
-import 'package:client/data/models/planned_set.dart';
+import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/core/database/database_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
