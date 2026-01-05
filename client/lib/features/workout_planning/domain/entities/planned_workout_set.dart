@@ -1,11 +1,17 @@
 class PlannedWorkoutSet {
-  final int reps;
-  final double weight;
+  final int minRep;
+  final int maxRep;
+  final double estWeight;
 
-  PlannedWorkoutSet({required this.reps, required this.weight});
+  PlannedWorkoutSet({
+    required this.minRep,
+    required this.maxRep,
+    required this.estWeight,
+  });
 
-  double get getVolume {
-    if (reps == 0) return 0;
-    return reps * weight;
+  double get getEstVolume {
+    int aveWeight = ((minRep + maxRep) / 2).toInt();
+    if (aveWeight == 0) return 0;
+    return aveWeight * estWeight;
   }
 }

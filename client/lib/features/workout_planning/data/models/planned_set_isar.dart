@@ -15,8 +15,6 @@ class PlannedSetIsar {
   int? minRep;
   int? maxRep;
 
-  final exercise = IsarLink<Exercise>();
-
   PlannedSetIsar({this.estWeight, this.minRep, this.maxRep});
 
   PlannedSetIsar copyWith({double? estWeight, int? minRep, int? maxRep}) {

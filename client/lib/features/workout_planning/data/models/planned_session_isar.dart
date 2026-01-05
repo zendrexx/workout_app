@@ -10,8 +10,6 @@ class PlannedSessionIsar {
   Id id = Isar.autoIncrement;
   late String? name;
   DateTime createdAt = DateTime.now();
-  bool isCompleted = false;
-  final workoutStats = IsarLinks<WorkoutStats>();
 
   final plannedExercise = IsarLinks<PlannedExerciseIsar>();
   PlannedSessionIsar({this.name, exercises});

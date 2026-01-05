@@ -39,14 +39,7 @@ const PlannedSetIsarSchema = CollectionSchema(
   deserializeProp: _plannedSetIsarDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {
-    r'exercise': LinkSchema(
-      id: -740809821568161114,
-      name: r'exercise',
-      target: r'Exercise',
-      single: true,
-    )
-  },
+  links: {},
   embeddedSchemas: {},
   getId: _plannedSetIsarGetId,
   getLinks: _plannedSetIsarGetLinks,
@@ -112,13 +105,12 @@ Id _plannedSetIsarGetId(PlannedSetIsar object) {
 }
 
 List<IsarLinkBase<dynamic>> _plannedSetIsarGetLinks(PlannedSetIsar object) {
-  return [object.exercise];
+  return [];
 }
 
 void _plannedSetIsarAttach(
     IsarCollection<dynamic> col, Id id, PlannedSetIsar object) {
   object.id = id;
-  object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
 }
 
 extension PlannedSetIsarQueryWhereSort
@@ -496,21 +488,7 @@ extension PlannedSetIsarQueryObject
     on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {}
 
 extension PlannedSetIsarQueryLinks
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> exercise(
-      FilterQuery<Exercise> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'exercise');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
-      exerciseIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'exercise', 0, true, 0, true);
-    });
-  }
-}
+    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {}
 
 extension PlannedSetIsarQuerySortBy
     on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QSortBy> {
