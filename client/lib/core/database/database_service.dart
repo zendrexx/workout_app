@@ -23,9 +23,9 @@ class DatabaseService {
     final appDir = await getApplicationDocumentsDirectory();
 
     isar = await Isar.open([
-      PlannedSessionSchema,
-      PlannedExerciseSchema,
-      PlannedSetSchema,
+      PlannedSessionIsarSchema,
+      PlannedExerciseIsarSchema,
+      PlannedSetIsarSchema,
       ExerciseSchema,
       WorkoutStatsSchema,
       PerformedSetSchema,
