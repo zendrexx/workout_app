@@ -1,5 +1,5 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
 import 'package:client/data/repositories/save_session.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';

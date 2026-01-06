@@ -5,16 +5,17 @@ import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
+import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final tempSessionProvider =
-    StateNotifierProvider<TempSessionNotifier, TempSession>(
-      (ref) => TempSessionNotifier(),
+final plannedWorkoutViewModelProvider =
+    StateNotifierProvider<PlannedWorkoutViewmodel, PlannedSessionState>(
+      (ref) => PlannedWorkoutViewmodel(),
     );
 
-class TempSessionNotifier extends StateNotifier<TempSession> {
-  TempSessionNotifier() : super(TempSession(name: "", isCompleted: false));
+class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
+  PlannedWorkoutViewmodel() : super(PlannedSessionState(name: ""));
   void updateName(String newName) {
     state = state.copyWith(name: newName);
   }

@@ -1,4 +1,4 @@
-import 'package:client/features/home/session/planning/viewmodel/temp_session_notifier.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
