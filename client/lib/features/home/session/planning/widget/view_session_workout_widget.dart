@@ -12,7 +12,7 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String imagePath;
   final int index;
   final int exerciseId;
-  final List<PlannedSet> plannedSets;
+  // final List<PlannedSet> plannedSets;
   final String? notes;
   const ViewSessionWorkoutWidget({
     required this.title,
@@ -21,7 +21,7 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
     required this.index,
     required this.exerciseId,
     super.key,
-    required this.plannedSets,
+    // required this.plannedSets,
     this.notes,
   });
 
@@ -33,17 +33,17 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
 class _ViewSessionWorkoutWidgetState
     extends ConsumerState<ViewSessionWorkoutWidget> {
   String? plannedRepRange(int index) {
-    String? repRange;
+    // String? repRange;
 
-    if (widget.plannedSets[index].minRep == widget.plannedSets[index].maxRep) {
-      repRange = widget.plannedSets[index].minRep.toString();
-    } else {
-      repRange =
-          '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
-    }
+    // if (widget.plannedSets[index].minRep == widget.plannedSets[index].maxRep) {
+    //   repRange = widget.plannedSets[index].minRep.toString();
+    // } else {
+    //   repRange =
+    //       '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
+    // }
 
-    print("THIS IS THE REP RANGE " + repRange);
-    return repRange;
+    // print("THIS IS THE REP RANGE " + repRange);
+    // return repRange;
   }
 
   TextEditingController _controller = TextEditingController();
@@ -53,12 +53,12 @@ class _ViewSessionWorkoutWidgetState
     if (widget.notes != null) {
       _controller.text = widget.notes!;
     }
-    print(widget.plannedSets);
+    // print(widget.plannedSets);
   }
 
   @override
   Widget build(BuildContext context) {
-    final sets = widget.plannedSets;
+    // final sets = widget.plannedSets;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -125,25 +125,25 @@ class _ViewSessionWorkoutWidgetState
             ],
           ),
           const SizedBox(height: 5),
-          ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: sets.length,
-            itemBuilder: (context, setIndex) {
-              return WorkoutSetWidget(
-                setNum: setIndex,
-                index: widget.index,
-                estWeight: (sets[setIndex].estWeight == null)
-                    ? '' // or '' if you prefer empty
-                    : (sets[setIndex].estWeight! % 1 == 0
-                          ? sets[setIndex].estWeight!.toInt().toString()
-                          : sets[setIndex].estWeight!.toString()),
+          // ListView.builder(
+          //   physics: const NeverScrollableScrollPhysics(),
+          //   shrinkWrap: true,
+          //   itemCount: sets.length,
+          //   itemBuilder: (context, setIndex) {
+          //     return WorkoutSetWidget(
+          //       setNum: setIndex,
+          //       index: widget.index,
+          //       estWeight: (sets[setIndex].estWeight == null)
+          //           ? '' // or '' if you prefer empty
+          //           : (sets[setIndex].estWeight! % 1 == 0
+          //                 ? sets[setIndex].estWeight!.toInt().toString()
+          //                 : sets[setIndex].estWeight!.toString()),
 
-                repRange: plannedRepRange(setIndex),
-                viewing: true,
-              );
-            },
-          ),
+          //       repRange: plannedRepRange(setIndex),
+          //       viewing: true,
+          //     );
+          //   },
+          // ),
         ],
       ),
     );

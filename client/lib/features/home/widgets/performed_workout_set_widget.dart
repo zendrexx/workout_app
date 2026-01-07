@@ -68,17 +68,17 @@ class _PerformedWorkoutSetWidgetState
 
     // Convert the set number to int (since it's a String like "1")
 
-    ref
-        .read(tempSessionProvider.notifier)
-        .addActWeightToSets(widget.index, widget.setNum, rweight);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .addActWeightToSets(widget.index, widget.setNum, rweight);
   }
 
   void addActRep(WidgetRef ref, String actRep) {
     final int? iActRep = int.tryParse(actRep);
     if (iActRep == null) return;
-    ref
-        .read(tempSessionProvider.notifier)
-        .addActRepToSets(widget.index, widget.setNum, iActRep);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .addActRepToSets(widget.index, widget.setNum, iActRep);
   }
 
   @override

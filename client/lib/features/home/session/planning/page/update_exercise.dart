@@ -1,7 +1,6 @@
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/core/database/database_service.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,19 +43,19 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
   }
 
   void _initWorkouts() async {
-    final workouts = await DatabaseService.db.exercises.where().findAll();
-    print("Loaded ${workouts.length} exercises from Isar");
-    setState(() {
-      _exercise = workouts;
-    });
+    // final workouts = await DatabaseService.db.exercises.where().findAll();
+    // print("Loaded ${workouts.length} exercises from Isar");
+    // setState(() {
+    //   _exercise = workouts;
+    // });
   }
 
   void updateExercise(WidgetRef ref, Exercise value) {
-    final plannedExercise = TempPlannedExercise(exercise: value);
+    // final plannedExercise = TempPlannedExercise(exercise: value);
 
-    ref
-        .read(tempSessionProvider.notifier)
-        .updateExerciseAt(widget.index, plannedExercise);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .updateExerciseAt(widget.index, plannedExercise);
   }
 
   @override

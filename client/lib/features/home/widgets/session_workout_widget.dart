@@ -31,28 +31,28 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
 
 class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
   void deleteExercise(WidgetRef ref, int index) {
-    ref.read(tempSessionProvider.notifier).deleteExercise(index);
+    // ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
 
   void addSets(WidgetRef ref, TempPlannedSets value) {
-    ref
-        .watch(tempSessionProvider.notifier)
-        .addSetToExercise(widget.index, value);
+    // ref
+    //     .watch(tempSessionProvider.notifier)
+    //     .addSetToExercise(widget.index, value);
   }
 
   void addNotes(WidgetRef ref, String note) {
-    ref
-        .read(tempSessionProvider.notifier)
-        .addNotesToExercise(widget.index, note);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .addNotesToExercise(widget.index, note);
   }
 
   late TextEditingController notesController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    final session = ref.read(tempSessionProvider);
-    final existingNote = session.plannedExercise[widget.index].notes ?? '';
-    notesController = TextEditingController(text: existingNote);
+    // final session = ref.read(tempSessionProvider);
+    // final existingNote = session.plannedExercise[widget.index].notes ?? '';
+    // notesController = TextEditingController(text: existingNote);
   }
 
   String? plannedRepRange(int index, int? minRep, int? maxRep) {
@@ -70,8 +70,8 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(tempSessionProvider);
-    final sets = session.plannedExercise[widget.index].sets;
+    // final session = ref.watch(tempSessionProvider);
+    // final sets = session.plannedExercise[widget.index].sets;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -242,23 +242,23 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              return WorkoutSetWidget(
-                setNum: setIndex,
-                index: widget.index,
-                estWeight: (sets[setIndex].estWeight == null)
-                    ? '' // or '' if you prefer empty
-                    : (sets[setIndex].estWeight! % 1 == 0
-                          ? sets[setIndex].estWeight!.toInt().toString()
-                          : sets[setIndex].estWeight!.toString()),
+              // return WorkoutSetWidget(
+              //   setNum: setIndex,
+              //   index: widget.index,
+              //   estWeight: (sets[setIndex].estWeight == null)
+              //       ? '' // or '' if you prefer empty
+              //       : (sets[setIndex].estWeight! % 1 == 0
+              //             ? sets[setIndex].estWeight!.toInt().toString()
+              //             : sets[setIndex].estWeight!.toString()),
 
-                repRange: plannedRepRange(
-                  setIndex,
-                  sets[setIndex].minRep,
-                  sets[setIndex].maxRep,
-                ),
-              );
+              //   repRange: plannedRepRange(
+              //     setIndex,
+              //     sets[setIndex].minRep,
+              //     sets[setIndex].maxRep,
+              //   ),
+              // );
             }),
-            itemCount: sets.length,
+            // itemCount: sets.length,
             shrinkWrap: true,
           ),
           SizedBox(height: 10),

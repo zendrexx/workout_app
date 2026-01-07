@@ -55,15 +55,15 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
 
     // Convert the set number to int (since it's a String like "1")
 
-    ref
-        .read(tempSessionProvider.notifier)
-        .addWeightToSets(widget.index, widget.setNum, rweight);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .addWeightToSets(widget.index, widget.setNum, rweight);
   }
 
   void addRepRange(WidgetRef ref, String repRange) {
-    ref
-        .read(tempSessionProvider.notifier)
-        .addRepRangeToSets(widget.index, widget.setNum, repRange);
+    // ref
+    //     .read(tempSessionProvider.notifier)
+    //     .addRepRangeToSets(widget.index, widget.setNum, repRange);
   }
 
   @override

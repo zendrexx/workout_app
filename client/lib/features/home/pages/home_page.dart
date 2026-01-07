@@ -1,6 +1,5 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/data/models/planned_session.dart';
 import 'package:client/features/home/widgets/custom_button_widget.dart';
 import 'package:client/features/home/session/planning/widget/home_list_widget.dart';
 import 'package:client/features/home/widgets/streak_widget.dart';
@@ -18,34 +17,34 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
-  void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
-    plannedSessionsAsync.when(
-      data: (sessions) {
-        print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
-        for (final session in sessions) {
-          print("📘 Session: ${session.name} (id: ${session.id})");
-          print(
-            "   Contains ${session.plannedExercise.length} planned exercises",
-          );
+  // void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
+  //   plannedSessionsAsync.when(
+  //     data: (sessions) {
+  //       print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
+  //       for (final session in sessions) {
+  //         print("📘 Session: ${session.name} (id: ${session.id})");
+  //         print(
+  //           "   Contains ${session.plannedExercise.length} planned exercises",
+  //         );
 
-          for (final plannedEx in session.plannedExercise) {
-            final exercise = plannedEx.exerciseName;
-            print("   🔹 PlannedExercise id: ${plannedEx.id}");
-            print("      ↳ Exercise: ${exercise ?? '❌ NULL'}");
-            print("      ↳ Sets: ${plannedEx.sets.length}");
-            print("      ↳ NOTES: ${plannedEx.notes}");
-          }
-        }
-      },
-      loading: () => print("⏳ Loading sessions..."),
-      error: (err, stack) => print("❌ Error: $err"),
-    );
-  }
+  //         for (final plannedEx in session.plannedExercise) {
+  //           final exercise = plannedEx.exerciseName;
+  //           print("   🔹 PlannedExercise id: ${plannedEx.id}");
+  //           print("      ↳ Exercise: ${exercise ?? '❌ NULL'}");
+  //           print("      ↳ Sets: ${plannedEx.sets.length}");
+  //           print("      ↳ NOTES: ${plannedEx.notes}");
+  //         }
+  //       }
+  //     },
+  //     loading: () => print("⏳ Loading sessions..."),
+  //     error: (err, stack) => print("❌ Error: $err"),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
-    printWorkouts(plannedSessionsAsync);
+    // final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
+    // printWorkouts(plannedSessionsAsync);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -211,40 +210,40 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
 
                   // Expand/Collapse content
-                  AnimatedCrossFade(
-                    duration: Duration(milliseconds: 250),
+                  // AnimatedCrossFade(
+                  //   duration: Duration(milliseconds: 250),
 
-                    crossFadeState: _isSessionExpanded
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    firstChild: plannedSessionsAsync.when(
-                      data: (sessions) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: sessions.length,
-                          itemBuilder: (context, index) {
-                            final session = sessions[index];
-                            final exercises = session.plannedExercise.toList();
-                            () async {}();
-                            return HomeListWidget(
-                              id: session.id,
+                  //   crossFadeState: _isSessionExpanded
+                  //       ? CrossFadeState.showFirst
+                  //       : CrossFadeState.showSecond,
+                  //   firstChild: plannedSessionsAsync.when(
+                  //     data: (sessions) {
+                  //       return ListView.builder(
+                  //         shrinkWrap: true,
+                  //         physics: const NeverScrollableScrollPhysics(),
+                  //         itemCount: sessions.length,
+                  //         itemBuilder: (context, index) {
+                  //           final session = sessions[index];
+                  //           final exercises = session.plannedExercise.toList();
+                  //           () async {}();
+                  //           return HomeListWidget(
+                  //             id: session.id,
 
-                              title: session.name ?? "Untitled Session",
-                            );
-                          },
-                        );
-                      },
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                      error: (err, stack) => Text(
-                        'Error: $err',
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ),
+                  //             title: session.name ?? "Untitled Session",
+                  //           );
+                  //         },
+                  //       );
+                  //     },
+                  //     loading: () =>
+                  //         const Center(child: CircularProgressIndicator()),
+                  //     error: (err, stack) => Text(
+                  //       'Error: $err',
+                  //       style: const TextStyle(color: Colors.red),
+                  //     ),
+                  //   ),
 
-                    secondChild: SizedBox.shrink(),
-                  ),
+                  //   secondChild: SizedBox.shrink(),
+                  // ),
                 ],
               ),
             ],

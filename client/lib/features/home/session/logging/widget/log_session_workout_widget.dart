@@ -50,13 +50,13 @@ class _LogSessionWorkoutWidgetState
   }
 
   void deleteExercise(WidgetRef ref, int index) {
-    ref.read(tempSessionProvider.notifier).deleteExercise(index);
+    //ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
 
   void addSets(WidgetRef ref, TempPlannedSets value) {
-    ref
-        .watch(tempSessionProvider.notifier)
-        .addSetToExercise(widget.index, value);
+    // ref
+    //     .watch(tempSessionProvider.notifier)
+    //     .addSetToExercise(widget.index, value);
   }
 
   TextEditingController _controller = TextEditingController();

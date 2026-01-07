@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
 import 'package:client/features/home/session/planning/viewmodel/temp_workout_stats.dart';
-import 'package:client/data/repositories/save_log_session.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/session/logging/widget/log_session_workout_widget.dart';
@@ -33,8 +32,8 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
     super.initState();
     _startTimer();
 
-    var save = SaveToTemp(ref: ref);
-    save.convertToTemp(widget.sessionId!);
+    // var save = SaveToTemp(ref: ref);
+    // save.convertToTemp(widget.sessionId!);
   }
 
   String formatVolume(double volume) {
@@ -55,8 +54,8 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   void cancel() {
     context.push('/home');
-    ref.invalidate(tempSessionProvider);
-    ref.invalidate(tempWorkoutStatsProvider);
+    // ref.invalidate(tempSessionProvider);
+    // ref.invalidate(tempWorkoutStatsProvider);
   }
 
   String _formatDuration(int totalSeconds) {
@@ -74,14 +73,14 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   }
 
   void addSession() async {
-    final tempSession = ref.read(tempSessionProvider);
-    final tempStats = ref.read(tempWorkoutStatsProvider);
-    await saveLogSession(tempSession, tempStats, ref);
+    // final tempSession = ref.read(tempSessionProvider);
+    // final tempStats = ref.read(tempWorkoutStatsProvider);
+    // await saveLogSession(tempSession, tempStats, ref);
 
-    ref.invalidate(tempSessionProvider);
-    ref.invalidate(tempWorkoutStatsProvider);
+    // ref.invalidate(tempSessionProvider);
+    // ref.invalidate(tempWorkoutStatsProvider);
 
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   @override
@@ -92,7 +91,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final plannedExercise = ref.watch(tempSessionProvider);
+    // final plannedExercise = ref.watch(tempSessionProvider);
     final workoutStats = ref.watch(tempWorkoutStatsProvider);
 
     return Scaffold(
@@ -167,30 +166,29 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                 child: Divider(thickness: .4),
               ),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: plannedExercise.plannedExercise.length,
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     ListView.builder(
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       itemCount: plannedExercise.plannedExercise.length,
 
-                    itemBuilder: (context, index) {
-                      final current = plannedExercise.plannedExercise[index];
-                      return LogSessionWorkoutWidget(
-                        title: current.exercise?.name ?? '',
-                        equipment: current.exercise?.equipment ?? '',
-                        imagePath: current.exercise?.imagePath ?? '',
-                        index: index,
-                        exerciseId: current.exercise?.id ?? 0,
-                        plannedSets: current.sets,
-                        notes: current.notes ?? '',
-                      );
-                    },
-                  ),
-                ],
-              ),
-
+              //       itemBuilder: (context, index) {
+              //         final current = plannedExercise.plannedExercise[index];
+              //         return LogSessionWorkoutWidget(
+              //           title: current.exercise?.name ?? '',
+              //           equipment: current.exercise?.equipment ?? '',
+              //           imagePath: current.exercise?.imagePath ?? '',
+              //           index: index,
+              //           exerciseId: current.exercise?.id ?? 0,
+              //           plannedSets: current.sets,
+              //           notes: current.notes ?? '',
+              //         );
+              //       },
+              //     ),
+              //   ],
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: LongCustomButton(

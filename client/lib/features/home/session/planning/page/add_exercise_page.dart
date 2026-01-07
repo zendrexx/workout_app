@@ -43,11 +43,11 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   }
 
   void _initWorkouts() async {
-    final workouts = await DatabaseService.db.exercises.where().findAll();
-    print("Loaded ${workouts[0].exId} exercises from Isar");
-    setState(() {
-      _exercise = workouts;
-    });
+    // final workouts = await DatabaseService.db.exercises.where().findAll();
+    // print("Loaded ${workouts[0].exId} exercises from Isar");
+    // setState(() {
+    //   _exercise = workouts;
+    // });
   }
 
   void addExercise(WidgetRef ref, Exercise value) {
@@ -57,11 +57,11 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
     }
 
     final plannedExercise = TempPlannedExercise(exercise: value);
-    ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
+    // ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
 
-    final temp = ref.read(tempSessionProvider);
-    debugPrint("✅ Added exercise: ${value.name}");
-    debugPrint("Temp session exercises count: ${temp.plannedExercise.length}");
+    // final temp = ref.read(tempSessionProvider);
+    // debugPrint("✅ Added exercise: ${value.name}");
+    // debugPrint("Temp session exercises count: ${temp.plannedExercise.length}");
   }
 
   @override

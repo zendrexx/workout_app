@@ -5,6 +5,8 @@ import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
+import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
+import 'package:client/features/workout_planning/domain/usecases/create_workout_session.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -15,7 +17,19 @@ final plannedWorkoutViewModelProvider =
     );
 
 class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
-  PlannedWorkoutViewmodel() : super(PlannedSessionState(name: ""));
+  final CreateWorkoutSession createWorkoutSession;
+  PlannedWorkoutViewmodel(this.createWorkoutSession)
+    : super(PlannedSessionState(name: ""));
+  void save() async {
+    final session = PlannedWorkoutSession(
+      //id: const Uuid().v4(),
+      name: state.name,
+      createdAt: DateTime.now(),
+      exercises: state.exercises,
+    );
+    await createWorkoutSession(session);
+  }
+
   void updateName(String newName) {
     state = state.copyWith(name: newName);
   }
@@ -25,7 +39,7 @@ class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
   }
 
   void addSessionId(int sessionId) {
-    state = state.copyWith(id: sessionId);
+    state = state.copywith(id: sessionId);
   }
 
   void addExercise(TempPlannedExercise exercise) {

@@ -1,7 +1,6 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/models/exercise.dart';
-import 'package:client/data/models/planned_exercise.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
@@ -21,18 +20,18 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
   @override
   Widget build(BuildContext context) {
     void deleteSession(WidgetRef ref, int id) {
-      final service = PlannedSessionService();
-      service.deleteSession(id);
+      // final service = PlannedSessionService();
+      // service.deleteSession(id);
     }
 
     void duplicateSession(WidgetRef ref, int id) {
-      final service = PlannedSessionService();
-      service.duplicateSession(id);
+      // final service = PlannedSessionService();
+      // service.duplicateSession(id);
     }
 
-    final plannedExerciseAsync = ref.watch(
-      plannedExercisesStreamProvider(widget.id),
-    );
+    // final plannedExerciseAsync = ref.watch(
+    //   plannedExercisesStreamProvider(widget.id),
+    // );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -229,35 +228,35 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                       ],
                     ),
 
-                    plannedExerciseAsync.when(
-                      data: (exercise) {
-                        // Combine all exercises into a single string separated by commas
-                        final exerciseList = exercise
-                            .map((ex) {
-                              final name =
-                                  ex.exerciseName ?? 'Unnamed Exercise';
-                              final equipment = ex.equipment ?? '';
-                              return '$name ($equipment)';
-                            })
-                            .join(', ');
+                    // plannedExerciseAsync.when(
+                    //   data: (exercise) {
+                    //     // Combine all exercises into a single string separated by commas
+                    //     final exerciseList = exercise
+                    //         .map((ex) {
+                    //           final name =
+                    //               ex.exerciseName ?? 'Unnamed Exercise';
+                    //           final equipment = ex.equipment ?? '';
+                    //           return '$name ($equipment)';
+                    //         })
+                    //         .join(', ');
 
-                        return Text(
-                          exerciseList,
-                          maxLines: 2, // limit to 2 lines
-                          overflow:
-                              TextOverflow.ellipsis, // show ... when overflow
-                          softWrap: true,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            height: 1.4, // optional for spacing
-                          ),
-                        );
-                      },
+                    //     return Text(
+                    //       exerciseList,
+                    //       maxLines: 2, // limit to 2 lines
+                    //       overflow:
+                    //           TextOverflow.ellipsis, // show ... when overflow
+                    //       softWrap: true,
+                    //       style: const TextStyle(
+                    //         fontSize: 14,
+                    //         height: 1.4, // optional for spacing
+                    //       ),
+                    //     );
+                    //   },
 
-                      error: (err, stack) => Text('Error: $err'),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                    ),
+                    //   error: (err, stack) => Text('Error: $err'),
+                    //   loading: () =>
+                    //       const Center(child: CircularProgressIndicator()),
+                    // ),
                     SizedBox(height: 10),
                     LongCustomButton(
                       title: "Start Session",
