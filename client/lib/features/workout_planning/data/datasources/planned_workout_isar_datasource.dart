@@ -37,4 +37,20 @@ class PlannedWorkoutIsarDatasource {
     final db = dbService.isar;
     return db.plannedSessionIsars.where().findAll();
   }
+
+  Future<PlannedSessionIsar?> getSessionById(int id) async {
+    final db = dbService.isar;
+
+    final session = await db.plannedSessionIsars.get(id);
+    if (session == null) return null;
+
+    // IMPORTANT: Load links
+    await session.plannedExercise.load();
+
+    for (final exercise in session.plannedExercise) {
+      await exercise.sets.load();
+    }
+
+    return session;
+  }
 }

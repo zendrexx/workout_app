@@ -14,14 +14,13 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
   final String? equipment;
   final String imagePath;
   final int index;
-  final int id;
+
   const SessionWorkoutWidget({
     super.key,
     required this.title,
     this.equipment,
     required this.imagePath,
     required this.index,
-    required this.id,
   });
 
   @override

@@ -3,9 +3,12 @@ import 'package:client/features/workout_planning/presentation/state/planned_exer
 
 class PlannedSessionState {
   final String name;
-  final List<PlannedExerciseState>? exercises;
-  PlannedSessionState({required this.name, this.exercises});
+  final List<PlannedExerciseState> exercises;
+  PlannedSessionState({required this.name, required this.exercises});
 
+  factory PlannedSessionState.initial() {
+    return PlannedSessionState(name: '', exercises: []);
+  }
   PlannedSessionState copyWith({
     String? name,
     List<PlannedExerciseState>? exercises,

@@ -20,4 +20,10 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
     final isarSessions = await datasource.getAllPlannedSession();
     return isarSessions;
   }
+
+  @override
+  Future<PlannedSessionIsar?> getSessionById(int id) {
+    final isar = datasource;
+    return isar.;
+  }
 }

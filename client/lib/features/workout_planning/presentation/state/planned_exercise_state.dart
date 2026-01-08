@@ -2,17 +2,17 @@
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 
 class PlannedExerciseState {
-  final String? exerciseName;
-  final String? exercisePath;
-  final String? equipment;
-  final String? notes;
+  final String exerciseName;
+  final String exercisePath;
+  final String equipment;
+  final String notes;
   final List<PlannedSetState> sets;
   PlannedExerciseState({
     required this.sets,
-    this.equipment,
-    this.exerciseName,
-    this.exercisePath,
-    this.notes,
+    required this.equipment,
+    required this.exerciseName,
+    required this.exercisePath,
+    required this.notes,
   });
 
   PlannedExerciseState copyWith({
