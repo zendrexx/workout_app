@@ -8,9 +8,9 @@ import 'package:client/features/workout_planning/presentation/state/planned_set_
 
 PlannedWorkoutSet mapSet(PlannedSetState s) {
   return PlannedWorkoutSet(
-    minRep: s.minRep ?? 0,
-    maxRep: s.maxRep ?? 0,
-    estWeight: s.estWeight ?? 0,
+    minRep: s.minRep,
+    maxRep: s.maxRep,
+    estWeight: s.estWeight,
   );
 }
 

@@ -6,7 +6,7 @@ import 'package:client/features/workout_planning/data/models/planned_exercise_is
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
-import 'package:client/features/workout_planning/domain/usecases/create_workout_session.dart';
+import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
-  final CreateWorkoutSession createWorkoutSession;
+  final AddWorkoutSession createWorkoutSession;
   PlannedWorkoutViewmodel(this.createWorkoutSession)
     : super(PlannedSessionState.initial());
   void save() async {
