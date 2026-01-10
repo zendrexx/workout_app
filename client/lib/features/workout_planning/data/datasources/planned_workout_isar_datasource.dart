@@ -1,4 +1,5 @@
 import 'package:client/core/database/database_service.dart';
+import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
@@ -52,5 +53,10 @@ class PlannedWorkoutIsarDatasource {
     }
 
     return session;
+  }
+
+  Future<List<Exercise>> getAllExercies() async {
+    final db = dbService.isar;
+    return db.exercises.where().findAll();
   }
 }

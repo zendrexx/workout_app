@@ -20,7 +20,7 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   bool checkName = true;
   bool isEditMode = false;
@@ -38,6 +38,8 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   @override
   void initState() {
     super.initState();
+    final name = ref.read(plannedViewModelProvider).name;
+    _controller = TextEditingController(text: name);
     // if (widget.sessionId != null) {
     //   isEditMode = true;
     //   var save = SaveToTemp(ref: ref);
@@ -112,15 +114,17 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextFormField(
-                  cursorColor: Colors.white,
                   controller: _controller,
+                  cursorColor: Colors.white,
+
                   decoration: InputDecoration(
                     hintText: "Session Name",
-                    suffixIcon: _controller.text.isNotEmpty
+                    suffixIcon: state.name.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear, color: Colors.white),
                             onPressed: () {
                               _controller.clear();
+                              vm.addName('');
                               setState(() {});
                             },
                           )

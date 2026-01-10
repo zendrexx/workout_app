@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ViewSessionPage extends ConsumerStatefulWidget {
   final int id;
-  ViewSessionPage({super.key, required this.id});
+  const ViewSessionPage({super.key, required this.id});
 
   @override
   ConsumerState<ViewSessionPage> createState() => _ViewSessionPageState();
@@ -62,52 +62,39 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: plannedSessionsAsync.when(
-              data: (sessions) {
-                final session = sessions.firstWhere((s) => s.id == widget.id);
-                final exercises = session.plannedExercise.toList();
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      session.name!.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      "Exercises",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white30,
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: exercises.length,
-                      itemBuilder: (context, index) {
-                        return ViewSessionWorkoutWidget(
-                          title: exercises[index].exerciseName ?? '',
-                          equipment: exercises[index].equipment ?? '',
-                          imagePath: exercises[index].exercisePath ?? '',
-                          index: index,
-                          exerciseId: exercises[index].id,
-                          plannedSets: exercises[index].sets.toList(),
-                          notes: exercises[index].notes,
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text(
-                'Error: $err',
-                style: const TextStyle(color: Colors.red),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  state.name.toUpperCase(),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  "Exercises",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white30,
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.exercises.length,
+                  itemBuilder: (context, index) {
+                    final exercises = state.exercises.toList();
+                    return ViewSessionWorkoutWidget(
+                      title: exercises[index].exerciseName,
+                      equipment: exercises[index].equipment,
+                      imagePath: exercises[index].exercisePath,
+                      index: index,
+
+                      plannedSets: exercises[index].sets.toList(),
+                      notes: exercises[index].notes,
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),

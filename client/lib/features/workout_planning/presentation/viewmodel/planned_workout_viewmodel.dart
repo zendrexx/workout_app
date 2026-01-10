@@ -7,6 +7,7 @@ import 'package:client/features/workout_planning/data/models/planned_session_isa
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
+import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
@@ -19,8 +20,12 @@ import 'package:isar/isar.dart';
 class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
-  PlannedWorkoutViewmodel(this.createWorkoutSession, this.getSessionById)
-    : super(PlannedSessionState.initial());
+  final GetAllExercise getAllExercise;
+  PlannedWorkoutViewmodel(
+    this.createWorkoutSession,
+    this.getSessionById,
+    this.getAllExercise,
+  ) : super(PlannedSessionState.initial());
 
   void loadSessionById(int id) async {
     final session = await getSessionById.call(id);
@@ -34,6 +39,10 @@ class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
 
   void addName(String newName) {
     state = state.copyWith(name: newName);
+  }
+
+  void removeName() {
+    state = state.copyWith(name: "");
   }
 
   void addExercise(PlannedExerciseState exercise) {

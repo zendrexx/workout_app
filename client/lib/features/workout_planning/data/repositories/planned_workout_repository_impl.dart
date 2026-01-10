@@ -1,4 +1,5 @@
 import 'package:client/data/data_source/planned_workout_data_source.dart';
+import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/datasources/planned_workout_isar_datasource.dart';
 import 'package:client/features/workout_planning/data/mappers/domain_to_isar_session_mapper.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
@@ -28,5 +29,11 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
     final isarSession = await datasource.getSessionById(id);
     if (isarSession == null) return null;
     return toDomainSession(isarSession);
+  }
+
+  @override
+  Future<List<Exercise>> getAllExercies() async {
+    final isarExercises = await datasource.getAllExercies();
+    return isarExercises;
   }
 }
