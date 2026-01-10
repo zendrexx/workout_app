@@ -1,4 +1,4 @@
-import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
+import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
 
 class GetSessionById {
@@ -6,7 +6,7 @@ class GetSessionById {
 
   GetSessionById(this.repo);
 
-  Future<PlannedSessionIsar> call(int id) async {
+  Future<PlannedWorkoutSession> call(int id) async {
     final session = await repo.getSessionById(id);
 
     if (session == null) {

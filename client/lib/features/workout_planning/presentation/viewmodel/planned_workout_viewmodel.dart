@@ -7,17 +7,26 @@ import 'package:client/features/workout_planning/data/models/planned_session_isa
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
+import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
-import 'package:client/features/workout_planning/presentation/statemappers/state_mapper.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/to_domain_mapper.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
-  PlannedWorkoutViewmodel(this.createWorkoutSession)
+  final GetSessionById getSessionById;
+  PlannedWorkoutViewmodel(this.createWorkoutSession, this.getSessionById)
     : super(PlannedSessionState.initial());
+
+  void loadSessionById(int id) async {
+    final session = await getSessionById.call(id);
+    state = toStateSession(session);
+  }
+
   void save() async {
     final session = mapSession(state);
     await createWorkoutSession(session);
@@ -34,7 +43,7 @@ class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
 
   void deleteExercise(int index) {
     final updatedExercises = [...state.exercises];
-    updatedExercises..removeAt(index);
+    updatedExercises.removeAt(index);
     state = state.copyWith(exercises: updatedExercises);
   }
 

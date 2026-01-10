@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:client/data/models/workout_stats.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_exercise.dart';
 
@@ -32,5 +33,19 @@ class PlannedWorkoutSession {
       total += e.getTotalEstVolumeExercise;
     }
     return total;
+  }
+
+  PlannedWorkoutSession copyWith({
+    String? id,
+    String? name,
+    DateTime? createdAt,
+    List<PlannedWorkoutExercise>? exercises,
+  }) {
+    return PlannedWorkoutSession(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+      exercises: exercises ?? this.exercises,
+    );
   }
 }

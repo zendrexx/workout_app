@@ -20,22 +20,6 @@
 //     return sessions;
 //   }
 
-//   Future<PlannedSession?> getSessionById(int id) async {
-//     final session = await isar.plannedSessions.get(id);
-//     if (session == null) {
-//       print("❌ Session with id $id not found");
-//       return null;
-//     }
-
-//     // Load linked exercises
-//     await session.plannedExercise.load();
-
-//     print(
-//       "✅ Loaded session '${session.name}' with ${session.plannedExercise.length} planned exercises",
-//     );
-//     return session;
-//   }
-
 //   Future<void> addSession(PlannedSession plannedSession) async {
 //     await isar.writeTxn(
 //       () async => await isar.plannedSessions.put(plannedSession),

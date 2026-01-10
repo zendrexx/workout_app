@@ -21,7 +21,7 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
-  // final sesService = PlannedSessionService();
+
   bool checkName = true;
   bool isEditMode = false;
   @override

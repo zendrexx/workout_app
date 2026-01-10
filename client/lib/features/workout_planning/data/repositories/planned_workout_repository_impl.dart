@@ -1,6 +1,7 @@
 import 'package:client/data/data_source/planned_workout_data_source.dart';
 import 'package:client/features/workout_planning/data/datasources/planned_workout_isar_datasource.dart';
-import 'package:client/features/workout_planning/data/mappers/planned_workout_mapper.dart';
+import 'package:client/features/workout_planning/data/mappers/domain_to_isar_session_mapper.dart';
+import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
@@ -16,14 +17,16 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   }
 
   @override
-  Future<List<PlannedSessionIsar>> getAllPlannedSession() async {
+  Future<List<PlannedWorkoutSession>> getAllPlannedSession() async {
     final isarSessions = await datasource.getAllPlannedSession();
-    return isarSessions;
+    if (isarSessions.isEmpty) return [];
+    return isarSessions.map((s) => toDomainSession(s)).toList();
   }
 
   @override
-  Future<PlannedSessionIsar?> getSessionById(int id) {
-    final isar = datasource;
-    return isar.getSessionById(id);
+  Future<PlannedWorkoutSession?> getSessionById(int id) async {
+    final isarSession = await datasource.getSessionById(id);
+    if (isarSession == null) return null;
+    return toDomainSession(isarSession);
   }
 }
