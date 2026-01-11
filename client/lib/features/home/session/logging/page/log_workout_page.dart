@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/temp_workout_stats.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';

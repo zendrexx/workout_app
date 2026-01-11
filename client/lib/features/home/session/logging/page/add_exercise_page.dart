@@ -1,12 +1,5 @@
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
-import 'package:client/data/model_temp/temp_planned_exercise.dart';
-import 'package:client/data/models/exercise.dart';
-import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
-import 'package:client/core/database/database_service.dart';
-import 'package:client/data/services/exercise_service.dart';
+import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
-import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -51,12 +44,12 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   }
 
   void addExercise(WidgetRef ref, Exercise value) {
-    if (value.id == Isar.autoIncrement || value.id == 0) {
-      debugPrint("⚠️ Exercise must come from Isar, not a new instance.");
-      return;
-    }
+    // if (value.id == Isar.autoIncrement || value.id == 0) {
+    //   debugPrint("⚠️ Exercise must come from Isar, not a new instance.");
+    //   return;
+    // }
 
-    final plannedExercise = TempPlannedExercise(exercise: value);
+    // final plannedExercise = TempPlannedExercise(exercise: value);
     // ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
 
     // final temp = ref.read(tempSessionProvider);
@@ -179,7 +172,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
                             name: exercise.name,
-                            imagePath: exercise.imagePath,
+                            imagePath: exercise.imagePath ?? "",
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),

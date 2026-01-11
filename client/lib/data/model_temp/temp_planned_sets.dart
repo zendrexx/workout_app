@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:client/data/models/exercise.dart';
 
 class TempPlannedSets {
   double? estWeight = 0;

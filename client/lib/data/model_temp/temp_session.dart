@@ -1,33 +1,33 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+// // ignore_for_file: public_member_api_docs, sort_constructors_first
+// import 'dart:convert';
 
-import 'package:client/data/model_temp/temp_planned_exercise.dart';
-import 'package:client/data/models/exercise.dart';
+// import 'package:client/data/model_temp/temp_planned_exercise.dart';
+// import 'package:client/data/models/exercise_isar.dart';
 
-class TempSession {
-  int? id;
-  late String? name;
-  DateTime createdAt = DateTime.now();
-  bool isCompleted = false;
-  final List<TempPlannedExercise> plannedExercise;
-  TempSession({
-    this.name,
-    required this.isCompleted,
-    this.plannedExercise = const [],
-    this.id,
-  });
+// class TempSession {
+//   int? id;
+//   late String? name;
+//   DateTime createdAt = DateTime.now();
+//   bool isCompleted = false;
+//   final List<TempPlannedExercise> plannedExercise;
+//   TempSession({
+//     this.name,
+//     required this.isCompleted,
+//     this.plannedExercise = const [],
+//     this.id,
+//   });
 
-  TempSession copyWith({
-    int? id,
-    String? name,
-    bool? isCompleted,
-    List<TempPlannedExercise>? plannedExercise,
-  }) {
-    return TempSession(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      isCompleted: isCompleted ?? this.isCompleted,
-      plannedExercise: plannedExercise ?? this.plannedExercise,
-    );
-  }
-}
+//   TempSession copyWith({
+//     int? id,
+//     String? name,
+//     bool? isCompleted,
+//     List<TempPlannedExercise>? plannedExercise,
+//   }) {
+//     return TempSession(
+//       id: id ?? this.id,
+//       name: name ?? this.name,
+//       isCompleted: isCompleted ?? this.isCompleted,
+//       plannedExercise: plannedExercise ?? this.plannedExercise,
+//     );
+//   }
+// }

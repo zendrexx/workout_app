@@ -1,7 +1,7 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/planned_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/widgets/session_workout_widget.dart';
 import 'package:client/features/workout_planning/presentation/widgets/view_session_workout_widget.dart';
@@ -26,7 +26,7 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(plannedViewModelProvider);
+    final state = ref.watch(plannedSessionViewModelProvider);
     //final vm = ref.read(plannedViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(

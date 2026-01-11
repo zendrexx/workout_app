@@ -1,6 +1,6 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/home/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/planned_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
@@ -32,13 +32,13 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
   void cancel() {
     context.push('/home');
-    ref.invalidate(plannedViewModelProvider);
+    ref.invalidate(plannedSessionViewModelProvider);
   }
 
   @override
   void initState() {
     super.initState();
-    final name = ref.read(plannedViewModelProvider).name;
+    final name = ref.read(plannedSessionViewModelProvider).name;
     _controller = TextEditingController(text: name);
     // if (widget.sessionId != null) {
     //   isEditMode = true;
@@ -49,8 +49,8 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(plannedViewModelProvider);
-    final vm = ref.read(plannedViewModelProvider.notifier);
+    final state = ref.watch(plannedSessionViewModelProvider);
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
 
     return Form(
       key: _formKey,

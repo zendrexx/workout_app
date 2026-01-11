@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:client/data/models/exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 

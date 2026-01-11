@@ -1,7 +1,4 @@
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
-import 'package:client/data/model_temp/temp_planned_exercise.dart';
-import 'package:client/data/models/exercise.dart';
-import 'package:client/core/database/database_service.dart';
+import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -176,7 +173,7 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
                             name: exercise.name,
-                            imagePath: exercise.imagePath,
+                            imagePath: exercise.imagePath ?? "",
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),

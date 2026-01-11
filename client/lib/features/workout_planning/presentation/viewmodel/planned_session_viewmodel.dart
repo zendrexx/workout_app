@@ -1,7 +1,6 @@
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/model_temp/temp_session.dart';
-import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
@@ -17,15 +16,12 @@ import 'package:client/features/workout_planning/presentation/statemappers/to_st
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-class PlannedWorkoutViewmodel extends StateNotifier<PlannedSessionState> {
+class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
-  final GetAllExercise getAllExercise;
-  PlannedWorkoutViewmodel(
-    this.createWorkoutSession,
-    this.getSessionById,
-    this.getAllExercise,
-  ) : super(PlannedSessionState.initial());
+
+  PlannedSessionViewmodel(this.createWorkoutSession, this.getSessionById)
+    : super(PlannedSessionState.initial());
 
   void loadSessionById(int id) async {
     final session = await getSessionById.call(id);

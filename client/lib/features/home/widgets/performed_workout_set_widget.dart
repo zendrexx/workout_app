@@ -1,4 +1,4 @@
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/temp_workout_stats.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:flutter/material.dart';

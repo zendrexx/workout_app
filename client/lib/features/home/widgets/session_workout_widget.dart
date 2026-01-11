@@ -1,6 +1,5 @@
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
-import 'package:client/data/models/exercise.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/history/widgets/workout_row_widget.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';

@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:isar/isar.dart';
 
-import '../../../../data/models/exercise.dart';
-
 part 'planned_set_isar.g.dart';
 
 @collection

@@ -1,16 +1,11 @@
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_workout_viewmodel.dart';
-import 'package:client/data/model_temp/temp_planned_exercise.dart';
-import 'package:client/data/models/exercise.dart';
-import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
-import 'package:client/core/database/database_service.dart';
-import 'package:client/data/services/exercise_service.dart';
+import 'package:client/features/workout_planning/domain/entities/exercise.dart';
+
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
-import 'package:client/main.dart';
+import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/providers/get_all_exercise_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 
 class AddExercisePage extends ConsumerStatefulWidget {
   const AddExercisePage({super.key});
@@ -42,30 +37,16 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
     _initWorkouts();
   }
 
-  void _initWorkouts() async {
-    // final workouts = await DatabaseService.db.exercises.where().findAll();
-    // print("Loaded ${workouts[0].exId} exercises from Isar");
-    // setState(() {
-    //   _exercise = workouts;
-    // });
-  }
+  void _initWorkouts() async {}
 
   void addExercise(WidgetRef ref, Exercise value) {
-    if (value.id == Isar.autoIncrement || value.id == 0) {
-      debugPrint("⚠️ Exercise must come from Isar, not a new instance.");
-      return;
-    }
-
-    final plannedExercise = TempPlannedExercise(exercise: value);
+    // final plannedExercise = TempPlannedExercise(exercise: value);
     // ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
-
-    // final temp = ref.read(tempSessionProvider);
-    // debugPrint("✅ Added exercise: ${value.name}");
-    // debugPrint("Temp session exercises count: ${temp.plannedExercise.length}");
   }
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.watch(exerciseViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -170,16 +151,16 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _exercise.length,
+                      itemCount: vm.exercises.length,
                       itemBuilder: (context, index) {
-                        final exercise = _exercise[index];
+                        final exercise = vm.exercises[index];
                         return GestureDetector(
                           onTap: () => _toggleSession(index),
                           child: ExerciseCardWidget(
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
                             name: exercise.name,
-                            imagePath: exercise.imagePath,
+                            imagePath: exercise.imagePath ?? "",
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),
