@@ -2,8 +2,8 @@
 import 'package:client/features/workout_planning/domain/entities/planned_workout_set.dart';
 
 class PlannedWorkoutExercise {
-  String? exId;
-  String? exerciseName;
+  String exId;
+  String exerciseName;
   String? exercisePath;
   String? equipment;
   String? notes;

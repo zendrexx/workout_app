@@ -38,7 +38,7 @@ const PerformedSetSchema = CollectionSchema(
     r'exercise': LinkSchema(
       id: 4308754833463477642,
       name: r'exercise',
-      target: r'Exercise',
+      target: r'ExerciseIsar',
       single: true,
     )
   },
@@ -109,7 +109,8 @@ List<IsarLinkBase<dynamic>> _performedSetGetLinks(PerformedSet object) {
 void _performedSetAttach(
     IsarCollection<dynamic> col, Id id, PerformedSet object) {
   object.id = id;
-  object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
+  object.exercise
+      .attach(col, col.isar.collection<ExerciseIsar>(), r'exercise', id);
 }
 
 extension PerformedSetQueryWhereSort
@@ -411,7 +412,7 @@ extension PerformedSetQueryObject
 extension PerformedSetQueryLinks
     on QueryBuilder<PerformedSet, PerformedSet, QFilterCondition> {
   QueryBuilder<PerformedSet, PerformedSet, QAfterFilterCondition> exercise(
-      FilterQuery<Exercise> q) {
+      FilterQuery<ExerciseIsar> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'exercise');
     });

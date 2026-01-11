@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:isar/isar.dart';
 
-import 'exercise.dart';
+import 'exercise_isar.dart';
 
 part 'performed_set.g.dart';
 
@@ -14,7 +14,7 @@ class PerformedSet {
   double? performedWeight;
   int? performedRep;
 
-  final exercise = IsarLink<Exercise>();
+  final exercise = IsarLink<ExerciseIsar>();
 
   PerformedSet({this.performedWeight, this.performedRep});
 

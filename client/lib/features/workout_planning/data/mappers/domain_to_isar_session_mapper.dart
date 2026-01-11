@@ -14,12 +14,14 @@ PlannedSetIsar toIsarSet(PlannedWorkoutSet s) {
 }
 
 PlannedExerciseIsar toIsarExercise(PlannedWorkoutExercise e) {
-  final ex = PlannedExerciseIsar()
-    ..exId = e.exId
-    ..exerciseName = e.exerciseName
-    ..exercisePath = e.exercisePath
-    ..equipment = e.equipment
-    ..notes = e.notes;
+  final ex = PlannedExerciseIsar(
+    exId: e.exId,
+    exerciseName: e.exerciseName,
+    exercisePath: e.exercisePath,
+    equipment: e.equipment,
+    notes: e.notes,
+  );
+
   ex.sets.addAll(e.sets.map(toIsarSet));
   return ex;
 }

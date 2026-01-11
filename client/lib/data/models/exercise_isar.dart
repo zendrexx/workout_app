@@ -2,10 +2,10 @@ import 'package:client/features/workout_planning/data/models/planned_set_isar.da
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:isar/isar.dart';
 
-part 'exercise.g.dart';
+part 'exercise_isar.g.dart';
 
 @collection
-class Exercise {
+class ExerciseIsar {
   Id id = Isar.autoIncrement;
 
   @Index(type: IndexType.value)
@@ -21,7 +21,7 @@ class Exercise {
   late String equipment;
   late String imagePath;
 
-  Exercise({
+  ExerciseIsar({
     required this.exId,
     required this.name,
     required this.primMuscle,
@@ -30,8 +30,8 @@ class Exercise {
     required this.imagePath,
   });
 
-  factory Exercise.fromJson(Map<String, dynamic> json) {
-    return Exercise(
+  factory ExerciseIsar.fromJson(Map<String, dynamic> json) {
+    return ExerciseIsar(
       exId: json['id'],
       name: json['name'],
       primMuscle: json['primMuscle'],

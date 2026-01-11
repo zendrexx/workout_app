@@ -15,7 +15,7 @@ PlannedWorkoutSet toDomainSet(PlannedSetIsar s) {
   return sets;
 }
 
-PlannedWorkoutExercise toDomainExercise(PlannedExerciseIsar e) {
+PlannedWorkoutExercise toDomainPlannedExercise(PlannedExerciseIsar e) {
   final ex = PlannedWorkoutExercise(
     exId: e.exId,
     exerciseName: e.exerciseName,
@@ -33,7 +33,9 @@ PlannedWorkoutSession toDomainSession(PlannedSessionIsar s) {
     createdAt: s.createdAt,
     name: s.name ?? "",
     id: s.id.toString(),
-    exercises: s.plannedExercise.map((e) => toDomainExercise(e)).toList(),
+    exercises: s.plannedExercise
+        .map((e) => toDomainPlannedExercise(e))
+        .toList(),
   );
 
   return session;
