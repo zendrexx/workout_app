@@ -9,6 +9,7 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
+import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
@@ -43,7 +44,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(name: "");
   }
 
-  void addExercise(Exercise exercise) {
+  void addExercise(ExerciseState exercise) {
     final plannedExercise = toPlannedExercise(exercise);
 
     state = state.copyWith(exercises: [...state.exercises, plannedExercise]);

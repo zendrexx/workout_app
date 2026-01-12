@@ -18,27 +18,22 @@ class AddExercisePage extends ConsumerStatefulWidget {
 
 class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   final TextEditingController _controller = TextEditingController();
-  final Set<String> _selectedExerciseIds = {};
+  final Set<String> _selectedExercise = {};
 
   void _toggleExercise(ExerciseState exercise) {
     setState(() {
-      if (_selectedExerciseIds.contains(exercise.exId)) {
-        _selectedExerciseIds.remove(exercise.exId);
+      if (_selectedExercise.contains(exercise.exId)) {
+        _selectedExercise.remove(exercise.exId);
       } else {
-        _selectedExerciseIds.add(exercise.exId);
+        _selectedExercise.add(exercise.exId);
       }
     });
-  }
-
-  void addExercise(WidgetRef ref, Exercise value) {
-    // final plannedExercise = TempPlannedExercise(exercise: value);
-    // ref.read(tempSessionProvider.notifier).addExercise(plannedExercise);
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(exerciseViewModelProvider);
-
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -102,7 +97,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                           fillColor: Color(0xff4E4A43),
                           hintText: "Search Exercise",
                           hintStyle: TextStyle(
-                            color: Color(0xff89898Ad),
+                            color: Color(0xff89898A),
                             fontSize: 14,
                           ),
                           prefixIcon: IconButton(
@@ -150,7 +145,9 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                           onTap: () => _toggleExercise(exercise),
                           child: ExerciseCardWidget(
                             isSelectable: true,
-                            isSelected: _selectedExerciseIds.contains(index),
+                            isSelected: _selectedExercise.contains(
+                              exercise.exId,
+                            ),
                             name: exercise.name,
                             imagePath: exercise.imagePath,
                             primMuscle: exercise.primMuscle,
@@ -164,25 +161,20 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
               ),
             ),
           ),
-          if (_selectedExerciseIds.isNotEmpty) ...[
+          if (_selectedExercise.isNotEmpty) ...[
             Positioned(
               right: 0,
               bottom: 30,
               child: ElevatedButton(
                 onPressed: () {
-                  final vm = ref.read(plannedSessionViewModelProvider.notifier);
-
-                  final selectedExercises = state.exercises.where(
-                    (e) => _selectedExerciseIds.contains(e.exId),
-                  );
-
-                  for (final exercise in selectedExercises) {
+                  for (final exId in _selectedExercise) {
+                    final exercise = state.exercises.firstWhere(
+                      (e) => e.exId == exId,
+                    );
                     vm.addExercise(exercise);
                   }
-
                   context.pop();
                 },
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),
                   shape: const RoundedRectangleBorder(
