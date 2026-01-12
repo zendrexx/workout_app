@@ -8,14 +8,14 @@ class Exercise {
 
   final String? seconMuscle;
   final String? equipment;
-  final String? imagePath;
+  final String imagePath;
   Exercise({
     required this.exId,
     required this.name,
     required this.primMuscle,
     this.seconMuscle,
     this.equipment,
-    this.imagePath,
+    required this.imagePath,
   });
 
   Exercise copyWith({

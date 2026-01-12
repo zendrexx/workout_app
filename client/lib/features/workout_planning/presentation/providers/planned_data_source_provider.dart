@@ -3,6 +3,6 @@ import 'package:client/features/workout_planning/data/datasources/planned_workou
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final workoutDatasourceProvider = Provider<PlannedWorkoutIsarDatasource>((ref) {
-  final db = ref.read(databaseServiceProvider);
+  final db = ref.read(databaseServiceProvider).value!;
   return PlannedWorkoutIsarDatasource(db);
 });

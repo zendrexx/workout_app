@@ -32,7 +32,7 @@ class DatabaseService {
       PerformedExerciseSchema,
       PerformedSessionSchema,
     ], directory: appDir.path);
-
+    await seedExercises(isar);
     print("✅ Isar database opened at: ${appDir.path}");
   }
 

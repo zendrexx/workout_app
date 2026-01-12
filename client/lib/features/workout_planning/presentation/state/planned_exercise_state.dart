@@ -3,7 +3,7 @@ import 'package:client/features/workout_planning/presentation/state/planned_set_
 
 class PlannedExerciseState {
   final String exerciseName;
-  final String exercisePath;
+  final String imagePath;
   final String equipment;
   final String notes;
   final List<PlannedSetState> sets;
@@ -11,20 +11,20 @@ class PlannedExerciseState {
     required this.sets,
     required this.equipment,
     required this.exerciseName,
-    required this.exercisePath,
+    required this.imagePath,
     required this.notes,
   });
 
   PlannedExerciseState copyWith({
     String? exerciseName,
-    String? exercisePath,
+    String? imagePath,
     String? equipment,
     String? notes,
     List<PlannedSetState>? sets,
   }) {
     return PlannedExerciseState(
       exerciseName: exerciseName ?? this.exerciseName,
-      exercisePath: exercisePath ?? this.exercisePath,
+      imagePath: imagePath ?? this.imagePath,
       equipment: equipment ?? this.equipment,
       notes: notes ?? this.notes,
       sets: sets ?? this.sets,

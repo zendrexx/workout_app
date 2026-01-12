@@ -17,4 +17,8 @@ class PlannedSetState {
       estWeight: estWeight ?? this.estWeight,
     );
   }
+
+  factory PlannedSetState.defaultSet() {
+    return PlannedSetState(minRep: 10, maxRep: 12, estWeight: 0);
+  }
 }

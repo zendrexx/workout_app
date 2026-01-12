@@ -4,6 +4,7 @@ import 'package:client/data/model_temp/temp_session.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
+import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
@@ -11,6 +12,7 @@ import 'package:client/features/workout_planning/domain/usecases/get_session_by_
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_domain_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,9 +43,10 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(name: "");
   }
 
-  void addExercise(PlannedExerciseState exercise) {
-    final updatedExercises = [...state.exercises, exercise];
-    state = state.copyWith(exercises: updatedExercises);
+  void addExercise(Exercise exercise) {
+    final plannedExercise = toPlannedExercise(exercise);
+
+    state = state.copyWith(exercises: [...state.exercises, plannedExercise]);
   }
 
   void deleteExercise(int index) {

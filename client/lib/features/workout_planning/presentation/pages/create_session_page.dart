@@ -157,7 +157,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                     return SessionWorkoutWidget(
                       title: current.exerciseName,
                       equipment: current.equipment,
-                      imagePath: current.exercisePath,
+                      imagePath: current.imagePath,
                       index: index,
                     );
                   }),

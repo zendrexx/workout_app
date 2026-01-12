@@ -8,13 +8,13 @@ class ExerciseState {
 
   final String? seconMuscle;
   final String? equipment;
-  final String? imagePath;
+  final String imagePath;
   ExerciseState({
     required this.exId,
     required this.name,
     required this.primMuscle,
     this.equipment,
-    this.imagePath,
+    required this.imagePath,
     this.seconMuscle,
   });
 

@@ -3,6 +3,8 @@ import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
 import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/providers/get_all_exercise_provider.dart';
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,29 +17,18 @@ class AddExercisePage extends ConsumerStatefulWidget {
 }
 
 class _AddExercisePageState extends ConsumerState<AddExercisePage> {
-  final Set<int> _selectedSessions = {};
   final TextEditingController _controller = TextEditingController();
+  final Set<String> _selectedExerciseIds = {};
 
-  void _toggleSession(int index) {
+  void _toggleExercise(ExerciseState exercise) {
     setState(() {
-      if (_selectedSessions.contains(index)) {
-        _selectedSessions.remove(index);
+      if (_selectedExerciseIds.contains(exercise.exId)) {
+        _selectedExerciseIds.remove(exercise.exId);
       } else {
-        _selectedSessions.add(index);
+        _selectedExerciseIds.add(exercise.exId);
       }
     });
   }
-
-  List<Exercise> _exercise = [];
-
-  @override
-  void initState() {
-    super.initState();
-    print("AddExercisePage initState called ✅");
-    _initWorkouts();
-  }
-
-  void _initWorkouts() async {}
 
   void addExercise(WidgetRef ref, Exercise value) {
     // final plannedExercise = TempPlannedExercise(exercise: value);
@@ -46,7 +37,8 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = ref.watch(exerciseViewModelProvider);
+    final state = ref.watch(exerciseViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -151,16 +143,16 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.exercises.length,
+                      itemCount: state.exercises.length,
                       itemBuilder: (context, index) {
-                        final exercise = vm.exercises[index];
+                        final exercise = state.exercises[index];
                         return GestureDetector(
-                          onTap: () => _toggleSession(index),
+                          onTap: () => _toggleExercise(exercise),
                           child: ExerciseCardWidget(
                             isSelectable: true,
-                            isSelected: _selectedSessions.contains(index),
+                            isSelected: _selectedExerciseIds.contains(index),
                             name: exercise.name,
-                            imagePath: exercise.imagePath ?? "",
+                            imagePath: exercise.imagePath,
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),
@@ -172,17 +164,25 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
               ),
             ),
           ),
-          if (_selectedSessions.isNotEmpty) ...[
+          if (_selectedExerciseIds.isNotEmpty) ...[
             Positioned(
               right: 0,
               bottom: 30,
               child: ElevatedButton(
                 onPressed: () {
-                  for (final sessionIndex in _selectedSessions) {
-                    addExercise(ref, _exercise[sessionIndex]);
+                  final vm = ref.read(plannedSessionViewModelProvider.notifier);
+
+                  final selectedExercises = state.exercises.where(
+                    (e) => _selectedExerciseIds.contains(e.exId),
+                  );
+
+                  for (final exercise in selectedExercises) {
+                    vm.addExercise(exercise);
                   }
+
                   context.pop();
                 },
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),
                   shape: const RoundedRectangleBorder(
@@ -198,7 +198,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                   elevation: 4,
                 ),
                 child: Text(
-                  "Add ${_selectedSessions.length} exercise",
+                  "Add ${_selectedExercise.length} exercise",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),

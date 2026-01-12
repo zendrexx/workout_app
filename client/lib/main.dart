@@ -8,11 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final container = ProviderContainer();
-  final dbService = container.read(databaseServiceProvider);
-  await dbService.setup();
-  //providerscope only hindi na init ng dbase
-  runApp(UncontrolledProviderScope(container: container, child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

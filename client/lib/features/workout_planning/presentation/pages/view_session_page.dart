@@ -86,7 +86,7 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
                     return ViewSessionWorkoutWidget(
                       title: exercises[index].exerciseName,
                       equipment: exercises[index].equipment,
-                      imagePath: exercises[index].exercisePath,
+                      imagePath: exercises[index].imagePath,
                       index: index,
 
                       plannedSets: exercises[index].sets.toList(),
