@@ -36,12 +36,6 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
     //     .addSetToExercise(widget.index, value);
   }
 
-  void addNotes(WidgetRef ref, String note) {
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .addNotesToExercise(widget.index, note);
-  }
-
   late TextEditingController notesController = TextEditingController();
   @override
   void initState() {
@@ -68,9 +62,10 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
   Widget build(BuildContext context) {
     final vm = ref.read(plannedSessionViewModelProvider.notifier);
     final sets = ref.watch(
-      plannedSessionViewModelProvider.select(
-        (state) => state.exercises[widget.index].sets,
-      ),
+      plannedSessionViewModelProvider.select((state) {
+        if (widget.index >= state.exercises.length) return [];
+        return state.exercises[widget.index].sets;
+      }),
     );
     // final session = ref.watch(tempSessionProvider);
     // final sets = session.plannedExercise[widget.index].sets;
@@ -213,7 +208,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
             ),
             cursorColor: Colors.white,
             onChanged: (value) {
-              addNotes(ref, value);
+              vm.addNotesToExercise(widget.index, value);
             },
           ),
           Row(

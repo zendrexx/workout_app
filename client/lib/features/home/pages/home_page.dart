@@ -43,7 +43,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final plannedSessionsAsync = ref.watch(plannedSessionStreamProvider);
+    //final plannedSessions = ref.watch(PlannedSess);
     // printWorkouts(plannedSessionsAsync);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
@@ -170,7 +170,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemCount: 1,
                       itemBuilder: (context, index) {},
                     ),
-
                     secondChild: SizedBox.shrink(),
                   ),
                 ],
@@ -209,7 +208,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
 
-                  // Expand/Collapse content
                   // AnimatedCrossFade(
                   //   duration: Duration(milliseconds: 250),
 

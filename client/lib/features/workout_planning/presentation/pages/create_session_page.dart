@@ -4,7 +4,7 @@ import 'package:client/features/workout_planning/presentation/viewmodel/planned_
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/data/services/save_to_temp.dart';
 import 'package:client/features/home/widgets/long_custom_button.dart';
-import 'package:client/features/home/widgets/session_workout_widget.dart';
+import 'package:client/features/workout_planning/presentation/widgets/session_workout_widget.dart';
 import 'package:client/widgets/animeted_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
