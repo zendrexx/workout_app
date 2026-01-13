@@ -2,6 +2,8 @@ import 'package:client/features/workout_planning/data/datasources/planned_workou
 import 'package:client/features/workout_planning/data/mappers/domain_to_isar_session_mapper.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_exercise.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
+import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
@@ -13,7 +15,19 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   @override
   Future<void> addSession(PlannedWorkoutSession plannedSession) {
     final isarSession = toIsarSession(plannedSession);
-    return datasource.addSession(isarSession);
+
+    // Map exercises & sets separately
+    final exercises = plannedSession.exercises.map(toIsarExercise).toList();
+    final setsMap = <PlannedExerciseIsar, List<PlannedSetIsar>>{
+      for (int i = 0; i < exercises.length; i++)
+        exercises[i]: plannedSession.exercises[i].sets.map(toIsarSet).toList(),
+    };
+
+    return datasource.addSession(
+      session: isarSession,
+      exercises: exercises,
+      setsMap: setsMap,
+    );
   }
 
   @override

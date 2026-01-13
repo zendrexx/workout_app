@@ -11,27 +11,27 @@ class PlannedWorkoutIsarDatasource {
   final DatabaseService dbService;
   PlannedWorkoutIsarDatasource(this.dbService);
 
-  Future<void> addSession(PlannedSessionIsar session) async {
+  Future<void> addSession({
+    required PlannedSessionIsar session,
+    required List<PlannedExerciseIsar> exercises,
+    required Map<PlannedExerciseIsar, List<PlannedSetIsar>> setsMap,
+  }) async {
     final db = dbService.isar;
 
     await db.writeTxn(() async {
-      //Save session first
       await db.plannedSessionIsars.put(session);
+      await db.plannedExerciseIsars.putAll(exercises);
 
-      //Save exercises
-      for (final exercise in session.plannedExercise) {
-        await db.plannedExerciseIsars.put(exercise);
-
-        //Save sets FIRST
-        for (final set in exercise.sets) {
-          await db.plannedSetIsars.put(set);
-        }
-
-        //Then save the links
-        await exercise.sets.save();
+      for (final sets in setsMap.values) {
+        await db.plannedSetIsars.putAll(sets);
       }
 
-      //Save exercise links on session
+      for (final entry in setsMap.entries) {
+        entry.key.sets.addAll(entry.value);
+        await entry.key.sets.save();
+      }
+
+      session.plannedExercise.addAll(exercises);
       await session.plannedExercise.save();
     });
   }

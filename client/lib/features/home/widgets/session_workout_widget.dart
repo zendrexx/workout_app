@@ -1,3 +1,5 @@
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
@@ -28,10 +30,6 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
 }
 
 class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
-  void deleteExercise(WidgetRef ref, int index) {
-    // ref.read(tempSessionProvider.notifier).deleteExercise(index);
-  }
-
   void addSets(WidgetRef ref, TempPlannedSets value) {
     // ref
     //     .watch(tempSessionProvider.notifier)
@@ -68,6 +66,12 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
+    final sets = ref.watch(
+      plannedSessionViewModelProvider.select(
+        (state) => state.exercises[widget.index].sets,
+      ),
+    );
     // final session = ref.watch(tempSessionProvider);
     // final sets = session.plannedExercise[widget.index].sets;
 
@@ -164,7 +168,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.opaque,
                                         onTap: () {
-                                          deleteExercise(ref, widget.index);
+                                          vm.deleteExercise(widget.index);
                                           Navigator.pop(context);
                                         },
                                         child: Row(
@@ -240,31 +244,28 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              // return WorkoutSetWidget(
-              //   setNum: setIndex,
-              //   index: widget.index,
-              //   estWeight: (sets[setIndex].estWeight == null)
-              //       ? '' // or '' if you prefer empty
-              //       : (sets[setIndex].estWeight! % 1 == 0
-              //             ? sets[setIndex].estWeight!.toInt().toString()
-              //             : sets[setIndex].estWeight!.toString()),
+              return WorkoutSetWidget(
+                setNum: setIndex,
+                index: widget.index,
+                estWeight: (sets[setIndex].estWeight % 1 == 0
+                    ? sets[setIndex].estWeight.toInt().toString()
+                    : sets[setIndex].estWeight.toString()),
 
-              //   repRange: plannedRepRange(
-              //     setIndex,
-              //     sets[setIndex].minRep,
-              //     sets[setIndex].maxRep,
-              //   ),
-              // );
+                repRange: plannedRepRange(
+                  setIndex,
+                  sets[setIndex].minRep,
+                  sets[setIndex].maxRep,
+                ),
+              );
             }),
-            // itemCount: sets.length,
+            itemCount: sets.length,
             shrinkWrap: true,
           ),
           SizedBox(height: 10),
           LongCustomButton(
             title: "+ Add Sets",
             onTap: () {
-              TempPlannedSets sets = TempPlannedSets();
-              addSets(ref, sets);
+              vm.addSetToExercise(widget.index);
             },
             Bcolor: Color(0xff242727),
           ),

@@ -83,12 +83,14 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       // all good
+                      vm.save();
+                      context.push('/home');
+                      ref.invalidate(plannedSessionViewModelProvider);
                       showCustomSnackbar(
                         context,
                         "Session Added",
                         color: Colors.black,
                       );
-                      vm.save();
                     }
                   },
 

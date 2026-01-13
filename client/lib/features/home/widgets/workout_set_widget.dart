@@ -1,3 +1,4 @@
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:flutter/material.dart';
@@ -35,30 +36,28 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
         weightController.text =
             (widget.estWeight == null ||
                 widget.estWeight == 'null' ||
-                widget.estWeight!.isEmpty)
+                widget.estWeight!.isEmpty ||
+                widget.estWeight == '0')
             ? ''
             : widget.estWeight!;
         repRangeController.text =
             (widget.repRange == null ||
                 widget.repRange == 'null' ||
-                widget.repRange!.isEmpty)
+                widget.repRange!.isEmpty ||
+                widget.estWeight == '0')
             ? ''
             : widget.repRange!;
       });
     });
   }
 
-  void addWeight(WidgetRef ref, String weight) {
-    // Convert safely to double
-    final double? rweight = double.tryParse(weight);
-    if (rweight == null) return;
+  // void addWeight(WidgetRef ref, String weight) {
+  //   // Convert safely to double
+  //   final double? rweight = double.tryParse(weight);
+  //   if (rweight == null) return;
 
-    // Convert the set number to int (since it's a String like "1")
-
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .addWeightToSets(widget.index, widget.setNum, rweight);
-  }
+  //   // Convert the set number to int (since it's a String like "1")
+  // }
 
   void addRepRange(WidgetRef ref, String repRange) {
     // ref
@@ -75,6 +74,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
     return Padding(
       padding: const EdgeInsets.only(top: 5, bottom: 5),
       child: Row(
@@ -97,7 +97,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
               ],
               onChanged: (value) {
-                addWeight(ref, value);
+                vm.addRepRangeToSets(widget.index, widget.setNum, value);
               },
               decoration: InputDecoration(
                 hintText: "-",
@@ -122,7 +122,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
               controller: repRangeController,
               enabled: !widget.viewing,
               onChanged: (value) {
-                addRepRange(ref, value);
+                vm.addWeightToSets(widget.index, widget.setNum, value);
               },
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,

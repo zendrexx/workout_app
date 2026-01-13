@@ -19,6 +19,6 @@ class PlannedSetState {
   }
 
   factory PlannedSetState.defaultSet() {
-    return PlannedSetState(minRep: 10, maxRep: 12, estWeight: 0);
+    return PlannedSetState(minRep: 0, maxRep: 0, estWeight: 0);
   }
 }

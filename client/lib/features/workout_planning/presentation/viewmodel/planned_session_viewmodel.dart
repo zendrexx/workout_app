@@ -31,7 +31,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = toStateSession(session);
   }
 
-  void save() async {
+  Future<void> save() async {
     final session = mapSession(state);
     await createWorkoutSession(session);
   }
@@ -73,7 +73,8 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addSetToExercise(int index, PlannedSetState sets) {
+  void addSetToExercise(int index) {
+    final sets = PlannedSetState.defaultSet(); // or default()
     // 1. Copy current exercise
     final exercise = state.exercises[index];
 
@@ -91,7 +92,9 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addWeightToSets(int exerciseIndex, int setIndex, double weight) {
+  void addWeightToSets(int exerciseIndex, int setIndex, String weight) {
+    final double? rweight = double.tryParse(weight);
+    if (rweight == null) return;
     // Get a copy of all exercises
     final updatedExercises = [...state.exercises];
 
@@ -102,7 +105,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     final updatedSets = [...currentExercise.sets];
 
     // Update the specific set with the new weight
-    final updatedSet = updatedSets[setIndex].copyWith(estWeight: weight);
+    final updatedSet = updatedSets[setIndex].copyWith(estWeight: rweight);
     updatedSets[setIndex] = updatedSet;
 
     // Update the exercise with the modified sets
