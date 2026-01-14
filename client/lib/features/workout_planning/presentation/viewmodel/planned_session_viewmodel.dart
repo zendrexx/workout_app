@@ -43,7 +43,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
       (failure) => _events.add(ShowError(mapSessionFailure(failure))),
       (_) {
         state = PlannedSessionState.initial();
-        _events.add(SaveSuccess());
+        _events.add(SaveSuccess("Session saved!"));
       },
     );
   }
@@ -68,10 +68,11 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void updateExerciseAt(int index, PlannedExerciseState updatedExercise) {
+  void updateExerciseAt(int index, ExerciseState updatedExercise) {
     final updatedExercises = [...state.exercises];
     if (index >= 0 && index < updatedExercises.length) {
-      updatedExercises[index] = updatedExercise;
+      final plannedExercise = toPlannedExercise(updatedExercise);
+      updatedExercises[index] = plannedExercise;
       state = state.copyWith(exercises: updatedExercises);
     }
   }

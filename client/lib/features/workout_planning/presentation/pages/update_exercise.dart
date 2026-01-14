@@ -1,5 +1,8 @@
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/widgets/exercise_card_widget.dart';
+import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,17 +18,17 @@ class UpdateExercise extends ConsumerStatefulWidget {
 }
 
 class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
-  final Set<int> _selectedSessions = {};
+  final Set<String> _selectedExercise = {};
   final TextEditingController _controller = TextEditingController();
 
-  void _toggleSession(int index) {
+  void _toggleExercise(ExerciseState exercise) {
     setState(() {
-      if (_selectedSessions.contains(index)) {
-        _selectedSessions.clear(); // deselect if tapped again
+      if (_selectedExercise.contains(exercise.exId)) {
+        //if na click na
+        _selectedExercise.remove(exercise.exId); //remove ex
       } else {
-        _selectedSessions
-          ..clear() // remove any existing selection
-          ..add(index);
+        _selectedExercise.clear();
+        _selectedExercise.add(exercise.exId);
       }
     });
   }
@@ -57,6 +60,8 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(exerciseViewModelProvider);
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -164,16 +169,18 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _exercise.length,
+                      itemCount: state.exercises.length,
                       itemBuilder: (context, index) {
-                        final exercise = _exercise[index];
+                        final exercise = state.exercises[index];
                         return GestureDetector(
-                          onTap: () => _toggleSession(index),
+                          onTap: () => _toggleExercise(exercise),
                           child: ExerciseCardWidget(
                             isSelectable: true,
-                            isSelected: _selectedSessions.contains(index),
+                            isSelected: _selectedExercise.contains(
+                              exercise.exId,
+                            ),
                             name: exercise.name,
-                            imagePath: exercise.imagePath ?? "",
+                            imagePath: exercise.imagePath,
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),
@@ -185,16 +192,20 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
               ),
             ),
           ),
-          if (_selectedSessions.isNotEmpty) ...[
+          if (_selectedExercise.isNotEmpty) ...[
             Positioned(
               right: 0,
               bottom: 30,
               child: ElevatedButton(
                 onPressed: () {
-                  for (final sessionIndex in _selectedSessions) {
-                    updateExercise(ref, _exercise[sessionIndex]);
+                  for (final exId in _selectedExercise) {
+                    final exercise = state.exercises.firstWhere(
+                      (e) => e.exId == exId,
+                    );
+                    vm.updateExerciseAt(widget.index, exercise);
+
+                    context.pop();
                   }
-                  context.pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),

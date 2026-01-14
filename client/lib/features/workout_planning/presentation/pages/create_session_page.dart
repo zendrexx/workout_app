@@ -49,6 +49,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     //   var save = SaveToTemp(ref: ref);
     //   save.convertToTemp(widget.sessionId!);
     // }
+
     _subscription = ref
         .read(plannedSessionViewModelProvider.notifier)
         .events
@@ -61,7 +62,10 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               ).showSnackBar(SnackBar(content: Text(message)));
               break;
 
-            case SaveSuccess():
+            case SaveSuccess(:final message):
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
               Navigator.pop(context);
               break;
           }

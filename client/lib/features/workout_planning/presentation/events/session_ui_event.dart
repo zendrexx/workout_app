@@ -5,4 +5,7 @@ class ShowError extends SessionUiEvent {
   ShowError(this.message);
 }
 
-class SaveSuccess extends SessionUiEvent {}
+class SaveSuccess extends SessionUiEvent {
+  final String message;
+  SaveSuccess(this.message);
+}

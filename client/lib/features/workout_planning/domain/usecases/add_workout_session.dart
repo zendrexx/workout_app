@@ -12,11 +12,17 @@ class AddWorkoutSession {
     PlannedWorkoutSession session,
   ) async {
     if (!session.hasName) {
-      return Left(EmptyExercisesFailure());
+      return Left(EmptySessionNameFailure());
     }
     if (!session.hasExercise) {
       return Left(EmptyExercisesFailure());
     }
+    for (final e in session.exercises) {
+      if (!e.hasSet) {
+        return Left(EmptysSetsFailure());
+      }
+    }
+
     await repo.addSession(session);
     return const Right(null);
   }

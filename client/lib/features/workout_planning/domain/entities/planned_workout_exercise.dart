@@ -26,6 +26,10 @@ class PlannedWorkoutExercise {
     return total;
   }
 
+  bool get hasSet {
+    return sets.isNotEmpty;
+  }
+
   PlannedWorkoutExercise copyWith({
     String? exId,
     String? exerciseName,
