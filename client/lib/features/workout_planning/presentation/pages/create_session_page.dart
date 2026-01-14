@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
@@ -21,12 +24,13 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _controller = TextEditingController();
-
+  late final StreamSubscription<SessionUiEvent> _subscription;
   bool checkName = true;
   bool isEditMode = false;
   @override
   void dispose() {
     _controller.dispose();
+    _subscription.cancel();
     super.dispose();
   }
 
@@ -45,6 +49,23 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     //   var save = SaveToTemp(ref: ref);
     //   save.convertToTemp(widget.sessionId!);
     // }
+    _subscription = ref
+        .read(plannedSessionViewModelProvider.notifier)
+        .events
+        .listen((event) {
+          if (!mounted) return;
+          switch (event) {
+            case ShowError(:final message):
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+              break;
+
+            case SaveSuccess():
+              Navigator.pop(context);
+              break;
+          }
+        });
   }
 
   @override
@@ -82,15 +103,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      // all good
                       vm.save();
-                      context.push('/home');
-                      ref.invalidate(plannedSessionViewModelProvider);
-                      showCustomSnackbar(
-                        context,
-                        "Session Added",
-                        color: Colors.black,
-                      );
                     }
                   },
 
@@ -168,6 +181,22 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                 ),
 
                 SizedBox(height: 10),
+                state.exercises.isEmpty
+                    ? SizedBox(
+                        height: 100,
+                        child: Center(
+                          child: Text(
+                            'Get started by adding a exercise to your\nsession.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
+
                 LongCustomButton(
                   title: "+ Add Exercises",
                   onTap: () =>

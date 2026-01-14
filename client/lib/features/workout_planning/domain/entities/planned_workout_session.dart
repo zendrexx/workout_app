@@ -15,8 +15,12 @@ class PlannedWorkoutSession {
     required this.exercises,
   });
 
-  bool get isValid {
-    return name.isNotEmpty && exercises.isNotEmpty;
+  bool get hasName {
+    return name.trim().isNotEmpty;
+  }
+
+  bool get hasExercise {
+    return exercises.isNotEmpty;
   }
 
   int get getTotalSets {

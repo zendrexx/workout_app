@@ -31,6 +31,6 @@ PlannedWorkoutSession mapSession(PlannedSessionState s) {
     id: IdGenerator().getId(),
     name: s.name,
     createdAt: DateTime.now(),
-    exercises: s.exercises?.map(mapExercise).toList() ?? [],
+    exercises: s.exercises.map(mapExercise).toList(),
   );
 }

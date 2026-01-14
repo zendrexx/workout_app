@@ -1,4 +1,4 @@
-import 'package:client/features/home/widgets/workout_set_widget.dart';
+import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutDetailsWidget extends StatelessWidget {

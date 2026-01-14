@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client/data/model_temp/temp_planned_exercise.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/data/model_temp/temp_session.dart';
@@ -9,11 +11,13 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
+import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/map_session_dailure.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_domain_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +26,8 @@ import 'package:isar/isar.dart';
 class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
-
+  final _events = StreamController<SessionUiEvent>.broadcast();
+  Stream<SessionUiEvent> get events => _events.stream;
   PlannedSessionViewmodel(this.createWorkoutSession, this.getSessionById)
     : super(PlannedSessionState.initial());
 
@@ -33,7 +38,14 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
 
   Future<void> save() async {
     final session = mapSession(state);
-    await createWorkoutSession(session);
+    final result = await createWorkoutSession(session);
+    result.fold(
+      (failure) => _events.add(ShowError(mapSessionFailure(failure))),
+      (_) {
+        state = PlannedSessionState.initial();
+        _events.add(SaveSuccess());
+      },
+    );
   }
 
   void addName(String newName) {
@@ -89,6 +101,13 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     updatedExercises[index] = updatedExercise;
 
     // 5. Update the state immutably
+    state = state.copyWith(exercises: updatedExercises);
+  }
+
+  void deleteSet(int exerciseIndex, int setIndex) {
+    final updatedExercises = [...state.exercises];
+    final currentExercise = updatedExercises[exerciseIndex];
+    currentExercise.sets.removeAt(setIndex);
     state = state.copyWith(exercises: updatedExercises);
   }
 
