@@ -8,15 +8,15 @@ import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:isar/isar.dart';
 
 class PlannedWorkoutIsarDatasource {
-  final DatabaseService dbService;
-  PlannedWorkoutIsarDatasource(this.dbService);
+  final Isar isar;
+  PlannedWorkoutIsarDatasource(this.isar);
 
   Future<void> addSession({
     required PlannedSessionIsar session,
     required List<PlannedExerciseIsar> exercises,
     required Map<PlannedExerciseIsar, List<PlannedSetIsar>> setsMap,
   }) async {
-    final db = dbService.isar;
+    final db = isar;
 
     await db.writeTxn(() async {
       await db.plannedSessionIsars.put(session);
@@ -37,12 +37,12 @@ class PlannedWorkoutIsarDatasource {
   }
 
   Future<List<PlannedSessionIsar>> getAllPlannedSession() async {
-    final db = dbService.isar;
+    final db = isar;
     return db.plannedSessionIsars.where().findAll();
   }
 
   Future<PlannedSessionIsar?> getSessionById(int id) async {
-    final db = dbService.isar;
+    final db = isar;
 
     final session = await db.plannedSessionIsars.get(id);
     if (session == null) return null;
@@ -58,7 +58,7 @@ class PlannedWorkoutIsarDatasource {
   }
 
   Future<List<ExerciseIsar>> getAllExercies() async {
-    final db = dbService.isar;
+    final db = isar;
     final exercises = db.exerciseIsars.where().findAll();
     return exercises;
   }

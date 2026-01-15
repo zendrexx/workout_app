@@ -5,8 +5,7 @@ import 'package:client/features/workout_planning/presentation/events/session_ui_
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
-import 'package:client/data/services/save_to_temp.dart';
-import 'package:client/features/home/widgets/long_custom_button.dart';
+import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_planning/presentation/widgets/session_workout_widget.dart';
 import 'package:client/widgets/animeted_snackbar.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
-import 'package:client/features/home/widgets/long_custom_button.dart';
-import 'package:client/features/home/widgets/session_card_widget.dart';
+import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
+import 'package:client/features/home/presentation/widgets/session_card_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

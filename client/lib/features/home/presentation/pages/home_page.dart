@@ -1,8 +1,9 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/home/widgets/custom_button_widget.dart';
+import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
+import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
 import 'package:client/features/workout_planning/presentation/widgets/home_list_widget.dart';
-import 'package:client/features/home/widgets/streak_widget.dart';
+import 'package:client/features/home/presentation/widgets/streak_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,14 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      ref.read(homeViewModelProvider.notifier).loadAllPlannedSession();
+    });
+  }
   // void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
   //   plannedSessionsAsync.when(
   //     data: (sessions) {
@@ -43,8 +52,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //final plannedSessions = ref.watch(PlannedSess);
-    // printWorkouts(plannedSessionsAsync);
+    final state = ref.watch(homeViewModelProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -208,40 +216,26 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
 
-                  // AnimatedCrossFade(
-                  //   duration: Duration(milliseconds: 250),
+                  AnimatedCrossFade(
+                    duration: Duration(milliseconds: 250),
 
-                  //   crossFadeState: _isSessionExpanded
-                  //       ? CrossFadeState.showFirst
-                  //       : CrossFadeState.showSecond,
-                  //   firstChild: plannedSessionsAsync.when(
-                  //     data: (sessions) {
-                  //       return ListView.builder(
-                  //         shrinkWrap: true,
-                  //         physics: const NeverScrollableScrollPhysics(),
-                  //         itemCount: sessions.length,
-                  //         itemBuilder: (context, index) {
-                  //           final session = sessions[index];
-                  //           final exercises = session.plannedExercise.toList();
-                  //           () async {}();
-                  //           return HomeListWidget(
-                  //             id: session.id,
+                    crossFadeState: _isSessionExpanded
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstChild: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.session.length,
+                      itemBuilder: (context, index) {
+                        final session = state.session[index];
+                        //final exercises = session.plannedExercise.toList();
+                        () async {}();
+                        return HomeListWidget(id: 0, title: session.name);
+                      },
+                    ),
 
-                  //             title: session.name ?? "Untitled Session",
-                  //           );
-                  //         },
-                  //       );
-                  //     },
-                  //     loading: () =>
-                  //         const Center(child: CircularProgressIndicator()),
-                  //     error: (err, stack) => Text(
-                  //       'Error: $err',
-                  //       style: const TextStyle(color: Colors.red),
-                  //     ),
-                  //   ),
-
-                  //   secondChild: SizedBox.shrink(),
-                  // ),
+                    secondChild: SizedBox.shrink(),
+                  ),
                 ],
               ),
             ],

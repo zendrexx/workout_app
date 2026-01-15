@@ -1,14 +1,30 @@
 import 'package:client/core/providers/database_service_provider.dart';
-import 'package:client/core/providers/isar_provider.dart';
 import 'package:client/core/router/router.dart';
 import 'package:client/core/database/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  runApp(const ProviderScope(child: AppBootstrap()));
+}
 
-  runApp(const ProviderScope(child: MyApp()));
+class AppBootstrap extends ConsumerWidget {
+  const AppBootstrap({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isarAsync = ref.watch(isarProvider);
+
+    return isarAsync.when(
+      loading: () => const MaterialApp(
+        home: Scaffold(body: Center(child: CircularProgressIndicator())),
+      ),
+      error: (e, st) => MaterialApp(
+        home: Scaffold(body: Center(child: Text(e.toString()))),
+      ),
+      data: (_) => const MyApp(), // 👈 Isar READY here
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

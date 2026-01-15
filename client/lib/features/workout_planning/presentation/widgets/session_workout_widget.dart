@@ -4,7 +4,7 @@ import 'package:client/features/workout_planning/presentation/viewmodel/planned_
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/history/widgets/workout_row_widget.dart';
-import 'package:client/features/home/widgets/long_custom_button.dart';
+import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

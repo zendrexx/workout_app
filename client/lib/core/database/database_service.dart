@@ -1,4 +1,6 @@
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
@@ -10,37 +12,22 @@ import 'package:client/data/models/performed_exercise.dart';
 import 'package:client/data/models/performed_session.dart';
 import 'package:client/data/services/exercise_service.dart';
 
-class DatabaseService {
-  late final Isar isar; // <- no static
+final isarProvider = FutureProvider<Isar>((ref) async {
+  final appDir = await getApplicationDocumentsDirectory();
 
-  /// Call this once at app start
-  Future<void> setup() async {
-    if (Isar.instanceNames.isNotEmpty) {
-      isar = Isar.getInstance()!;
-      return;
-    }
+  final isar = await Isar.open([
+    PlannedSessionIsarSchema,
+    PlannedExerciseIsarSchema,
+    PlannedSetIsarSchema,
+    ExerciseIsarSchema,
+    WorkoutStatsSchema,
+    PerformedSetSchema,
+    PerformedExerciseSchema,
+    PerformedSessionSchema,
+  ], directory: appDir.path);
 
-    final appDir = await getApplicationDocumentsDirectory();
+  await seedExercises(isar);
 
-    isar = await Isar.open([
-      PlannedSessionIsarSchema,
-      PlannedExerciseIsarSchema,
-      PlannedSetIsarSchema,
-      ExerciseIsarSchema,
-      WorkoutStatsSchema,
-      PerformedSetSchema,
-      PerformedExerciseSchema,
-      PerformedSessionSchema,
-    ], directory: appDir.path);
-    await seedExercises(isar);
-    print("✅ Isar database opened at: ${appDir.path}");
-  }
-
-  /// Reset exercises (example helper)
-  Future<void> resetExercises() async {
-    await isar.writeTxn(() async {
-      await isar.exerciseIsars.clear();
-    });
-    await seedExercises(isar);
-  }
-}
+  debugPrint('✅ Isar database opened at: ${appDir.path}');
+  return isar;
+});

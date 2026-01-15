@@ -16,6 +16,6 @@ class ExerciseViewModel extends StateNotifier<ExerciseListState> {
     final exercises = await getAllExercise.call();
     print("Loaded exercises in ViewModel: ${exercises.length}");
     exercises.forEach((e) => print("Exercise: ${e.name}"));
-    state = toExerciseStateList(exercises);
+    state = toExerciseListState(exercises);
   }
 }

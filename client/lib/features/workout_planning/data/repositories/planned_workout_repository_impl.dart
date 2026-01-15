@@ -3,10 +3,12 @@ import 'package:client/features/workout_planning/data/mappers/domain_to_isar_ses
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_exercise.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
+import 'package:isar/isar.dart';
 
 class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   final PlannedWorkoutIsarDatasource datasource;
@@ -33,8 +35,8 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   @override
   Future<List<PlannedWorkoutSession>> getAllPlannedSession() async {
     final isarSessions = await datasource.getAllPlannedSession();
-    if (isarSessions.isEmpty) return [];
-    return isarSessions.map((s) => toDomainSession(s)).toList();
+
+    return isarSessions.map((e) => toDomainSession(e)).toList();
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
-import 'package:client/features/home/widgets/exercise_card_widget.dart';
+import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

@@ -1,5 +1,5 @@
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
-import 'package:client/features/home/widgets/exercise_card_widget.dart';
+import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
 import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
