@@ -40,6 +40,16 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   }
 
   @override
+  Future<void> deleteSession(int id) async {
+    return await datasource.deleteSession(id);
+  }
+
+  @override
+  Future<PlannedSessionIsar?> duplicateSession(int id) async {
+    return await datasource.duplicateSession(id);
+  }
+
+  @override
   Future<PlannedWorkoutSession?> getSessionById(int id) async {
     final isarSession = await datasource.getSessionById(id);
     if (isarSession == null) return null;

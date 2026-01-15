@@ -1,15 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:client/data/models/workout_stats.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_exercise.dart';
 
 class PlannedWorkoutSession {
-  final String id;
+  final String sessionId;
   final String name;
   final DateTime createdAt;
   final List<PlannedWorkoutExercise> exercises;
 
   PlannedWorkoutSession({
-    required this.id,
+    required this.sessionId,
     required this.name,
     required this.createdAt,
     required this.exercises,
@@ -40,13 +39,13 @@ class PlannedWorkoutSession {
   }
 
   PlannedWorkoutSession copyWith({
-    String? id,
+    String? sessionId,
     String? name,
     DateTime? createdAt,
     List<PlannedWorkoutExercise>? exercises,
   }) {
     return PlannedWorkoutSession(
-      id: id ?? this.id,
+      sessionId: sessionId ?? this.sessionId,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
       exercises: exercises ?? this.exercises,

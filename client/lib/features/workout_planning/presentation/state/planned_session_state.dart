@@ -3,18 +3,26 @@ import 'package:client/features/workout_planning/presentation/state/planned_exer
 
 class PlannedSessionState {
   final String name;
+  final String sessionId;
   final List<PlannedExerciseState> exercises;
-  PlannedSessionState({required this.name, required this.exercises});
+  PlannedSessionState({
+    required this.name,
+    required this.exercises,
+    required this.sessionId,
+  });
 
   factory PlannedSessionState.initial() {
-    return PlannedSessionState(name: '', exercises: []);
+    return PlannedSessionState(name: '', exercises: [], sessionId: '');
   }
+
   PlannedSessionState copyWith({
     String? name,
+    String? sessionId,
     List<PlannedExerciseState>? exercises,
   }) {
     return PlannedSessionState(
       name: name ?? this.name,
+      sessionId: sessionId ?? this.sessionId,
       exercises: exercises ?? this.exercises,
     );
   }

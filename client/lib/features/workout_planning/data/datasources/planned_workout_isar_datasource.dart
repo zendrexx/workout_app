@@ -1,5 +1,6 @@
 import 'package:client/core/database/database_service.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
+import 'package:client/features/workout_planning/data/mappers/planned_exercise_copy.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
@@ -39,6 +40,44 @@ class PlannedWorkoutIsarDatasource {
   Future<List<PlannedSessionIsar>> getAllPlannedSession() async {
     final db = isar;
     return db.plannedSessionIsars.where().findAll();
+  }
+
+  Future<void> deleteSession(int id) async {
+    await isar.writeTxn(() async => await isar.plannedSessionIsars.delete(id));
+  }
+
+  Future<PlannedSessionIsar?> duplicateSession(int id) async {
+    final original = await isar.plannedSessionIsars.get(id);
+    if (original == null) {
+      print("❌ Session with id $id not found for duplication");
+      return null;
+    }
+
+    // Load linked planned exercises
+    await original.plannedExercise.load();
+    for (final pe in original.plannedExercise) {
+      await pe.sets.load();
+    }
+    // Create new session
+    late PlannedSessionIsar newSession;
+    await isar.writeTxn(() async {
+      newSession = PlannedSessionIsar()
+        ..name = "Copy of ${original.name}"
+        ..createdAt = DateTime.now();
+
+      await isar.plannedSessionIsars.put(newSession);
+
+      for (final pe in original.plannedExercise) {
+        final newPE = pe.deepCopy();
+
+        await isar.plannedExerciseIsars.put(newPE);
+        newSession.plannedExercise.add(newPE);
+      }
+
+      await newSession.plannedExercise.save();
+    });
+
+    return newSession;
   }
 
   Future<PlannedSessionIsar?> getSessionById(int id) async {

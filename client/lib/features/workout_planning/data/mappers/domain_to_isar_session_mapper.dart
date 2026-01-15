@@ -24,6 +24,7 @@ PlannedExerciseIsar toIsarExercise(PlannedWorkoutExercise e) {
 
 PlannedSessionIsar toIsarSession(PlannedWorkoutSession s) {
   return PlannedSessionIsar()
+    ..sessionId = s.sessionId
     ..name = s.name
     ..createdAt = s.createdAt;
 }

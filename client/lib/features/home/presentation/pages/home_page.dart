@@ -228,9 +228,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemCount: state.session.length,
                       itemBuilder: (context, index) {
                         final session = state.session[index];
-                        //final exercises = session.plannedExercise.toList();
-                        () async {}();
-                        return HomeListWidget(id: 0, title: session.name);
+
+                        return HomeListWidget(
+                          id: session.sessionId,
+                          title: session.name,
+                        );
                       },
                     ),
 

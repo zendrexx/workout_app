@@ -2,13 +2,15 @@ import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
+import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends ConsumerStatefulWidget {
   final String title;
-  final int id;
+  final String id;
+
   const HomeListWidget({super.key, required this.id, required this.title});
 
   @override
@@ -18,12 +20,14 @@ class HomeListWidget extends ConsumerStatefulWidget {
 class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
   @override
   Widget build(BuildContext context) {
-    void deleteSession(WidgetRef ref, int id) {
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
+    final state = ref.watch(plannedSessionViewModelProvider);
+    void deleteSession(WidgetRef ref, String id) {
       // final service = PlannedSessionService();
       // service.deleteSession(id);
     }
 
-    void duplicateSession(WidgetRef ref, int id) {
+    void duplicateSession(WidgetRef ref, String id) {
       // final service = PlannedSessionService();
       // service.duplicateSession(id);
     }
@@ -180,10 +184,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                   behavior:
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
-                                                    deleteSession(
-                                                      ref,
-                                                      widget.id,
-                                                    );
+                                                    //vm.(widget.id)
                                                     Navigator.pop(context);
                                                   },
                                                   child: Row(

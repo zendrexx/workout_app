@@ -16,7 +16,7 @@ PlannedSetState toStateSet(PlannedWorkoutSet set) {
 PlannedExerciseState toStateExercise(PlannedWorkoutExercise ex) {
   return PlannedExerciseState(
     equipment: ex.equipment ?? "",
-    exerciseName: ex.exerciseName ?? "",
+    exerciseName: ex.exerciseName,
     imagePath: ex.exercisePath ?? "",
     notes: ex.notes ?? "",
     sets: ex.sets.map((s) => toStateSet(s)).toList(),
@@ -25,6 +25,7 @@ PlannedExerciseState toStateExercise(PlannedWorkoutExercise ex) {
 
 PlannedSessionState toStateSession(PlannedWorkoutSession s) {
   return PlannedSessionState(
+    sessionId: s.sessionId,
     name: s.name,
     exercises: s.exercises.map((ex) => toStateExercise(ex)).toList(),
   );

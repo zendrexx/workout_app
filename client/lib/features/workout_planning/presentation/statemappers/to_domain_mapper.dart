@@ -28,7 +28,7 @@ PlannedWorkoutExercise mapExercise(PlannedExerciseState e) {
 // Map PlannedSessionState → PlannedWorkoutSession
 PlannedWorkoutSession mapSession(PlannedSessionState s) {
   return PlannedWorkoutSession(
-    id: IdGenerator().getId(),
+    sessionId: s.sessionId,
     name: s.name,
     createdAt: DateTime.now(),
     exercises: s.exercises.map(mapExercise).toList(),

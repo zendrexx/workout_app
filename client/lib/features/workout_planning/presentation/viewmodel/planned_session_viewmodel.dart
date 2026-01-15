@@ -9,6 +9,7 @@ import 'package:client/features/workout_planning/data/models/planned_set_isar.da
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
+import 'package:client/features/workout_planning/domain/usecases/delete_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
@@ -26,6 +27,7 @@ import 'package:isar/isar.dart';
 class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
+
   final _events = StreamController<SessionUiEvent>.broadcast();
   Stream<SessionUiEvent> get events => _events.stream;
   PlannedSessionViewmodel(this.createWorkoutSession, this.getSessionById)
@@ -231,6 +233,6 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   // }
 
   void reset() {
-    state = PlannedSessionState(name: '', exercises: []);
+    state = PlannedSessionState(name: '', exercises: [], sessionId: "");
   }
 }
