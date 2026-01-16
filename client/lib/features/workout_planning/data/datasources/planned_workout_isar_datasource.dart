@@ -1,6 +1,8 @@
 import 'package:client/core/database/database_service.dart';
+import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
 import 'package:client/features/workout_planning/data/mappers/planned_exercise_copy.dart';
+import 'package:client/features/workout_planning/data/mappers/planned_set_copy.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
@@ -51,31 +53,45 @@ class PlannedWorkoutIsarDatasource {
     });
   }
 
-  Future<PlannedSessionIsar?> duplicateSession(int id) async {
-    final original = await isar.plannedSessionIsars.get(id);
-    if (original == null) {
-      print("❌ Session with id $id not found for duplication");
-      return null;
-    }
+  Future<PlannedSessionIsar?> duplicateSession(String sessionId) async {
+    final original = await isar.plannedSessionIsars.getBySessionId(sessionId);
+    if (original == null) return null;
 
-    // Load linked planned exercises
     await original.plannedExercise.load();
-    for (final pe in original.plannedExercise) {
-      await pe.sets.load();
-    }
-    // Create new session
+
     late PlannedSessionIsar newSession;
+
     await isar.writeTxn(() async {
       newSession = PlannedSessionIsar()
         ..name = "Copy of ${original.name}"
-        ..createdAt = DateTime.now();
+        ..createdAt = DateTime.now()
+        ..sessionId = IdGenerator().getId().toString();
 
       await isar.plannedSessionIsars.put(newSession);
 
-      for (final pe in original.plannedExercise) {
-        final newPE = pe.deepCopy();
+      for (final oldPE in original.plannedExercise) {
+        await oldPE.sets.load();
+
+        // Make a copy without Isar ID
+        final newPE = PlannedExerciseIsar(
+          exId: IdGenerator().getId(),
+          exerciseName: oldPE.exerciseName,
+          notes: oldPE.notes,
+          equipment: oldPE.equipment,
+          exercisePath: oldPE.exercisePath,
+        );
 
         await isar.plannedExerciseIsars.put(newPE);
+
+        // Copy sets
+        for (final oldSet in oldPE.sets) {
+          final newSet = oldSet.deepCopy();
+          await isar.plannedSetIsars.put(newSet);
+          newPE.sets.add(newSet);
+        }
+        await newPE.sets.save();
+
+        // Link exercise to new session
         newSession.plannedExercise.add(newPE);
       }
 

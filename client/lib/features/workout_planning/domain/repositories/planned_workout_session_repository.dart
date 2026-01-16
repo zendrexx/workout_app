@@ -9,5 +9,5 @@ abstract class PlannedWorkoutSessionRepository {
   Future<void> addSession(PlannedWorkoutSession plannedSession);
   Future<List<Exercise>> getAllExercises();
   Future<void> deleteSession(String sessionId);
-  Future<PlannedSessionIsar?> duplicateSession(int id);
+  Future<PlannedSessionIsar?> duplicateSession(String sessionId);
 }

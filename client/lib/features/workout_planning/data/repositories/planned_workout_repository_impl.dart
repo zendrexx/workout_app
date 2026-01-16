@@ -45,8 +45,8 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   }
 
   @override
-  Future<PlannedSessionIsar?> duplicateSession(int id) async {
-    return await datasource.duplicateSession(id);
+  Future<PlannedSessionIsar?> duplicateSession(String sessionId) async {
+    return await datasource.duplicateSession(sessionId);
   }
 
   @override

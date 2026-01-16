@@ -129,8 +129,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    duplicateSession(
-                                                      ref,
+                                                    vm.duplicateSession(
                                                       widget.sessionId,
                                                     );
                                                     Navigator.pop(context);
@@ -185,10 +184,6 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                   behavior:
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
-                                                    print(
-                                                      "THIS IS SESSION ID " +
-                                                          widget.sessionId,
-                                                    );
                                                     vm.deleteSessionById(
                                                       widget.sessionId,
                                                     );
