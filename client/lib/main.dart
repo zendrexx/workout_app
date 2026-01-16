@@ -17,10 +17,18 @@ class AppBootstrap extends ConsumerWidget {
 
     return isarAsync.when(
       loading: () => const MaterialApp(
-        home: Scaffold(body: Center(child: CircularProgressIndicator())),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: Colors.black,
+          body: Center(child: CircularProgressIndicator()),
+        ),
       ),
       error: (e, st) => MaterialApp(
-        home: Scaffold(body: Center(child: Text(e.toString()))),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: Colors.black,
+          body: Center(child: Text(e.toString())),
+        ),
       ),
       data: (_) => const MyApp(), // 👈 Isar READY here
     );

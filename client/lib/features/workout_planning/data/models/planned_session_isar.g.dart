@@ -39,7 +39,21 @@ const PlannedSessionIsarSchema = CollectionSchema(
   deserialize: _plannedSessionIsarDeserialize,
   deserializeProp: _plannedSessionIsarDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'sessionId': IndexSchema(
+      id: 6949518585047923839,
+      name: r'sessionId',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'sessionId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {
     r'plannedExercise': LinkSchema(
       id: -1460240402367288691,
@@ -131,6 +145,63 @@ void _plannedSessionIsarAttach(
       col, col.isar.collection<PlannedExerciseIsar>(), r'plannedExercise', id);
 }
 
+extension PlannedSessionIsarByIndex on IsarCollection<PlannedSessionIsar> {
+  Future<PlannedSessionIsar?> getBySessionId(String sessionId) {
+    return getByIndex(r'sessionId', [sessionId]);
+  }
+
+  PlannedSessionIsar? getBySessionIdSync(String sessionId) {
+    return getByIndexSync(r'sessionId', [sessionId]);
+  }
+
+  Future<bool> deleteBySessionId(String sessionId) {
+    return deleteByIndex(r'sessionId', [sessionId]);
+  }
+
+  bool deleteBySessionIdSync(String sessionId) {
+    return deleteByIndexSync(r'sessionId', [sessionId]);
+  }
+
+  Future<List<PlannedSessionIsar?>> getAllBySessionId(
+      List<String> sessionIdValues) {
+    final values = sessionIdValues.map((e) => [e]).toList();
+    return getAllByIndex(r'sessionId', values);
+  }
+
+  List<PlannedSessionIsar?> getAllBySessionIdSync(
+      List<String> sessionIdValues) {
+    final values = sessionIdValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'sessionId', values);
+  }
+
+  Future<int> deleteAllBySessionId(List<String> sessionIdValues) {
+    final values = sessionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'sessionId', values);
+  }
+
+  int deleteAllBySessionIdSync(List<String> sessionIdValues) {
+    final values = sessionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'sessionId', values);
+  }
+
+  Future<Id> putBySessionId(PlannedSessionIsar object) {
+    return putByIndex(r'sessionId', object);
+  }
+
+  Id putBySessionIdSync(PlannedSessionIsar object, {bool saveLinks = true}) {
+    return putByIndexSync(r'sessionId', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllBySessionId(List<PlannedSessionIsar> objects) {
+    return putAllByIndex(r'sessionId', objects);
+  }
+
+  List<Id> putAllBySessionIdSync(List<PlannedSessionIsar> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'sessionId', objects, saveLinks: saveLinks);
+  }
+}
+
 extension PlannedSessionIsarQueryWhereSort
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QWhere> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhere> anyId() {
@@ -207,6 +278,51 @@ extension PlannedSessionIsarQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      sessionIdEqualTo(String sessionId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'sessionId',
+        value: [sessionId],
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterWhereClause>
+      sessionIdNotEqualTo(String sessionId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'sessionId',
+              lower: [],
+              upper: [sessionId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'sessionId',
+              lower: [sessionId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'sessionId',
+              lower: [sessionId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'sessionId',
+              lower: [],
+              upper: [sessionId],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }

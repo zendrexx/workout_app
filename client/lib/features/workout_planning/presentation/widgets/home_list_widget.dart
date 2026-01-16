@@ -1,6 +1,7 @@
 import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
+import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,13 @@ import 'package:go_router/go_router.dart';
 
 class HomeListWidget extends ConsumerStatefulWidget {
   final String title;
-  final String id;
+  final String sessionId;
 
-  const HomeListWidget({super.key, required this.id, required this.title});
+  const HomeListWidget({
+    super.key,
+    required this.sessionId,
+    required this.title,
+  });
 
   @override
   ConsumerState<HomeListWidget> createState() => _HomeListWidgetState();
@@ -20,12 +25,8 @@ class HomeListWidget extends ConsumerStatefulWidget {
 class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
   @override
   Widget build(BuildContext context) {
-    final vm = ref.read(plannedSessionViewModelProvider.notifier);
+    final vm = ref.read(homeViewModelProvider.notifier);
     final state = ref.watch(plannedSessionViewModelProvider);
-    void deleteSession(WidgetRef ref, String id) {
-      // final service = PlannedSessionService();
-      // service.deleteSession(id);
-    }
 
     void duplicateSession(WidgetRef ref, String id) {
       // final service = PlannedSessionService();
@@ -40,7 +41,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: InkWell(
         onTap: () {
-          context.push('/home/view_session/${widget.id}');
+          context.push('/home/view_session/${widget.sessionId}');
         }, // call your tap function
         borderRadius: BorderRadius.circular(3),
         splashColor: Colors.white.withOpacity(0.1), // light ripple
@@ -130,7 +131,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                   onTap: () {
                                                     duplicateSession(
                                                       ref,
-                                                      widget.id,
+                                                      widget.sessionId,
                                                     );
                                                     Navigator.pop(context);
                                                   },
@@ -156,7 +157,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     context.push(
-                                                      '/home/create_sessions?sessionId=${widget.id}',
+                                                      '/home/create_sessions?sessionId=${widget.sessionId}',
                                                     );
 
                                                     Navigator.pop(context);
@@ -184,7 +185,14 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                   behavior:
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
-                                                    //vm.(widget.id)
+                                                    print(
+                                                      "THIS IS SESSION ID " +
+                                                          widget.sessionId,
+                                                    );
+                                                    vm.deleteSessionById(
+                                                      widget.sessionId,
+                                                    );
+
                                                     Navigator.pop(context);
                                                   },
                                                   child: Row(
@@ -262,7 +270,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                       title: "Start Session",
 
                       onTap: () => context.push(
-                        '/home/log_workout?sessionId=${widget.id}',
+                        '/home/log_workout?sessionId=${widget.sessionId}',
                       ),
                     ),
                   ],

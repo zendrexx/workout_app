@@ -5,7 +5,7 @@ class DeleteSession {
 
   DeleteSession(this.repo);
 
-  Future<void> call(int id) {
-    return repo.deleteSession(id);
+  Future<void> call(String sessionId) {
+    return repo.deleteSession(sessionId);
   }
 }

@@ -37,13 +37,18 @@ class PlannedWorkoutIsarDatasource {
     });
   }
 
-  Future<List<PlannedSessionIsar>> getAllPlannedSession() async {
-    final db = isar;
-    return db.plannedSessionIsars.where().findAll();
+  Stream<List<PlannedSessionIsar>> watchAll() {
+    return isar.plannedSessionIsars.where().watch(fireImmediately: true);
   }
 
-  Future<void> deleteSession(int id) async {
-    await isar.writeTxn(() async => await isar.plannedSessionIsars.delete(id));
+  Future<void> deleteSession(String sessionId) async {
+    await isar.writeTxn(() async {
+      final session = await isar.plannedSessionIsars.getBySessionId(sessionId);
+      if (session != null) {
+        await isar.plannedSessionIsars.delete(session.id);
+      }
+      // await isar.plannedSessionIsars.clear();
+    });
   }
 
   Future<PlannedSessionIsar?> duplicateSession(int id) async {

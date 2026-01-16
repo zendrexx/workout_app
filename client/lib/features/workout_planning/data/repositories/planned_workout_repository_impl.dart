@@ -33,15 +33,15 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   }
 
   @override
-  Future<List<PlannedWorkoutSession>> getAllPlannedSession() async {
-    final isarSessions = await datasource.getAllPlannedSession();
-
-    return isarSessions.map((e) => toDomainSession(e)).toList();
+  Stream<List<PlannedWorkoutSession>> watchAllSessions() {
+    return datasource.watchAll().map(
+      (isarSessions) => isarSessions.map(toDomainSession).toList(),
+    );
   }
 
   @override
-  Future<void> deleteSession(int id) async {
-    return await datasource.deleteSession(id);
+  Future<void> deleteSession(String sessionId) async {
+    return await datasource.deleteSession(sessionId);
   }
 
   @override

@@ -21,10 +21,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    Future.microtask(() {
-      ref.read(homeViewModelProvider.notifier).loadAllPlannedSession();
-    });
   }
   // void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
   //   plannedSessionsAsync.when(
@@ -53,6 +49,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
+
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -230,7 +227,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         final session = state.session[index];
 
                         return HomeListWidget(
-                          id: session.sessionId,
+                          sessionId: session.sessionId,
                           title: session.name,
                         );
                       },

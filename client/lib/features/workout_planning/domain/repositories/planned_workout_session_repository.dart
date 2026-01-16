@@ -3,10 +3,11 @@ import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 
 abstract class PlannedWorkoutSessionRepository {
-  Future<List<PlannedWorkoutSession>> getAllPlannedSession();
+  Stream<List<PlannedWorkoutSession>> watchAllSessions();
+  //Future<List<PlannedWorkoutSession>> getAllPlannedSession();
   Future<PlannedWorkoutSession?> getSessionById(int id);
   Future<void> addSession(PlannedWorkoutSession plannedSession);
   Future<List<Exercise>> getAllExercises();
-  Future<void> deleteSession(int id);
+  Future<void> deleteSession(String sessionId);
   Future<PlannedSessionIsar?> duplicateSession(int id);
 }

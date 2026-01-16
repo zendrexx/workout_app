@@ -7,7 +7,10 @@ part 'planned_session_isar.g.dart';
 @Collection()
 class PlannedSessionIsar {
   Id id = Isar.autoIncrement;
+
+  @Index(unique: true)
   late String sessionId;
+
   late String? name;
   DateTime createdAt = DateTime.now();
 

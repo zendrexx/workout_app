@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
@@ -106,7 +107,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      vm.save();
+                      await vm.save();
                     }
                   },
 
