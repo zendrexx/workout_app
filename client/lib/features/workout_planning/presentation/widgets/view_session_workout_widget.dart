@@ -3,6 +3,7 @@ import 'package:client/features/workout_planning/presentation/state/planned_set_
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +50,7 @@ class _ViewSessionWorkoutWidgetState
   @override
   void initState() {
     super.initState();
+
     if (widget.notes != null) {
       _controller.text = widget.notes!;
     }

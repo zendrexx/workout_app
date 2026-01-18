@@ -33,8 +33,8 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   PlannedSessionViewmodel(this.createWorkoutSession, this.getSessionById)
     : super(PlannedSessionState.initial());
 
-  void loadSessionById(int id) async {
-    final session = await getSessionById.call(id);
+  void loadSessionById(String sessionId) async {
+    final session = await getSessionById.call(sessionId);
     state = toStateSession(session);
   }
 

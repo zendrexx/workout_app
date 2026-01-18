@@ -50,8 +50,8 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   }
 
   @override
-  Future<PlannedWorkoutSession?> getSessionById(int id) async {
-    final isarSession = await datasource.getSessionById(id);
+  Future<PlannedWorkoutSession?> getSessionById(String sessionId) async {
+    final isarSession = await datasource.getSessionById(sessionId);
     if (isarSession == null) return null;
     return toDomainSession(isarSession);
   }

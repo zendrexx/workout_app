@@ -17,7 +17,7 @@ PlannedExerciseState toStateExercise(PlannedWorkoutExercise ex) {
   return PlannedExerciseState(
     equipment: ex.equipment ?? "",
     exerciseName: ex.exerciseName,
-    imagePath: ex.exercisePath ?? "",
+    imagePath: ex.imagePath,
     notes: ex.notes ?? "",
     sets: ex.sets.map((s) => toStateSet(s)).toList(),
   );

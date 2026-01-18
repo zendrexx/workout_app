@@ -19,7 +19,7 @@ PlannedWorkoutExercise toDomainPlannedExercise(PlannedExerciseIsar e) {
   final ex = PlannedWorkoutExercise(
     exId: e.exId,
     exerciseName: e.exerciseName,
-    exercisePath: e.exercisePath,
+    imagePath: e.imagePath,
     equipment: e.equipment,
     notes: e.notes,
     sets: e.sets.map((s) => toDomainSet(s)).toList(),

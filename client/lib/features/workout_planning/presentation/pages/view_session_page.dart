@@ -5,12 +5,13 @@ import 'package:client/features/workout_planning/presentation/viewmodel/planned_
 import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/workout_planning/presentation/widgets/session_workout_widget.dart';
 import 'package:client/features/workout_planning/presentation/widgets/view_session_workout_widget.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ViewSessionPage extends ConsumerStatefulWidget {
-  final int id;
-  const ViewSessionPage({super.key, required this.id});
+  final String sessionId;
+  const ViewSessionPage({super.key, required this.sessionId});
 
   @override
   ConsumerState<ViewSessionPage> createState() => _ViewSessionPageState();
@@ -22,11 +23,21 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+      ref
+          .read(plannedSessionViewModelProvider.notifier)
+          .loadSessionById(widget.sessionId);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannedSessionViewModelProvider);
+
+    if (state.exercises.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     //final vm = ref.read(plannedViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
@@ -83,6 +94,7 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
                   itemCount: state.exercises.length,
                   itemBuilder: (context, index) {
                     final exercises = state.exercises.toList();
+
                     return ViewSessionWorkoutWidget(
                       title: exercises[index].exerciseName,
                       equipment: exercises[index].equipment,

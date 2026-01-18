@@ -4,7 +4,7 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 class PlannedWorkoutExercise {
   String exId;
   String exerciseName;
-  String? exercisePath;
+  String imagePath;
   String? equipment;
   String? notes;
   final List<PlannedWorkoutSet> sets;
@@ -12,7 +12,7 @@ class PlannedWorkoutExercise {
   PlannedWorkoutExercise({
     required this.exId,
     required this.exerciseName,
-    this.exercisePath,
+    required this.imagePath,
     this.equipment,
     this.notes,
     required this.sets,
@@ -33,7 +33,7 @@ class PlannedWorkoutExercise {
   PlannedWorkoutExercise copyWith({
     String? exId,
     String? exerciseName,
-    String? exercisePath,
+    String? imagePath,
     String? equipment,
     String? notes,
     List<PlannedWorkoutSet>? sets,
@@ -41,7 +41,7 @@ class PlannedWorkoutExercise {
     return PlannedWorkoutExercise(
       exId: exId ?? this.exId,
       exerciseName: exerciseName ?? this.exerciseName,
-      exercisePath: exercisePath ?? this.exercisePath,
+      imagePath: imagePath ?? this.imagePath,
       equipment: equipment ?? this.equipment,
       notes: notes ?? this.notes,
       sets: sets ?? this.sets,

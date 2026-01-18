@@ -16,7 +16,7 @@ PlannedExerciseIsar toIsarExercise(PlannedWorkoutExercise e) {
   return PlannedExerciseIsar(
     exId: e.exId,
     exerciseName: e.exerciseName,
-    exercisePath: e.exercisePath,
+    imagePath: e.imagePath,
     equipment: e.equipment,
     notes: e.notes,
   );

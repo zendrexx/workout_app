@@ -18,6 +18,7 @@ PlannedWorkoutSet mapSet(PlannedSetState s) {
 PlannedWorkoutExercise mapExercise(PlannedExerciseState e) {
   return PlannedWorkoutExercise(
     exId: e.exerciseName, // or generate an ID if you want
+    imagePath: e.imagePath,
     exerciseName: e.exerciseName,
     equipment: e.equipment,
     notes: e.notes,

@@ -6,8 +6,8 @@ class GetSessionById {
 
   GetSessionById(this.repo);
 
-  Future<PlannedWorkoutSession> call(int id) async {
-    final session = await repo.getSessionById(id);
+  Future<PlannedWorkoutSession> call(String sessionId) async {
+    final session = await repo.getSessionById(sessionId);
 
     if (session == null) {
       throw Exception('Workout Session not found');

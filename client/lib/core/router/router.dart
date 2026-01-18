@@ -47,8 +47,8 @@ final router = GoRouter(
                 GoRoute(
                   path: 'view_session/:id',
                   builder: (context, state) {
-                    final id = int.parse(state.pathParameters['id']!);
-                    return ViewSessionPage(id: id);
+                    final sessionId = state.pathParameters['id']!;
+                    return ViewSessionPage(sessionId: sessionId);
                   },
                 ),
                 GoRoute(

@@ -78,7 +78,7 @@ class PlannedWorkoutIsarDatasource {
           exerciseName: oldPE.exerciseName,
           notes: oldPE.notes,
           equipment: oldPE.equipment,
-          exercisePath: oldPE.exercisePath,
+          imagePath: oldPE.imagePath,
         );
 
         await isar.plannedExerciseIsars.put(newPE);
@@ -101,10 +101,8 @@ class PlannedWorkoutIsarDatasource {
     return newSession;
   }
 
-  Future<PlannedSessionIsar?> getSessionById(int id) async {
-    final db = isar;
-
-    final session = await db.plannedSessionIsars.get(id);
+  Future<PlannedSessionIsar?> getSessionById(String sessionId) async {
+    final session = await isar.plannedSessionIsars.getBySessionId(sessionId);
     if (session == null) return null;
 
     // IMPORTANT: Load links

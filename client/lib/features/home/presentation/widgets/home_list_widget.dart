@@ -27,6 +27,13 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
   Widget build(BuildContext context) {
     final vm = ref.read(homeViewModelProvider.notifier);
     final state = ref.watch(homeViewModelProvider);
+    final exercises = state.session
+        .firstWhere((s) => s.sessionId == widget.sessionId)
+        .exercises;
+
+    final exerciseList = exercises
+        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+        .join(', ');
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -221,32 +228,18 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                         ),
                       ],
                     ),
-                    
-                   
-                        final exerciseList = state.
-                            .map((ex) {
-                              final name =
-                                  ex.exerciseName ;
-                              final equipment = ex.equipment ;
-                              return '$name ($equipment)';
-                            })
-                            .join(', ');
 
-                        return Text(
-                          exerciseList,
-                          maxLines: 2, // limit to 2 lines
-                          overflow:
-                              TextOverflow.ellipsis, // show ... when overflow
-                          softWrap: true,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            height: 1.4, // optional for spacing
-                          ),
-                        );
-                    
-
-                   
+                    Text(
+                      exerciseList,
+                      maxLines: 2, // limit to 2 lines
+                      overflow: TextOverflow.ellipsis, // show ... when overflow
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        height: 1.4, // optional for spacing
+                      ),
                     ),
+
                     SizedBox(height: 10),
                     LongCustomButton(
                       title: "Start Session",

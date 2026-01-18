@@ -5,7 +5,7 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 abstract class PlannedWorkoutSessionRepository {
   Stream<List<PlannedWorkoutSession>> watchAllSessions();
   //Future<List<PlannedWorkoutSession>> getAllPlannedSession();
-  Future<PlannedWorkoutSession?> getSessionById(int id);
+  Future<PlannedWorkoutSession?> getSessionById(String sessionId);
   Future<void> addSession(PlannedWorkoutSession plannedSession);
   Future<List<Exercise>> getAllExercises();
   Future<void> deleteSession(String sessionId);

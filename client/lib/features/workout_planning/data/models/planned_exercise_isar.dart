@@ -13,7 +13,7 @@ class PlannedExerciseIsar {
   Id id = Isar.autoIncrement;
 
   String exerciseName;
-  String? exercisePath;
+  String imagePath;
   String? equipment;
   String exId;
   String? notes;
@@ -27,6 +27,6 @@ class PlannedExerciseIsar {
     required this.exId,
     required this.exerciseName,
     this.equipment,
-    this.exercisePath,
+    required this.imagePath,
   });
 }

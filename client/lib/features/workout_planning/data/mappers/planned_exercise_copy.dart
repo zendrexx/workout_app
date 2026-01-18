@@ -8,7 +8,7 @@ extension PlannedExerciseCopy on PlannedExerciseIsar {
       exerciseName: exerciseName,
       notes: notes,
       equipment: equipment,
-      exercisePath: exercisePath,
+      imagePath: imagePath,
     );
 
     for (final set in sets) {
