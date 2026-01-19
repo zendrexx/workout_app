@@ -6,7 +6,10 @@ import 'package:client/features/workout_planning/presentation/viewmodel/planned_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final plannedSessionViewModelProvider =
-    StateNotifierProvider<PlannedSessionViewmodel, PlannedSessionState>((ref) {
+    StateNotifierProvider.autoDispose<
+      PlannedSessionViewmodel,
+      PlannedSessionState
+    >((ref) {
       final addSession = ref.read(addWorkoutSessionProvider);
       final getSessionById = ref.read(getSessionByIdProvider);
 

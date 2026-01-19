@@ -15,7 +15,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateSessionPage extends ConsumerStatefulWidget {
-  final int? sessionId;
+  final String? sessionId;
   const CreateSessionPage({super.key, this.sessionId});
   @override
   ConsumerState<CreateSessionPage> createState() => _CreateSessionPageState();
@@ -42,13 +42,16 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   @override
   void initState() {
     super.initState();
-    final name = ref.read(plannedSessionViewModelProvider).name;
-    _controller = TextEditingController(text: name);
-    // if (widget.sessionId != null) {
-    //   isEditMode = true;
-    //   var save = SaveToTemp(ref: ref);
-    //   save.convertToTemp(widget.sessionId!);
-    // }
+
+    if (widget.sessionId != null) {
+      isEditMode = true;
+      Future.microtask(() {
+        ref
+            .read(plannedSessionViewModelProvider.notifier)
+            .loadSessionById(widget.sessionId!);
+        _controller.text = ref.read(plannedSessionViewModelProvider).name;
+      });
+    }
 
     _subscription = ref
         .read(plannedSessionViewModelProvider.notifier)
@@ -75,6 +78,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannedSessionViewModelProvider);
+    final hasName = state.name.isNotEmpty;
     final vm = ref.read(plannedSessionViewModelProvider.notifier);
 
     return Form(
@@ -138,13 +142,12 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
                   decoration: InputDecoration(
                     hintText: "Session Name",
-                    suffixIcon: state.name.isNotEmpty
+                    suffixIcon: !hasName
                         ? IconButton(
                             icon: const Icon(Icons.clear, color: Colors.white),
                             onPressed: () {
                               _controller.clear();
                               vm.addName('');
-                              setState(() {});
                             },
                           )
                         : null,

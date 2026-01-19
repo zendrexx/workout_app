@@ -75,10 +75,8 @@ final router = GoRouter(
                   path: 'create_sessions',
                   builder: (context, state) {
                     // Access optional query parameter (?sessionId=123)
-                    final sessionIdStr = state.uri.queryParameters['sessionId'];
-                    final sessionId = sessionIdStr != null
-                        ? int.tryParse(sessionIdStr)
-                        : null;
+                    final sessionId = state.uri.queryParameters['sessionId'];
+
                     return CreateSessionPage(sessionId: sessionId);
                   },
                   routes: [

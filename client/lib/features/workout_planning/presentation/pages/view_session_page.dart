@@ -23,11 +23,17 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
   @override
   void initState() {
     super.initState();
+
     Future.microtask(() {
       ref
           .read(plannedSessionViewModelProvider.notifier)
           .loadSessionById(widget.sessionId);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

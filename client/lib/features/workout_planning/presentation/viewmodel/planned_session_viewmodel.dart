@@ -1,20 +1,9 @@
 import 'dart:async';
 
-import 'package:client/data/model_temp/temp_planned_exercise.dart';
-import 'package:client/data/model_temp/temp_planned_sets.dart';
-import 'package:client/data/model_temp/temp_session.dart';
-import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/features/workout_planning/domain/entities/exercise.dart';
-import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
-import 'package:client/features/workout_planning/domain/usecases/delete_session.dart';
-import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
-import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
@@ -22,7 +11,6 @@ import 'package:client/features/workout_planning/presentation/statemappers/map_s
 import 'package:client/features/workout_planning/presentation/statemappers/to_domain_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 
 class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
   final AddWorkoutSession createWorkoutSession;
@@ -48,6 +36,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
         _events.add(SaveSuccess("Session saved!"));
       },
     );
+    reset();
   }
 
   void addName(String newName) {
