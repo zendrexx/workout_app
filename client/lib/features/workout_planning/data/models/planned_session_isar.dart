@@ -9,7 +9,7 @@ class PlannedSessionIsar {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true)
-  late String sessionId;
+  String sessionId = "";
 
   late String? name;
   DateTime createdAt = DateTime.now();

@@ -22,20 +22,47 @@ class PlannedWorkoutIsarDatasource {
     final db = isar;
 
     await db.writeTxn(() async {
-      await db.plannedSessionIsars.put(session);
-      await db.plannedExerciseIsars.putAll(exercises);
+      // 1️⃣ Try to get the session by sessionId
+      PlannedSessionIsar? sessionInDb = await db.plannedSessionIsars
+          .getBySessionId(session.sessionId);
 
+      // 2️⃣ If not found, create new
+      sessionInDb ??= PlannedSessionIsar()..sessionId = session.sessionId;
+
+      // 3️⃣ Update fields
+      sessionInDb
+        ..name = session.name
+        ..createdAt = session.createdAt;
+
+      // 4️⃣ MUST put before touching links
+      await db.plannedSessionIsars.put(sessionInDb);
+
+      // 5️⃣ Cleanup old exercises & sets if editing
+      await sessionInDb.plannedExercise.load();
+      for (final oldEx in sessionInDb.plannedExercise) {
+        await oldEx.sets.load();
+        await db.plannedSetIsars.deleteAll(
+          oldEx.sets.map((s) => s.id).toList(),
+        );
+      }
+      await db.plannedExerciseIsars.deleteAll(
+        sessionInDb.plannedExercise.map((e) => e.id).toList(),
+      );
+      sessionInDb.plannedExercise.clear();
+
+      // 6️⃣ Save new exercises & sets
+      await db.plannedExerciseIsars.putAll(exercises);
       for (final sets in setsMap.values) {
         await db.plannedSetIsars.putAll(sets);
       }
-
       for (final entry in setsMap.entries) {
         entry.key.sets.addAll(entry.value);
         await entry.key.sets.save();
       }
 
-      session.plannedExercise.addAll(exercises);
-      await session.plannedExercise.save();
+      // 7️⃣ Link exercises to session
+      sessionInDb.plannedExercise.addAll(exercises);
+      await sessionInDb.plannedExercise.save();
     });
   }
 

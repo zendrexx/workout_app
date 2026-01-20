@@ -49,7 +49,6 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
         ref
             .read(plannedSessionViewModelProvider.notifier)
             .loadSessionById(widget.sessionId!);
-        _controller.text = ref.read(plannedSessionViewModelProvider).name;
       });
     }
 
@@ -78,9 +77,9 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannedSessionViewModelProvider);
-    final hasName = state.name.isNotEmpty;
-    final vm = ref.read(plannedSessionViewModelProvider.notifier);
 
+    final vm = ref.read(plannedSessionViewModelProvider.notifier);
+    _controller.text = state.name;
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -142,7 +141,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
                   decoration: InputDecoration(
                     hintText: "Session Name",
-                    suffixIcon: !hasName
+                    suffixIcon: state.name.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear, color: Colors.white),
                             onPressed: () {

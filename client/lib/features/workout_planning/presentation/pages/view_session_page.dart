@@ -41,7 +41,10 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
     final state = ref.watch(plannedSessionViewModelProvider);
 
     if (state.exercises.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Container(
+        decoration: BoxDecoration(color: Colors.black),
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     //final vm = ref.read(plannedViewModelProvider.notifier);

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
@@ -22,21 +23,35 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     : super(PlannedSessionState.initial());
 
   void loadSessionById(String sessionId) async {
+    reset();
     final session = await getSessionById.call(sessionId);
     state = toStateSession(session);
   }
 
   Future<void> save() async {
-    final session = mapSession(state);
+    print("SESSION ID IN SAVE" + state.sessionId);
+    // 1️⃣ Ensure ID exists (CREATE ONLY)
+    final sessionId = state.sessionId.isNotEmpty
+        ? state.sessionId
+        : IdGenerator().getId();
+
+    // 2️⃣ Map using a STABLE ID
+    final session = mapSession(state.copyWith(sessionId: sessionId));
+
+    // 3️⃣ Save (repo decides create vs edit)
     final result = await createWorkoutSession(session);
+
     result.fold(
-      (failure) => _events.add(ShowError(mapSessionFailure(failure))),
+      (failure) {
+        _events.add(ShowError(mapSessionFailure(failure)));
+      },
       (_) {
+        // 4️⃣ Reset ONLY on success
         state = PlannedSessionState.initial();
         _events.add(SaveSuccess("Session saved!"));
+        reset();
       },
     );
-    reset();
   }
 
   void addName(String newName) {
