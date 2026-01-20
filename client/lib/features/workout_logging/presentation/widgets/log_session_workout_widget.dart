@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
@@ -14,15 +15,13 @@ class LogSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String? equipment;
   final String imagePath;
   final int index;
-  final int exerciseId;
-  final List<TempPlannedSets> plannedSets;
+  final List<PerformedSetState> plannedSets;
   final String? notes;
   const LogSessionWorkoutWidget({
     required this.title,
     this.equipment,
     required this.imagePath,
     required this.index,
-    required this.exerciseId,
     super.key,
     required this.plannedSets,
     this.notes,
@@ -35,20 +34,6 @@ class LogSessionWorkoutWidget extends ConsumerStatefulWidget {
 
 class _LogSessionWorkoutWidgetState
     extends ConsumerState<LogSessionWorkoutWidget> {
-  String? plannedRepRange(int index) {
-    String? repRange;
-
-    if (widget.plannedSets[index].minRep == widget.plannedSets[index].maxRep) {
-      repRange = widget.plannedSets[index].minRep.toString();
-    } else {
-      repRange =
-          '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
-    }
-
-    print("THIS IS THE REP RANGE " + repRange);
-    return repRange;
-  }
-
   void deleteExercise(WidgetRef ref, int index) {
     //ref.read(tempSessionProvider.notifier).deleteExercise(index);
   }
@@ -262,13 +247,9 @@ class _LogSessionWorkoutWidgetState
               return PerformedWorkoutSetWidget(
                 setNum: setIndex,
                 index: widget.index,
-                estWeight: (sets[setIndex].estWeight == null)
-                    ? '' // or '' if you prefer empty
-                    : (sets[setIndex].estWeight! % 1 == 0
-                          ? sets[setIndex].estWeight!.toInt().toString()
-                          : sets[setIndex].estWeight!.toString()),
+                estWeight: widget.plannedSets[setIndex].estWeight.toString(),
 
-                repRange: plannedRepRange(setIndex),
+                repRange: widget.plannedSets[setIndex].estRep,
               );
             },
           ),

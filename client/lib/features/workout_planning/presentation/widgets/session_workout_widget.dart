@@ -30,19 +30,10 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
 }
 
 class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
-  void addSets(WidgetRef ref, TempPlannedSets value) {
-    // ref
-    //     .watch(tempSessionProvider.notifier)
-    //     .addSetToExercise(widget.index, value);
-  }
-
   late TextEditingController notesController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    // final session = ref.read(tempSessionProvider);
-    // final existingNote = session.plannedExercise[widget.index].notes ?? '';
-    // notesController = TextEditingController(text: existingNote);
   }
 
   String? plannedRepRange(int index, int? minRep, int? maxRep) {
@@ -53,8 +44,6 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
     } else {
       repRange = '$minRep-$maxRep';
     }
-
-    print("THIS IS THE REP RANGE " + repRange);
     return repRange;
   }
 
@@ -67,8 +56,6 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
         return state.exercises[widget.index].sets;
       }),
     );
-    // final session = ref.watch(tempSessionProvider);
-    // final sets = session.plannedExercise[widget.index].sets;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),

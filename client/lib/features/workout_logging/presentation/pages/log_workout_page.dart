@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/features/workout_logging/presentation/providers/workout_logging_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/temp_workout_stats.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class LogWorkoutPage extends ConsumerStatefulWidget {
-  final int? sessionId;
+  final String? sessionId;
   const LogWorkoutPage({super.key, required this.sessionId});
 
   @override
@@ -30,7 +31,9 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   void initState() {
     super.initState();
     _startTimer();
-
+    ref
+        .read(workoutLoggingViewModelProvider.notifier)
+        .loadPlannedSessionToLogging(widget.sessionId!);
     // var save = SaveToTemp(ref: ref);
     // save.convertToTemp(widget.sessionId!);
   }
@@ -54,7 +57,6 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   void cancel() {
     context.push('/home');
     // ref.invalidate(tempSessionProvider);
-    // ref.invalidate(tempWorkoutStatsProvider);
   }
 
   String _formatDuration(int totalSeconds) {
@@ -90,7 +92,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final plannedExercise = ref.watch(tempSessionProvider);
+    final state = ref.watch(workoutLoggingViewModelProvider);
     final workoutStats = ref.watch(tempWorkoutStatsProvider);
 
     return Scaffold(
@@ -165,29 +167,28 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                 child: Divider(thickness: .4),
               ),
 
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     ListView.builder(
-              //       shrinkWrap: true,
-              //       physics: const NeverScrollableScrollPhysics(),
-              //       itemCount: plannedExercise.plannedExercise.length,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.performedExercise.length,
 
-              //       itemBuilder: (context, index) {
-              //         final current = plannedExercise.plannedExercise[index];
-              //         return LogSessionWorkoutWidget(
-              //           title: current.exercise?.name ?? '',
-              //           equipment: current.exercise?.equipment ?? '',
-              //           imagePath: current.exercise?.imagePath ?? '',
-              //           index: index,
-              //           exerciseId: current.exercise?.id ?? 0,
-              //           plannedSets: current.sets,
-              //           notes: current.notes ?? '',
-              //         );
-              //       },
-              //     ),
-              //   ],
-              // ),
+                    itemBuilder: (context, index) {
+                      final current = state.performedExercise[index];
+                      return LogSessionWorkoutWidget(
+                        title: current.exerciseName,
+                        equipment: current.equipment,
+                        imagePath: current.imagePath,
+                        index: index,
+                        plannedSets: current.sets,
+                        notes: current.notes,
+                      );
+                    },
+                  ),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: LongCustomButton(

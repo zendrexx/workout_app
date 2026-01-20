@@ -52,20 +52,6 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
     });
   }
 
-  // void addWeight(WidgetRef ref, String weight) {
-  //   // Convert safely to double
-  //   final double? rweight = double.tryParse(weight);
-  //   if (rweight == null) return;
-
-  //   // Convert the set number to int (since it's a String like "1")
-  // }
-
-  void addRepRange(WidgetRef ref, String repRange) {
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .addRepRangeToSets(widget.index, widget.setNum, repRange);
-  }
-
   @override
   void dispose() {
     weightController.dispose();
@@ -136,7 +122,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
                 controller: repRangeController,
                 enabled: !widget.viewing,
                 onChanged: (value) {
-                  vm.addWeightToSets(widget.index, widget.setNum, value);
+                  vm.addRepRangeToSets(widget.index, widget.setNum, value);
                 },
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,

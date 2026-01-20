@@ -65,10 +65,8 @@ final router = GoRouter(
                   path: 'log_workout',
                   builder: (context, state) {
                     final sessionIdStr = state.uri.queryParameters['sessionId'];
-                    final sessionId = sessionIdStr != null
-                        ? int.tryParse(sessionIdStr)
-                        : null;
-                    return LogWorkoutPage(sessionId: sessionId);
+
+                    return LogWorkoutPage(sessionId: sessionIdStr);
                   },
                 ),
                 GoRoute(

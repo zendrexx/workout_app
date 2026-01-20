@@ -37,10 +37,10 @@ const PerformedSessionSchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'totalVolume': PropertySchema(
+    r'performedSessionId': PropertySchema(
       id: 4,
-      name: r'totalVolume',
-      type: IsarType.double,
+      name: r'performedSessionId',
+      type: IsarType.string,
     )
   },
   estimateSize: _performedSessionEstimateSize,
@@ -48,7 +48,21 @@ const PerformedSessionSchema = CollectionSchema(
   deserialize: _performedSessionDeserialize,
   deserializeProp: _performedSessionDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'performedSessionId': IndexSchema(
+      id: -486166985866659318,
+      name: r'performedSessionId',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'performedSessionId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {
     r'workoutStats': LinkSchema(
       id: -6490455185469628109,
@@ -82,6 +96,7 @@ int _performedSessionEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.performedSessionId.length * 3;
   return bytesCount;
 }
 
@@ -95,7 +110,7 @@ void _performedSessionSerialize(
   writer.writeDateTime(offsets[1], object.endTime);
   writer.writeBool(offsets[2], object.isCompleted);
   writer.writeString(offsets[3], object.name);
-  writer.writeDouble(offsets[4], object.totalVolume);
+  writer.writeString(offsets[4], object.performedSessionId);
 }
 
 PerformedSession _performedSessionDeserialize(
@@ -110,7 +125,7 @@ PerformedSession _performedSessionDeserialize(
   object.id = id;
   object.isCompleted = reader.readBool(offsets[2]);
   object.name = reader.readStringOrNull(offsets[3]);
-  object.totalVolume = reader.readDoubleOrNull(offsets[4]);
+  object.performedSessionId = reader.readString(offsets[4]);
   return object;
 }
 
@@ -130,7 +145,7 @@ P _performedSessionDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -151,6 +166,66 @@ void _performedSessionAttach(
       .attach(col, col.isar.collection<WorkoutStats>(), r'workoutStats', id);
   object.performedExercises.attach(
       col, col.isar.collection<PerformedExercise>(), r'performedExercises', id);
+}
+
+extension PerformedSessionByIndex on IsarCollection<PerformedSession> {
+  Future<PerformedSession?> getByPerformedSessionId(String performedSessionId) {
+    return getByIndex(r'performedSessionId', [performedSessionId]);
+  }
+
+  PerformedSession? getByPerformedSessionIdSync(String performedSessionId) {
+    return getByIndexSync(r'performedSessionId', [performedSessionId]);
+  }
+
+  Future<bool> deleteByPerformedSessionId(String performedSessionId) {
+    return deleteByIndex(r'performedSessionId', [performedSessionId]);
+  }
+
+  bool deleteByPerformedSessionIdSync(String performedSessionId) {
+    return deleteByIndexSync(r'performedSessionId', [performedSessionId]);
+  }
+
+  Future<List<PerformedSession?>> getAllByPerformedSessionId(
+      List<String> performedSessionIdValues) {
+    final values = performedSessionIdValues.map((e) => [e]).toList();
+    return getAllByIndex(r'performedSessionId', values);
+  }
+
+  List<PerformedSession?> getAllByPerformedSessionIdSync(
+      List<String> performedSessionIdValues) {
+    final values = performedSessionIdValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'performedSessionId', values);
+  }
+
+  Future<int> deleteAllByPerformedSessionId(
+      List<String> performedSessionIdValues) {
+    final values = performedSessionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'performedSessionId', values);
+  }
+
+  int deleteAllByPerformedSessionIdSync(List<String> performedSessionIdValues) {
+    final values = performedSessionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'performedSessionId', values);
+  }
+
+  Future<Id> putByPerformedSessionId(PerformedSession object) {
+    return putByIndex(r'performedSessionId', object);
+  }
+
+  Id putByPerformedSessionIdSync(PerformedSession object,
+      {bool saveLinks = true}) {
+    return putByIndexSync(r'performedSessionId', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByPerformedSessionId(List<PerformedSession> objects) {
+    return putAllByIndex(r'performedSessionId', objects);
+  }
+
+  List<Id> putAllByPerformedSessionIdSync(List<PerformedSession> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'performedSessionId', objects,
+        saveLinks: saveLinks);
+  }
 }
 
 extension PerformedSessionQueryWhereSort
@@ -228,6 +303,51 @@ extension PerformedSessionQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterWhereClause>
+      performedSessionIdEqualTo(String performedSessionId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'performedSessionId',
+        value: [performedSessionId],
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterWhereClause>
+      performedSessionIdNotEqualTo(String performedSessionId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'performedSessionId',
+              lower: [],
+              upper: [performedSessionId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'performedSessionId',
+              lower: [performedSessionId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'performedSessionId',
+              lower: [performedSessionId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'performedSessionId',
+              lower: [],
+              upper: [performedSessionId],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
@@ -585,85 +705,137 @@ extension PerformedSessionQueryFilter
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'totalVolume',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'totalVolume',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
+      performedSessionIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'totalVolume',
+        property: r'performedSessionId',
         value: value,
-        epsilon: epsilon,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeGreaterThan(
-    double? value, {
+      performedSessionIdGreaterThan(
+    String value, {
     bool include = false,
-    double epsilon = Query.epsilon,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'totalVolume',
+        property: r'performedSessionId',
         value: value,
-        epsilon: epsilon,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeLessThan(
-    double? value, {
+      performedSessionIdLessThan(
+    String value, {
     bool include = false,
-    double epsilon = Query.epsilon,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'totalVolume',
+        property: r'performedSessionId',
         value: value,
-        epsilon: epsilon,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
-      totalVolumeBetween(
-    double? lower,
-    double? upper, {
+      performedSessionIdBetween(
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'totalVolume',
+        property: r'performedSessionId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'performedSessionId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'performedSessionId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'performedSessionId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'performedSessionId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'performedSessionId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSession, PerformedSession, QAfterFilterCondition>
+      performedSessionIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'performedSessionId',
+        value: '',
       ));
     });
   }
@@ -857,16 +1029,16 @@ extension PerformedSessionQuerySortBy
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      sortByTotalVolume() {
+      sortByPerformedSessionId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalVolume', Sort.asc);
+      return query.addSortBy(r'performedSessionId', Sort.asc);
     });
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      sortByTotalVolumeDesc() {
+      sortByPerformedSessionIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalVolume', Sort.desc);
+      return query.addSortBy(r'performedSessionId', Sort.desc);
     });
   }
 }
@@ -942,16 +1114,16 @@ extension PerformedSessionQuerySortThenBy
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      thenByTotalVolume() {
+      thenByPerformedSessionId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalVolume', Sort.asc);
+      return query.addSortBy(r'performedSessionId', Sort.asc);
     });
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QAfterSortBy>
-      thenByTotalVolumeDesc() {
+      thenByPerformedSessionIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalVolume', Sort.desc);
+      return query.addSortBy(r'performedSessionId', Sort.desc);
     });
   }
 }
@@ -987,9 +1159,10 @@ extension PerformedSessionQueryWhereDistinct
   }
 
   QueryBuilder<PerformedSession, PerformedSession, QDistinct>
-      distinctByTotalVolume() {
+      distinctByPerformedSessionId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'totalVolume');
+      return query.addDistinctBy(r'performedSessionId',
+          caseSensitive: caseSensitive);
     });
   }
 }
@@ -1028,10 +1201,10 @@ extension PerformedSessionQueryProperty
     });
   }
 
-  QueryBuilder<PerformedSession, double?, QQueryOperations>
-      totalVolumeProperty() {
+  QueryBuilder<PerformedSession, String, QQueryOperations>
+      performedSessionIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'totalVolume');
+      return query.addPropertyName(r'performedSessionId');
     });
   }
 }

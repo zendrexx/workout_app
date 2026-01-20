@@ -8,13 +8,17 @@ part 'performed_session.g.dart';
 @collection
 class PerformedSession {
   Id id = Isar.autoIncrement;
+
+  @Index(unique: true)
+  String performedSessionId = "";
+
   String? name;
   DateTime createdAt = DateTime.now();
   DateTime? endTime;
-  double? totalVolume; // sum of (weight × reps)
+
   bool isCompleted = false;
   final workoutStats = IsarLinks<WorkoutStats>();
-  // you could also snapshot the performed exercises separately if needed
+
   final performedExercises = IsarLinks<PerformedExercise>();
 
   PerformedSession();

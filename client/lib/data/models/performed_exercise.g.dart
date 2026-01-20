@@ -55,12 +55,6 @@ const PerformedExerciseSchema = CollectionSchema(
       name: r'sets',
       target: r'PerformedSet',
       single: false,
-    ),
-    r'session': LinkSchema(
-      id: 358173215625674679,
-      name: r'session',
-      target: r'PerformedSession',
-      single: true,
     )
   },
   embeddedSchemas: {},
@@ -166,15 +160,13 @@ Id _performedExerciseGetId(PerformedExercise object) {
 
 List<IsarLinkBase<dynamic>> _performedExerciseGetLinks(
     PerformedExercise object) {
-  return [object.sets, object.session];
+  return [object.sets];
 }
 
 void _performedExerciseAttach(
     IsarCollection<dynamic> col, Id id, PerformedExercise object) {
   object.id = id;
   object.sets.attach(col, col.isar.collection<PerformedSet>(), r'sets', id);
-  object.session
-      .attach(col, col.isar.collection<PerformedSession>(), r'session', id);
 }
 
 extension PerformedExerciseQueryWhereSort
@@ -1149,20 +1141,6 @@ extension PerformedExerciseQueryLinks
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'sets', lower, includeLower, upper, includeUpper);
-    });
-  }
-
-  QueryBuilder<PerformedExercise, PerformedExercise, QAfterFilterCondition>
-      session(FilterQuery<PerformedSession> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'session');
-    });
-  }
-
-  QueryBuilder<PerformedExercise, PerformedExercise, QAfterFilterCondition>
-      sessionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'session', 0, true, 0, true);
     });
   }
 }
