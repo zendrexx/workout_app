@@ -1,4 +1,5 @@
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
+import 'package:client/features/workout_logging/presentation/providers/workout_logging_view_model_provider.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/model_temp/temp_planned_sets.dart';
@@ -43,6 +44,13 @@ class _LogSessionWorkoutWidgetState
     //     .watch(tempSessionProvider.notifier)
     //     .addSetToExercise(widget.index, value);
   }
+  String formatNumber(num value) {
+    if (value % 1 == 0) {
+      return value.toInt().toString(); // 10.0 → "10"
+    } else {
+      return value.toString(); // 10.5 → "10.5"
+    }
+  }
 
   TextEditingController _controller = TextEditingController();
   String? note;
@@ -60,6 +68,7 @@ class _LogSessionWorkoutWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.watch(workoutLoggingViewModelProvider.notifier);
     final sets = widget.plannedSets;
 
     return Padding(
@@ -247,7 +256,7 @@ class _LogSessionWorkoutWidgetState
               return PerformedWorkoutSetWidget(
                 setNum: setIndex,
                 index: widget.index,
-                estWeight: widget.plannedSets[setIndex].estWeight.toString(),
+                estWeight: formatNumber(widget.plannedSets[setIndex].estWeight),
 
                 repRange: widget.plannedSets[setIndex].estRep,
               );
@@ -259,8 +268,7 @@ class _LogSessionWorkoutWidgetState
             child: LongCustomButton(
               title: "+ Add Sets",
               onTap: () {
-                TempPlannedSets sets = TempPlannedSets();
-                addSets(ref, sets);
+                vm.addSetToExercise(widget.index);
               },
               Bcolor: Color(0xff242727),
             ),

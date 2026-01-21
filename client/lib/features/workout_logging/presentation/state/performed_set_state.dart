@@ -10,7 +10,14 @@ class PerformedSetState {
     required this.actRep,
     required this.actWeight,
   });
-
+  factory PerformedSetState.defaultSet() {
+    return PerformedSetState(
+      estRep: '0',
+      estWeight: 0,
+      actRep: 0,
+      actWeight: 0,
+    );
+  }
   PerformedSetState copyWith({
     String? estRep,
     double? estWeight,
