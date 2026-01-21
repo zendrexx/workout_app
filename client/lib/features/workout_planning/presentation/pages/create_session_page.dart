@@ -205,8 +205,10 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
 
                 LongCustomButton(
                   title: "+ Add Exercises",
-                  onTap: () =>
-                      context.push("/home/create_sessions/add_exercise"),
+                  onTap: () => context.push(
+                    "/home/create_sessions/add_exercise",
+                    extra: plannedSessionViewModelProvider,
+                  ),
                 ),
               ],
             ),

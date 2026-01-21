@@ -1,17 +1,18 @@
 import 'package:client/core/config/app_destination.dart';
 import 'package:client/features/history/pages/history_page.dart';
 import 'package:client/features/history/pages/view_history_page.dart';
-import 'package:client/features/workout_planning/presentation/pages/add_exercise_page.dart';
+import 'package:client/core/presentation/page/add_exercise_page.dart';
 import 'package:client/features/workout_planning/presentation/pages/create_session_page.dart';
 import 'package:client/features/home/presentation/pages/home_page.dart';
 import 'package:client/features/workout_logging/presentation/pages/log_workout_page.dart';
 import 'package:client/features/workout_program/presentation/pages/program_page.dart';
 import 'package:client/features/workout_program/presentation/pages/select_session_page.dart';
-import 'package:client/features/workout_planning/presentation/pages/update_exercise.dart';
+import 'package:client/core/presentation/page/update_exercise.dart';
 import 'package:client/features/workout_planning/presentation/pages/view_session_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -80,13 +81,28 @@ final router = GoRouter(
                   routes: [
                     GoRoute(
                       path: 'add_exercise',
-                      builder: (context, state) => const AddExercisePage(),
+
+                      builder: (context, state) {
+                        final provider =
+                            state.extra
+                                as AutoDisposeStateNotifierProvider<
+                                  StateNotifier,
+                                  Object?
+                                >;
+                        return AddExercisePage(provider: provider);
+                      },
                     ),
                     GoRoute(
                       path: 'update_exercise/:index',
                       builder: (context, state) {
+                        final provider =
+                            state.extra
+                                as AutoDisposeStateNotifierProvider<
+                                  StateNotifier,
+                                  Object?
+                                >;
                         final index = int.parse(state.pathParameters['index']!);
-                        return UpdateExercise(index: index);
+                        return UpdateExercise(index: index, provider: provider);
                       },
                     ),
                   ],

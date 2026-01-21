@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 
 class ExerciseListState {
   final bool isLoading;

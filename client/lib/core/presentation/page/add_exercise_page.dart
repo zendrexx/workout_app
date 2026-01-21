@@ -1,72 +1,46 @@
+import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
+
 import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
 import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/providers/get_all_exercise_provider.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 
-class UpdateExercise extends ConsumerStatefulWidget {
-  final int index;
-  const UpdateExercise({super.key, required this.index});
+class AddExercisePage extends ConsumerStatefulWidget {
+  final AutoDisposeStateNotifierProvider<StateNotifier, Object?> provider;
+  const AddExercisePage({super.key, required this.provider});
 
   @override
-  ConsumerState<UpdateExercise> createState() => _UpdateExerciseState();
+  ConsumerState<AddExercisePage> createState() => _AddExercisePageState();
 }
 
-class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
-  final Set<String> _selectedExercise = {};
+class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   final TextEditingController _controller = TextEditingController();
+  final Set<String> _selectedExercise = {};
 
   void _toggleExercise(ExerciseState exercise) {
     setState(() {
       if (_selectedExercise.contains(exercise.exId)) {
-        //if na click na
-        _selectedExercise.remove(exercise.exId); //remove ex
+        _selectedExercise.remove(exercise.exId);
       } else {
-        _selectedExercise.clear();
         _selectedExercise.add(exercise.exId);
       }
     });
   }
 
-  List<Exercise> _exercise = [];
-
-  @override
-  void initState() {
-    super.initState();
-    print("Update initState called ✅");
-    _initWorkouts();
-  }
-
-  void _initWorkouts() async {
-    // final workouts = await DatabaseService.db.exercises.where().findAll();
-    // print("Loaded ${workouts.length} exercises from Isar");
-    // setState(() {
-    //   _exercise = workouts;
-    // });
-  }
-
-  void updateExercise(WidgetRef ref, Exercise value) {
-    // final plannedExercise = TempPlannedExercise(exercise: value);
-
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .updateExerciseAt(widget.index, plannedExercise);
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(exerciseViewModelProvider);
-    final vm = ref.read(plannedSessionViewModelProvider.notifier);
+    final vm = ref.read(widget.provider.notifier);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          "Update Exercise",
+          "Add Exercise",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -87,10 +61,10 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                 ),
               ),
               SizedBox(width: 16),
-              GestureDetector(
-                onTap: () {},
-                child: Text("Create", style: TextStyle(color: Colors.white)),
-              ),
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: Text("Create", style: TextStyle(color: Colors.white)),
+              // ),
               SizedBox(width: 16),
             ],
           ),
@@ -125,7 +99,7 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                           fillColor: Color(0xff4E4A43),
                           hintText: "Search Exercise",
                           hintStyle: TextStyle(
-                            color: Color(0xff89898Ad),
+                            color: Color(0xff89898A),
                             fontSize: 14,
                           ),
                           prefixIcon: IconButton(
@@ -140,11 +114,8 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                             },
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ), // rounded corners
-                            borderSide:
-                                BorderSide.none, // removes the border line
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -202,10 +173,9 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                     final exercise = state.exercises.firstWhere(
                       (e) => e.exId == exId,
                     );
-                    vm.updateExerciseAt(widget.index, exercise);
-
-                    context.pop();
+                    (vm as AddExerciseAbsract).addExercise(exercise);
                   }
+                  context.pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),
@@ -222,7 +192,7 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                   elevation: 4,
                 ),
                 child: Text(
-                  "Update exercise",
+                  "Add ${_selectedExercise.length} exercise",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),

@@ -193,8 +193,10 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: LongCustomButton(
                   title: "+ Add Exercises",
-                  onTap: () =>
-                      context.push("/home/create_sessions/add_exercise"),
+                  onTap: () => context.push(
+                    "/home/create_sessions/add_exercise",
+                    extra: workoutLoggingViewModelProvider,
+                  ),
                 ),
               ),
               SizedBox(height: 10),

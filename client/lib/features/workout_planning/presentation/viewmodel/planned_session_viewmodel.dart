@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
+import 'package:client/core/presentation/abstract/update_exercise_abstract.dart';
 import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
@@ -13,7 +15,8 @@ import 'package:client/features/workout_planning/presentation/statemappers/to_do
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
+class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
+    implements AddExerciseAbsract, UpdateExerciseAbstract {
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
 
@@ -62,8 +65,9 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(name: "");
   }
 
+  @override
   void addExercise(ExerciseState exercise) {
-    final plannedExercise = toPlannedExercise(exercise);
+    final plannedExercise = toPlannedExercise(exercise, []);
 
     state = state.copyWith(exercises: [...state.exercises, plannedExercise]);
   }
@@ -74,10 +78,15 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     state = state.copyWith(exercises: updatedExercises);
   }
 
+  @override
   void updateExerciseAt(int index, ExerciseState updatedExercise) {
     final updatedExercises = [...state.exercises];
     if (index >= 0 && index < updatedExercises.length) {
-      final plannedExercise = toPlannedExercise(updatedExercise);
+      final oldPerformedExercise = updatedExercises[index];
+      final plannedExercise = toPlannedExercise(
+        updatedExercise,
+        oldPerformedExercise.sets,
+      );
       updatedExercises[index] = plannedExercise;
       state = state.copyWith(exercises: updatedExercises);
     }
@@ -191,50 +200,6 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState> {
     // Update the state
     state = state.copyWith(exercises: updatedExercises);
   }
-
-  // void addActWeightToSets(int exerciseIndex, int setIndex, double weight) {
-  //   // Get a copy of all exercises
-  //   final updatedExercises = [...state.exercises];
-
-  //   // Get the current exercise
-  //   final currentExercise = updatedExercises[exerciseIndex];
-
-  //   // Copy the sets of that exercise
-  //   final updatedSets = [...currentExercise.sets];
-
-  //   // Update the specific set with the new weight
-  //   final updatedSet = updatedSets[setIndex].copyWith(estWeight: weight);
-  //   updatedSets[setIndex] = updatedSet;
-
-  //   // Update the exercise with the modified sets
-  //   final updatedExercise = currentExercise.copyWith(sets: updatedSets);
-  //   updatedExercises[exerciseIndex] = updatedExercise;
-
-  //   // Update the state with the modified exercises
-  //   state = state.copyWith(exercises: updatedExercises);
-  // }
-
-  // void addActRepToSets(int exerciseIndex, int setIndex, int actRep) {
-  //   // Get a copy of all exercises
-  //   final updatedExercises = [...state.exercises];
-
-  //   // Get the current exercise
-  //   final currentExercise = updatedExercises[exerciseIndex];
-
-  //   // Copy the sets of that exercise
-  //   final updatedSets = [...currentExercise.sets];
-
-  //   // Update the specific set with the new weight
-  //   final updatedSet = updatedSets[setIndex].copyWith(actRep: actRep);
-  //   updatedSets[setIndex] = updatedSet;
-
-  //   // Update the exercise with the modified sets
-  //   final updatedExercise = currentExercise.copyWith(sets: updatedSets);
-  //   updatedExercises[exerciseIndex] = updatedExercise;
-
-  //   // Update the state with the modified exercises
-  //   state = state.copyWith(plannedExercise: updatedExercises);
-  // }
 
   void reset() {
     state = PlannedSessionState(name: '', exercises: [], sessionId: "");

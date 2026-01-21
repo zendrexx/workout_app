@@ -5,7 +5,10 @@ import 'package:client/features/workout_planning/presentation/providers/get_sess
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final workoutLoggingViewModelProvider =
-    StateNotifierProvider<WorkoutLoggingViewModel, WorkoutLoggingState>((ref) {
+    StateNotifierProvider.autoDispose<
+      WorkoutLoggingViewModel,
+      WorkoutLoggingState
+    >((ref) {
       final getSessionById = ref.read(getSessionByIdProvider);
       return WorkoutLoggingViewModel(getSessionById);
     });

@@ -1,6 +1,6 @@
 import 'package:client/features/workout_planning/domain/usecases/get_all_exercise.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_list_state.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_list_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_exercise_list_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_exercise_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';

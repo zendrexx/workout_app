@@ -1,5 +1,5 @@
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 
 ExerciseState toExerciseState(Exercise ex) {
   return ExerciseState(

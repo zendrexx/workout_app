@@ -1,11 +1,14 @@
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
-import 'package:client/features/workout_planning/presentation/state/exercise_state.dart';
+import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 
-PlannedExerciseState toPlannedExercise(ExerciseState ex) {
+PlannedExerciseState toPlannedExercise(
+  ExerciseState ex,
+  List<PlannedSetState> sets,
+) {
   return PlannedExerciseState(
-    sets: [PlannedSetState.defaultSet()],
+    sets: sets.isNotEmpty ? sets : [PlannedSetState.defaultSet()],
     equipment: ex.equipment ?? "",
     exerciseName: ex.name,
     imagePath: ex.imagePath,

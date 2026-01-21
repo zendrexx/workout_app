@@ -128,6 +128,8 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                                           Navigator.pop(context);
                                           context.push(
                                             "/home/create_sessions/update_exercise/${widget.index}",
+                                            extra:
+                                                plannedSessionViewModelProvider,
                                           );
                                         },
                                         behavior: HitTestBehavior.opaque,
