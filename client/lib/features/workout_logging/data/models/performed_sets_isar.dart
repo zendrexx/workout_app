@@ -1,22 +1,21 @@
 import 'package:isar/isar.dart';
 
-part 'performed_sets.g.dart';
+part 'performed_sets_isar.g.dart';
 
 @collection
-class Workoutsets {
+class PerformedSetsIsar {
   Id id = Isar.autoIncrement;
   double? estWeight;
   double? actWeight;
-  int? minRep;
-  int? maxRep;
+  String? estRep;
+
   int? actualRep;
   bool isCompleted;
 
-  Workoutsets({
+  PerformedSetsIsar({
     this.estWeight,
     this.actWeight,
-    this.minRep,
-    this.maxRep,
+    this.estRep,
     this.actualRep,
     this.isCompleted = false,
   });

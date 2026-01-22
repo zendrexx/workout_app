@@ -1,3 +1,4 @@
+import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,10 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/data/models/workout_stats.dart';
-import 'package:client/data/models/performed_set.dart';
-import 'package:client/data/models/performed_exercise.dart';
-import 'package:client/features/workout_logging/data/models/performed_session.dart';
+import 'package:client/features/workout_logging/data/models/workout_stats_isar.dart';
+import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
+import 'package:client/features/workout_logging/data/models/performed_session_isar.dart';
 import 'package:client/data/services/exercise_service.dart';
 
 final isarProvider = FutureProvider<Isar>((ref) async {
@@ -20,9 +20,9 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     PlannedExerciseIsarSchema,
     PlannedSetIsarSchema,
     ExerciseIsarSchema,
-    WorkoutStatsSchema,
-    PerformedSetSchema,
-    PerformedExerciseSchema,
+    WorkoutStatsIsarSchema,
+    PerformedSetsIsarSchema,
+    PerformedExerciseIsarSchema,
     PerformedSessionSchema,
   ], directory: appDir.path);
 

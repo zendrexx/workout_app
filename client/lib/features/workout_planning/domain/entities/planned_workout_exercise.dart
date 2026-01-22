@@ -5,16 +5,16 @@ class PlannedWorkoutExercise {
   String exId;
   String exerciseName;
   String imagePath;
-  String? equipment;
-  String? notes;
+  String equipment;
+  String notes;
   final List<PlannedWorkoutSet> sets;
 
   PlannedWorkoutExercise({
     required this.exId,
     required this.exerciseName,
     required this.imagePath,
-    this.equipment,
-    this.notes,
+    required this.equipment,
+    required this.notes,
     required this.sets,
   });
 

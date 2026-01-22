@@ -1,20 +1,17 @@
 import 'package:isar/isar.dart';
 
-part 'workout_stats.g.dart';
+part 'workout_stats_isar.g.dart';
 
 @collection
-class WorkoutStats {
+class WorkoutStatsIsar {
   Id id = Isar.autoIncrement;
-  int? hours;
-  int? minutes;
-  int? seconds;
+
+  int? totalSeconds;
   double? totalVolume;
   int? totalSets;
-  WorkoutStats({
+  WorkoutStatsIsar({
     this.totalVolume = 0,
     this.totalSets = 0,
-    this.hours,
-    this.minutes,
-    this.seconds,
+    this.totalSeconds,
   });
 }

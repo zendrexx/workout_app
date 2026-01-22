@@ -1,7 +1,7 @@
 import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
 import 'package:client/core/presentation/abstract/update_exercise_abstract.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
-import 'package:client/data/models/performed_exercise.dart';
+import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_logging/presentation/state/workout_logging_state.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/to_performed_exercise_state.dart';
@@ -119,6 +119,26 @@ class WorkoutLoggingViewModel extends StateNotifier<WorkoutLoggingState>
     // Update the specific set
     final updatedSet = updatedSets[setIndex].copyWith(
       actRep: int.tryParse(repRange),
+    );
+    updatedSets[setIndex] = updatedSet;
+
+    // Update the exercise
+    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
+    updatedExercises[exerciseIndex] = updatedExercise;
+
+    // Update the state
+    state = state.copyWith(performedExercise: updatedExercises);
+  }
+
+  void isSetCompleted(int exerciseIndex, int setIndex) {
+    // Get a copy of all exercises
+    final updatedExercises = [...state.performedExercise];
+    final currentExercise = updatedExercises[exerciseIndex];
+    final updatedSets = [...currentExercise.sets];
+
+    // Update the specific set
+    final updatedSet = updatedSets[setIndex].copyWith(
+      isCompleted: !updatedSets[setIndex].isCompleted,
     );
     updatedSets[setIndex] = updatedSet;
 

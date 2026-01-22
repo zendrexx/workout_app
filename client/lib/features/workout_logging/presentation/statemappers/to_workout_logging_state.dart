@@ -1,4 +1,3 @@
-import 'package:client/data/models/performed_set.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_stats_state.dart';
@@ -43,5 +42,6 @@ PerformedSetState mapPlannedSet(PlannedWorkoutSet s) {
     estWeight: s.estWeight,
     actRep: 0,
     actWeight: 0,
+    isCompleted: false,
   );
 }

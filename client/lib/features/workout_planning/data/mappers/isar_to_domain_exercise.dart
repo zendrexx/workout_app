@@ -8,7 +8,7 @@ Exercise toDomainExercise(ExerciseIsar e) {
     primMuscle: e.primMuscle,
     imagePath: e.imagePath,
     equipment: e.equipment,
-    seconMuscle: e.seconMuscle,
+    seconMuscle: e.seconMuscle ?? "",
   );
   return ex;
 }

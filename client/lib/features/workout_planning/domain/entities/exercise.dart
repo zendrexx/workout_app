@@ -6,15 +6,15 @@ class Exercise {
 
   final String primMuscle;
 
-  final String? seconMuscle;
-  final String? equipment;
+  final String seconMuscle;
+  final String equipment;
   final String imagePath;
   Exercise({
     required this.exId,
     required this.name,
     required this.primMuscle,
-    this.seconMuscle,
-    this.equipment,
+    required this.seconMuscle,
+    required this.equipment,
     required this.imagePath,
   });
 

@@ -208,6 +208,7 @@ class _PerformedWorkoutSetWidgetState
                           double.tryParse(weightController.text) ?? 0.0;
                       final int reps = int.tryParse(repController.text) ?? 0;
                       if (isDone) {
+                        vm.isSetCompleted(widget.index, widget.setNum);
                         vm.addStats(weight, reps);
                       } else {
                         vm.removeStats(weight, reps);

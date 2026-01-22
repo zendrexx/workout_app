@@ -4,11 +4,13 @@ class PerformedSetState {
   final double estWeight;
   final int actRep;
   final double actWeight;
+  bool isCompleted;
   PerformedSetState({
     required this.estWeight,
     required this.estRep,
     required this.actRep,
     required this.actWeight,
+    required this.isCompleted,
   });
   factory PerformedSetState.defaultSet() {
     return PerformedSetState(
@@ -16,6 +18,7 @@ class PerformedSetState {
       estWeight: 0,
       actRep: 0,
       actWeight: 0,
+      isCompleted: false,
     );
   }
   PerformedSetState copyWith({
@@ -23,12 +26,14 @@ class PerformedSetState {
     double? estWeight,
     int? actRep,
     double? actWeight,
+    bool? isCompleted,
   }) {
     return PerformedSetState(
       estRep: estRep ?? this.estRep,
       estWeight: estWeight ?? this.estWeight,
       actRep: actRep ?? this.actRep,
       actWeight: actWeight ?? this.actWeight,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }
