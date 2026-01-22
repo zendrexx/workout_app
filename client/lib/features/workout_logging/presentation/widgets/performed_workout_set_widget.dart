@@ -1,7 +1,4 @@
 import 'package:client/features/workout_logging/presentation/providers/workout_logging_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/temp_workout_stats.dart';
-import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,14 +39,6 @@ class _PerformedWorkoutSetWidgetState
     return value;
   }
 
-  void addStats(double lbs, int reps) {
-    ref.read(tempWorkoutStatsProvider.notifier).addStats(lbs, reps);
-  }
-
-  void removeStats(double lbs, int reps) {
-    ref.read(tempWorkoutStatsProvider.notifier).removeStats(lbs, reps);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -61,26 +50,6 @@ class _PerformedWorkoutSetWidgetState
       weightController.text = "";
     }
     reprange = normalizeValue(widget.repRange);
-  }
-
-  void addActWeight(WidgetRef ref, String weight) {
-    // Convert safely to double
-    final double? rweight = double.tryParse(weight);
-    if (rweight == null) return;
-
-    // Convert the set number to int (since it's a String like "1")
-
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .addActWeightToSets(widget.index, widget.setNum, rweight);
-  }
-
-  void addActRep(WidgetRef ref, String actRep) {
-    final int? iActRep = int.tryParse(actRep);
-    if (iActRep == null) return;
-    // ref
-    //     .read(tempSessionProvider.notifier)
-    //     .addActRepToSets(widget.index, widget.setNum, iActRep);
   }
 
   @override
@@ -171,7 +140,7 @@ class _PerformedWorkoutSetWidgetState
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                     ],
                     onChanged: (value) {
-                      addActWeight(ref, value);
+                      vm.addWeightToSets(widget.index, widget.setNum, value);
                     },
                     decoration: InputDecoration(
                       hintText: estweight,
@@ -196,7 +165,7 @@ class _PerformedWorkoutSetWidgetState
                     controller: repController,
                     readOnly: isDone,
                     onChanged: (value) {
-                      addActRep(ref, value);
+                      vm.addRepRangeToSets(widget.index, widget.setNum, value);
                     },
                     keyboardType: TextInputType.numberWithOptions(
                       decimal: true,
@@ -239,9 +208,9 @@ class _PerformedWorkoutSetWidgetState
                           double.tryParse(weightController.text) ?? 0.0;
                       final int reps = int.tryParse(repController.text) ?? 0;
                       if (isDone) {
-                        addStats(weight, reps);
+                        vm.addStats(weight, reps);
                       } else {
-                        removeStats(weight, reps);
+                        vm.removeStats(weight, reps);
                       }
                     },
                     visualDensity: VisualDensity.compact,

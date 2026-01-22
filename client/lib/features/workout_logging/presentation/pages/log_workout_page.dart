@@ -1,16 +1,9 @@
 import 'dart:async';
 
-import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/workout_logging/presentation/providers/workout_logging_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/temp_workout_stats.dart';
-import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/workout_logging/presentation/widgets/log_session_workout_widget.dart';
 import 'package:client/features/workout_logging/presentation/widgets/log_workout_detail_widget.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
-import 'package:client/features/home/presentation/widgets/session_card_widget.dart';
-import 'package:client/features/workout_planning/presentation/widgets/view_session_workout_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -56,7 +49,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   void cancel() {
     context.push('/home');
-    // ref.invalidate(tempSessionProvider);
+    ref.invalidate(workoutLoggingViewModelProvider);
   }
 
   String _formatDuration(int totalSeconds) {
@@ -73,17 +66,6 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
     }
   }
 
-  void addSession() async {
-    // final tempSession = ref.read(tempSessionProvider);
-    // final tempStats = ref.read(tempWorkoutStatsProvider);
-    // await saveLogSession(tempSession, tempStats, ref);
-
-    // ref.invalidate(tempSessionProvider);
-    // ref.invalidate(tempWorkoutStatsProvider);
-
-    // Navigator.pop(context);
-  }
-
   @override
   void dispose() {
     _timer?.cancel();
@@ -92,8 +74,8 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.read(workoutLoggingViewModelProvider.notifier);
     final state = ref.watch(workoutLoggingViewModelProvider);
-    final workoutStats = ref.watch(tempWorkoutStatsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -121,7 +103,10 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
               ),
               SizedBox(width: 16),
               GestureDetector(
-                onTap: () => addSession(),
+                onTap: () {
+                  vm.addDuration(_seconds);
+                  vm.save();
+                },
                 child: Text("Finish", style: TextStyle(color: Colors.white)),
               ),
 
@@ -153,11 +138,11 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                     ),
                     LogWorkoutDetailWidget(
                       title: "Volume",
-                      value: formatVolume(workoutStats.tempTotalVolume ?? 0),
+                      value: formatVolume(state.performedStats.totalVolume),
                     ),
                     LogWorkoutDetailWidget(
                       title: "Sets",
-                      value: (workoutStats.tempTotalSets ?? 0).toString(),
+                      value: (state.performedStats.totalSets).toString(),
                     ),
                   ],
                 ),

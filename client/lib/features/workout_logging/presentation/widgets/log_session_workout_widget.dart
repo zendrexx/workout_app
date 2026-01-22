@@ -35,15 +35,6 @@ class LogSessionWorkoutWidget extends ConsumerStatefulWidget {
 
 class _LogSessionWorkoutWidgetState
     extends ConsumerState<LogSessionWorkoutWidget> {
-  void deleteExercise(WidgetRef ref, int index) {
-    //ref.read(tempSessionProvider.notifier).deleteExercise(index);
-  }
-
-  void addSets(WidgetRef ref, TempPlannedSets value) {
-    // ref
-    //     .watch(tempSessionProvider.notifier)
-    //     .addSetToExercise(widget.index, value);
-  }
   String formatNumber(num value) {
     if (value % 1 == 0) {
       return value.toInt().toString(); // 10.0 → "10"
@@ -215,6 +206,7 @@ class _LogSessionWorkoutWidgetState
                 hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
               ),
               cursorColor: Colors.white,
+              onChanged: (value) => vm.addNotesToExercise(widget.index, value),
             ),
           ),
           Padding(

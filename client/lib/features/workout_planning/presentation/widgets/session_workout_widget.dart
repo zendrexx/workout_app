@@ -15,13 +15,14 @@ class SessionWorkoutWidget extends ConsumerStatefulWidget {
   final String? equipment;
   final String imagePath;
   final int index;
-
+  final String? note;
   const SessionWorkoutWidget({
     super.key,
     required this.title,
     this.equipment,
     required this.imagePath,
     required this.index,
+    this.note,
   });
 
   @override
@@ -34,6 +35,8 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
   @override
   void initState() {
     super.initState();
+
+    notesController.text = widget.note ?? "";
   }
 
   String? plannedRepRange(int index, int? minRep, int? maxRep) {

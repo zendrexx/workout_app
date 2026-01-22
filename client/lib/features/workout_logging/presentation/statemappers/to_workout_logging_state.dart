@@ -1,6 +1,7 @@
 import 'package:client/data/models/performed_set.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
+import 'package:client/features/workout_logging/presentation/state/performed_stats_state.dart';
 import 'package:client/features/workout_logging/presentation/state/workout_logging_state.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
@@ -10,7 +11,11 @@ WorkoutLoggingState toWorkoutLoggingState(PlannedWorkoutSession s) {
   return WorkoutLoggingState(
     name: s.name,
     performedSessionId: "",
-    performedStats: [],
+    performedStats: PerformedStatsState(
+      totalSeconds: 0,
+      totalVolume: 0,
+      totalSets: 0,
+    ),
     performedExercise: s.exercises.map(mapPlannedExercise).toList(),
   );
 }

@@ -8,7 +8,7 @@ class WorkoutLoggingState {
   String name;
   DateTime? endTime;
   bool isCompleted = false;
-  final List<PerformedStatsState> performedStats;
+  PerformedStatsState performedStats;
   final List<PerformedExerciseState> performedExercise;
   WorkoutLoggingState({
     required this.name,
@@ -21,7 +21,11 @@ class WorkoutLoggingState {
     return WorkoutLoggingState(
       name: '',
       performedSessionId: "",
-      performedStats: [],
+      performedStats: PerformedStatsState(
+        totalSeconds: 0,
+        totalVolume: 0,
+        totalSets: 0,
+      ),
       performedExercise: [],
     );
   }
@@ -31,7 +35,7 @@ class WorkoutLoggingState {
     String? name,
     DateTime? endTime,
     bool? isCompleted,
-    List<PerformedStatsState>? performedStats,
+    PerformedStatsState? performedStats,
     List<PerformedExerciseState>? performedExercise,
   }) {
     return WorkoutLoggingState(

@@ -23,13 +23,14 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+
   late final StreamSubscription<SessionUiEvent> _subscription;
   bool checkName = true;
   bool isEditMode = false;
   @override
   void dispose() {
-    _controller.dispose();
+    _nameController.dispose();
     _subscription.cancel();
     super.dispose();
   }
@@ -79,7 +80,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
     final state = ref.watch(plannedSessionViewModelProvider);
 
     final vm = ref.read(plannedSessionViewModelProvider.notifier);
-    _controller.text = state.name;
+    _nameController.text = state.name;
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -136,7 +137,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextFormField(
-                  controller: _controller,
+                  controller: _nameController,
                   cursorColor: Colors.white,
 
                   decoration: InputDecoration(
@@ -145,7 +146,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                         ? IconButton(
                             icon: const Icon(Icons.clear, color: Colors.white),
                             onPressed: () {
-                              _controller.clear();
+                              _nameController.clear();
                               vm.addName('');
                             },
                           )
@@ -180,6 +181,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                       equipment: current.equipment,
                       imagePath: current.imagePath,
                       index: index,
+                      note: current.notes,
                     );
                   }),
                   itemCount: state.exercises.length,
