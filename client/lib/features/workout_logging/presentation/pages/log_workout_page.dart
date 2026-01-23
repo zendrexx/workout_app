@@ -106,6 +106,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                 onTap: () {
                   vm.addDuration(_seconds);
                   vm.save();
+                  Navigator.pop(context);
                 },
                 child: Text("Finish", style: TextStyle(color: Colors.white)),
               ),

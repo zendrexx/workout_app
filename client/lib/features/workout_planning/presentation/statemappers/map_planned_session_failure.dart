@@ -1,6 +1,6 @@
-import 'package:client/features/workout_planning/domain/failures/session_failure.dart';
+import 'package:client/features/workout_planning/domain/failures/planned_session_failure.dart';
 
-String mapSessionFailure(SessionFailure failure) {
+String mapPlannedSessionFailure(PlannedSessionFailure failure) {
   return switch (failure) {
     EmptySessionNameFailure() => 'Session name is required',
     EmptyExercisesFailure() => 'Add at least one exercise',

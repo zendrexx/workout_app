@@ -1,7 +1,7 @@
-import 'package:client/features/workout_logging/domain/entities/workout_logging.dart';
+import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
 
 abstract class PerformedWorkoutRepository {
-  Stream<List<WorkoutLogging>> watchAllPerformedSession();
-  Future<WorkoutLogging?> getPerformedSessionById(String sessionId);
-  Future<void> addPerformedSession(WorkoutLogging plannedSession);
+  Stream<List<PerformedSession>> watchAllPerformedSession();
+  Future<PerformedSession?> getPerformedSessionById(String sessionId);
+  Future<void> addPerformedSession(PerformedSession performedSession);
 }

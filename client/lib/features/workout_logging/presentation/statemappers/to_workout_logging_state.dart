@@ -1,13 +1,13 @@
 import 'package:client/features/workout_logging/presentation/state/performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_stats_state.dart';
-import 'package:client/features/workout_logging/presentation/state/workout_logging_state.dart';
+import 'package:client/features/workout_logging/presentation/state/performed_session_state.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_set.dart';
 
-WorkoutLoggingState toWorkoutLoggingState(PlannedWorkoutSession s) {
-  return WorkoutLoggingState(
+PerformedSessionState toWorkoutLoggingState(PlannedWorkoutSession s) {
+  return PerformedSessionState(
     name: s.name,
     performedSessionId: "",
     performedStats: PerformedStatsState(
@@ -23,9 +23,9 @@ PerformedExerciseState mapPlannedExercise(PlannedWorkoutExercise e) {
   return PerformedExerciseState(
     exerciseName: e.exerciseName,
     imagePath: e.imagePath,
-    equipment: e.equipment ?? "",
+    equipment: e.equipment,
     exId: e.exId,
-    notes: e.notes ?? "",
+    notes: e.notes,
     sets: e.sets.map(mapPlannedSet).toList(),
   );
 }

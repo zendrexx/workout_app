@@ -1,5 +1,5 @@
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
-import 'package:client/features/workout_planning/domain/failures/session_failure.dart';
+import 'package:client/features/workout_planning/domain/failures/planned_session_failure.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -8,7 +8,7 @@ class AddWorkoutSession {
 
   AddWorkoutSession(this.repo);
 
-  Future<Either<SessionFailure, void>> call(
+  Future<Either<PlannedSessionFailure, void>> call(
     PlannedWorkoutSession session,
   ) async {
     if (!session.hasName) {

@@ -27,7 +27,11 @@ class PlannedWorkoutIsarDatasource {
           .getBySessionId(session.sessionId);
 
       // 2️⃣ If not found, create new
-      sessionInDb ??= PlannedSessionIsar()..sessionId = session.sessionId;
+      sessionInDb ??= PlannedSessionIsar(
+        sessionId: session.sessionId,
+        createdAt: session.createdAt,
+        name: session.name,
+      );
 
       // 3️⃣ Update fields
       sessionInDb
@@ -89,10 +93,11 @@ class PlannedWorkoutIsarDatasource {
     late PlannedSessionIsar newSession;
 
     await isar.writeTxn(() async {
-      newSession = PlannedSessionIsar()
-        ..name = "Copy of ${original.name}"
-        ..createdAt = DateTime.now()
-        ..sessionId = IdGenerator().getId().toString();
+      newSession = PlannedSessionIsar(
+        name: "Copy of ${original.name}",
+        createdAt: DateTime.now(),
+        sessionId: IdGenerator().getId().toString(),
+      );
 
       await isar.plannedSessionIsars.put(newSession);
 

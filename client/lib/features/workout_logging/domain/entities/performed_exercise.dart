@@ -18,4 +18,8 @@ class PerformedExercise {
     required this.notes,
     required this.sets,
   });
+
+  bool get hasSet {
+    return sets.isNotEmpty;
+  }
 }

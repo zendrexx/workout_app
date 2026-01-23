@@ -86,12 +86,7 @@ int _performedSessionIsarEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.name;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.performedSessionId.length * 3;
   return bytesCount;
 }
@@ -115,10 +110,10 @@ PerformedSessionIsar _performedSessionIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PerformedSessionIsar();
-  object.endTime = reader.readDateTimeOrNull(offsets[0]);
+  object.endTime = reader.readDateTime(offsets[0]);
   object.id = id;
   object.isCompleted = reader.readBool(offsets[1]);
-  object.name = reader.readStringOrNull(offsets[2]);
+  object.name = reader.readString(offsets[2]);
   object.performedSessionId = reader.readString(offsets[3]);
   return object;
 }
@@ -131,11 +126,11 @@ P _performedSessionIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
       return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     default:
@@ -352,25 +347,7 @@ extension PerformedSessionIsarQueryWhere
 extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
     PerformedSessionIsar, QFilterCondition> {
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> endTimeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'endTime',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> endTimeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'endTime',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> endTimeEqualTo(DateTime? value) {
+      QAfterFilterCondition> endTimeEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'endTime',
@@ -381,7 +358,7 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> endTimeGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -395,7 +372,7 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> endTimeLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -409,8 +386,8 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> endTimeBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -492,26 +469,8 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
   }
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> nameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> nameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> nameEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -525,7 +484,7 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> nameGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -541,7 +500,7 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> nameLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -557,8 +516,8 @@ extension PerformedSessionIsarQueryFilter on QueryBuilder<PerformedSessionIsar,
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
       QAfterFilterCondition> nameBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1042,7 +1001,7 @@ extension PerformedSessionIsarQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<PerformedSessionIsar, DateTime?, QQueryOperations>
+  QueryBuilder<PerformedSessionIsar, DateTime, QQueryOperations>
       endTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'endTime');
@@ -1056,7 +1015,7 @@ extension PerformedSessionIsarQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<PerformedSessionIsar, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<PerformedSessionIsar, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

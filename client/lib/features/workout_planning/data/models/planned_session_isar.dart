@@ -11,9 +11,14 @@ class PlannedSessionIsar {
   @Index(unique: true)
   String sessionId = "";
 
-  late String? name;
-  DateTime createdAt = DateTime.now();
+  late String name;
+  DateTime createdAt;
 
   final plannedExercise = IsarLinks<PlannedExerciseIsar>();
-  PlannedSessionIsar({this.name, exercises});
+  PlannedSessionIsar({
+    required this.name,
+
+    required this.sessionId,
+    required this.createdAt,
+  });
 }

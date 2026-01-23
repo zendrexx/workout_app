@@ -2,7 +2,7 @@
 import 'package:client/features/workout_logging/presentation/state/performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_stats_state.dart';
 
-class WorkoutLoggingState {
+class PerformedSessionState {
   String performedSessionId;
 
   String name;
@@ -10,15 +10,15 @@ class WorkoutLoggingState {
   bool isCompleted = false;
   PerformedStatsState performedStats;
   final List<PerformedExerciseState> performedExercise;
-  WorkoutLoggingState({
+  PerformedSessionState({
     required this.name,
     required this.performedSessionId,
     required this.performedStats,
     required this.performedExercise,
   });
 
-  factory WorkoutLoggingState.initial() {
-    return WorkoutLoggingState(
+  factory PerformedSessionState.initial() {
+    return PerformedSessionState(
       name: '',
       performedSessionId: "",
       performedStats: PerformedStatsState(
@@ -30,7 +30,7 @@ class WorkoutLoggingState {
     );
   }
 
-  WorkoutLoggingState copyWith({
+  PerformedSessionState copyWith({
     String? performedSessionId,
     String? name,
     DateTime? endTime,
@@ -38,7 +38,7 @@ class WorkoutLoggingState {
     PerformedStatsState? performedStats,
     List<PerformedExerciseState>? performedExercise,
   }) {
-    return WorkoutLoggingState(
+    return PerformedSessionState(
       performedSessionId: performedSessionId ?? this.performedSessionId,
       name: name ?? this.name,
       performedStats: performedStats ?? this.performedStats,

@@ -1,19 +1,23 @@
 import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
 import 'package:client/core/presentation/abstract/update_exercise_abstract.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
+import 'package:client/features/workout_logging/data/mappers/domain_to_isar_performed_session_mapper.dart';
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
+import 'package:client/features/workout_logging/domain/usecases/add_performed_session.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
-import 'package:client/features/workout_logging/presentation/state/workout_logging_state.dart';
+import 'package:client/features/workout_logging/presentation/state/performed_session_state.dart';
+import 'package:client/features/workout_logging/presentation/statemappers/map_performed_session.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/to_performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/to_workout_logging_state.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WorkoutLoggingViewModel extends StateNotifier<WorkoutLoggingState>
+class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
     implements AddExerciseAbsract, UpdateExerciseAbstract {
   GetSessionById getSessionById;
-  WorkoutLoggingViewModel(this.getSessionById)
-    : super(WorkoutLoggingState.initial());
+  AddPerformedSession addPerformedSession;
+  WorkoutLoggingViewModel(this.getSessionById, this.addPerformedSession)
+    : super(PerformedSessionState.initial());
 
   Future<void> loadPlannedSessionToLogging(String sessionId) async {
     final session = await getSessionById.call(sessionId);
@@ -21,7 +25,11 @@ class WorkoutLoggingViewModel extends StateNotifier<WorkoutLoggingState>
     state = toWorkoutLoggingState(session);
   }
 
-  void save() {}
+  Future<void> save() async {
+    final performedSession = mapPerformedSession(state);
+    await addPerformedSession.call(performedSession);
+  }
+
   void addSetToExercise(int index) {
     final sets = PerformedSetState.defaultSet(); // or default()
     // 1. Copy current exercise

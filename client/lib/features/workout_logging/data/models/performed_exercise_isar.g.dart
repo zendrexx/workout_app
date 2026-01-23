@@ -77,24 +77,9 @@ int _performedExerciseIsarEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.exId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.exerciseName;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.imagePath;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.exId.length * 3;
+  bytesCount += 3 + object.exerciseName.length * 3;
+  bytesCount += 3 + object.imagePath.length * 3;
   {
     final value = object.notes;
     if (value != null) {
@@ -125,10 +110,10 @@ PerformedExerciseIsar _performedExerciseIsarDeserialize(
 ) {
   final object = PerformedExerciseIsar();
   object.equipment = reader.readStringOrNull(offsets[0]);
-  object.exId = reader.readStringOrNull(offsets[1]);
-  object.exerciseName = reader.readStringOrNull(offsets[2]);
+  object.exId = reader.readString(offsets[1]);
+  object.exerciseName = reader.readString(offsets[2]);
   object.id = id;
-  object.imagePath = reader.readStringOrNull(offsets[3]);
+  object.imagePath = reader.readString(offsets[3]);
   object.notes = reader.readStringOrNull(offsets[4]);
   return object;
 }
@@ -143,11 +128,11 @@ P _performedExerciseIsarDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     default:
@@ -411,26 +396,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> exIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'exId',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> exIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'exId',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exIdEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -444,7 +411,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exIdGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -460,7 +427,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exIdLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -476,8 +443,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exIdBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -567,26 +534,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> exerciseNameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'exerciseName',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> exerciseNameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'exerciseName',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exerciseNameEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -600,7 +549,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exerciseNameGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -616,7 +565,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exerciseNameLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -632,8 +581,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> exerciseNameBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -779,26 +728,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> imagePathIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'imagePath',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
-      QAfterFilterCondition> imagePathIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'imagePath',
-      ));
-    });
-  }
-
-  QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> imagePathEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -812,7 +743,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> imagePathGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -828,7 +759,7 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> imagePathLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -844,8 +775,8 @@ extension PerformedExerciseIsarQueryFilter on QueryBuilder<
 
   QueryBuilder<PerformedExerciseIsar, PerformedExerciseIsar,
       QAfterFilterCondition> imagePathBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1371,21 +1302,20 @@ extension PerformedExerciseIsarQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<PerformedExerciseIsar, String?, QQueryOperations>
-      exIdProperty() {
+  QueryBuilder<PerformedExerciseIsar, String, QQueryOperations> exIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'exId');
     });
   }
 
-  QueryBuilder<PerformedExerciseIsar, String?, QQueryOperations>
+  QueryBuilder<PerformedExerciseIsar, String, QQueryOperations>
       exerciseNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'exerciseName');
     });
   }
 
-  QueryBuilder<PerformedExerciseIsar, String?, QQueryOperations>
+  QueryBuilder<PerformedExerciseIsar, String, QQueryOperations>
       imagePathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imagePath');

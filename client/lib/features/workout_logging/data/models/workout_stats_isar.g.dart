@@ -73,12 +73,11 @@ WorkoutStatsIsar _workoutStatsIsarDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = WorkoutStatsIsar(
-    totalSeconds: reader.readLongOrNull(offsets[0]),
-    totalSets: reader.readLongOrNull(offsets[1]),
-    totalVolume: reader.readDoubleOrNull(offsets[2]),
-  );
+  final object = WorkoutStatsIsar();
   object.id = id;
+  object.totalSeconds = reader.readLong(offsets[0]);
+  object.totalSets = reader.readLong(offsets[1]);
+  object.totalVolume = reader.readDouble(offsets[2]);
   return object;
 }
 
@@ -90,11 +89,11 @@ P _workoutStatsIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -251,25 +250,7 @@ extension WorkoutStatsIsarQueryFilter
   }
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSecondsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'totalSeconds',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSecondsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'totalSeconds',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSecondsEqualTo(int? value) {
+      totalSecondsEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'totalSeconds',
@@ -280,7 +261,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSecondsGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -294,7 +275,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSecondsLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -308,8 +289,8 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSecondsBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -325,25 +306,7 @@ extension WorkoutStatsIsarQueryFilter
   }
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSetsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'totalSets',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSetsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'totalSets',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalSetsEqualTo(int? value) {
+      totalSetsEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'totalSets',
@@ -354,7 +317,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSetsGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -368,7 +331,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSetsLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -382,8 +345,8 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalSetsBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -399,26 +362,8 @@ extension WorkoutStatsIsarQueryFilter
   }
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalVolumeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'totalVolume',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
-      totalVolumeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'totalVolume',
-      ));
-    });
-  }
-
-  QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalVolumeEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -432,7 +377,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalVolumeGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -448,7 +393,7 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalVolumeLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -464,8 +409,8 @@ extension WorkoutStatsIsarQueryFilter
 
   QueryBuilder<WorkoutStatsIsar, WorkoutStatsIsar, QAfterFilterCondition>
       totalVolumeBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -624,20 +569,19 @@ extension WorkoutStatsIsarQueryProperty
     });
   }
 
-  QueryBuilder<WorkoutStatsIsar, int?, QQueryOperations>
-      totalSecondsProperty() {
+  QueryBuilder<WorkoutStatsIsar, int, QQueryOperations> totalSecondsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalSeconds');
     });
   }
 
-  QueryBuilder<WorkoutStatsIsar, int?, QQueryOperations> totalSetsProperty() {
+  QueryBuilder<WorkoutStatsIsar, int, QQueryOperations> totalSetsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalSets');
     });
   }
 
-  QueryBuilder<WorkoutStatsIsar, double?, QQueryOperations>
+  QueryBuilder<WorkoutStatsIsar, double, QQueryOperations>
       totalVolumeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalVolume');

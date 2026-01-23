@@ -6,12 +6,7 @@ part 'workout_stats_isar.g.dart';
 class WorkoutStatsIsar {
   Id id = Isar.autoIncrement;
 
-  int? totalSeconds;
-  double? totalVolume;
-  int? totalSets;
-  WorkoutStatsIsar({
-    this.totalVolume = 0,
-    this.totalSets = 0,
-    this.totalSeconds,
-  });
+  late int totalSeconds;
+  late double totalVolume;
+  late int totalSets;
 }

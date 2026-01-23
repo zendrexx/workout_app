@@ -23,7 +23,7 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     WorkoutStatsIsarSchema,
     PerformedSetsIsarSchema,
     PerformedExerciseIsarSchema,
-    PerformedSessionSchema,
+    PerformedSessionIsarSchema,
   ], directory: appDir.path);
 
   await seedExercises(isar);

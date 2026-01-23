@@ -10,7 +10,7 @@ import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
-import 'package:client/features/workout_planning/presentation/statemappers/map_session_failure.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/map_planned_session_failure.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_domain_mapper.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +46,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
 
     result.fold(
       (failure) {
-        _events.add(ShowError(mapSessionFailure(failure)));
+        _events.add(ShowError(mapPlannedSessionFailure(failure)));
       },
       (_) {
         // 4️⃣ Reset ONLY on success
