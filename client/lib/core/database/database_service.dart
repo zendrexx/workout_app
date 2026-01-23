@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/features/workout_logging/data/models/workout_stats_isar.dart';
+import 'package:client/features/workout_logging/data/models/performed_stats_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_session_isar.dart';
 import 'package:client/data/services/exercise_service.dart';

@@ -1,7 +1,7 @@
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_session_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
-import 'package:client/features/workout_logging/data/models/workout_stats_isar.dart';
+import 'package:client/features/workout_logging/data/models/performed_stats_isar.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_exercise.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_set.dart';
@@ -25,8 +25,8 @@ PerformedExerciseIsar toPerformedExercise(PerformedExercise pe) {
     ..notes = pe.notes;
 }
 
-WorkoutStatsIsar toWorkoutStatsIsar(PerformedStats psts) {
-  return WorkoutStatsIsar()
+PerformedStatsIsar toWorkoutStatsIsar(PerformedStats psts) {
+  return PerformedStatsIsar()
     ..totalVolume = psts.totalVolume
     ..totalSets = psts.totalSets
     ..totalSeconds = psts.totalSeconds;

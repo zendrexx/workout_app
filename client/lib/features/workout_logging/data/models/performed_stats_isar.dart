@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-part 'workout_stats_isar.g.dart';
+part 'performed_stats_isar.g.dart';
 
 @collection
-class WorkoutStatsIsar {
+class PerformedStatsIsar {
   Id id = Isar.autoIncrement;
 
   late int totalSeconds;

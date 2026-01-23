@@ -9,12 +9,12 @@ class PerformedSession {
 
   final String name;
   final bool isCompleted = false;
-  final PerformedStats performedStats;
+  final PerformedStats? performedStats;
   final List<PerformedExercise> performedExercise;
   PerformedSession({
     required this.name,
     required this.performedSessionId,
-    required this.performedStats,
+    this.performedStats,
     required this.performedExercise,
   });
 

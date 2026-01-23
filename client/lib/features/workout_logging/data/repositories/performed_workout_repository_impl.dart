@@ -1,5 +1,6 @@
 import 'package:client/features/workout_logging/data/datasources/performed_workout_isar_datasource.dart';
 import 'package:client/features/workout_logging/data/mappers/domain_to_isar_performed_session_mapper.dart';
+import 'package:client/features/workout_logging/data/mappers/isar_to_domain_performed_session_mapper.dart';
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
@@ -21,7 +22,9 @@ class PerformedWorkoutRepositoryImpl implements PerformedWorkoutRepository {
 
   @override
   Stream<List<PerformedSession>> watchAllPerformedSession() {
-    // TODO: implement watchAllPerformedSession
-    throw UnimplementedError();
+    return datasource.watchAll().map(
+      (performedSession) =>
+          performedSession.map(toDomainPerformedSession).toList(),
+    );
   }
 }

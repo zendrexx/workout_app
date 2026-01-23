@@ -2,7 +2,7 @@
 import 'package:isar/isar.dart';
 
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
-import 'package:client/features/workout_logging/data/models/workout_stats_isar.dart';
+import 'package:client/features/workout_logging/data/models/performed_stats_isar.dart';
 
 part 'performed_session_isar.g.dart';
 
@@ -18,7 +18,7 @@ class PerformedSessionIsar {
   late DateTime endTime;
 
   bool isCompleted = false;
-  final workoutStats = IsarLink<WorkoutStatsIsar>();
+  final workoutStats = IsarLink<PerformedStatsIsar>();
 
   final performedExercises = IsarLinks<PerformedExerciseIsar>();
 }
