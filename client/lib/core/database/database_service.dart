@@ -20,7 +20,7 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     PlannedExerciseIsarSchema,
     PlannedSetIsarSchema,
     ExerciseIsarSchema,
-    WorkoutStatsIsarSchema,
+    PerformedStatsIsarSchema,
     PerformedSetsIsarSchema,
     PerformedExerciseIsarSchema,
     PerformedSessionIsarSchema,

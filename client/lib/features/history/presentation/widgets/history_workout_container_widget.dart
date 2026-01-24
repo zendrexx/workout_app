@@ -1,4 +1,4 @@
-import 'package:client/features/history/widgets/workout_row_widget.dart';
+import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

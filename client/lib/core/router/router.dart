@@ -1,6 +1,6 @@
 import 'package:client/core/config/app_destination.dart';
-import 'package:client/features/history/pages/history_page.dart';
-import 'package:client/features/history/pages/view_history_page.dart';
+import 'package:client/features/history/presentation/pages/history_page.dart';
+import 'package:client/features/history/presentation/pages/view_history_page.dart';
 import 'package:client/core/presentation/page/add_exercise_page.dart';
 import 'package:client/features/workout_planning/presentation/pages/create_session_page.dart';
 import 'package:client/features/home/presentation/pages/home_page.dart';

@@ -1,5 +1,5 @@
-import 'package:client/features/history/widgets/workout_details_widget.dart';
-import 'package:client/features/history/widgets/workout_row_widget.dart';
+import 'package:client/features/history/presentation/widgets/workout_details_widget.dart';
+import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
 
 class ViewHistoryPage extends StatelessWidget {

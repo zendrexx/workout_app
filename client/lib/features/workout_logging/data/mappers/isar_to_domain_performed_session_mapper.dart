@@ -42,7 +42,7 @@ PerformedStats toDomainPerformedStats(PerformedStatsIsar ps) {
 }
 
 PerformedSession toDomainPerformedSession(PerformedSessionIsar s) {
-  final session = PerformedSession(
+  return PerformedSession(
     name: s.name,
     performedSessionId: s.performedSessionId,
     performedExercise: s.performedExercises
@@ -52,6 +52,4 @@ PerformedSession toDomainPerformedSession(PerformedSessionIsar s) {
         ? null
         : toDomainPerformedStats(s.workoutStats.value!),
   );
-
-  return session;
 }

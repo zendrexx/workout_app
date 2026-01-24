@@ -1,4 +1,4 @@
-import 'package:client/features/history/widgets/history_workout_container_widget.dart';
+import 'package:client/features/history/presentation/widgets/history_workout_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,13 +30,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      // body: SingleChildScrollView(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(16.0),
-      //     child:
+      body: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: state.session.length,
+        itemBuilder: (context, index) {
+          final session = state.session[index];
 
-      //   ),
-      // ),
+          return HomeListWidget(
+            sessionId: session.sessionId,
+            title: session.name,
+          );
+        },
+      ),
     );
   }
 }
