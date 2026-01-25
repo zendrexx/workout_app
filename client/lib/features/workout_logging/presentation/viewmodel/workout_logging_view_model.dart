@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
 import 'package:client/core/presentation/abstract/update_exercise_abstract.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_logging/data/mappers/domain_to_isar_performed_session_mapper.dart';
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/domain/usecases/add_performed_session.dart';
+import 'package:client/features/workout_logging/presentation/events/performed_session_io_event.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_session_state.dart';
+import 'package:client/features/workout_logging/presentation/state/performed_stats_state.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/map_performed_session.dart';
+import 'package:client/features/workout_logging/presentation/statemappers/map_performed_session_failure.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/to_performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/statemappers/to_workout_logging_state.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
@@ -16,6 +21,10 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
     implements AddExerciseAbsract, UpdateExerciseAbstract {
   GetSessionById getSessionById;
   AddPerformedSession addPerformedSession;
+
+  final _events = StreamController<PerformedSessionUiEvent>.broadcast();
+  Stream<PerformedSessionUiEvent> get events => _events.stream;
+
   WorkoutLoggingViewModel(this.getSessionById, this.addPerformedSession)
     : super(PerformedSessionState.initial());
 
@@ -27,7 +36,20 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
 
   Future<void> save() async {
     final performedSession = mapPerformedSession(state);
-    await addPerformedSession.call(performedSession);
+
+    final result = await addPerformedSession(performedSession);
+
+    result.fold(
+      (failure) {
+        _events.add(ShowError(mapPerformedSessionFailure(failure)));
+      },
+      (_) {
+        // 4️⃣ Reset ONLY on success
+        state = PerformedSessionState.initial();
+        _events.add(SaveSuccess("Session saved!"));
+        reset();
+      },
+    );
   }
 
   void addSetToExercise(int index) {
@@ -184,7 +206,7 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
     state = state.copyWith(performedStats: updatedStats);
   }
 
-  // void reset() {
-  //   state = PlannedSessionState(name: '', exercises: [], sessionId: "");
-  // }
+  void reset() {
+    state = PerformedSessionState.initial();
+  }
 }

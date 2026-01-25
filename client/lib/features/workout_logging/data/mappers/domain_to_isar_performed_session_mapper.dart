@@ -36,7 +36,7 @@ PerformedSessionIsar toPerformedSessionIsar(PerformedSession psi) {
   return PerformedSessionIsar()
     ..performedSessionId = psi.performedSessionId
     ..name = psi.name
-    ..endTime = DateTime.now()
+    ..endTime = psi.endTime
     ..isCompleted = psi.isCompleted;
 }
 

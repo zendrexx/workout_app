@@ -6,7 +6,7 @@ class PerformedSessionState {
   String performedSessionId;
 
   String name;
-  DateTime? endTime;
+  DateTime endTime;
   bool isCompleted = false;
   PerformedStatsState performedStats;
   final List<PerformedExerciseState> performedExercise;
@@ -15,6 +15,7 @@ class PerformedSessionState {
     required this.performedSessionId,
     required this.performedStats,
     required this.performedExercise,
+    required this.endTime,
   });
 
   factory PerformedSessionState.initial() {
@@ -27,6 +28,7 @@ class PerformedSessionState {
         totalSets: 0,
       ),
       performedExercise: [],
+      endTime: DateTime.fromMillisecondsSinceEpoch(0),
     );
   }
 
@@ -43,6 +45,7 @@ class PerformedSessionState {
       name: name ?? this.name,
       performedStats: performedStats ?? this.performedStats,
       performedExercise: performedExercise ?? this.performedExercise,
+      endTime: endTime ?? this.endTime,
     );
   }
 }

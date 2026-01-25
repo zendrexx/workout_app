@@ -48,8 +48,7 @@ PerformedSession toDomainPerformedSession(PerformedSessionIsar s) {
     performedExercise: s.performedExercises
         .map((e) => toDomainPlannedExercise(e))
         .toList(),
-    performedStats: s.workoutStats.value == null
-        ? null
-        : toDomainPerformedStats(s.workoutStats.value!),
+    performedStats: toDomainPerformedStats(s.performedStats.value!),
+    endTime: s.endTime,
   );
 }

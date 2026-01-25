@@ -11,40 +11,41 @@ class PerformedWorkoutIsarDatasource {
   PerformedWorkoutIsarDatasource(this.isar);
 
   Future<void> addPerformedSession(PerformedSession session) async {
-    // 1️⃣ Map domain session → Isar session
     final sessionIsar = toPerformedSessionIsar(session);
 
-    // 2️⃣ Map exercises & sets
+    // 🔹 Stats
+    final statsIsar = toWorkoutStatsIsar(session.performedStats);
+    sessionIsar.performedStats.value = statsIsar;
+
+    // 🔹 Exercises & sets
     final exerciseIsars = session.performedExercise.map((pe) {
-      // Map exercise
       final exIsar = toPerformedExercise(pe);
 
-      // Map sets
-      final setIsars = pe.sets.map((s) {
-        final setIsar = toPerformedSet(s);
-
-        return setIsar;
-      }).toList();
-
-      // Link sets to exercise
+      final setIsars = pe.sets.map(toPerformedSet).toList();
       exIsar.sets.addAll(setIsars);
-
-      sessionIsar.performedExercises.add(exIsar);
 
       return exIsar;
     }).toList();
 
-    // 3️⃣ Save everything in one transaction
+    sessionIsar.performedExercises.addAll(exerciseIsars);
+
     await isar.writeTxn(() async {
-      // Save sets first
+      // 1️⃣ Put stats
+      await isar.performedStatsIsars.put(statsIsar);
+
+      // 2️⃣ Put sets
       final allSets = exerciseIsars.expand((e) => e.sets).toList();
       await isar.performedSetsIsars.putAll(allSets);
 
-      // Save exercises
+      // 3️⃣ Put exercises
       await isar.performedExerciseIsars.putAll(exerciseIsars);
 
-      // Save session
+      // 4️⃣ Put session
       await isar.performedSessionIsars.put(sessionIsar);
+
+      // 5️⃣ Save links LAST
+      await sessionIsar.performedStats.save();
+      await sessionIsar.performedExercises.save();
     });
   }
 

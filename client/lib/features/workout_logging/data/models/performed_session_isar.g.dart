@@ -60,9 +60,9 @@ const PerformedSessionIsarSchema = CollectionSchema(
     )
   },
   links: {
-    r'workoutStats': LinkSchema(
-      id: -976289415791497424,
-      name: r'workoutStats',
+    r'performedStats': LinkSchema(
+      id: -1592939135825516075,
+      name: r'performedStats',
       target: r'PerformedStatsIsar',
       single: true,
     ),
@@ -144,14 +144,14 @@ Id _performedSessionIsarGetId(PerformedSessionIsar object) {
 
 List<IsarLinkBase<dynamic>> _performedSessionIsarGetLinks(
     PerformedSessionIsar object) {
-  return [object.workoutStats, object.performedExercises];
+  return [object.performedStats, object.performedExercises];
 }
 
 void _performedSessionIsarAttach(
     IsarCollection<dynamic> col, Id id, PerformedSessionIsar object) {
   object.id = id;
-  object.workoutStats.attach(
-      col, col.isar.collection<PerformedStatsIsar>(), r'workoutStats', id);
+  object.performedStats.attach(
+      col, col.isar.collection<PerformedStatsIsar>(), r'performedStats', id);
   object.performedExercises.attach(col,
       col.isar.collection<PerformedExerciseIsar>(), r'performedExercises', id);
 }
@@ -751,16 +751,16 @@ extension PerformedSessionIsarQueryObject on QueryBuilder<PerformedSessionIsar,
 extension PerformedSessionIsarQueryLinks on QueryBuilder<PerformedSessionIsar,
     PerformedSessionIsar, QFilterCondition> {
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> workoutStats(FilterQuery<PerformedStatsIsar> q) {
+      QAfterFilterCondition> performedStats(FilterQuery<PerformedStatsIsar> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'workoutStats');
+      return query.link(q, r'performedStats');
     });
   }
 
   QueryBuilder<PerformedSessionIsar, PerformedSessionIsar,
-      QAfterFilterCondition> workoutStatsIsNull() {
+      QAfterFilterCondition> performedStatsIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'workoutStats', 0, true, 0, true);
+      return query.linkLength(r'performedStats', 0, true, 0, true);
     });
   }
 

@@ -18,7 +18,7 @@ class PerformedSessionIsar {
   late DateTime endTime;
 
   bool isCompleted = false;
-  final workoutStats = IsarLink<PerformedStatsIsar>();
+  final performedStats = IsarLink<PerformedStatsIsar>();
 
   final performedExercises = IsarLinks<PerformedExerciseIsar>();
 }

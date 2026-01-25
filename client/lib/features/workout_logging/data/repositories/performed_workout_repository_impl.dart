@@ -20,11 +20,20 @@ class PerformedWorkoutRepositoryImpl implements PerformedWorkoutRepository {
     throw UnimplementedError();
   }
 
+  //  @override
+  //   Stream<List<PlannedWorkoutSession>> watchAllSessions() {
+  //     return datasource.watchAll().map(
+  //       (isarSessions) => isarSessions.map(toDomainSession).toList(),
+  //     );
+  //   }
   @override
   Stream<List<PerformedSession>> watchAllPerformedSession() {
-    return datasource.watchAll().map(
-      (performedSession) =>
-          performedSession.map(toDomainPerformedSession).toList(),
-    );
+    return datasource.watchAll().asyncMap((sessions) async {
+      for (final s in sessions) {
+        await s.performedStats.load();
+      }
+
+      return sessions.map(toDomainPerformedSession).toList();
+    });
   }
 }

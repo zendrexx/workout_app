@@ -5,7 +5,7 @@ import 'package:client/core/presentation/abstract/update_exercise_abstract.dart'
 import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/domain/usecases/add_workout_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/get_session_by_id.dart';
-import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
+import 'package:client/features/workout_planning/presentation/events/planned_session_ui_event.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
@@ -20,8 +20,9 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
   final AddWorkoutSession createWorkoutSession;
   final GetSessionById getSessionById;
 
-  final _events = StreamController<SessionUiEvent>.broadcast();
-  Stream<SessionUiEvent> get events => _events.stream;
+  final _events = StreamController<PlannedSessionUiEvent>.broadcast();
+  Stream<PlannedSessionUiEvent> get events => _events.stream;
+
   PlannedSessionViewmodel(this.createWorkoutSession, this.getSessionById)
     : super(PlannedSessionState.initial());
 

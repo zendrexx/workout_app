@@ -17,7 +17,11 @@ class AddPerformedSession {
       if (!e.hasSet) {
         return Left(EmptysSetsFailure());
       }
+      if (!e.hasCompletedSet) {
+        return Left(NoCompletedSetFailure());
+      }
     }
+
     await repo.addPerformedSession(psession);
     return const Right(null);
   }

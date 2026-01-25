@@ -8,7 +8,9 @@ class PerformedStatsState {
     required this.totalVolume,
     required this.totalSets,
   });
-
+  factory PerformedStatsState.initial() {
+    return PerformedStatsState(totalSeconds: 0, totalVolume: 0, totalSets: 0);
+  }
   PerformedStatsState copyWith({
     int? totalSeconds,
     double? totalVolume,

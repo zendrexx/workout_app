@@ -22,4 +22,6 @@ class PerformedExercise {
   bool get hasSet {
     return sets.isNotEmpty;
   }
+
+  bool get hasCompletedSet => sets.any((s) => s.isCompleted);
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/features/workout_logging/presentation/events/performed_session_io_event.dart';
 import 'package:client/features/workout_logging/presentation/providers/workout_logging_view_model_provider.dart';
 import 'package:client/features/workout_logging/presentation/widgets/log_session_workout_widget.dart';
 import 'package:client/features/workout_logging/presentation/widgets/log_workout_detail_widget.dart';
@@ -19,16 +20,35 @@ class LogWorkoutPage extends ConsumerStatefulWidget {
 class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   Timer? _timer;
   int _seconds = 0;
-
+  late final StreamSubscription<PerformedSessionUiEvent> _subscription;
   @override
   void initState() {
     super.initState();
+
     _startTimer();
     ref
         .read(workoutLoggingViewModelProvider.notifier)
         .loadPlannedSessionToLogging(widget.sessionId!);
-    // var save = SaveToTemp(ref: ref);
-    // save.convertToTemp(widget.sessionId!);
+    _subscription = ref
+        .read(workoutLoggingViewModelProvider.notifier)
+        .events
+        .listen((event) {
+          if (!mounted) return;
+          switch (event) {
+            case ShowError(:final message):
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+              break;
+
+            case SaveSuccess(:final message):
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+              Navigator.pop(context);
+              break;
+          }
+        });
   }
 
   String formatVolume(double volume) {
@@ -68,6 +88,7 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   @override
   void dispose() {
+    _subscription.cancel();
     _timer?.cancel();
     super.dispose();
   }
@@ -106,7 +127,6 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
                 onTap: () {
                   vm.addDuration(_seconds);
                   vm.save();
-                  Navigator.pop(context);
                 },
                 child: Text("Finish", style: TextStyle(color: Colors.white)),
               ),

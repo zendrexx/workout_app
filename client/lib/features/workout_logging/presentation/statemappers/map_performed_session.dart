@@ -46,5 +46,6 @@ PerformedSession mapPerformedSession(PerformedSessionState s) {
     name: s.name,
     performedStats: mapPerfomedStats(s.performedStats),
     performedExercise: s.performedExercise.map(mapPerformedExercise).toList(),
+    endTime: DateTime.now(),
   );
 }

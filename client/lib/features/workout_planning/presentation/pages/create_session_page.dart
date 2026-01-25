@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/events/session_ui_event.dart';
+import 'package:client/features/workout_planning/presentation/events/planned_session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/data/repositories/planned_session_repo.dart';
@@ -25,7 +25,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
 
-  late final StreamSubscription<SessionUiEvent> _subscription;
+  late final StreamSubscription<PlannedSessionUiEvent> _subscription;
   bool checkName = true;
   bool isEditMode = false;
   @override

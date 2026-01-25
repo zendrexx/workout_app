@@ -8,14 +8,16 @@ class PerformedSession {
   final String performedSessionId;
 
   final String name;
+  final DateTime endTime;
   final bool isCompleted = false;
-  final PerformedStats? performedStats;
+  final PerformedStats performedStats;
   final List<PerformedExercise> performedExercise;
   PerformedSession({
     required this.name,
     required this.performedSessionId,
-    this.performedStats,
+    required this.performedStats,
     required this.performedExercise,
+    required this.endTime,
   });
 
   bool get hasExercise {

@@ -1,3 +1,6 @@
+import 'package:client/core/utils/format_number.dart';
+import 'package:client/core/utils/seconds_to_string.dart';
+import 'package:client/features/history/presentation/providers/history_view_model_provider.dart';
 import 'package:client/features/history/presentation/widgets/history_workout_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +15,7 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(historyViewModelProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -30,18 +34,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      body: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: state.session.length,
-        itemBuilder: (context, index) {
-          final session = state.session[index];
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.psession.length,
+          itemBuilder: (context, index) {
+            final session = state.psession[index];
 
-          return HomeListWidget(
-            sessionId: session.sessionId,
-            title: session.name,
-          );
-        },
+            return HistoryWorkoutContainerWidget(
+              endTime: session.endTime!,
+              title: session.name,
+              time: secondsToString(session.performedStats.totalSeconds),
+              totalVolume: formatNumber(session.performedStats.totalVolume),
+            );
+          },
+        ),
       ),
     );
   }

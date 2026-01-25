@@ -16,6 +16,7 @@ PerformedSessionState toWorkoutLoggingState(PlannedWorkoutSession s) {
       totalSets: 0,
     ),
     performedExercise: s.exercises.map(mapPlannedExercise).toList(),
+    endTime: DateTime.fromMillisecondsSinceEpoch(0),
   );
 }
 

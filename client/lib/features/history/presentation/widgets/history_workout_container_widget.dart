@@ -1,9 +1,20 @@
+import 'package:client/core/utils/time_ago.dart';
 import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HistoryWorkoutContainerWidget extends StatefulWidget {
-  const HistoryWorkoutContainerWidget({super.key});
+  DateTime endTime;
+  String title;
+  String time;
+  String totalVolume;
+  HistoryWorkoutContainerWidget({
+    super.key,
+    required this.endTime,
+    required this.title,
+    required this.time,
+    required this.totalVolume,
+  });
 
   @override
   State<HistoryWorkoutContainerWidget> createState() =>
@@ -28,7 +39,7 @@ class _HistoryWorkoutContainerWidgetState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "PUSH DAY",
+                widget.title,
                 style: TextStyle(
                   fontSize: 18,
                   height: 1,
@@ -36,7 +47,7 @@ class _HistoryWorkoutContainerWidgetState
                 ),
               ),
               Text(
-                "12 mins ago",
+                timeAgo(widget.endTime),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -60,7 +71,7 @@ class _HistoryWorkoutContainerWidgetState
                           color: Color(0xff89898A),
                         ),
                       ),
-                      Text("1h 10min"),
+                      Text(widget.time),
                     ],
                   ),
                   SizedBox(width: 40),
@@ -76,7 +87,7 @@ class _HistoryWorkoutContainerWidgetState
                           color: Color(0xff89898A),
                         ),
                       ),
-                      Text("10,002.1 lbs"),
+                      Text(widget.totalVolume),
                     ],
                   ),
                 ],
