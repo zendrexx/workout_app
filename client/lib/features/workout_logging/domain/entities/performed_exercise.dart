@@ -23,5 +23,9 @@ class PerformedExercise {
     return sets.isNotEmpty;
   }
 
+  int get getCompletedSetsCount {
+    return sets.where((s) => s.isCompleted).length;
+  }
+
   bool get hasCompletedSet => sets.any((s) => s.isCompleted);
 }

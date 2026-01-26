@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
 class WorkoutRowWidget extends StatelessWidget {
-  const WorkoutRowWidget({super.key});
+  String imagePath;
+  int sets;
+  String exName;
+  WorkoutRowWidget({
+    super.key,
+    required this.imagePath,
+    required this.sets,
+    required this.exName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,12 +18,9 @@ class WorkoutRowWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CircleAvatar(
-            minRadius: 23,
-            backgroundImage: AssetImage("assets/images/benchpress.png"),
-          ),
+          CircleAvatar(minRadius: 23, backgroundImage: AssetImage(imagePath)),
           SizedBox(width: 16),
-          Text("3 sets Incline Bench Press.."),
+          Text('$sets sets $exName'),
         ],
       ),
     );

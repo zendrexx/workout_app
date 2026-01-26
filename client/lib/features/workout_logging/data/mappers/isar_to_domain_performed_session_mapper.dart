@@ -9,6 +9,8 @@ import 'package:client/features/workout_logging/domain/entities/performed_stats.
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 
 PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
+  print("ARE SETS COMPLETE");
+  print(s.isCompleted);
   final sets = PerformedSet(
     actRep: s.actualRep ?? 0,
     actWeight: s.actWeight ?? 0,
@@ -50,5 +52,6 @@ PerformedSession toDomainPerformedSession(PerformedSessionIsar s) {
         .toList(),
     performedStats: toDomainPerformedStats(s.performedStats.value!),
     endTime: s.endTime,
+    isCompleted: s.isCompleted,
   );
 }

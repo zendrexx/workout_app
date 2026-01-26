@@ -43,10 +43,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             final session = state.psession[index];
 
             return HistoryWorkoutContainerWidget(
-              endTime: session.endTime!,
+              endTime: session.endTime,
               title: session.name,
               time: secondsToString(session.performedStats.totalSeconds),
               totalVolume: formatNumber(session.performedStats.totalVolume),
+              totalSets: session.performedStats.totalSets.toString(),
+              exercises: session.performedExercise,
             );
           },
         ),

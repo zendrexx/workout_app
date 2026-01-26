@@ -17,15 +17,19 @@ class PerformedWorkoutIsarDatasource {
     final statsIsar = toWorkoutStatsIsar(session.performedStats);
     sessionIsar.performedStats.value = statsIsar;
 
+    final List<PerformedSetsIsar> allSetIsars = [];
+    final List<PerformedExerciseIsar> exerciseIsars = [];
+
     // 🔹 Exercises & sets
-    final exerciseIsars = session.performedExercise.map((pe) {
+    for (final pe in session.performedExercise) {
       final exIsar = toPerformedExercise(pe);
 
       final setIsars = pe.sets.map(toPerformedSet).toList();
-      exIsar.sets.addAll(setIsars);
+      allSetIsars.addAll(setIsars);
 
-      return exIsar;
-    }).toList();
+      exIsar.sets.addAll(setIsars);
+      exerciseIsars.add(exIsar);
+    }
 
     sessionIsar.performedExercises.addAll(exerciseIsars);
 
@@ -33,17 +37,21 @@ class PerformedWorkoutIsarDatasource {
       // 1️⃣ Put stats
       await isar.performedStatsIsars.put(statsIsar);
 
-      // 2️⃣ Put sets
-      final allSets = exerciseIsars.expand((e) => e.sets).toList();
-      await isar.performedSetsIsars.putAll(allSets);
+      // 2️⃣ Put sets (REAL list)
+      await isar.performedSetsIsars.putAll(allSetIsars);
 
       // 3️⃣ Put exercises
       await isar.performedExerciseIsars.putAll(exerciseIsars);
 
-      // 4️⃣ Put session
+      // 4️⃣ Save exercise → sets links
+      for (final ex in exerciseIsars) {
+        await ex.sets.save();
+      }
+
+      // 5️⃣ Put session
       await isar.performedSessionIsars.put(sessionIsar);
 
-      // 5️⃣ Save links LAST
+      // 6️⃣ Save session links
       await sessionIsar.performedStats.save();
       await sessionIsar.performedExercises.save();
     });

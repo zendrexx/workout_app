@@ -16,7 +16,7 @@ class PerformedExerciseState {
     required this.notes,
     required this.sets,
   });
-
+  int get completedSetsCount => sets.where((s) => s.isCompleted).length;
   PerformedExerciseState copyWith({
     String? exerciseName,
     String? imagePath,

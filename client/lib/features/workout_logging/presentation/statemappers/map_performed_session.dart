@@ -35,7 +35,7 @@ PerformedStats mapPerfomedStats(PerformedStatsState pstate) {
   return PerformedStats(
     totalSeconds: pstate.totalSeconds,
     totalVolume: pstate.totalVolume,
-    totalSets: pstate.totalSeconds,
+    totalSets: pstate.totalSets,
   );
 }
 
@@ -47,5 +47,6 @@ PerformedSession mapPerformedSession(PerformedSessionState s) {
     performedStats: mapPerfomedStats(s.performedStats),
     performedExercise: s.performedExercise.map(mapPerformedExercise).toList(),
     endTime: DateTime.now(),
+    isCompleted: true,
   );
 }
