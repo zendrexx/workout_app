@@ -33,7 +33,10 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'view_history',
-                  builder: (context, state) => const ViewHistoryPage(),
+                  builder: (context, state) {
+                    final sessionId = state.pathParameters['id']!;
+                    return ViewHistoryPage(sessionId: sessionId);
+                  },
                 ),
               ],
             ),

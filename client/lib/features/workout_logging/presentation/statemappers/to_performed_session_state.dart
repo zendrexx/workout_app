@@ -10,7 +10,7 @@ import 'package:client/features/workout_logging/presentation/state/performed_sta
 PerformedSessionState toPerformedSessionState(PerformedSession s) {
   return PerformedSessionState(
     name: s.name,
-    performedSessionId: "",
+    performedSessionId: s.performedSessionId,
     performedStats: toPerformedStatsState(s.performedStats),
     performedExercise: s.performedExercise.map(toPerformedExercise).toList(),
     endTime: s.endTime,
@@ -40,8 +40,8 @@ PerformedSetState toPlannedSet(PerformedSet s) {
   return PerformedSetState(
     estRep: s.estRep,
     estWeight: s.estWeight,
-    actRep: 0,
-    actWeight: 0,
-    isCompleted: false,
+    actRep: s.actRep,
+    actWeight: s.actWeight,
+    isCompleted: s.isCompleted,
   );
 }

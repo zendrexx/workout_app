@@ -22,29 +22,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
   }
-  // void printWorkouts(AsyncValue<List<PlannedSession>> plannedSessionsAsync) {
-  //   plannedSessionsAsync.when(
-  //     data: (sessions) {
-  //       print("🧩 TEST: Total sessions in DB -> ${sessions.length}");
-  //       for (final session in sessions) {
-  //         print("📘 Session: ${session.name} (id: ${session.id})");
-  //         print(
-  //           "   Contains ${session.plannedExercise.length} planned exercises",
-  //         );
-
-  //         for (final plannedEx in session.plannedExercise) {
-  //           final exercise = plannedEx.exerciseName;
-  //           print("   🔹 PlannedExercise id: ${plannedEx.id}");
-  //           print("      ↳ Exercise: ${exercise ?? '❌ NULL'}");
-  //           print("      ↳ Sets: ${plannedEx.sets.length}");
-  //           print("      ↳ NOTES: ${plannedEx.notes}");
-  //         }
-  //       }
-  //     },
-  //     loading: () => print("⏳ Loading sessions..."),
-  //     error: (err, stack) => print("❌ Error: $err"),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {

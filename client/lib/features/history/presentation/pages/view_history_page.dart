@@ -1,12 +1,16 @@
+import 'package:client/features/history/presentation/providers/history_view_model_provider.dart';
 import 'package:client/features/history/presentation/widgets/workout_details_widget.dart';
 import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ViewHistoryPage extends StatelessWidget {
-  const ViewHistoryPage({super.key});
+class ViewHistoryPage extends ConsumerWidget {
+  final String sessionId;
+  const ViewHistoryPage({super.key, required this.sessionId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(historyViewModelProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
