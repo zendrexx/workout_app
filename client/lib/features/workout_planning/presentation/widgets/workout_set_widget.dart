@@ -28,12 +28,17 @@ class WorkoutSetWidget extends ConsumerStatefulWidget {
 class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
   late TextEditingController weightController = TextEditingController();
   late TextEditingController repRangeController = TextEditingController();
+  late TextEditingController setController = TextEditingController();
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
+        print("PRNTTT");
+        print(widget.estWeight);
+        print(widget.repRange);
+
         weightController.text =
             (widget.estWeight == null ||
                 widget.estWeight == 'null' ||
@@ -48,6 +53,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
                 widget.estWeight == '0')
             ? ''
             : widget.repRange!;
+        setController.text = (widget.setNum + 1).toString();
       });
     });
   }
@@ -88,9 +94,18 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
         child: Row(
           children: [
             Expanded(
-              child: Text(
-                (widget.setNum + 1).toString(),
+              child: TextField(
+                controller: setController,
+                enabled: false,
+
+                decoration: const InputDecoration(
+                  hintText: "-",
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  border: InputBorder.none,
+                ),
                 style: const TextStyle(fontSize: 14),
+                cursorColor: Colors.white,
               ),
             ),
             Expanded(

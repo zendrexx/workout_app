@@ -32,7 +32,7 @@ final router = GoRouter(
               builder: (context, state) => const HistoryPage(),
               routes: [
                 GoRoute(
-                  path: 'view_history',
+                  path: 'view_history/:index',
                   builder: (context, state) {
                     final index = int.parse(state.pathParameters['index']!);
                     return ViewHistoryPage(index: index);

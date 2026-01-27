@@ -91,15 +91,44 @@ class ViewHistoryPage extends ConsumerWidget {
                           color: Color(0xff89898A),
                         ),
                       ),
-                      Text(formatNumber(session.performedStats.totalVolume)),
+                      Text(
+                        formatDoubleNumber(session.performedStats.totalVolume),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 40),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Sets",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          height: 1,
+                          color: Color(0xff89898A),
+                        ),
+                      ),
+                      Text(session.performedStats.totalSets.toString()),
                     ],
                   ),
                 ],
               ),
               Divider(),
-              WorkoutDetailsWidget(),
-              WorkoutDetailsWidget(),
-              WorkoutDetailsWidget(),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: session.performedExercise.length,
+                itemBuilder: (context, index) {
+                  final exercise = session.performedExercise[index];
+
+                  return WorkoutDetailsWidget(
+                    name: exercise.exerciseName,
+                    imagePath: exercise.imagePath,
+                    notes: exercise.notes,
+                    sets: exercise.sets,
+                  );
+                },
+              ),
             ],
           ),
         ),

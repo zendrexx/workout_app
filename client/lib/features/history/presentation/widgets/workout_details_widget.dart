@@ -1,3 +1,4 @@
+import 'package:client/core/utils/format_number.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,12 @@ class WorkoutDetailsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                minRadius: 30,
-                backgroundImage: AssetImage("assets/images/benchpress.png"),
+                minRadius: 20,
+                backgroundImage: AssetImage(imagePath),
               ),
               SizedBox(width: 16),
               Text(
-                "Incline Bench Press (Barbell)",
+                name,
                 style: TextStyle(
                   color: Color(0xffD3C061),
                   fontSize: 16,
@@ -43,7 +44,7 @@ class WorkoutDetailsWidget extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            "Sobrang Bigat",
+            notes == "" ? "Notes Here" : notes,
             style: TextStyle(color: Color(0xff4E4E50), fontSize: 14),
           ),
           SizedBox(height: 15),
@@ -52,30 +53,39 @@ class WorkoutDetailsWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   "SETS",
-                  style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Expanded(
                 child: Text(
                   "LBS",
-                  style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Expanded(
-                child: FittedBox(
-                  child: Text(
-                    "REP RANGE",
-                    style: TextStyle(fontSize: 14, color: Color(0xff4E4E50)),
-                  ),
+                child: Text(
+                  "REP RANGE",
+                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                 ),
               ),
               Spacer(),
             ],
           ),
-          // WorkoutSetWidget(),
-
-          // WorkoutSetWidget(),
-          // WorkoutSetWidget(),
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: sets.length,
+            itemBuilder: (context, setIndex) {
+              final set = sets[setIndex];
+              return WorkoutSetWidget(
+                index: 0,
+                setNum: setIndex,
+                estWeight: formatDoubleNumber(set.actWeight),
+                viewing: true,
+                repRange: formatDoubleNumber(set.actRep),
+              );
+            },
+          ),
         ],
       ),
     );

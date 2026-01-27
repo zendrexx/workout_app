@@ -54,7 +54,7 @@ class _HistoryWorkoutContainerWidgetState
     return Padding(
       padding: const EdgeInsets.only(bottom: 24.0),
       child: GestureDetector(
-        onTap: () => context.push("/history/view_history${widget.index}"),
+        onTap: () => context.push("/history/view_history/${widget.index}"),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -120,7 +120,7 @@ class _HistoryWorkoutContainerWidgetState
                           ),
                         ),
                         Text(
-                          "${formatNumber(widget.session.performedStats.totalVolume)} lbs",
+                          "${formatDoubleNumber(widget.session.performedStats.totalVolume)} lbs",
                         ),
                       ],
                     ),
