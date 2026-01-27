@@ -42,7 +42,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           itemBuilder: (context, index) {
             final session = state.psession[index];
 
-            return HistoryWorkoutContainerWidget(session: session);
+            return HistoryWorkoutContainerWidget(
+              session: session,
+              index: index,
+            );
           },
         ),
       ),

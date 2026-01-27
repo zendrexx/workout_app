@@ -1,8 +1,20 @@
+import 'package:client/features/workout_logging/presentation/state/performed_set_state.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutDetailsWidget extends StatelessWidget {
-  const WorkoutDetailsWidget({super.key});
+  final String name;
+  final String imagePath;
+  final String notes;
+  final List<PerformedSetState> sets;
+
+  const WorkoutDetailsWidget({
+    super.key,
+    required this.name,
+    required this.imagePath,
+    required this.notes,
+    required this.sets,
+  });
 
   @override
   Widget build(BuildContext context) {

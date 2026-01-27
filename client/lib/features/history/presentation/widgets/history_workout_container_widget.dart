@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 
 class HistoryWorkoutContainerWidget extends StatefulWidget {
   PerformedSessionState session;
-
+  int index;
   // DateTime endTime;
   // String title;
   // String time;
@@ -22,6 +22,7 @@ class HistoryWorkoutContainerWidget extends StatefulWidget {
   HistoryWorkoutContainerWidget({
     super.key,
     required this.session,
+    required this.index,
     // required this.endTime,
     // required this.title,
     // required this.time,
@@ -53,9 +54,7 @@ class _HistoryWorkoutContainerWidgetState
     return Padding(
       padding: const EdgeInsets.only(bottom: 24.0),
       child: GestureDetector(
-        onTap: () => context.push(
-          "/history/view_history${widget.session.performedSessionId}",
-        ),
+        onTap: () => context.push("/history/view_history${widget.index}"),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(

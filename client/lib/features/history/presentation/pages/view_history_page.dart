@@ -1,3 +1,6 @@
+import 'package:client/core/utils/format_number.dart';
+import 'package:client/core/utils/seconds_to_string.dart';
+import 'package:client/core/utils/time_ago.dart';
 import 'package:client/features/history/presentation/providers/history_view_model_provider.dart';
 import 'package:client/features/history/presentation/widgets/workout_details_widget.dart';
 import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
@@ -5,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ViewHistoryPage extends ConsumerWidget {
-  final String sessionId;
-  const ViewHistoryPage({super.key, required this.sessionId});
+  final int index;
+  const ViewHistoryPage({super.key, required this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(historyViewModelProvider);
+    final session = state.psession[index];
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -37,7 +41,7 @@ class ViewHistoryPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "PUSH DAY",
+                session.name,
                 style: TextStyle(
                   fontSize: 22,
                   height: 1,
@@ -45,7 +49,7 @@ class ViewHistoryPage extends ConsumerWidget {
                 ),
               ),
               Text(
-                "12 mins ago",
+                timeAgo(session.endTime),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -69,7 +73,9 @@ class ViewHistoryPage extends ConsumerWidget {
                           color: Color(0xff89898A),
                         ),
                       ),
-                      Text("1h 10min"),
+                      Text(
+                        secondsToString(session.performedStats.totalSeconds),
+                      ),
                     ],
                   ),
                   SizedBox(width: 40),
@@ -85,7 +91,7 @@ class ViewHistoryPage extends ConsumerWidget {
                           color: Color(0xff89898A),
                         ),
                       ),
-                      Text("10,002.1 lbs"),
+                      Text(formatNumber(session.performedStats.totalVolume)),
                     ],
                   ),
                 ],

@@ -34,8 +34,8 @@ final router = GoRouter(
                 GoRoute(
                   path: 'view_history',
                   builder: (context, state) {
-                    final sessionId = state.pathParameters['id']!;
-                    return ViewHistoryPage(sessionId: sessionId);
+                    final index = int.parse(state.pathParameters['index']!);
+                    return ViewHistoryPage(index: index);
                   },
                 ),
               ],
