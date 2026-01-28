@@ -153,7 +153,7 @@ class _PerformedWorkoutSetWidgetState
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 0,
                           horizontal: 0,
-                        ),
+                        ),//dk
                         border: InputBorder.none, // removes the underline
                         focusedBorder:
                             InputBorder.none, // removes underline when focused
