@@ -43,14 +43,14 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
             (widget.estWeight == null ||
                 widget.estWeight == 'null' ||
                 widget.estWeight!.isEmpty ||
-                widget.estWeight == '0')
+                !widget.viewing)
             ? ''
             : widget.estWeight!;
         repRangeController.text =
             (widget.repRange == null ||
                 widget.repRange == 'null' ||
                 widget.repRange!.isEmpty ||
-                widget.estWeight == '0')
+                !widget.viewing)
             ? ''
             : widget.repRange!;
         setController.text = (widget.setNum + 1).toString();

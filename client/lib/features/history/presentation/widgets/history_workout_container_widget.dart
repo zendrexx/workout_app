@@ -11,26 +11,10 @@ import 'package:go_router/go_router.dart';
 class HistoryWorkoutContainerWidget extends StatefulWidget {
   PerformedSessionState session;
   int index;
-  // DateTime endTime;
-  // String title;
-  // String time;
-  // String totalVolume;
-  // String totalSets;
-  // int totalPerformedEx;
-  // String sessionId;
-  //List<PerformedExerciseState> exercises;
   HistoryWorkoutContainerWidget({
     super.key,
     required this.session,
     required this.index,
-    // required this.endTime,
-    // required this.title,
-    // required this.time,
-    // required this.totalVolume,
-    // required this.exercises,
-    // required this.totalSets,
-    // required this.totalPerformedEx,
-    // required this.sessionId,
   });
 
   @override

@@ -77,12 +77,14 @@ class WorkoutDetailsWidget extends StatelessWidget {
             itemCount: sets.length,
             itemBuilder: (context, setIndex) {
               final set = sets[setIndex];
+              String actWeight = formatDoubleNumber(set.actWeight);
+              String actRep = formatDoubleNumber(set.actRep);
               return WorkoutSetWidget(
                 index: 0,
                 setNum: setIndex,
-                estWeight: formatDoubleNumber(set.actWeight),
+                estWeight: actWeight,
                 viewing: true,
-                repRange: formatDoubleNumber(set.actRep),
+                repRange: actRep,
               );
             },
           ),
