@@ -104,6 +104,7 @@ class _PerformedWorkoutSetWidgetState
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
+
                   Expanded(
                     child: TextField(
                       readOnly: true,
@@ -153,7 +154,7 @@ class _PerformedWorkoutSetWidgetState
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 0,
                           horizontal: 0,
-                        ),//dk
+                        ), //dk
                         border: InputBorder.none, // removes the underline
                         focusedBorder:
                             InputBorder.none, // removes underline when focused
@@ -181,6 +182,7 @@ class _PerformedWorkoutSetWidgetState
                       cursorColor: Colors.white,
                     ),
                   ),
+                  SizedBox(width: 5),
                   Expanded(
                     child: TextField(
                       controller: repController,
