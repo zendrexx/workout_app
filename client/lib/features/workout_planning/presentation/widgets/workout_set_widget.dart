@@ -29,32 +29,27 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
   late TextEditingController weightController = TextEditingController();
   late TextEditingController repRangeController = TextEditingController();
   late TextEditingController setController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        print("PRNTTT");
-        print(widget.estWeight);
-        print(widget.repRange);
-
-        weightController.text =
-            (widget.estWeight == null ||
-                widget.estWeight == 'null' ||
-                widget.estWeight!.isEmpty ||
-                !widget.viewing)
-            ? ''
-            : widget.estWeight!;
-        repRangeController.text =
-            (widget.repRange == null ||
-                widget.repRange == 'null' ||
-                widget.repRange!.isEmpty ||
-                !widget.viewing)
-            ? ''
-            : widget.repRange!;
-        setController.text = (widget.setNum + 1).toString();
-      });
+    setState(() {
+      weightController.text =
+          (widget.estWeight == null ||
+              widget.estWeight == 'null' ||
+              widget.estWeight!.isEmpty ||
+              widget.estWeight == '0')
+          ? ''
+          : widget.estWeight!;
+      repRangeController.text =
+          (widget.repRange == null ||
+              widget.repRange == 'null' ||
+              widget.repRange!.isEmpty ||
+              widget.estWeight == '0')
+          ? ''
+          : widget.repRange!;
+      setController.text = (widget.setNum + 1).toString();
     });
   }
 

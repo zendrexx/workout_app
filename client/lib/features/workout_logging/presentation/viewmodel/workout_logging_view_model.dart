@@ -129,7 +129,7 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
     final updatedSets = [...currentExercise.sets];
 
     // Update the specific set with the new weight
-    final updatedSet = updatedSets[setIndex].copyWith(estWeight: rweight);
+    final updatedSet = updatedSets[setIndex].copyWith(actWeight: rweight);
     updatedSets[setIndex] = updatedSet;
 
     // Update the exercise with the modified sets

@@ -15,10 +15,10 @@ PlannedSetState toStateSet(PlannedWorkoutSet set) {
 
 PlannedExerciseState toStateExercise(PlannedWorkoutExercise ex) {
   return PlannedExerciseState(
-    equipment: ex.equipment ?? "",
+    equipment: ex.equipment,
     exerciseName: ex.exerciseName,
     imagePath: ex.imagePath,
-    notes: ex.notes ?? "",
+    notes: ex.notes,
     sets: ex.sets.map((s) => toStateSet(s)).toList(),
   );
 }

@@ -27,7 +27,7 @@ PerformedExercise mapPerformedExercise(PerformedExerciseState e) {
     exerciseName: e.exerciseName,
     equipment: e.equipment,
     notes: e.notes,
-    sets: e.sets.map(mapPerformedSet).toList(),
+    sets: e.sets.where((s) => s.isCompleted).map(mapPerformedSet).toList(),
   );
 }
 

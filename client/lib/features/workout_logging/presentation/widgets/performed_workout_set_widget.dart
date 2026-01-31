@@ -11,11 +11,12 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
 
   final String? estWeight;
   final String? repRange;
+  final String? previousWeight;
   const PerformedWorkoutSetWidget({
     super.key,
     required this.setNum,
     required this.index,
-
+    this.previousWeight,
     this.estWeight,
     this.repRange,
   });
@@ -32,6 +33,7 @@ class _PerformedWorkoutSetWidgetState
   late TextEditingController weightController = TextEditingController();
   late TextEditingController repController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String previousWeight = '-';
   String estweight = '-';
   String reprange = '-';
   bool isDone = false;
@@ -52,7 +54,13 @@ class _PerformedWorkoutSetWidgetState
     } else {
       weightController.text = "";
     }
-    reprange = normalizeValue(widget.repRange);
+    if (widget.repRange != null ||
+        widget.repRange != "null" ||
+        widget.repRange!.isNotEmpty) {
+      repController.text = widget.repRange!;
+    } else {
+      repController.text = "";
+    }
   }
 
   @override
@@ -250,6 +258,8 @@ class _PerformedWorkoutSetWidgetState
                           final int reps =
                               int.tryParse(repController.text) ?? 0;
                           if (isDone) {
+                            print("WEIGHT");
+                            print(weight);
                             vm.addWeightToSets(
                               widget.index,
                               widget.setNum,

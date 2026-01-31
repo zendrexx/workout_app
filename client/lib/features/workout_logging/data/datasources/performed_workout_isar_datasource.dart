@@ -54,6 +54,7 @@ class PerformedWorkoutIsarDatasource {
       // 6️⃣ Save session links
       await sessionIsar.performedStats.save();
       await sessionIsar.performedExercises.save();
+      // await isar.performedSessionIsars.clear();
     });
   }
 
