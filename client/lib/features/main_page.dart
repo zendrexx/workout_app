@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
 
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         child: GNav(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           tabs: appDestination

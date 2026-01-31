@@ -219,12 +219,12 @@ class _LogSessionWorkoutWidgetState
                     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    "PREV",
-                    style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     "PREV",
+                //     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
+                //   ),
+                // ),
                 Expanded(
                   child: Text(
                     "LBS",
@@ -253,7 +253,9 @@ class _LogSessionWorkoutWidgetState
                 setNum: setIndex,
                 index: widget.index,
                 estWeight: formatNumber(widget.plannedSets[setIndex].estWeight),
-
+                // previousWeight: formatNumber(
+                //   widget.plannedSets[setIndex].prevWeight,
+                // ),
                 repRange: widget.plannedSets[setIndex].estRep,
               );
             },

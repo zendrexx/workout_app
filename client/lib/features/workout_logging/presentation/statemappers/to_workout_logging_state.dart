@@ -43,6 +43,7 @@ PerformedSetState mapPlannedSet(PlannedWorkoutSet s) {
     estWeight: s.estWeight,
     actRep: 0,
     actWeight: 0,
+    // prevWeight: 0,
     isCompleted: false,
   );
 }

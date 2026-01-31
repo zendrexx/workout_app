@@ -13,6 +13,7 @@ PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
   final sets = PerformedSet(
     actRep: s.actualRep ?? 0,
     actWeight: s.actWeight ?? 0,
+    //prevWeight: s.prevWeight ?? 0,
     estWeight: s.estWeight ?? 0,
     estRep: s.estRep ?? "",
     isCompleted: s.isCompleted,

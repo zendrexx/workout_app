@@ -4,12 +4,14 @@ class PerformedSetState {
   final double estWeight;
   final int actRep;
   final double actWeight;
+  //final double prevWeight;
   bool isCompleted;
   PerformedSetState({
     required this.estWeight,
     required this.estRep,
     required this.actRep,
     required this.actWeight,
+    //required this.prevWeight,
     required this.isCompleted,
   });
   factory PerformedSetState.defaultSet() {
@@ -18,6 +20,7 @@ class PerformedSetState {
       estWeight: 0,
       actRep: 0,
       actWeight: 0,
+      //prevWeight: 0,
       isCompleted: false,
     );
   }
@@ -26,6 +29,7 @@ class PerformedSetState {
     double? estWeight,
     int? actRep,
     double? actWeight,
+    //double? prevWeight,
     bool? isCompleted,
   }) {
     return PerformedSetState(
@@ -33,6 +37,7 @@ class PerformedSetState {
       estWeight: estWeight ?? this.estWeight,
       actRep: actRep ?? this.actRep,
       actWeight: actWeight ?? this.actWeight,
+      //prevWeight: prevWeight ?? this.prevWeight,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }

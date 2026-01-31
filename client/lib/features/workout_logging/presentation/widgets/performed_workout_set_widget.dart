@@ -11,12 +11,12 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
 
   final String? estWeight;
   final String? repRange;
-  final String? previousWeight;
+  //final String? previousWeight;
   const PerformedWorkoutSetWidget({
     super.key,
     required this.setNum,
     required this.index,
-    this.previousWeight,
+    //this.previousWeight,
     this.estWeight,
     this.repRange,
   });
@@ -113,35 +113,35 @@ class _PerformedWorkoutSetWidgetState
                     ),
                   ),
 
-                  Expanded(
-                    child: TextField(
-                      readOnly: true,
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
-                      ],
+                  // Expanded(
+                  //   child: TextField(
+                  //     readOnly: true,
+                  //     keyboardType: TextInputType.numberWithOptions(
+                  //       decimal: true,
+                  //       signed: true,
+                  //     ),
+                  //     inputFormatters: [
+                  //       FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
+                  //     ],
 
-                      decoration: InputDecoration(
-                        hintText: "-",
-                        isDense: true, // makes it smaller vertically
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 0,
-                        ),
-                        border: InputBorder.none, // removes the underline
-                        focusedBorder:
-                            InputBorder.none, // removes underline when focused
-                        enabledBorder:
-                            InputBorder.none, // removes underline when enabled
-                      ),
-                      style: TextStyle(fontSize: 14), // makes text smaller
-                      textAlign: TextAlign.start,
-                      cursorColor: Colors.white,
-                    ),
-                  ),
+                  //     decoration: InputDecoration(
+                  //       hintText: "-",
+                  //       isDense: true, // makes it smaller vertically
+                  //       contentPadding: EdgeInsets.symmetric(
+                  //         vertical: 0,
+                  //         horizontal: 0,
+                  //       ),
+                  //       border: InputBorder.none, // removes the underline
+                  //       focusedBorder:
+                  //           InputBorder.none, // removes underline when focused
+                  //       enabledBorder:
+                  //           InputBorder.none, // removes underline when enabled
+                  //     ),
+                  //     style: TextStyle(fontSize: 14), // makes text smaller
+                  //     textAlign: TextAlign.start,
+                  //     cursorColor: Colors.white,
+                  //   ),
+                  // ),
                   Expanded(
                     child: TextField(
                       controller: weightController,

@@ -13,6 +13,7 @@ PerformedSet mapPerformedSet(PerformedSetState s) {
   return PerformedSet(
     actRep: s.actRep,
     actWeight: s.actWeight,
+    //prevWeight: s.prevWeight,
     estRep: s.estRep,
     estWeight: s.estWeight,
     isCompleted: s.isCompleted,
