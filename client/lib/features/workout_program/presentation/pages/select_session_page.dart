@@ -1,31 +1,36 @@
-import 'package:client/features/home/presentation/widgets/session_card_widget.dart';
+import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
+import 'package:client/features/workout_program/presentation/widgets/session_card_widget.dart';
+import 'package:client/features/workout_program/presentation/providers/program_view_model_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SelectSessionPage extends StatefulWidget {
+class SelectSessionPage extends ConsumerStatefulWidget {
   const SelectSessionPage({super.key});
 
   @override
-  State<SelectSessionPage> createState() => _SelectSessionPageState();
+  ConsumerState<SelectSessionPage> createState() => _SelectSessionPageState();
 }
 
-class _SelectSessionPageState extends State<SelectSessionPage> {
-  final Set<int> _selectedSessions = {};
+class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
+  final Set<String> _selectedSessions = {};
   final TextEditingController _controller = TextEditingController();
 
-  void _toggleSession(int index) {
+  void _toggleSession(PlannedSessionState session) {
     setState(() {
-      if (_selectedSessions.contains(index)) {
-        _selectedSessions.remove(index);
+      if (_selectedSessions.contains(session.sessionId)) {
+        _selectedSessions.remove(session.sessionId);
       } else {
-        _selectedSessions.add(index);
+        _selectedSessions.add(session.sessionId);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.watch(programViewModelProvider.notifier);
+    final state = ref.watch(programViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -127,14 +132,20 @@ class _SelectSessionPageState extends State<SelectSessionPage> {
                     SizedBox(height: 10),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 5,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.plannedSessions.length,
                       itemBuilder: (context, index) {
+                        final session = state.plannedSessions[index];
+
                         return GestureDetector(
-                          onTap: () => _toggleSession(index),
+                          onTap: () => _toggleSession(session),
                           child: SessionCardWidget(
                             isSelectable: true,
-                            isSelected: _selectedSessions.contains(index),
+                            isSelected: _selectedSessions.contains(
+                              session.sessionId,
+                            ),
+                            sessionName: session.name,
+                            exercises: session.exercises,
                           ),
                         );
                       },
@@ -149,7 +160,15 @@ class _SelectSessionPageState extends State<SelectSessionPage> {
               right: 0,
               bottom: 30,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  for (final sessionId in _selectedSessions) {
+                    final session = state.plannedSessions.firstWhere(
+                      (e) => e.sessionId == sessionId,
+                    );
+                    vm.addProgramSession(session);
+                  }
+                  context.pop();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F4F4F),
                   shape: const RoundedRectangleBorder(

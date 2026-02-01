@@ -68,7 +68,10 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                         Expanded(
                           child: Text(
                             widget.title,
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,
                           ),
