@@ -30,6 +30,7 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
     });
   }
   Future<void> save() async {
+    //map program but its only session id
     final program = mapProgram(state);
     final result = await addProgram(program);
 
