@@ -14,6 +14,16 @@ class ProgramPage extends ConsumerStatefulWidget {
 }
 
 class _ProgramPageState extends ConsumerState<ProgramPage> {
+  void cancel() {
+    context.push('/home');
+    ref.invalidate(programViewModelProvider);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
   @override
@@ -40,7 +50,7 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () => context.push('/home'),
+                  onTap: () => cancel(),
                   child: Text(
                     "Cancel",
                     style: TextStyle(color: Color(0xffE2725B)),

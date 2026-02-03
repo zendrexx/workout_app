@@ -1,17 +1,11 @@
 import 'dart:async';
 
-import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/workout_planning/presentation/events/planned_session_ui_event.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
-import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_planning/presentation/widgets/session_workout_widget.dart';
-import 'package:client/widgets/animeted_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateSessionPage extends ConsumerStatefulWidget {
@@ -23,7 +17,7 @@ class CreateSessionPage extends ConsumerStatefulWidget {
 
 class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   late final StreamSubscription<PlannedSessionUiEvent> _subscription;
   bool checkName = true;

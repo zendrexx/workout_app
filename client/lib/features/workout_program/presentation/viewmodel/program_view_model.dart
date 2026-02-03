@@ -1,27 +1,55 @@
 import 'dart:async';
 
-import 'package:client/features/home/presentation/state_mappers/to_home_state.dart';
-import 'package:client/features/workout_planning/domain/usecases/delete_session.dart';
-import 'package:client/features/workout_planning/domain/usecases/duplicate_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/watch_all_planned_session.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
-import 'package:client/features/workout_planning/presentation/statemappers/exercise_to_planned_mapper.dart';
+import 'package:client/features/workout_program/domain/usecases/add_program.dart';
+import 'package:client/features/workout_program/presentation/events/program_ui_event.dart';
 import 'package:client/features/workout_program/presentation/state/program_state.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/map_program_failure.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/to_domain_program.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProgramViewModel extends StateNotifier<ProgramState> {
   late final StreamSubscription _sub;
+  final AddProgram addProgram;
   // final DeleteSession deleteSession;
   // final DuplicateSession duplicateSession;
+  final _events = StreamController<ProgramUiEvent>.broadcast();
+  Stream<ProgramUiEvent> get events => _events.stream;
+
   ProgramViewModel(
     WatchAllPlannedSession watchSessions,
+    this.addProgram,
     // this.deleteSession,
     // this.duplicateSession,
   ) : super(ProgramState.initial()) {
+    reset();
     _sub = watchSessions().listen((sessions) {
       state = toProgramState(sessions);
     });
+  }
+  Future<void> save() async {
+    final program = mapProgram(state);
+    final result = await addProgram(program);
+
+    result.fold(
+      (failure) {
+        _events.add(ShowError(mapProgramFailure(failure)));
+      },
+      (_) {
+        // 4️⃣ Reset ONLY on success
+        state = ProgramState.initial();
+        _events.add(SaveSuccess("Session saved!"));
+        reset();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
   }
 
   void addName(String newName) {
@@ -55,6 +83,15 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
 
     state = state.copyWith(
       programSessions: [...state.programSessions, duplicated],
+    );
+  }
+
+  void reset() {
+    state = ProgramState(
+      plannedSessions: [],
+      programSessions: [],
+      programName: '',
+      programSessionId: '',
     );
   }
 }
