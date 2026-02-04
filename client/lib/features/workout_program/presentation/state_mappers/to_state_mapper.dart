@@ -6,6 +6,8 @@ ProgramState toStateSession(Program s) {
     plannedSessions: [],
     programName: s.name,
     programSessionId: s.programId,
-    sessionIds: [],
+    programSessions: [],
+    // sessionIds:
+    //     [], //this is the problem idk if i need to save session id in state
   );
 }
