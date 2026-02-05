@@ -148,9 +148,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                         : CrossFadeState.showSecond,
                     firstChild: ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 1,
-                      itemBuilder: (context, index) {},
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.session.length,
+                      itemBuilder: (context, index) {
+                        final session = state.session[index];
+
+                        return HomeListWidget(
+                          sessionId: session.sessionId,
+                          title: session.name,
+                        );
+                      },
                     ),
                     secondChild: SizedBox.shrink(),
                   ),

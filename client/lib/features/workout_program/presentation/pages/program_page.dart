@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
+import 'package:client/features/workout_program/presentation/events/program_ui_event.dart';
 import 'package:client/features/workout_program/presentation/widgets/session_card_widget.dart';
 import 'package:client/features/workout_program/presentation/providers/program_view_model_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,13 +10,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class ProgramPage extends ConsumerStatefulWidget {
-  const ProgramPage({super.key});
+  final String? programId;
+  const ProgramPage({super.key, this.programId});
 
   @override
   ConsumerState<ProgramPage> createState() => _ProgramPageState();
 }
 
 class _ProgramPageState extends ConsumerState<ProgramPage> {
+  bool isEditMode = false;
   void cancel() {
     context.push('/home');
     ref.invalidate(programViewModelProvider);
@@ -21,7 +26,43 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
 
   @override
   void dispose() {
+    _subscription.cancel();
     super.dispose();
+  }
+
+  late final StreamSubscription<ProgramUiEvent> _subscription;
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.programId != null) {
+      isEditMode = true;
+      Future.microtask(() {
+        // ref
+        //     .read(programViewModelProvider.notifier)
+        //     .loadSessionById(widget.sessionId!);
+      });
+    }
+
+    _subscription = ref.read(programViewModelProvider.notifier).events.listen((
+      event,
+    ) {
+      if (!mounted) return;
+      switch (event) {
+        case ShowError(:final message):
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(message)));
+          break;
+
+        case SaveSuccess(:final message):
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(message)));
+          Navigator.pop(context);
+          break;
+      }
+    });
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -60,7 +101,7 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      //await vm.save();
+                      await vm.save();
                     }
                   },
                   child: Text("Create", style: TextStyle(color: Colors.white)),

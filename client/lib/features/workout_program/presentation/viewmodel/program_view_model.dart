@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/domain/usecases/watch_all_planned_session.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_program/domain/usecases/add_program.dart';
@@ -30,8 +31,12 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
     });
   }
   Future<void> save() async {
-    //map program but its only session id
-    final program = mapProgram(state);
+    final programId = state.programSessionId.isNotEmpty
+        ? state.programSessionId
+        : IdGenerator().getId();
+
+    final program = mapProgram(state.copyWith(programSessionId: programId));
+
     final result = await addProgram(program);
 
     result.fold(
@@ -39,9 +44,8 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
         _events.add(ShowError(mapProgramFailure(failure)));
       },
       (_) {
-        // 4️⃣ Reset ONLY on success
         state = ProgramState.initial();
-        _events.add(SaveSuccess("Session saved!"));
+        _events.add(SaveSuccess("Program saved!"));
         reset();
       },
     );

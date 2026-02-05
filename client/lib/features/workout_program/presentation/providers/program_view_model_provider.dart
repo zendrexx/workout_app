@@ -12,5 +12,6 @@ final programViewModelProvider =
       final addProgram = ref.read(addProgramProvider);
       // final deleteSession = ref.read();
       // final duplicateSession = ref.read();
+
       return ProgramViewModel(getAllSession, addProgram);
     });

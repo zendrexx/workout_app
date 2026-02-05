@@ -12,4 +12,8 @@ class ProgramSessionIsarDatasource {
       await db.programIsars.put(program);
     });
   }
+
+  Stream<List<ProgramIsar>> watchAll() {
+    return isar.programIsars.where().watch(fireImmediately: true);
+  }
 }
