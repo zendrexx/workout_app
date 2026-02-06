@@ -3,20 +3,20 @@ import 'package:client/features/workout_planning/presentation/state/planned_sess
 class ProgramState {
   final String programName;
   final String programSessionId;
-  final List<PlannedSessionState> programSessions;
-  final List<PlannedSessionState> plannedSessions;
+  final List<String> programSessionIds;
+  final Map<String, PlannedSessionState> plannedSessions;
   ProgramState({
     required this.programName,
     required this.plannedSessions,
-    required this.programSessions,
+    required this.programSessionIds,
     required this.programSessionId,
   });
 
   factory ProgramState.initial() {
     return ProgramState(
       programName: '',
-      plannedSessions: [],
-      programSessions: [],
+      plannedSessions: {},
+      programSessionIds: [],
       programSessionId: '',
     );
   }
@@ -24,14 +24,14 @@ class ProgramState {
   ProgramState copyWith({
     String? programName,
     String? programSessionId,
-    List<PlannedSessionState>? plannedSessions,
-    List<PlannedSessionState>? programSessions,
+    Map<String, PlannedSessionState>? plannedSessions,
+    List<String>? programSessionIds,
   }) {
     return ProgramState(
       programName: programName ?? this.programName,
       programSessionId: programSessionId ?? this.programSessionId,
       plannedSessions: plannedSessions ?? this.plannedSessions,
-      programSessions: programSessions ?? this.programSessions,
+      programSessionIds: programSessionIds ?? this.programSessionIds,
     );
   }
 }

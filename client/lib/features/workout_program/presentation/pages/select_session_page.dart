@@ -162,10 +162,10 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
               child: ElevatedButton(
                 onPressed: () {
                   for (final sessionId in _selectedSessions) {
-                    final session = state.plannedSessions.firstWhere(
-                      (e) => e.sessionId == sessionId,
-                    );
-                    vm.addProgramSession(session);
+                    final id = state.plannedSessions
+                        .firstWhere((e) => e.sessionId == sessionId)
+                        .sessionId;
+                    vm.addProgramSession(id);
                   }
                   context.pop();
                 },

@@ -27,7 +27,10 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
   ) : super(ProgramState.initial()) {
     reset();
     _sub = watchSessions().listen((sessions) {
-      state = toProgramState(sessions);
+      final sessionMap = {
+        for (final s in sessions) s.sessionId: toProgramState(s),
+      };
+      state = state.copyWith(plannedSessions: sessionMap);
     });
   }
   Future<void> save() async {
@@ -65,7 +68,7 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
     state = state.copyWith(programName: "");
   }
 
-  void addProgramSession(PlannedSessionState session) {
+  void addProgramSession(String session) {
     final updatedSessions = [...state.programSessions, session];
 
     state = state.copyWith(programSessions: updatedSessions);
@@ -79,16 +82,16 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
   }
 
   Future<void> duplicateSession(String sessionId) async {
-    final original = state.programSessions.firstWhere(
-      (s) => s.sessionId == sessionId,
-    );
+    // final original = state.programSessions.firstWhere(
+    //   (s) => s.sessionId == sessionId,
+    // );
 
-    final duplicated = original.copyWith();
-    // no changes at all
+    // final duplicated = original.copyWith();
+    // // no changes at all
 
-    state = state.copyWith(
-      programSessions: [...state.programSessions, duplicated],
-    );
+    // state = state.copyWith(
+    //   programSessions: [...state.programSessions, duplicated],
+    // );
   }
 
   void reset() {
