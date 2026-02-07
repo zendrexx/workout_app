@@ -3,11 +3,9 @@ import 'package:client/features/workout_program/presentation/state/program_state
 
 ProgramState toStateSession(Program s) {
   return ProgramState(
-    plannedSessions: [],
+    plannedSessions: {},
     programName: s.name,
     programSessionId: s.programId,
-    programSessions: [],
-    // sessionIds:
-    //     [], //this is the problem idk if i need to save session id in state
+    programSessionIds: s.sessionIds,
   );
 }

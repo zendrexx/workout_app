@@ -4,6 +4,7 @@ import 'package:client/features/workout_planning/presentation/state/planned_sess
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/presentation/state/program_state.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
 
 HomeState toHomeState(
   List<PlannedWorkoutSession> session,

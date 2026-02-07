@@ -31,6 +31,7 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
   Widget build(BuildContext context) {
     final vm = ref.watch(programViewModelProvider.notifier);
     final state = ref.watch(programViewModelProvider);
+    //final sessions = state.plannedSessions.values.toList();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -130,12 +131,13 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
                       ),
                     ),
                     SizedBox(height: 10),
+
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.plannedSessions.length,
                       itemBuilder: (context, index) {
-                        final session = state.plannedSessions[index];
+                        final session = state.sessions[index];
 
                         return GestureDetector(
                           onTap: () => _toggleSession(session),
@@ -162,10 +164,7 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
               child: ElevatedButton(
                 onPressed: () {
                   for (final sessionId in _selectedSessions) {
-                    final id = state.plannedSessions
-                        .firstWhere((e) => e.sessionId == sessionId)
-                        .sessionId;
-                    vm.addProgramSession(id);
+                    vm.addProgramSession(sessionId);
                   }
                   context.pop();
                 },

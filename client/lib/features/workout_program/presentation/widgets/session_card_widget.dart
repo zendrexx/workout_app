@@ -32,15 +32,20 @@ class SessionCardWidget extends ConsumerStatefulWidget {
 class _SessionCardWidgetState extends ConsumerState<SessionCardWidget> {
   String exerciseList = "";
   @override
-  void initState() {
-    super.initState();
-    exerciseList = widget.exercises
-        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
-        .join(', ');
+  void didUpdateWidget(covariant SessionCardWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.exercises != widget.exercises) {
+      exerciseList = widget.exercises
+          .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+          .join(', ');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final exerciseList = widget.exercises
+        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+        .join(', ');
     final vm = ref.watch(programViewModelProvider.notifier);
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10),

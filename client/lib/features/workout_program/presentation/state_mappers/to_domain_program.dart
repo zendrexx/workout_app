@@ -5,6 +5,6 @@ Program mapProgram(ProgramState s) {
   return Program(
     name: s.programName,
     programId: '',
-    sessionIds: s.plannedSessions.map((e) => e.sessionId).toList(),
+    sessionIds: s.programSessionIds,
   );
 }

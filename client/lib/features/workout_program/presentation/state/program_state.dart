@@ -11,7 +11,11 @@ class ProgramState {
     required this.programSessionIds,
     required this.programSessionId,
   });
-
+  List<PlannedSessionState> get sessions => plannedSessions.values.toList();
+  List<PlannedSessionState> get programSessions => programSessionIds
+      .map((id) => plannedSessions[id])
+      .whereType<PlannedSessionState>()
+      .toList();
   factory ProgramState.initial() {
     return ProgramState(
       programName: '',
