@@ -8,38 +8,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeListWidget extends ConsumerStatefulWidget {
+class HomeProgramListWidget extends ConsumerStatefulWidget {
   final String title;
-  final String sessionId;
-
-  const HomeListWidget({
+  final String programId;
+  final String text;
+  const HomeProgramListWidget({
     super.key,
-    required this.sessionId,
+    required this.programId,
     required this.title,
+    required this.text,
   });
 
   @override
-  ConsumerState<HomeListWidget> createState() => _HomeListWidgetState();
+  ConsumerState<HomeProgramListWidget> createState() =>
+      _HomeProgramListWidgetState();
 }
 
-class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
+class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
   @override
   Widget build(BuildContext context) {
     final vm = ref.read(homeViewModelProvider.notifier);
     final state = ref.watch(homeViewModelProvider);
-    final exercises = state.session
-        .firstWhere((s) => s.sessionId == widget.sessionId)
-        .exercises;
-
-    final exerciseList = exercises
-        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
-        .join(', ');
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: InkWell(
         onTap: () {
-          context.push('/home/view_session/${widget.sessionId}');
+          context.push('/home/view_session/${widget.programId}');
         }, // call your tap function
         borderRadius: BorderRadius.circular(3),
         splashColor: Colors.white.withOpacity(0.1), // light ripple
@@ -131,7 +126,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     vm.duplicateSession(
-                                                      widget.sessionId,
+                                                      widget.programId,
                                                     );
                                                     Navigator.pop(context);
                                                   },
@@ -157,7 +152,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     context.push(
-                                                      '/home/create_sessions?sessionId=${widget.sessionId}',
+                                                      '/home/create_sessions?sessionId=${widget.programId}',
                                                     );
 
                                                     Navigator.pop(context);
@@ -186,7 +181,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
                                                     vm.deleteSessionById(
-                                                      widget.sessionId,
+                                                      widget.programId,
                                                     );
 
                                                     Navigator.pop(context);
@@ -233,7 +228,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                     ),
 
                     Text(
-                      exerciseList,
+                      widget.text,
                       maxLines: 2, // limit to 2 lines
                       overflow: TextOverflow.ellipsis, // show ... when overflow
                       softWrap: true,
@@ -248,7 +243,7 @@ class _HomeListWidgetState extends ConsumerState<HomeListWidget> {
                       title: "Start Session",
 
                       onTap: () => context.push(
-                        '/home/log_workout?sessionId=${widget.sessionId}',
+                        '/home/log_workout?sessionId=${widget.programId}',
                       ),
                     ),
                   ],

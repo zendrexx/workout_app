@@ -2,7 +2,8 @@ import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
 import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
-import 'package:client/features/home/presentation/widgets/home_list_widget.dart';
+import 'package:client/features/home/presentation/widgets/home_program_list_widget.dart';
+import 'package:client/features/home/presentation/widgets/home_session_list_widget.dart';
 import 'package:client/features/home/presentation/widgets/streak_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -149,13 +150,27 @@ class _HomePageState extends ConsumerState<HomePage> {
                     firstChild: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.session.length,
+                      itemCount: state.program.length,
                       itemBuilder: (context, index) {
-                        final session = state.session[index];
+                        final program = state.program[index];
+                        String text = "";
+                        final titles = state.session
+                            .where(
+                              (s) => program.programSessionIds.contains(
+                                s.sessionId,
+                              ),
+                            )
+                            .map((s) => s.name)
+                            .join(', ');
 
-                        return HomeListWidget(
-                          sessionId: session.sessionId,
-                          title: session.name,
+                        text = titles;
+                        // String sessions = program.plannedSessions
+                        //                               .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+                        //                               .join(', ')
+                        return HomeProgramListWidget(
+                          programId: program.programSessionId,
+                          title: program.programName,
+                          text: text,
                         );
                       },
                     ),
@@ -210,7 +225,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemBuilder: (context, index) {
                         final session = state.session[index];
 
-                        return HomeListWidget(
+                        return HomeSessionListWidget(
                           sessionId: session.sessionId,
                           title: session.name,
                         );

@@ -16,6 +16,10 @@ class SelectSessionPage extends ConsumerStatefulWidget {
 class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
   final Set<String> _selectedSessions = {};
   final TextEditingController _controller = TextEditingController();
+  void cancel() {
+    context.push('/home');
+    ref.invalidate(programViewModelProvider);
+  }
 
   void _toggleSession(PlannedSessionState session) {
     setState(() {
@@ -50,7 +54,7 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => context.push('/home'),
+                onTap: () => cancel(),
                 child: Text(
                   "Cancel",
                   style: TextStyle(color: Color(0xffE2725B)),
