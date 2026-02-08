@@ -5,6 +5,8 @@ import 'package:client/features/workout_planning/domain/usecases/watch_all_plann
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/usecases/add_program.dart';
+import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
+import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
 import 'package:client/features/workout_program/presentation/events/program_ui_event.dart';
 import 'package:client/features/workout_program/presentation/state/program_state.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/map_program_failure.dart';
@@ -15,8 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProgramViewModel extends StateNotifier<ProgramState> {
   late final StreamSubscription _sub;
   final AddProgram addProgram;
-  // final DeleteSession deleteSession;
-  // final DuplicateSession duplicateSession;
+
   final _events = StreamController<ProgramUiEvent>.broadcast();
   Stream<ProgramUiEvent> get events => _events.stream;
 

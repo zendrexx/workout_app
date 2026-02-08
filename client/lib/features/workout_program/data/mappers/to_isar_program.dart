@@ -7,5 +7,6 @@ ProgramIsar toIsarProgram(Program p) {
     programId: IdGenerator().getId(),
     name: p.name,
     sessionIds: p.sessionIds,
+    createdAt: DateTime.now(),
   );
 }

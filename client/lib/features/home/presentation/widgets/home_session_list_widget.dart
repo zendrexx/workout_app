@@ -68,7 +68,7 @@ class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
                       children: [
                         Expanded(
                           child: Text(
-                            widget.title,
+                            widget.title.toUpperCase(),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

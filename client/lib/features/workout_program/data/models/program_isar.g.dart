@@ -17,18 +17,23 @@ const ProgramIsarSchema = CollectionSchema(
   name: r'ProgramIsar',
   id: -7994856263276764150,
   properties: {
-    r'name': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 0,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'name': PropertySchema(
+      id: 1,
       name: r'name',
       type: IsarType.string,
     ),
     r'programId': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'programId',
       type: IsarType.string,
     ),
     r'sessionIds': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'sessionIds',
       type: IsarType.stringList,
     )
@@ -85,9 +90,10 @@ void _programIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.name);
-  writer.writeString(offsets[1], object.programId);
-  writer.writeStringList(offsets[2], object.sessionIds);
+  writer.writeDateTime(offsets[0], object.createdAt);
+  writer.writeString(offsets[1], object.name);
+  writer.writeString(offsets[2], object.programId);
+  writer.writeStringList(offsets[3], object.sessionIds);
 }
 
 ProgramIsar _programIsarDeserialize(
@@ -97,9 +103,10 @@ ProgramIsar _programIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProgramIsar(
-    name: reader.readString(offsets[0]),
-    programId: reader.readString(offsets[1]),
-    sessionIds: reader.readStringList(offsets[2]) ?? [],
+    createdAt: reader.readDateTime(offsets[0]),
+    name: reader.readString(offsets[1]),
+    programId: reader.readString(offsets[2]),
+    sessionIds: reader.readStringList(offsets[3]) ?? [],
   );
   object.id = id;
   return object;
@@ -113,10 +120,12 @@ P _programIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -316,6 +325,62 @@ extension ProgramIsarQueryWhere
 
 extension ProgramIsarQueryFilter
     on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      createdAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      createdAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -870,6 +935,18 @@ extension ProgramIsarQueryLinks
 
 extension ProgramIsarQuerySortBy
     on QueryBuilder<ProgramIsar, ProgramIsar, QSortBy> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -897,6 +974,18 @@ extension ProgramIsarQuerySortBy
 
 extension ProgramIsarQuerySortThenBy
     on QueryBuilder<ProgramIsar, ProgramIsar, QSortThenBy> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -936,6 +1025,12 @@ extension ProgramIsarQuerySortThenBy
 
 extension ProgramIsarQueryWhereDistinct
     on QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
   QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -962,6 +1057,12 @@ extension ProgramIsarQueryProperty
   QueryBuilder<ProgramIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ProgramIsar, DateTime, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 

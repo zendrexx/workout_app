@@ -153,23 +153,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemCount: state.program.length,
                       itemBuilder: (context, index) {
                         final program = state.program[index];
-                        String text = "";
-                        final titles = state.session
+                        String text;
+                        final mappedSessions = state.session
                             .where(
                               (s) => program.programSessionIds.contains(
                                 s.sessionId,
                               ),
                             )
-                            .map((s) => s.name)
-                            .join(', ');
+                            .map((session) {
+                              final exerciseNames = session.exercises
+                                  .map((e) => e.exerciseName)
+                                  .join(', ');
 
-                        text = titles;
-                        // String sessions = program.plannedSessions
-                        //                               .map((ex) => '${ex.exerciseName} (${ex.equipment})')
-                        //                               .join(', ')
+                              return '${session.name.toUpperCase()} - $exerciseNames';
+                            })
+                            .join('\n');
+                        text = mappedSessions;
                         return HomeProgramListWidget(
                           programId: program.programSessionId,
-                          title: program.programName,
+                          title: program.programName.toUpperCase(),
                           text: text,
                         );
                       },

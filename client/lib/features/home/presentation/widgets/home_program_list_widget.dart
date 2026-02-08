@@ -125,7 +125,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    vm.duplicateSession(
+                                                    vm.duplicateProgram(
                                                       widget.programId,
                                                     );
                                                     Navigator.pop(context);
@@ -136,7 +136,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                     children: [
                                                       SizedBox(width: 10),
                                                       Text(
-                                                        "Duplicate Session",
+                                                        "Duplicate Program",
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -152,7 +152,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     context.push(
-                                                      '/home/create_sessions?sessionId=${widget.programId}',
+                                                      '/home/create_sessions?programId=${widget.programId}',
                                                     );
 
                                                     Navigator.pop(context);
@@ -163,7 +163,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                     children: [
                                                       SizedBox(width: 10),
                                                       Text(
-                                                        "Edit Session",
+                                                        "Edit Program",
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -180,7 +180,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                   behavior:
                                                       HitTestBehavior.opaque,
                                                   onTap: () {
-                                                    vm.deleteSessionById(
+                                                    vm.deleteProgram(
                                                       widget.programId,
                                                     );
 
@@ -190,7 +190,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                     children: [
                                                       SizedBox(width: 10),
                                                       Text(
-                                                        "Delete Session",
+                                                        "Delete Program",
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -240,7 +240,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
 
                     SizedBox(height: 10),
                     LongCustomButton(
-                      title: "Start Session",
+                      title: "Start Program",
 
                       onTap: () => context.push(
                         '/home/log_workout?sessionId=${widget.programId}',

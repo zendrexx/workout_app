@@ -2,6 +2,7 @@ import 'package:client/features/workout_planning/data/mappers/domain_to_isar_ses
 import 'package:client/features/workout_program/data/datasources/program_session_isar_datasource.dart';
 import 'package:client/features/workout_program/data/mappers/isar_to_domain_program.dart';
 import 'package:client/features/workout_program/data/mappers/to_isar_program.dart';
+import 'package:client/features/workout_program/data/models/program_isar.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/repositories/program_repository.dart';
 
@@ -21,5 +22,15 @@ class ProgramRepositoryImpl implements ProgramRepository {
     return datasource.watchAll().map(
       (isarSessions) => isarSessions.map(toDomainProgram).toList(),
     );
+  }
+
+  @override
+  Future<void> deleteSession(String sessionId) async {
+    return await datasource.deleteSession(sessionId);
+  }
+
+  @override
+  Future<ProgramIsar?> duplicateSession(String sessionId) async {
+    return await datasource.duplicateSession(sessionId);
   }
 }

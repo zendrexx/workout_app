@@ -8,6 +8,8 @@ import 'package:client/features/workout_planning/domain/usecases/duplicate_sessi
 import 'package:client/features/workout_planning/domain/usecases/watch_all_planned_session.dart';
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
+import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
+import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
 import 'package:client/features/workout_program/domain/usecases/watch_all_program.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,11 +20,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
   List<Program> _programs = [];
   final DeleteSession deleteSession;
   final DuplicateSession duplicateSession;
+  final DeleteProgram deleteProgram;
+  final DuplicateProgram duplicateProgram;
   HomeViewModel(
     WatchAllPlannedSession watchSessions,
     WatchAllProgram watchPrograms,
     this.deleteSession,
     this.duplicateSession,
+    this.deleteProgram,
+    this.duplicateProgram,
   ) : super(HomeState.initial()) {
     _subSession = watchSessions().listen((sessions) {
       _sessions = sessions;
@@ -57,6 +63,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await duplicateSession.call(sessionId);
     state = state.copyWith(
       session: state.session.where((s) => s.sessionId != sessionId).toList(),
+    );
+  }
+
+  Future<void> deleteProgramnById(String programSessionId) async {
+    await deleteProgram.call(programSessionId);
+    state = state.copyWith(
+      program: state.program
+          .where((s) => s.programSessionId != programSessionId)
+          .toList(),
+    );
+  }
+
+  Future<void> duplicateProgramById(String programSessionId) async {
+    await duplicateProgram.call(programSessionId);
+    state = state.copyWith(
+      program: state.program
+          .where((s) => s.programSessionId != programSessionId)
+          .toList(),
     );
   }
 }
