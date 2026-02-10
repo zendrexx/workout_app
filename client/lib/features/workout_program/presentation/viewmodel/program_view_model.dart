@@ -62,6 +62,12 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
     super.dispose();
   }
 
+  void loadProgramById(String programId) async {
+    reset();
+    // final session = await getSessionById.call(sessionId);
+    // state = toStateSession(session);
+  }
+
   void addName(String newName) {
     state = state.copyWith(programName: newName);
   }

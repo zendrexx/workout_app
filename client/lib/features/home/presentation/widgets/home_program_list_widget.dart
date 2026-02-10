@@ -152,7 +152,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     context.push(
-                                                      '/home/create_sessions?programId=${widget.programId}',
+                                                      '/home/program?programId=${widget.programId}',
                                                     );
 
                                                     Navigator.pop(context);

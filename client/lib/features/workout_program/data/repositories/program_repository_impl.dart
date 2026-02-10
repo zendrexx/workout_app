@@ -33,4 +33,11 @@ class ProgramRepositoryImpl implements ProgramRepository {
   Future<ProgramIsar?> duplicateSession(String sessionId) async {
     return await datasource.duplicateSession(sessionId);
   }
+
+  @override
+  Future<Program?> getProgramById(String programId) async {
+    final isarSession = await datasource.getSessionById(sessionId);
+    if (isarSession == null) return null;
+    return toDomainSession(isarSession);
+  }
 }

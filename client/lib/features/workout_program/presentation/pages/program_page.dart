@@ -37,11 +37,11 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
 
     if (widget.programId != null) {
       isEditMode = true;
-      // Future.microtask(() {
-      //   ref
-      //       .read(programViewModelProvider.notifier)
-      //       .loadSessionById(widget.sessionId!);
-      // });
+      Future.microtask(() {
+        ref
+            .read(programViewModelProvider.notifier)
+            .loadProgramById(widget.programId!);
+      });
     }
 
     _subscription = ref.read(programViewModelProvider.notifier).events.listen((

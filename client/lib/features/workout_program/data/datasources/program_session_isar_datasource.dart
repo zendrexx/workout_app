@@ -47,4 +47,11 @@ class ProgramSessionIsarDatasource {
 
     return newProgram;
   }
+
+  Future<ProgramIsar?> getProgramById(String programId) async {
+    final program = await isar.programIsars.getByProgramId(programId);
+    if (program == null) return null;
+
+    return program;
+  }
 }
