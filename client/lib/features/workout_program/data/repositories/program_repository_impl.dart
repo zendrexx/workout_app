@@ -36,8 +36,8 @@ class ProgramRepositoryImpl implements ProgramRepository {
 
   @override
   Future<Program?> getProgramById(String programId) async {
-    final isarSession = await datasource.getSessionById(sessionId);
-    if (isarSession == null) return null;
-    return toDomainSession(isarSession);
+    // final isarSession = await datasource.getProgramById(programId);
+    // if (isarSession == null) return null;
+    // return toDomainSession(isarSession);
   }
 }
