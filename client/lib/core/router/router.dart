@@ -56,9 +56,15 @@ final router = GoRouter(
                   },
                 ),
                 GoRoute(
+                  path: 'view_program/:id',
+                  builder: (context, state) {
+                    final sessionId = state.pathParameters['id']!;
+                    return ViewProgramPage(sessionId: sessionId);
+                  },
+                ),
+                GoRoute(
                   path: 'program',
                   builder: (context, state) {
-                    // Access optional query parameter (?sessionId=123)
                     final programId = state.uri.queryParameters['programId'];
 
                     return ProgramPage(programId: programId);
@@ -81,7 +87,6 @@ final router = GoRouter(
                 GoRoute(
                   path: 'create_sessions',
                   builder: (context, state) {
-                    // Access optional query parameter (?sessionId=123)
                     final sessionId = state.uri.queryParameters['sessionId'];
 
                     return CreateSessionPage(sessionId: sessionId);

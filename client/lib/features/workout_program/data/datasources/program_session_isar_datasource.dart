@@ -9,7 +9,12 @@ class ProgramSessionIsarDatasource {
   Future<void> addProgram(ProgramIsar program) async {
     final db = isar;
 
+    final existing = await db.programIsars.getByProgramId(program.programId);
+
     await db.writeTxn(() async {
+      if (existing != null) {
+        program.id = existing.id;
+      }
       await db.programIsars.put(program);
     });
   }

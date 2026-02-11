@@ -1,5 +1,3 @@
-import 'package:client/features/workout_planning/domain/failures/planned_session_failure.dart';
-import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/failures/program_failure.dart';
 import 'package:client/features/workout_program/domain/repositories/program_repository.dart';

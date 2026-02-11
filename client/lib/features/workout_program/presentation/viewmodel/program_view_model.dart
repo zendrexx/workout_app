@@ -7,16 +7,19 @@ import 'package:client/features/workout_planning/presentation/statemappers/to_st
 import 'package:client/features/workout_program/domain/usecases/add_program.dart';
 import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
 import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
+import 'package:client/features/workout_program/domain/usecases/get_program_by_id.dart';
 import 'package:client/features/workout_program/presentation/events/program_ui_event.dart';
 import 'package:client/features/workout_program/presentation/state/program_state.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/map_program_failure.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/to_domain_program.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProgramViewModel extends StateNotifier<ProgramState> {
   late final StreamSubscription _sub;
   final AddProgram addProgram;
+  final GetProgramById getProgramById;
 
   final _events = StreamController<ProgramUiEvent>.broadcast();
   Stream<ProgramUiEvent> get events => _events.stream;
@@ -24,6 +27,7 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
   ProgramViewModel(
     WatchAllPlannedSession watchSessions,
     this.addProgram,
+    this.getProgramById,
     // this.deleteSession,
     // this.duplicateSession,
   ) : super(ProgramState.initial()) {
@@ -64,8 +68,8 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
 
   void loadProgramById(String programId) async {
     reset();
-    // final session = await getSessionById.call(sessionId);
-    // state = toStateSession(session);
+    final program = await getProgramById.call(programId);
+    state = toStateProgram(program);
   }
 
   void addName(String newName) {

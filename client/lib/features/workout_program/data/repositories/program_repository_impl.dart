@@ -11,8 +11,8 @@ class ProgramRepositoryImpl implements ProgramRepository {
   ProgramRepositoryImpl(this.datasource);
 
   @override
-  Future<void> addProgram(Program plannedSession) {
-    final program = toIsarProgram(plannedSession);
+  Future<void> addProgram(Program plannedProgram) {
+    final program = toIsarProgram(plannedProgram);
 
     return datasource.addProgram(program);
   }
@@ -36,8 +36,8 @@ class ProgramRepositoryImpl implements ProgramRepository {
 
   @override
   Future<Program?> getProgramById(String programId) async {
-    // final isarSession = await datasource.getProgramById(programId);
-    // if (isarSession == null) return null;
-    // return toDomainSession(isarSession);
+    final isarSession = await datasource.getProgramById(programId);
+    if (isarSession == null) return null;
+    return toDomainProgram(isarSession);
   }
 }

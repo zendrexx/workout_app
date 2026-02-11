@@ -6,4 +6,5 @@ abstract class ProgramRepository {
   Stream<List<Program>> watchAllSessions();
   Future<void> deleteSession(String sessionId);
   Future<ProgramIsar?> duplicateSession(String sessionId);
+  Future<Program?> getProgramById(String programId);
 }

@@ -71,13 +71,14 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(programViewModelProvider);
     final vm = ref.watch(programViewModelProvider.notifier);
+    _controller.text = state.programName;
     return Form(
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
-            "Create Program",
+            isEditMode ? "Edit Program" : "Create Program",
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -104,7 +105,10 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
                       await vm.save();
                     }
                   },
-                  child: Text("Create", style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    isEditMode ? "Confirm" : "Create",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 SizedBox(width: 16),
               ],
