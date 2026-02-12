@@ -1,5 +1,4 @@
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
-import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_program/presentation/providers/program_view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

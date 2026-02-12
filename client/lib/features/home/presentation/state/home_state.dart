@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/presentation/state/program_state.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 

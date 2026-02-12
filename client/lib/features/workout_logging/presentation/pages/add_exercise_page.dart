@@ -3,7 +3,6 @@ import 'package:client/features/home/presentation/widgets/exercise_card_widget.d
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 
 class AddExercisePage extends ConsumerStatefulWidget {
   const AddExercisePage({super.key});
@@ -172,7 +171,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                             isSelectable: true,
                             isSelected: _selectedSessions.contains(index),
                             name: exercise.name,
-                            imagePath: exercise.imagePath ?? "",
+                            imagePath: exercise.imagePath,
                             primMuscle: exercise.primMuscle,
                             equipment: exercise.equipment,
                           ),

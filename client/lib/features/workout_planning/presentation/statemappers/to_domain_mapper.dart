@@ -1,4 +1,3 @@
-import 'package:client/core/utils/id_generator.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_set.dart';

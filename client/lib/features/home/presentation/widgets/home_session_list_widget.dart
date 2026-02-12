@@ -1,9 +1,5 @@
-import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
-import 'package:client/core/notifier/planned_session_stream_provider.dart';
-import 'package:client/data/repositories/planned_session_repo.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
-import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

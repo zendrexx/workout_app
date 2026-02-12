@@ -1,5 +1,6 @@
+import 'package:client/features/workout_program/presentation/providers/program_view_model_provider.dart';
+import 'package:client/features/workout_program/presentation/widgets/view_program_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ViewProgramPage extends ConsumerStatefulWidget {
@@ -19,8 +20,8 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
 
     Future.microtask(() {
       ref
-          .read(plannedSessionViewModelProvider.notifier)
-          .loadSessionById(widget.sessionId);
+          .read(programViewModelProvider.notifier)
+          .loadProgramById(widget.sessionId);
     });
   }
 
@@ -31,9 +32,9 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(plannedSessionViewModelProvider);
+    final state = ref.watch(programViewModelProvider);
 
-    if (state.exercises.isEmpty) {
+    if (state.plannedSessions.isEmpty) {
       return Container(
         decoration: BoxDecoration(color: Colors.black),
         child: const Center(child: CircularProgressIndicator()),
@@ -46,7 +47,7 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
         automaticallyImplyLeading: true,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          "View Session",
+          "View Program",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -79,11 +80,11 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state.name.toUpperCase(),
+                  state.programName.toUpperCase(),
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  "Exercises",
+                  "Sessions",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -93,17 +94,17 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.exercises.length,
-                  itemBuilder: (context, index) {
-                    final exercises = state.exercises.toList();
+                  itemCount: state.programSessions.length,
 
+                  itemBuilder: (context, index) {
+                    final program = state.programSessions[index];
+
+                    final exerciseList = program.exercises
+                        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+                        .join(', ');
                     return ViewProgramWidget(
-                      title: exercises[index].exerciseName,
-                      equipment: exercises[index].equipment,
-                      imagePath: exercises[index].imagePath,
-                      index: index,
-                      plannedSets: exercises[index].sets.toList(),
-                      notes: exercises[index].notes,
+                      title: program.name,
+                      content: exerciseList,
                     );
                   },
                 ),

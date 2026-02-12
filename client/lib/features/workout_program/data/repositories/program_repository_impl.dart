@@ -1,4 +1,3 @@
-import 'package:client/features/workout_planning/data/mappers/domain_to_isar_session_mapper.dart';
 import 'package:client/features/workout_program/data/datasources/program_session_isar_datasource.dart';
 import 'package:client/features/workout_program/data/mappers/isar_to_domain_program.dart';
 import 'package:client/features/workout_program/data/mappers/to_isar_program.dart';

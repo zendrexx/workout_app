@@ -2,16 +2,14 @@ import 'package:client/core/utils/format_number.dart';
 import 'package:client/core/utils/seconds_to_string.dart';
 import 'package:client/core/utils/time_ago.dart';
 import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
-import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
-import 'package:client/features/workout_logging/presentation/state/performed_exercise_state.dart';
 import 'package:client/features/workout_logging/presentation/state/performed_session_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HistoryWorkoutContainerWidget extends StatefulWidget {
-  PerformedSessionState session;
-  int index;
-  HistoryWorkoutContainerWidget({
+  final PerformedSessionState session;
+  final int index;
+  const HistoryWorkoutContainerWidget({
     super.key,
     required this.session,
     required this.index,

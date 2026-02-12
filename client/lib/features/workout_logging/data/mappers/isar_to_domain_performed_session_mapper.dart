@@ -6,7 +6,6 @@ import 'package:client/features/workout_logging/domain/entities/performed_exerci
 import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_set.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_stats.dart';
-import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 
 PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
   print(s.isCompleted);

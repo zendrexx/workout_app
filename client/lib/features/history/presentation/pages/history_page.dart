@@ -1,5 +1,3 @@
-import 'package:client/core/utils/format_number.dart';
-import 'package:client/core/utils/seconds_to_string.dart';
 import 'package:client/features/history/presentation/providers/history_view_model_provider.dart';
 import 'package:client/features/history/presentation/widgets/history_workout_container_widget.dart';
 import 'package:flutter/material.dart';

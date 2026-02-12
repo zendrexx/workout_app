@@ -1,5 +1,3 @@
-import 'package:client/core/notifier/planned_exercises_stream_provider.dart';
-import 'package:client/core/notifier/planned_session_stream_provider.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
 import 'package:client/features/home/presentation/widgets/home_program_list_widget.dart';

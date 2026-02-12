@@ -1,4 +1,3 @@
-import 'package:client/core/providers/database_service_provider.dart';
 import 'package:client/core/router/router.dart';
 import 'package:client/core/database/database_service.dart';
 import 'package:flutter/material.dart';

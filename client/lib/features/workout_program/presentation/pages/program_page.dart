@@ -167,8 +167,6 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
                   itemCount: state.programSessions.length,
                   itemBuilder: (context, index) {
                     final session = state.programSessions[index];
-                    print("EXERCISES");
-                    print(session.exercises.length);
                     return GestureDetector(
                       child: SessionCardWidget(
                         isSelectable: false,

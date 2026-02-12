@@ -8,7 +8,6 @@ import 'package:client/features/workout_planning/data/models/planned_set_isar.da
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/workout_planning/domain/entities/planned_workout_session.dart';
 import 'package:client/features/workout_planning/domain/repositories/planned_workout_session_repository.dart';
-import 'package:isar/isar.dart';
 
 class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
   final PlannedWorkoutIsarDatasource datasource;

@@ -1,10 +1,7 @@
 import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
-import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 
 import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
 import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/get_all_exercise_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

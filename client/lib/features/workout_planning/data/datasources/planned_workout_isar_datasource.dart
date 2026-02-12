@@ -1,13 +1,9 @@
-import 'package:client/core/database/database_service.dart';
 import 'package:client/core/utils/id_generator.dart';
-import 'package:client/features/workout_planning/data/mappers/isar_to_domain_session_mapper.dart';
-import 'package:client/features/workout_planning/data/mappers/planned_exercise_copy.dart';
 import 'package:client/features/workout_planning/data/mappers/planned_set_copy.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:isar/isar.dart';
 
 class PlannedWorkoutIsarDatasource {

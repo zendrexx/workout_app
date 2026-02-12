@@ -11,6 +11,7 @@ import 'package:client/core/presentation/page/update_exercise.dart';
 import 'package:client/features/workout_planning/presentation/pages/view_session_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/pages/profile_page.dart';
+import 'package:client/features/workout_program/presentation/pages/view_program_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

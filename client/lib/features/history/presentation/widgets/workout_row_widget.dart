@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WorkoutRowWidget extends StatelessWidget {
-  String imagePath;
-  int sets;
-  String exName;
-  WorkoutRowWidget({
+  final String imagePath;
+  final int sets;
+  final String exName;
+  const WorkoutRowWidget({
     super.key,
     required this.imagePath,
     required this.sets,

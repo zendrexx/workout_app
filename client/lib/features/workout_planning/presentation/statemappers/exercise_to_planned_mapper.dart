@@ -1,4 +1,3 @@
-import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_exercise_state.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';

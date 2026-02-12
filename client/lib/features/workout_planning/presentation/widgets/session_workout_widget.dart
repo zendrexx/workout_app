@@ -1,9 +1,4 @@
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
-import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
-import 'package:client/data/model_temp/temp_planned_sets.dart';
-import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
 import 'package:flutter/material.dart';

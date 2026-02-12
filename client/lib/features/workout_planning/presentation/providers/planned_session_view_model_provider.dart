@@ -1,5 +1,4 @@
 import 'package:client/features/workout_planning/presentation/providers/add_workout_session_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/delete_session_provider.dart';
 import 'package:client/features/workout_planning/presentation/providers/get_session_by_id_provider.dart';
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
 import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';

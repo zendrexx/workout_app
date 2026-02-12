@@ -2,13 +2,10 @@ import 'package:client/core/presentation/abstract/update_exercise_abstract.dart'
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
 import 'package:client/features/workout_planning/presentation/providers/exercise_view_model_provider.dart';
-import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
 import 'package:client/core/presentation/state/exercise_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 
 class UpdateExercise extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<StateNotifier, Object?> provider;
@@ -39,21 +36,10 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
     });
   }
 
-  List<Exercise> _exercise = [];
-
   @override
   void initState() {
     super.initState();
     print("Update initState called ✅");
-    _initWorkouts();
-  }
-
-  void _initWorkouts() async {
-    // final workouts = await DatabaseService.db.exercises.where().findAll();
-    // print("Loaded ${workouts.length} exercises from Isar");
-    // setState(() {
-    //   _exercise = workouts;
-    // });
   }
 
   void updateExercise(WidgetRef ref, Exercise value) {

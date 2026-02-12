@@ -6,7 +6,6 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 import 'package:client/features/workout_planning/domain/usecases/delete_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/duplicate_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/watch_all_planned_session.dart';
-import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
 import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';

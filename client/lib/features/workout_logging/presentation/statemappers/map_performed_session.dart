@@ -1,5 +1,4 @@
 import 'package:client/core/utils/id_generator.dart';
-import 'package:client/features/workout_logging/data/models/performed_session_isar.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_exercise.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_session.dart';
 import 'package:client/features/workout_logging/domain/entities/performed_set.dart';

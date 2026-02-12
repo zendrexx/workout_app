@@ -3,7 +3,6 @@ import 'package:client/core/utils/seconds_to_string.dart';
 import 'package:client/core/utils/time_ago.dart';
 import 'package:client/features/history/presentation/providers/history_view_model_provider.dart';
 import 'package:client/features/history/presentation/widgets/workout_details_widget.dart';
-import 'package:client/features/history/presentation/widgets/workout_row_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

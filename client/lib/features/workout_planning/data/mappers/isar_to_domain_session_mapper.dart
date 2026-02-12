@@ -31,7 +31,7 @@ PlannedWorkoutExercise toDomainPlannedExercise(PlannedExerciseIsar e) {
 PlannedWorkoutSession toDomainSession(PlannedSessionIsar s) {
   final session = PlannedWorkoutSession(
     createdAt: s.createdAt,
-    name: s.name ?? "",
+    name: s.name,
     sessionId: s.sessionId,
     exercises: s.plannedExercise
         .map((e) => toDomainPlannedExercise(e))
