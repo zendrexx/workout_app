@@ -25,7 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
-
+    final vm = ref.watch(homeViewModelProvider.notifier);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -205,6 +205,96 @@ class _HomePageState extends ConsumerState<HomePage> {
                               color: Color(0xff4E4E50),
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return SizedBox(
+                                    height: 150,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                          ),
+                                          child: Container(
+                                            width: 100,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+
+                                        Divider(thickness: .2),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 24.0,
+                                          ),
+
+                                          child: Container(
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xff2A2A2A),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      vm.showAllSessions();
+                                                      Navigator.pop(context);
+                                                    },
+                                                    behavior:
+                                                        HitTestBehavior.opaque,
+                                                    child: Row(
+                                                      children: [
+                                                        SizedBox(width: 10),
+                                                        Text(
+                                                          "Show all Sessions",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                backgroundColor: Color(0xff131313),
+                                useRootNavigator: true,
+                              );
+                            },
+                            padding: EdgeInsets.zero, // removes default padding
+                            constraints:
+                                BoxConstraints(), // removes extra space
+                            icon: Icon(
+                              Icons.more_horiz,
+                              size: 20,
+                              color: Color(0xff4E4E50),
                             ),
                           ),
                         ],

@@ -238,9 +238,7 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                     LongCustomButton(
                       title: "Start Program",
 
-                      onTap: () => context.push(
-                        '/home/log_workout?sessionId=${widget.programId}',
-                      ),
+                      onTap: () => vm.startProgram(widget.programId),
                     ),
                   ],
                 ),

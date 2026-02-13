@@ -6,10 +6,12 @@ import 'package:client/features/workout_planning/domain/entities/planned_workout
 import 'package:client/features/workout_planning/domain/usecases/delete_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/duplicate_session.dart';
 import 'package:client/features/workout_planning/domain/usecases/watch_all_planned_session.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
 import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
 import 'package:client/features/workout_program/domain/usecases/watch_all_program.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
@@ -41,7 +43,30 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   void _emit() {
-    state = toHomeState(_sessions, _programs);
+    final allSessionStates = _sessions.map(toStateSession).toList();
+    final programStates = _programs.map(toProgramState).toList();
+
+    if (state.isProgramMode && state.activeProgramId != null) {
+      final program = _programs.firstWhere(
+        (p) => p.programId == state.activeProgramId,
+      );
+
+      if (program != null) {
+        final filteredSessions = program.sessionIds
+            .map((id) => _sessions.firstWhere((s) => s.sessionId == id))
+            .map(toStateSession)
+            .toList();
+
+        state = state.copyWith(
+          session: filteredSessions,
+          program: programStates,
+        );
+        return;
+      }
+    }
+
+    // default: show all sessions
+    state = state.copyWith(session: allSessionStates, program: programStates);
   }
 
   @override
@@ -51,18 +76,42 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
+  void startProgram(String programId) {
+    state = state.copyWith(isProgramMode: true, activeProgramId: programId);
+
+    _emit();
+  }
+
+  void _loadProgramSessions(String programId) {
+    final program = _programs
+        .where((p) => p.programId == programId)
+        .firstOrNull;
+
+    if (program == null) return;
+
+    final sessions = program.sessionIds
+        .map((id) => _sessions.firstWhere((s) => s.sessionId == id))
+        .map((s) => toStateSession(s))
+        .toList();
+
+    state = state.copyWith(session: sessions);
+  }
+
+  void showAllSessions() {
+    state = state.copyWith(
+      isProgramMode: false,
+      activeProgramId: null,
+      session: _sessions.map(toStateSession).toList(),
+    );
+    _emit();
+  }
+
   Future<void> deleteSessionById(String sessionId) async {
     await deleteSession.call(sessionId);
-    state = state.copyWith(
-      session: state.session.where((s) => s.sessionId != sessionId).toList(),
-    );
   }
 
   Future<void> duplicateSessionById(String sessionId) async {
     await duplicateSession.call(sessionId);
-    state = state.copyWith(
-      session: state.session.where((s) => s.sessionId != sessionId).toList(),
-    );
   }
 
   Future<void> deleteProgramnById(String programSessionId) async {

@@ -28,19 +28,24 @@ class _ViewProgramWidgetState extends ConsumerState<ViewProgramWidget> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: BoxBorder.all(color: Colors.white),
+          border: BoxBorder.all(
+            color: const Color.fromARGB(255, 148, 146, 146),
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              widget.title.toUpperCase(),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 5),
-            Text(widget.content, style: TextStyle(fontSize: 14)),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.title.toUpperCase(),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 5),
+              Text(widget.content, style: TextStyle(fontSize: 14)),
+            ],
+          ),
         ),
       ),
     );

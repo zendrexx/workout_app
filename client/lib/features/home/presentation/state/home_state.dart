@@ -6,19 +6,35 @@ import 'package:client/features/workout_planning/presentation/state/planned_sess
 class HomeState {
   final List<PlannedSessionState> session;
   final List<ProgramState> program;
-  HomeState({required this.session, required this.program});
 
-  factory HomeState.initial() {
-    return HomeState(session: [], program: []);
-  }
+  final bool isProgramMode;
+  final String? activeProgramId;
+
+  const HomeState({
+    required this.session,
+    required this.program,
+    required this.isProgramMode,
+    required this.activeProgramId,
+  });
+
+  factory HomeState.initial() => HomeState(
+    session: [],
+    program: [],
+    isProgramMode: false,
+    activeProgramId: null,
+  );
 
   HomeState copyWith({
     List<PlannedSessionState>? session,
     List<ProgramState>? program,
+    bool? isProgramMode,
+    String? activeProgramId,
   }) {
     return HomeState(
       session: session ?? this.session,
       program: program ?? this.program,
+      isProgramMode: isProgramMode ?? this.isProgramMode,
+      activeProgramId: activeProgramId ?? this.activeProgramId,
     );
   }
 }

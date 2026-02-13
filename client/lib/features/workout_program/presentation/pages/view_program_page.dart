@@ -60,7 +60,7 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GestureDetector(onTap: () {}, child: Icon(Icons.more_horiz)),
+              //GestureDetector(onTap: () {}, child: Icon(Icons.more_horiz)),
               SizedBox(width: 16),
             ],
           ),

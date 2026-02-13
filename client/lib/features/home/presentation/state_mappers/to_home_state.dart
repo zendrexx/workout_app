@@ -15,5 +15,7 @@ HomeState toHomeState(
         .map<PlannedSessionState>((s) => toStateSession(s))
         .toList(),
     program: program.map<ProgramState>((s) => toProgramState(s)).toList(),
+    activeProgramId: '',
+    isProgramMode: false,
   );
 }
