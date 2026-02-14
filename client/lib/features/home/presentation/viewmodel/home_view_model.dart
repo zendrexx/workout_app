@@ -41,7 +41,19 @@ class HomeViewModel extends StateNotifier<HomeState> {
       _emit();
     });
   }
+  /*
+the session can be in 2 modes either program mode or all session
+if program mode is active then we show only the session that are in the active program
+if all session mode is active then we show all the session
 
+when loading the home, it checks if there is an active program and it will automatically
+load the sessions in that program, if there is no active then load all session
+
+the program card will watch the session using all sessions
+
+if the user deleted a session that is in the active program, 
+it will automatically remove it from the program session list
+*/
   void _emit() {
     final allSessionStates = _sessions.map(toStateSession).toList();
     final programStates = _programs.map(toProgramState).toList();
