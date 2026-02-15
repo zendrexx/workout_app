@@ -55,6 +55,7 @@ if the user deleted a session that is in the active program,
 it will automatically remove it from the program session list
 */
   void _emit() {
+    //this will be the function that will emit the state to the UI, it will check if there is an active program and load the sessions accordingly
     final allSessionStates = _sessions.map(toStateSession).toList();
     final programStates = _programs.map(toProgramState).toList();
 
