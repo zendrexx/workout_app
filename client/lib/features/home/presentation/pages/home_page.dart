@@ -1,8 +1,11 @@
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
+import 'package:client/features/home/presentation/providers/visible_session_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
 import 'package:client/features/home/presentation/widgets/home_program_list_widget.dart';
 import 'package:client/features/home/presentation/widgets/home_session_list_widget.dart';
 import 'package:client/features/home/presentation/widgets/streak_widget.dart';
+import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
+import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +18,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  List<PlannedSessionState> sessions = [];
   bool _isProgramExpanded = true;
   bool _isSessionExpanded = true;
   @override
@@ -24,6 +28,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final visibleSessionState = ref.watch(visibleSessionsProvider);
     final state = ref.watch(homeViewModelProvider);
     final vm = ref.watch(homeViewModelProvider.notifier);
     return Scaffold(
@@ -214,7 +219,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 context: context,
                                 builder: (context) {
                                   return SizedBox(
-                                    height: 150,
+                                    height: 280,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -243,7 +248,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           ),
 
                                           child: Container(
-                                            height: 70,
+                                            height: 150,
                                             decoration: BoxDecoration(
                                               color: Color(0xff2A2A2A),
                                               borderRadius:
@@ -256,7 +261,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                 Expanded(
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      vm.showAllSessions();
+                                                      vm.showAllSession();
                                                       Navigator.pop(context);
                                                     },
                                                     behavior:
@@ -266,6 +271,30 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                         SizedBox(width: 10),
                                                         Text(
                                                           "Show all Sessions",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Divider(),
+                                                Expanded(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      vm.toProgramMode();
+                                                      Navigator.pop(context);
+                                                    },
+                                                    behavior:
+                                                        HitTestBehavior.opaque,
+                                                    child: Row(
+                                                      children: [
+                                                        SizedBox(width: 10),
+                                                        Text(
+                                                          "Show Current Program Sessions",
                                                           style: TextStyle(
                                                             fontSize: 14,
                                                             fontWeight:
@@ -311,9 +340,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     firstChild: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.session.length,
+                      itemCount: visibleSessionState.length,
                       itemBuilder: (context, index) {
-                        final session = state.session[index];
+                        final session = visibleSessionState[index];
 
                         return HomeSessionListWidget(
                           sessionId: session.sessionId,

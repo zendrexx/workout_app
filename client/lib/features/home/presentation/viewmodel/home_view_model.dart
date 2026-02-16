@@ -12,13 +12,14 @@ import 'package:client/features/workout_program/domain/usecases/delete_program.d
 import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
 import 'package:client/features/workout_program/domain/usecases/watch_all_program.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
+import 'package:client/features/workout_program/presentation/state_mappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   late final StreamSubscription _subSession;
   late final StreamSubscription _subProgram;
-  List<PlannedWorkoutSession> _sessions = [];
-  List<Program> _programs = [];
+  // List<PlannedWorkoutSession> _sessions = [];
+  // List<Program> _programs = [];
   final DeleteSession deleteSession;
   final DuplicateSession duplicateSession;
   final DeleteProgram deleteProgram;
@@ -32,13 +33,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
     this.duplicateProgram,
   ) : super(HomeState.initial()) {
     _subSession = watchSessions().listen((sessions) {
-      _sessions = sessions;
-      _emit();
+      state = state.copyWith(session: sessions.map(toStateSession).toList());
     });
 
     _subProgram = watchPrograms().listen((programs) {
-      _programs = programs;
-      _emit();
+      state = state.copyWith(program: programs.map(toStateProgram).toList());
     });
   }
   /*
@@ -54,33 +53,6 @@ the program card will watch the session using all sessions
 if the user deleted a session that is in the active program, 
 it will automatically remove it from the program session list
 */
-  void _emit() {
-    //this will be the function that will emit the state to the UI, it will check if there is an active program and load the sessions accordingly
-    final allSessionStates = _sessions.map(toStateSession).toList();
-    final programStates = _programs.map(toProgramState).toList();
-
-    if (state.isProgramMode && state.activeProgramId != null) {
-      final program = _programs.firstWhere(
-        (p) => p.programId == state.activeProgramId,
-      );
-
-      if (program != null) {
-        final filteredSessions = program.sessionIds
-            .map((id) => _sessions.firstWhere((s) => s.sessionId == id))
-            .map(toStateSession)
-            .toList();
-
-        state = state.copyWith(
-          session: filteredSessions,
-          program: programStates,
-        );
-        return;
-      }
-    }
-
-    // default: show all sessions
-    state = state.copyWith(session: allSessionStates, program: programStates);
-  }
 
   @override
   void dispose() {
@@ -91,32 +63,14 @@ it will automatically remove it from the program session list
 
   void startProgram(String programId) {
     state = state.copyWith(isProgramMode: true, activeProgramId: programId);
-
-    _emit();
   }
 
-  void _loadProgramSessions(String programId) {
-    final program = _programs
-        .where((p) => p.programId == programId)
-        .firstOrNull;
-
-    if (program == null) return;
-
-    final sessions = program.sessionIds
-        .map((id) => _sessions.firstWhere((s) => s.sessionId == id))
-        .map((s) => toStateSession(s))
-        .toList();
-
-    state = state.copyWith(session: sessions);
+  void toProgramMode() {
+    state = state.copyWith(isProgramMode: true);
   }
 
-  void showAllSessions() {
-    state = state.copyWith(
-      isProgramMode: false,
-      activeProgramId: null,
-      session: _sessions.map(toStateSession).toList(),
-    );
-    _emit();
+  void showAllSession() {
+    state = state.copyWith(isProgramMode: false);
   }
 
   Future<void> deleteSessionById(String sessionId) async {
