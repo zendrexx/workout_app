@@ -1,13 +1,16 @@
+import 'package:client/features/profile/presentation/providers/overall_stats_provider.dart';
 import 'package:client/features/profile/presentation/widgets/heatmap_widget.dart';
 import 'package:client/features/profile/presentation/widgets/pr_card_widget.dart';
 import 'package:client/features/profile/presentation/widgets/stat_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(overallStatsProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -103,18 +106,18 @@ class ProfilePage extends StatelessWidget {
             const Divider(color: Colors.grey),
             const SizedBox(height: 10),
             Row(
-              children: const [
+              children: [
                 Expanded(
                   child: StatCardWidget(
                     title: "TOTAL VOLUME",
-                    value: "0lbs",
+                    value: state.totalVolume.toString(),
                     imagePath: "assets/images/volume.png",
                   ),
                 ),
                 Expanded(
                   child: StatCardWidget(
                     title: "TOTAL SETS",
-                    value: "0",
+                    value: state.totalSets.toString(),
                     imagePath: "assets/images/totalSets.png",
                   ),
                 ),
