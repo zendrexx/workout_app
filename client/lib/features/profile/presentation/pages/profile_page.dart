@@ -1,6 +1,6 @@
-import 'package:client/features/profile/widgets/heatmap_widget.dart';
-import 'package:client/features/profile/widgets/pr_card_widget.dart';
-import 'package:client/features/profile/widgets/stat_card_widget.dart';
+import 'package:client/features/profile/presentation/widgets/heatmap_widget.dart';
+import 'package:client/features/profile/presentation/widgets/pr_card_widget.dart';
+import 'package:client/features/profile/presentation/widgets/stat_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
