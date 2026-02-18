@@ -122,6 +122,7 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 //none
+                //asd
                 Expanded(
                   child: StatCardWidget(
                     title: "DAY STREAK",
