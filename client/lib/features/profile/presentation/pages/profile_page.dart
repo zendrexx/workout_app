@@ -121,6 +121,7 @@ class ProfilePage extends ConsumerWidget {
                     imagePath: "assets/images/totalSets.png",
                   ),
                 ),
+                //none
                 Expanded(
                   child: StatCardWidget(
                     title: "DAY STREAK",
