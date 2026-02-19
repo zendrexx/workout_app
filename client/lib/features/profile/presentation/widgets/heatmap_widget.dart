@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 class HeatmapWidget extends StatefulWidget {
-  const HeatmapWidget({super.key});
+  final List<DateTime> dates;
+  const HeatmapWidget({super.key, required this.dates});
 
   @override
   State<HeatmapWidget> createState() => _HeatmapWidgetState();
@@ -20,13 +21,11 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
 
       defaultColor: Color(0xff28292A),
       datasets: {
-        DateTime(2025, 1, 1): 5,
-        DateTime(2025, 1, 2): 3,
-        DateTime(2025, 1, 3): 1,
-        DateTime(2025, 1, 4): 4,
+        for (final date in widget.dates)
+          DateTime(date.year, date.month, date.day): 1,
       },
-      startDate: DateTime(2025, 1, 5),
-      endDate: DateTime(2025, 12, 31),
+      startDate: DateTime(2026, 1, 5),
+      endDate: DateTime(2026, 12, 31),
       colorsets: {1: Color(0xff2F4F4F), 2: Color(0xff2F4F4F)},
     );
   }

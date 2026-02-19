@@ -10,6 +10,7 @@ PlannedWorkoutSet toDomainSet(PlannedSetIsar s) {
     estWeight: s.estWeight ?? 0,
     maxRep: s.maxRep ?? 0,
     minRep: s.minRep ?? 0,
+    setId: s.setId,
   );
 
   return sets;

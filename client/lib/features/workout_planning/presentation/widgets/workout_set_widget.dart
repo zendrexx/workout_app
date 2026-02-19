@@ -10,6 +10,7 @@ class WorkoutSetWidget extends ConsumerStatefulWidget {
   final bool viewing;
   final String? estWeight;
   final String? repRange;
+  final String setId;
   const WorkoutSetWidget({
     super.key,
     required this.setNum,
@@ -17,6 +18,7 @@ class WorkoutSetWidget extends ConsumerStatefulWidget {
     this.viewing = false,
     this.estWeight,
     this.repRange,
+    required this.setId,
   });
 
   @override

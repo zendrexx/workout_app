@@ -239,6 +239,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                   sets[setIndex].minRep,
                   sets[setIndex].maxRep,
                 ),
+                setId: sets[setIndex].setId,
               );
             }),
             itemCount: sets.length,

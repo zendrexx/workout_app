@@ -1,24 +1,38 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:client/core/utils/id_generator.dart';
+
 class PlannedSetState {
   final int minRep;
   final int maxRep;
   final double estWeight;
-
+  final String setId;
   PlannedSetState({
     required this.minRep,
     required this.maxRep,
     required this.estWeight,
+    required this.setId,
   });
 
-  PlannedSetState copyWith({int? minRep, int? maxRep, double? estWeight}) {
+  PlannedSetState copyWith({
+    int? minRep,
+    int? maxRep,
+    double? estWeight,
+    String? setId,
+  }) {
     return PlannedSetState(
       minRep: minRep ?? this.minRep,
       maxRep: maxRep ?? this.maxRep,
       estWeight: estWeight ?? this.estWeight,
+      setId: setId ?? this.setId,
     );
   }
 
   factory PlannedSetState.defaultSet() {
-    return PlannedSetState(minRep: 0, maxRep: 0, estWeight: 0);
+    return PlannedSetState(
+      minRep: 0,
+      maxRep: 0,
+      estWeight: 0,
+      setId: IdGenerator().getId(),
+    );
   }
 }

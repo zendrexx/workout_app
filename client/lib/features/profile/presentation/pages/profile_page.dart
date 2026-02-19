@@ -1,3 +1,4 @@
+import 'package:client/core/utils/format_number.dart';
 import 'package:client/features/profile/presentation/providers/overall_stats_provider.dart';
 import 'package:client/features/profile/presentation/widgets/heatmap_widget.dart';
 import 'package:client/features/profile/presentation/widgets/pr_card_widget.dart';
@@ -110,7 +111,7 @@ class ProfilePage extends ConsumerWidget {
                 Expanded(
                   child: StatCardWidget(
                     title: "TOTAL VOLUME",
-                    value: state.totalVolume.toString(),
+                    value: formatDoubleNumber(state.totalVolume),
                     imagePath: "assets/images/volume.png",
                   ),
                 ),
@@ -140,7 +141,7 @@ class ProfilePage extends ConsumerWidget {
               style: TextStyle(color: Color(0xff8F8F8F), fontSize: 12),
             ),
             SizedBox(height: 5),
-            HeatmapWidget(),
+            HeatmapWidget(dates: state.dates),
             SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

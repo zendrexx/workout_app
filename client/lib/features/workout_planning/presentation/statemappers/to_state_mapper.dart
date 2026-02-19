@@ -10,6 +10,7 @@ PlannedSetState toStateSet(PlannedWorkoutSet set) {
     estWeight: set.estWeight,
     maxRep: set.maxRep,
     minRep: set.minRep,
+    setId: set.setId,
   );
 }
 
