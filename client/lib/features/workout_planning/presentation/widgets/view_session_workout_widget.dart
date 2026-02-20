@@ -136,6 +136,7 @@ class _ViewSessionWorkoutWidgetState
 
                 repRange: plannedRepRange(setIndex),
                 viewing: true,
+                setId: sets[setIndex].setId,
               );
             },
           ),

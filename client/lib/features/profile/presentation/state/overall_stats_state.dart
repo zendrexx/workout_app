@@ -2,12 +2,18 @@ class OverallStatsState {
   final double totalVolume;
   final int totalSets;
   final int totalSeconds;
+  final double? prSquat;
+  final double? prBench;
+  final double? prDeadlift;
   final List<DateTime> dates;
   const OverallStatsState({
     required this.totalVolume,
     required this.totalSets,
     required this.totalSeconds,
     required this.dates,
+    this.prSquat,
+    this.prBench,
+    this.prDeadlift,
   });
 
   factory OverallStatsState.empty() => OverallStatsState(

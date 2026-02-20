@@ -85,6 +85,7 @@ class WorkoutDetailsWidget extends StatelessWidget {
                 estWeight: actWeight,
                 viewing: true,
                 repRange: actRep,
+                setId: "",
               );
             },
           ),
