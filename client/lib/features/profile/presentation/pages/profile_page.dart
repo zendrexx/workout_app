@@ -235,7 +235,9 @@ class ProfilePage extends ConsumerWidget {
                       child: PrCardWidget(
                         color: Colors.orange,
                         title: "Squat",
-                        value: "0lbs",
+                        value: state.prSquat != null
+                            ? "${formatDoubleNumber(state.prSquat!)} lbs"
+                            : "0lbs",
                         iconPath: "assets/images/squat.png",
                       ),
                     ),
@@ -246,7 +248,9 @@ class ProfilePage extends ConsumerWidget {
                       child: PrCardWidget(
                         color: Colors.green,
                         title: "Bench",
-                        value: "0bs",
+                        value: state.prBench != null
+                            ? "${formatDoubleNumber(state.prBench!)} lbs"
+                            : "0lbs",
                         iconPath: "assets/images/bench.png",
                       ),
                     ),
@@ -257,7 +261,9 @@ class ProfilePage extends ConsumerWidget {
                       child: PrCardWidget(
                         color: Colors.blue,
                         title: "Deadlift",
-                        value: "0lbs",
+                        value: state.prDeadlift != null
+                            ? "${formatDoubleNumber(state.prDeadlift!)} lbs"
+                            : "0lbs",
                         iconPath: "assets/images/deadlift.png",
                       ),
                     ),

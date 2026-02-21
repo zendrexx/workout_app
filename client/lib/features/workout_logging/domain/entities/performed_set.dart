@@ -6,6 +6,7 @@ class PerformedSet {
   final double actWeight;
   //final double prevWeight;
   final bool isCompleted;
+  final String setId;
 
   PerformedSet({
     required this.estRep,
@@ -14,5 +15,6 @@ class PerformedSet {
     required this.actWeight,
     //required this.prevWeight,
     required this.isCompleted,
+    required this.setId,
   });
 }

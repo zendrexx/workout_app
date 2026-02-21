@@ -174,7 +174,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
                       title: current.exerciseName,
                       equipment: current.equipment,
                       imagePath: current.imagePath,
-                      index: index,
+                      exerciseIndex: index,
                       note: current.notes,
                     );
                   }),

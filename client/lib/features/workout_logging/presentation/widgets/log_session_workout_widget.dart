@@ -252,6 +252,8 @@ class _LogSessionWorkoutWidgetState
                 //   widget.plannedSets[setIndex].prevWeight,
                 // ),
                 repRange: widget.plannedSets[setIndex].estRep,
+                setId: widget.plannedSets[setIndex].setId,
+                key: ValueKey(sets[setIndex].setId),
               );
             },
           ),

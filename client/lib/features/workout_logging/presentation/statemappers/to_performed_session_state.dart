@@ -44,5 +44,6 @@ PerformedSetState toPlannedSet(PerformedSet s) {
     actWeight: s.actWeight,
     //prevWeight: s.prevWeight,
     isCompleted: s.isCompleted,
+    setId: s.setId,
   );
 }

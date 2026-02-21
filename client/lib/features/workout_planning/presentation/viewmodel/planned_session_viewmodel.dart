@@ -121,84 +121,91 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void deleteSet(int exerciseIndex, int setIndex) {
+  void deleteSet(int exerciseIndex, String setId) {
     final updatedExercises = [...state.exercises];
+
     final currentExercise = updatedExercises[exerciseIndex];
-    currentExercise.sets.removeAt(setIndex);
+
+    final updatedSets = currentExercise.sets
+        .where((set) => set.setId != setId)
+        .toList();
+
+    updatedExercises[exerciseIndex] = currentExercise.copyWith(
+      sets: updatedSets,
+    );
+
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addWeightToSets(int exerciseIndex, int setIndex, String weight) {
-    final double? rweight = double.tryParse(weight);
-    if (rweight == null) return;
-    // Get a copy of all exercises
-    final updatedExercises = [...state.exercises];
+  void addWeightToSets(int exerciseIndex, String setId, String weight) {
+    final double? parsedWeight = double.tryParse(weight);
+    if (parsedWeight == null) return;
 
-    // Get the current exercise
+    final updatedExercises = [...state.exercises];
     final currentExercise = updatedExercises[exerciseIndex];
 
-    // Copy the sets of that exercise
-    final updatedSets = [...currentExercise.sets];
+    final updatedSets = currentExercise.sets.map((set) {
+      if (set.setId != setId) return set;
 
-    // Update the specific set with the new weight
-    final updatedSet = updatedSets[setIndex].copyWith(estWeight: rweight);
-    updatedSets[setIndex] = updatedSet;
+      return set.copyWith(estWeight: parsedWeight);
+    }).toList();
 
-    // Update the exercise with the modified sets
-    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
-    updatedExercises[exerciseIndex] = updatedExercise;
+    updatedExercises[exerciseIndex] = currentExercise.copyWith(
+      sets: updatedSets,
+    );
 
-    // Update the state with the modified exercises
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addRepRangeToSets(int exerciseIndex, int setIndex, String repRange) {
-    // Get a copy of all exercises
+  void addRepRangeToSets(int exerciseIndex, String setId, String repRange) {
     final updatedExercises = [...state.exercises];
     final currentExercise = updatedExercises[exerciseIndex];
-    final updatedSets = [...currentExercise.sets];
 
     int? minRep;
     int? maxRep;
 
-    // Check if it contains a '-'
-    if (repRange.contains('-')) {
-      final parts = repRange.split('-').map((e) => e.trim()).toList();
+    final cleaned = repRange.trim();
+
+    if (cleaned.isEmpty) {
+      minRep = null;
+      maxRep = null;
+    } else if (cleaned.contains('-')) {
+      final parts = cleaned.split('-').map((e) => e.trim()).toList();
+
       if (parts.length == 2) {
-        if (int.tryParse(parts[0]) == null && int.tryParse(parts[1]) != null) {
-          minRep = int.tryParse(parts[1]);
-          maxRep = minRep;
-        } else if (int.tryParse(parts[0]) != null &&
-            int.tryParse(parts[1]) == null) {
-          minRep = int.tryParse(parts[0]);
-          maxRep = minRep;
-        } else if (int.tryParse(parts[0]) == null &&
-            int.tryParse(parts[1]) == null) {
+        final first = int.tryParse(parts[0]);
+        final second = int.tryParse(parts[1]);
+
+        if (first != null && second != null) {
+          minRep = first;
+          maxRep = second;
+        } else if (first != null) {
+          minRep = first;
+          maxRep = first;
+        } else if (second != null) {
+          minRep = second;
+          maxRep = second;
+        } else {
           minRep = null;
           maxRep = null;
-        } else {
-          minRep = int.tryParse(parts[0]);
-          maxRep = int.tryParse(parts[1]);
         }
       }
     } else {
-      // Single value (e.g., "10")
-      minRep = int.tryParse(repRange);
-      maxRep = minRep;
+      final single = int.tryParse(cleaned);
+      minRep = single;
+      maxRep = single;
     }
 
-    // Update the specific set
-    final updatedSet = updatedSets[setIndex].copyWith(
-      minRep: minRep,
-      maxRep: maxRep,
+    final updatedSets = currentExercise.sets.map((set) {
+      if (set.setId != setId) return set;
+
+      return set.copyWith(minRep: minRep, maxRep: maxRep);
+    }).toList();
+
+    updatedExercises[exerciseIndex] = currentExercise.copyWith(
+      sets: updatedSets,
     );
-    updatedSets[setIndex] = updatedSet;
 
-    // Update the exercise
-    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
-    updatedExercises[exerciseIndex] = updatedExercise;
-
-    // Update the state
     state = state.copyWith(exercises: updatedExercises);
   }
 

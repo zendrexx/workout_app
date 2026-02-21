@@ -8,7 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
   final int setNum;
   final int index;
-
+  final String setId;
   final String? estWeight;
   final String? repRange;
   //final String? previousWeight;
@@ -16,6 +16,7 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
     super.key,
     required this.setNum,
     required this.index,
+    required this.setId,
     //this.previousWeight,
     this.estWeight,
     this.repRange,
@@ -80,7 +81,7 @@ class _PerformedWorkoutSetWidgetState
     return Form(
       key: _formKey,
       child: Slidable(
-        key: ValueKey('${widget.index}-${widget.setNum}'),
+        key: ValueKey(widget.setId),
         endActionPane: ActionPane(
           extentRatio: 0.10,
           motion: const DrawerMotion(),

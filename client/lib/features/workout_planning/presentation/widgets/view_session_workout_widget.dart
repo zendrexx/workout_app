@@ -8,14 +8,14 @@ class ViewSessionWorkoutWidget extends ConsumerStatefulWidget {
   final String title;
   final String? equipment;
   final String imagePath;
-  final int index;
+  final int exerciseIndex;
   final List<PlannedSetState> plannedSets;
   final String? notes;
   const ViewSessionWorkoutWidget({
     required this.title,
     this.equipment,
     required this.imagePath,
-    required this.index,
+    required this.exerciseIndex,
     super.key,
     required this.plannedSets,
     this.notes,
@@ -129,7 +129,7 @@ class _ViewSessionWorkoutWidgetState
             itemBuilder: (context, setIndex) {
               return WorkoutSetWidget(
                 setNum: setIndex,
-                index: widget.index,
+                exerciseIndex: widget.exerciseIndex,
                 estWeight: (sets[setIndex].estWeight % 1 == 0
                     ? sets[setIndex].estWeight.toInt().toString()
                     : sets[setIndex].estWeight.toString()),

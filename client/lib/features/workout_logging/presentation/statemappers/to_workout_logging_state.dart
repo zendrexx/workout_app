@@ -45,5 +45,6 @@ PerformedSetState mapPlannedSet(PlannedWorkoutSet s) {
     actWeight: 0,
     // prevWeight: 0,
     isCompleted: false,
+    setId: s.setId,
   );
 }

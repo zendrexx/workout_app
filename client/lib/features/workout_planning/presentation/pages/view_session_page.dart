@@ -102,7 +102,7 @@ class _ViewSessionPageState extends ConsumerState<ViewSessionPage> {
                       title: exercises[index].exerciseName,
                       equipment: exercises[index].equipment,
                       imagePath: exercises[index].imagePath,
-                      index: index,
+                      exerciseIndex: index,
 
                       plannedSets: exercises[index].sets.toList(),
                       notes: exercises[index].notes,

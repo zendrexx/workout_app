@@ -12,7 +12,8 @@ class PerformedSetsIsar {
 
   int? actualRep;
   bool isCompleted;
-
+  @Index(unique: true)
+  String setId = "";
   PerformedSetsIsar({
     this.estWeight,
     this.actWeight,

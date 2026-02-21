@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:client/core/utils/id_generator.dart';
+
 class PerformedSetState {
   final String estRep;
   final double estWeight;
   final int actRep;
   final double actWeight;
+  final String setId;
   //final double prevWeight;
   bool isCompleted;
   PerformedSetState({
@@ -13,6 +16,7 @@ class PerformedSetState {
     required this.actWeight,
     //required this.prevWeight,
     required this.isCompleted,
+    required this.setId,
   });
   factory PerformedSetState.defaultSet() {
     return PerformedSetState(
@@ -22,6 +26,7 @@ class PerformedSetState {
       actWeight: 0,
       //prevWeight: 0,
       isCompleted: false,
+      setId: IdGenerator().getId(),
     );
   }
   PerformedSetState copyWith({
@@ -31,6 +36,7 @@ class PerformedSetState {
     double? actWeight,
     //double? prevWeight,
     bool? isCompleted,
+    String? setId,
   }) {
     return PerformedSetState(
       estRep: estRep ?? this.estRep,
@@ -39,6 +45,7 @@ class PerformedSetState {
       actWeight: actWeight ?? this.actWeight,
       //prevWeight: prevWeight ?? this.prevWeight,
       isCompleted: isCompleted ?? this.isCompleted,
+      setId: setId ?? this.setId,
     );
   }
 }

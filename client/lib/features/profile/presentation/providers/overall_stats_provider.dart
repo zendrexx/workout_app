@@ -9,38 +9,45 @@ final overallStatsProvider = Provider<OverallStatsState>((ref) {
   double volume = 0;
   int sets = 0;
   int seconds = 0;
-  double? prSquat = 0;
-  double? prBench = 0;
-  double? prDeadlift = 0;
+
+  double? prSquat;
+  double? prBench;
+  double? prDeadlift;
+
   for (final session in historyState.psession) {
     final stats = session.performedStats;
-    final squat = session.performedExercise.firstWhere(
-      (exercise) => exercise.exerciseName == "Squat",
-    );
-    final bench = session.performedExercise.firstWhere(
-      (exercise) => exercise.exerciseName == "Bench Press",
-    );
-    final deadlift = session.performedExercise.firstWhere(
-      (exercise) => exercise.exerciseName == "Deadlift",
-    );
-    if (bench.sets.isNotEmpty) {
-      prBench = bench.sets
-          .map((set) => set.actWeight)
-          .reduce((a, b) => a > b ? a : b);
-    }
-    if (deadlift.sets.isNotEmpty) {
-      prSquat = deadlift.sets
-          .map((set) => set.actWeight)
-          .reduce((a, b) => a > b ? a : b);
-    }
-    if (squat.sets.isNotEmpty) {
-      prSquat = squat.sets
-          .map((set) => set.actWeight)
-          .reduce((a, b) => a > b ? a : b);
-    }
+
     volume += stats.totalVolume;
     sets += stats.totalSets;
     seconds += stats.totalSeconds;
+
+    for (final exercise in session.performedExercise) {
+      if (exercise.sets.isEmpty) continue;
+
+      final maxWeight = exercise.sets
+          .map((set) => set.actWeight)
+          .reduce((a, b) => a > b ? a : b);
+
+      switch (exercise.exerciseName) {
+        case "Squat":
+          prSquat = prSquat == null
+              ? maxWeight
+              : (maxWeight > prSquat ? maxWeight : prSquat);
+          break;
+
+        case "Bench Press":
+          prBench = prBench == null
+              ? maxWeight
+              : (maxWeight > prBench ? maxWeight : prBench);
+          break;
+
+        case "Deadlift":
+          prDeadlift = prDeadlift == null
+              ? maxWeight
+              : (maxWeight > prDeadlift ? maxWeight : prDeadlift);
+          break;
+      }
+    }
   }
 
   return OverallStatsState(

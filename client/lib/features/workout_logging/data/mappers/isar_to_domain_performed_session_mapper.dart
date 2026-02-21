@@ -16,6 +16,7 @@ PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
     estWeight: s.estWeight ?? 0,
     estRep: s.estRep ?? "",
     isCompleted: s.isCompleted,
+    setId: s.setId,
   );
 
   return sets;
