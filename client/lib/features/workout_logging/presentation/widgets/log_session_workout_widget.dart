@@ -254,7 +254,7 @@ class _LogSessionWorkoutWidgetState
                 repRange: widget.plannedSets[setIndex].estRep,
                 setId: widget.plannedSets[setIndex].setId,
                 key: ValueKey(sets[setIndex].setId),
-              );
+              ); //no code today focus on thesis
             },
           ),
           SizedBox(height: 10),
