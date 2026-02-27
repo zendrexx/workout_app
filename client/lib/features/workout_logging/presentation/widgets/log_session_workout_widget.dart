@@ -256,7 +256,7 @@ class _LogSessionWorkoutWidgetState
                 repRange: widget.plannedSets[setIndex].estRep,
                 setId: widget.plannedSets[setIndex].setId,
                 key: ValueKey(sets[setIndex].setId),
-              ); //day 2 no codeasdas
+              ); //still cant code its day 3
             },
           ),
           SizedBox(height: 10),
