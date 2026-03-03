@@ -127,7 +127,7 @@ class ProfilePage extends ConsumerWidget {
                 Expanded(
                   child: StatCardWidget(
                     title: "DAY STREAK",
-                    value: "0",
+                    value: state.streak.toString(),
                     imagePath: "assets/images/streakBw.png",
                   ),
                 ),

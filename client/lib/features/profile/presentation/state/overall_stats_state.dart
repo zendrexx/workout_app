@@ -6,6 +6,7 @@ class OverallStatsState {
   final double? prBench;
   final double? prDeadlift;
   final List<DateTime> dates;
+  final int streak;
   const OverallStatsState({
     required this.totalVolume,
     required this.totalSets,
@@ -14,6 +15,7 @@ class OverallStatsState {
     this.prSquat,
     this.prBench,
     this.prDeadlift,
+    required this.streak,
   });
 
   factory OverallStatsState.empty() => OverallStatsState(
@@ -21,5 +23,6 @@ class OverallStatsState {
     totalSets: 0,
     totalSeconds: 0,
     dates: List.empty(),
+    streak: 0,
   );
 }
