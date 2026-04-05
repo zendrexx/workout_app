@@ -1,4 +1,8 @@
 import 'package:client/core/config/app_destination.dart';
+import 'package:client/features/auth/presentation/onboarding/onboarding_screen.dart';
+import 'package:client/features/auth/presentation/pages/sign_in_screen.dart';
+import 'package:client/features/auth/presentation/pages/sign_up_screen.dart';
+import 'package:client/features/auth/presentation/pages/splash_screen.dart';
 import 'package:client/features/history/presentation/pages/history_page.dart';
 import 'package:client/features/history/presentation/pages/view_history_page.dart';
 import 'package:client/core/presentation/page/add_exercise_page.dart';
@@ -20,8 +24,21 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/home',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+    GoRoute(
+      path: '/auth/signin',
+      builder: (context, state) => const SignInScreen(),
+    ),
+    GoRoute(
+      path: '/auth/signup',
+      builder: (context, state) => const SignUpScreen(),
+    ),
+    GoRoute(
+      path: '/auth/onboarding',
+      builder: (context, state) => const OnboardingScreen(),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
           MainPage(navigationShell: navigationShell),

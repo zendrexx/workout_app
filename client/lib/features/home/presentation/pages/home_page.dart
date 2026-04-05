@@ -1,6 +1,7 @@
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/providers/visible_session_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
+import 'package:client/features/home/presentation/widgets/home_program_card.dart';
 import 'package:client/features/home/presentation/widgets/home_program_list_widget.dart';
 import 'package:client/features/home/presentation/widgets/home_session_list_widget.dart';
 import 'package:client/features/home/presentation/widgets/streak_widget.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             letterSpacing: 2,
           ),
         ),
-        actions: [StreakWidget(count: 8)],
+
         backgroundColor: const Color(0xff0F0F0F),
         elevation: 5,
         shadowColor: Colors.black.withOpacity(0.8),
@@ -57,32 +58,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  height: 60,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xff2F4F4F),
-                        Color(0xff0F2027),
-                        Color(0xff2C5364),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'START WORKOUT',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              HomeProgramCard(),
               SizedBox(height: 30),
               Text(
                 "Quick Start",
