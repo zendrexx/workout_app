@@ -9,6 +9,7 @@ import 'package:client/core/presentation/page/add_exercise_page.dart';
 import 'package:client/features/workout_planning/presentation/pages/create_session_page.dart';
 import 'package:client/features/home/presentation/pages/home_page.dart';
 import 'package:client/features/workout_logging/presentation/pages/log_workout_page.dart';
+import 'package:client/features/workout_program/presentation/pages/main_program_page.dart';
 import 'package:client/features/workout_program/presentation/pages/program_page.dart';
 import 'package:client/features/workout_program/presentation/pages/select_session_page.dart';
 import 'package:client/core/presentation/page/update_exercise.dart';
@@ -47,6 +48,14 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: appDestination[0].path,
+              builder: (context, state) => const MainProgramPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch( 
+          routes: [
+            GoRoute(
+              path: appDestination[1].path,
               builder: (context, state) => const HistoryPage(),
               routes: [
                 GoRoute(
@@ -63,7 +72,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[1].path,
+              path: appDestination[2].path,
               builder: (context, state) => const HomePage(),
               routes: [
                 GoRoute(
@@ -145,7 +154,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[2].path,
+              path: appDestination[3].path,
               builder: (context, state) => const ProfilePage(),
             ),
           ],

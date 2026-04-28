@@ -29,7 +29,7 @@ class AppBootstrap extends ConsumerWidget {
           body: Center(child: Text(e.toString())),
         ),
       ),
-      data: (_) => const MyApp(), // 👈 Isar READY here
+      data: (_) => const MyApp(),
     );
   }
 }

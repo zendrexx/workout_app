@@ -14,7 +14,15 @@ class HomeProgramCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Appcolors.primaryColor,
         borderRadius: BorderRadius.circular(5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
+
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -78,24 +86,152 @@ class HomeProgramCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Appcolors.secondaryColor,
-                            borderRadius: BorderRadius.circular(5),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Exercise",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Appcolors.muteText,
+                            ),
                           ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            "Sets",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Appcolors.muteText,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.more_horiz,
-                            size: 20,
-                            color: Colors.white,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "RPE",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Appcolors.muteText,
+                            ),
+                            textAlign: TextAlign.end,
                           ),
                         ),
                       ],
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Leg Press",
+                              style: TextStyle(fontSize: 16),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text("5x3", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "9",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Deadlift",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text("3x5", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "9",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Hamstring",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text("5x12", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "9",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Appcolors.accent,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: double.infinity,
+                  height: 45,
+                  child: Center(
+                    child: Text(
+                      "Start Workout",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

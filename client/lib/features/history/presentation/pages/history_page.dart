@@ -13,12 +13,12 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(historyViewModelProvider);
+    //final state = ref.watch(historyViewModelProvider);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
         title: Text(
-          "History",
+          "HISTORY",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -32,21 +32,49 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: state.psession.length,
-          itemBuilder: (context, index) {
-            final session = state.psession[index];
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                height: 145,
 
-            return HistoryWorkoutContainerWidget(
-              session: session,
-              index: index,
-            );
-          },
-        ),
+                decoration: BoxDecoration(color: Color(0xff1A1A1A)),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 30,
+                      decoration: BoxDecoration(color: Color(0xff212121)),
+                      child: Text("Latest PR"),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 145,
+                width: 20,
+                decoration: BoxDecoration(color: Color(0xff1A1A1A)),
+              ),
+            ],
+          ),
+        ],
       ),
+      // Padding(
+      //   padding: const EdgeInsets.all(20.0),
+      //   child: ListView.builder(
+      //     shrinkWrap: true,
+      //     itemCount: state.psession.length,
+      //     itemBuilder: (context, index) {
+      //       final session = state.psession[index];
+
+      //       return HistoryWorkoutContainerWidget(
+      //         session: session,
+      //         index: index,
+      //       );
+      //     },
+      //   ),
+      // ),
     );
   }
 }

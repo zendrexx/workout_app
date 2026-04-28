@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
 
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
         child: GNav(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           tabs: appDestination
@@ -45,12 +45,12 @@ class _MainPageState extends State<MainPage> {
               initialLocation: index == currentIndex,
             );
           },
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           haptic: false,
-          tabBackgroundColor: const Color(0xff2F4F4F),
+          tabBackgroundColor: const Color(0xff895AF6),
           backgroundColor: const Color(0xff0F0F0F),
           color: Colors.white,
-          activeColor: const Color(0xffEAE0C8),
+          activeColor: const Color(0xff0F0F0F),
           gap: 8,
         ),
       ),
