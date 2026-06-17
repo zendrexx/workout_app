@@ -44,18 +44,18 @@ final router = GoRouter(
       builder: (context, state, navigationShell) =>
           MainPage(navigationShell: navigationShell),
       branches: [
+        // StatefulShellBranch(
+        //   routes: [
+        //     GoRoute(
+        //       path: appDestination[0].path,
+        //       builder: (context, state) => const MainProgramPage(),
+        //     ),
+        //   ],
+        // ),
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: appDestination[0].path,
-              builder: (context, state) => const MainProgramPage(),
-            ),
-          ],
-        ),
-        StatefulShellBranch( 
-          routes: [
-            GoRoute(
-              path: appDestination[1].path,
               builder: (context, state) => const HistoryPage(),
               routes: [
                 GoRoute(
@@ -72,7 +72,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[2].path,
+              path: appDestination[1].path,
               builder: (context, state) => const HomePage(),
               routes: [
                 GoRoute(
@@ -154,7 +154,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[3].path,
+              path: appDestination[2].path,
               builder: (context, state) => const ProfilePage(),
             ),
           ],

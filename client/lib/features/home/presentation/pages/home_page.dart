@@ -1,3 +1,4 @@
+import 'package:client/features/history/presentation/widgets/streak_card.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/providers/visible_session_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
@@ -105,6 +106,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ),
               ),
+              SizedBox(height: 16),
+              StreakCard(),
               // Text(
               //   "Quick Start",
               //   style: TextStyle(
