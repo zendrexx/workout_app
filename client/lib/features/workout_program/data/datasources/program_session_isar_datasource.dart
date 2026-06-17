@@ -23,34 +23,14 @@ class ProgramSessionIsarDatasource {
     return isar.programIsars.where().watch(fireImmediately: true);
   }
 
-  Future<void> deleteSession(String sessionId) async {
+  Future<void> deleteprogram(String programId) async {
     await isar.writeTxn(() async {
-      final session = await isar.programIsars.getByProgramId(sessionId);
-      if (session != null) {
-        await isar.programIsars.delete(session.id);
+      final program = await isar.programIsars.getByProgramId(programId);
+      if (program != null) {
+        await isar.programIsars.delete(program.id);
       }
       // await isar.plannedSessionIsars.clear();
     });
-  }
-
-  Future<ProgramIsar?> duplicateSession(String sessionId) async {
-    final original = await isar.programIsars.getByProgramId(sessionId);
-    if (original == null) return null;
-
-    late ProgramIsar newProgram;
-
-    await isar.writeTxn(() async {
-      newProgram = ProgramIsar(
-        name: "Copy of ${original.name}",
-        createdAt: DateTime.now(),
-        programId: IdGenerator().getId().toString(),
-        sessionIds: original.sessionIds,
-      );
-
-      await isar.programIsars.put(newProgram);
-    });
-
-    return newProgram;
   }
 
   Future<ProgramIsar?> getProgramById(String programId) async {

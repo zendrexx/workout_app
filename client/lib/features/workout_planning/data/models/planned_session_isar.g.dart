@@ -18,10 +18,10 @@ const PlannedSessionIsarSchema = CollectionSchema(
   name: r'PlannedSessionIsar',
   id: 6442067316243507880,
   properties: {
-    r'createdAt': PropertySchema(
+    r'dayNumber': PropertySchema(
       id: 0,
-      name: r'createdAt',
-      type: IsarType.dateTime,
+      name: r'dayNumber',
+      type: IsarType.long,
     ),
     r'name': PropertySchema(
       id: 1,
@@ -60,6 +60,12 @@ const PlannedSessionIsarSchema = CollectionSchema(
       name: r'plannedExercise',
       target: r'PlannedExerciseIsar',
       single: false,
+    ),
+    r'week': LinkSchema(
+      id: 5156675123931905957,
+      name: r'week',
+      target: r'ProgramWeekIsar',
+      single: true,
     )
   },
   embeddedSchemas: {},
@@ -86,7 +92,7 @@ void _plannedSessionIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdAt);
+  writer.writeLong(offsets[0], object.dayNumber);
   writer.writeString(offsets[1], object.name);
   writer.writeString(offsets[2], object.sessionId);
 }
@@ -98,10 +104,10 @@ PlannedSessionIsar _plannedSessionIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PlannedSessionIsar(
-    createdAt: reader.readDateTime(offsets[0]),
     name: reader.readString(offsets[1]),
     sessionId: reader.readString(offsets[2]),
   );
+  object.dayNumber = reader.readLong(offsets[0]);
   object.id = id;
   return object;
 }
@@ -114,7 +120,7 @@ P _plannedSessionIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -130,7 +136,7 @@ Id _plannedSessionIsarGetId(PlannedSessionIsar object) {
 
 List<IsarLinkBase<dynamic>> _plannedSessionIsarGetLinks(
     PlannedSessionIsar object) {
-  return [object.plannedExercise];
+  return [object.plannedExercise, object.week];
 }
 
 void _plannedSessionIsarAttach(
@@ -138,6 +144,7 @@ void _plannedSessionIsarAttach(
   object.id = id;
   object.plannedExercise.attach(
       col, col.isar.collection<PlannedExerciseIsar>(), r'plannedExercise', id);
+  object.week.attach(col, col.isar.collection<ProgramWeekIsar>(), r'week', id);
 }
 
 extension PlannedSessionIsarByIndex on IsarCollection<PlannedSessionIsar> {
@@ -325,53 +332,53 @@ extension PlannedSessionIsarQueryWhere
 extension PlannedSessionIsarQueryFilter
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      createdAtEqualTo(DateTime value) {
+      dayNumberEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdAt',
+        property: r'dayNumber',
         value: value,
       ));
     });
   }
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      createdAtGreaterThan(
-    DateTime value, {
+      dayNumberGreaterThan(
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'createdAt',
+        property: r'dayNumber',
         value: value,
       ));
     });
   }
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      createdAtLessThan(
-    DateTime value, {
+      dayNumberLessThan(
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'createdAt',
+        property: r'dayNumber',
         value: value,
       ));
     });
   }
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
+      dayNumberBetween(
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'createdAt',
+        property: r'dayNumber',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -775,21 +782,35 @@ extension PlannedSessionIsarQueryLinks
           r'plannedExercise', lower, includeLower, upper, includeUpper);
     });
   }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      week(FilterQuery<ProgramWeekIsar> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'week');
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      weekIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'week', 0, true, 0, true);
+    });
+  }
 }
 
 extension PlannedSessionIsarQuerySortBy
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortBy> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
-      sortByCreatedAt() {
+      sortByDayNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
+      return query.addSortBy(r'dayNumber', Sort.asc);
     });
   }
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
-      sortByCreatedAtDesc() {
+      sortByDayNumberDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
+      return query.addSortBy(r'dayNumber', Sort.desc);
     });
   }
 
@@ -825,16 +846,16 @@ extension PlannedSessionIsarQuerySortBy
 extension PlannedSessionIsarQuerySortThenBy
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortThenBy> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
-      thenByCreatedAt() {
+      thenByDayNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
+      return query.addSortBy(r'dayNumber', Sort.asc);
     });
   }
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
-      thenByCreatedAtDesc() {
+      thenByDayNumberDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
+      return query.addSortBy(r'dayNumber', Sort.desc);
     });
   }
 
@@ -884,9 +905,9 @@ extension PlannedSessionIsarQuerySortThenBy
 extension PlannedSessionIsarQueryWhereDistinct
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
-      distinctByCreatedAt() {
+      distinctByDayNumber() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdAt');
+      return query.addDistinctBy(r'dayNumber');
     });
   }
 
@@ -913,10 +934,9 @@ extension PlannedSessionIsarQueryProperty
     });
   }
 
-  QueryBuilder<PlannedSessionIsar, DateTime, QQueryOperations>
-      createdAtProperty() {
+  QueryBuilder<PlannedSessionIsar, int, QQueryOperations> dayNumberProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdAt');
+      return query.addPropertyName(r'dayNumber');
     });
   }
 

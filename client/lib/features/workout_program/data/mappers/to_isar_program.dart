@@ -6,7 +6,7 @@ ProgramIsar toIsarProgram(Program p) {
   return ProgramIsar(
     programId: p.programId.isEmpty ? IdGenerator().getId() : p.programId,
     name: p.name,
-    sessionIds: p.sessionIds,
-    createdAt: DateTime.now(),
+    // sessionIds: p.sessionIds,
+    // createdAt: DateTime.now(),
   );
 }

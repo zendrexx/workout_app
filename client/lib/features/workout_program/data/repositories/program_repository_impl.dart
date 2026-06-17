@@ -24,13 +24,8 @@ class ProgramRepositoryImpl implements ProgramRepository {
   }
 
   @override
-  Future<void> deleteSession(String sessionId) async {
-    return await datasource.deleteSession(sessionId);
-  }
-
-  @override
-  Future<ProgramIsar?> duplicateSession(String sessionId) async {
-    return await datasource.duplicateSession(sessionId);
+  Future<void> deleteProgram(String programId) async {
+    return await datasource.deleteprogram(programId);
   }
 
   @override

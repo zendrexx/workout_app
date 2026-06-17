@@ -12,9 +12,6 @@ class AddProgram {
     if (!program.hasName) {
       return Left(EmptyProgramNameFailure());
     }
-    if (!program.hasSessionIds) {
-      return Left(EmptyProgramSessionFailure());
-    }
 
     await repo.addProgram(program);
     return const Right(null);

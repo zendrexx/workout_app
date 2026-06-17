@@ -5,7 +5,7 @@ Program toDomainProgram(ProgramIsar s) {
   final program = Program(
     name: s.name,
     programId: s.programId,
-    sessionIds: s.sessionIds.toList(),
+    //sessionIds: s.sessionIds.toList(),
   );
 
   return program;

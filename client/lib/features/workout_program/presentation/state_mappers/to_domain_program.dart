@@ -5,6 +5,6 @@ Program mapProgram(ProgramState s) {
   return Program(
     name: s.programName,
     programId: s.programSessionId,
-    sessionIds: s.programSessionIds,
+    //sessionIds: s.programSessionIds,
   );
 }

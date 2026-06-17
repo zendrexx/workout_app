@@ -5,7 +5,7 @@ class DeleteProgram {
 
   DeleteProgram(this.repo);
 
-  Future<void> call(String sessionId) {
-    return repo.deleteSession(sessionId);
+  Future<void> call(String programId) {
+    return repo.deleteProgram(programId);
   }
 }

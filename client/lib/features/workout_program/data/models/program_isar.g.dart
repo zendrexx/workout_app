@@ -17,25 +17,15 @@ const ProgramIsarSchema = CollectionSchema(
   name: r'ProgramIsar',
   id: -7994856263276764150,
   properties: {
-    r'createdAt': PropertySchema(
-      id: 0,
-      name: r'createdAt',
-      type: IsarType.dateTime,
-    ),
     r'name': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'name',
       type: IsarType.string,
     ),
     r'programId': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'programId',
       type: IsarType.string,
-    ),
-    r'sessionIds': PropertySchema(
-      id: 3,
-      name: r'sessionIds',
-      type: IsarType.stringList,
     )
   },
   estimateSize: _programIsarEstimateSize,
@@ -58,7 +48,14 @@ const ProgramIsarSchema = CollectionSchema(
       ],
     )
   },
-  links: {},
+  links: {
+    r'weeks': LinkSchema(
+      id: 4780086802183925451,
+      name: r'weeks',
+      target: r'ProgramWeekIsar',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _programIsarGetId,
   getLinks: _programIsarGetLinks,
@@ -74,13 +71,6 @@ int _programIsarEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.programId.length * 3;
-  bytesCount += 3 + object.sessionIds.length * 3;
-  {
-    for (var i = 0; i < object.sessionIds.length; i++) {
-      final value = object.sessionIds[i];
-      bytesCount += value.length * 3;
-    }
-  }
   return bytesCount;
 }
 
@@ -90,10 +80,8 @@ void _programIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeString(offsets[1], object.name);
-  writer.writeString(offsets[2], object.programId);
-  writer.writeStringList(offsets[3], object.sessionIds);
+  writer.writeString(offsets[0], object.name);
+  writer.writeString(offsets[1], object.programId);
 }
 
 ProgramIsar _programIsarDeserialize(
@@ -103,10 +91,8 @@ ProgramIsar _programIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProgramIsar(
-    createdAt: reader.readDateTime(offsets[0]),
-    name: reader.readString(offsets[1]),
-    programId: reader.readString(offsets[2]),
-    sessionIds: reader.readStringList(offsets[3]) ?? [],
+    name: reader.readString(offsets[0]),
+    programId: reader.readString(offsets[1]),
   );
   object.id = id;
   return object;
@@ -120,13 +106,9 @@ P _programIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
-    case 2:
-      return (reader.readString(offset)) as P;
-    case 3:
-      return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -137,12 +119,14 @@ Id _programIsarGetId(ProgramIsar object) {
 }
 
 List<IsarLinkBase<dynamic>> _programIsarGetLinks(ProgramIsar object) {
-  return [];
+  return [object.weeks];
 }
 
 void _programIsarAttach(
     IsarCollection<dynamic> col, Id id, ProgramIsar object) {
   object.id = id;
+  object.weeks
+      .attach(col, col.isar.collection<ProgramWeekIsar>(), r'weeks', id);
 }
 
 extension ProgramIsarByIndex on IsarCollection<ProgramIsar> {
@@ -325,62 +309,6 @@ extension ProgramIsarQueryWhere
 
 extension ProgramIsarQueryFilter
     on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      createdAtEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      createdAtGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      createdAtLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'createdAt',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'createdAt',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -700,253 +628,76 @@ extension ProgramIsarQueryFilter
       ));
     });
   }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'sessionIds',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'sessionIds',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'sessionIds',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'sessionIds',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
-      sessionIdsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'sessionIds',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
 }
 
 extension ProgramIsarQueryObject
     on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {}
 
 extension ProgramIsarQueryLinks
-    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {}
+    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> weeks(
+      FilterQuery<ProgramWeekIsar> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'weeks');
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      weeksLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'weeks', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> weeksIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'weeks', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      weeksIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'weeks', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      weeksLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'weeks', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      weeksLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'weeks', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
+      weeksLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'weeks', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension ProgramIsarQuerySortBy
     on QueryBuilder<ProgramIsar, ProgramIsar, QSortBy> {
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -974,18 +725,6 @@ extension ProgramIsarQuerySortBy
 
 extension ProgramIsarQuerySortThenBy
     on QueryBuilder<ProgramIsar, ProgramIsar, QSortThenBy> {
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenByCreatedAtDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1025,12 +764,6 @@ extension ProgramIsarQuerySortThenBy
 
 extension ProgramIsarQueryWhereDistinct
     on QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> {
-  QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> distinctByCreatedAt() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdAt');
-    });
-  }
-
   QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1044,12 +777,6 @@ extension ProgramIsarQueryWhereDistinct
       return query.addDistinctBy(r'programId', caseSensitive: caseSensitive);
     });
   }
-
-  QueryBuilder<ProgramIsar, ProgramIsar, QDistinct> distinctBySessionIds() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'sessionIds');
-    });
-  }
 }
 
 extension ProgramIsarQueryProperty
@@ -1057,12 +784,6 @@ extension ProgramIsarQueryProperty
   QueryBuilder<ProgramIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
-    });
-  }
-
-  QueryBuilder<ProgramIsar, DateTime, QQueryOperations> createdAtProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdAt');
     });
   }
 
@@ -1075,13 +796,6 @@ extension ProgramIsarQueryProperty
   QueryBuilder<ProgramIsar, String, QQueryOperations> programIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'programId');
-    });
-  }
-
-  QueryBuilder<ProgramIsar, List<String>, QQueryOperations>
-      sessionIdsProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'sessionIds');
     });
   }
 }
