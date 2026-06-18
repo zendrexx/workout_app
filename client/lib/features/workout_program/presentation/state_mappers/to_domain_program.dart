@@ -4,7 +4,7 @@ import 'package:client/features/workout_program/presentation/state/program_state
 Program mapProgram(ProgramState s) {
   return Program(
     name: s.programName,
-    programId: s.programSessionId,
+    programId: s.programId,
     //sessionIds: s.programSessionIds,
   );
 }

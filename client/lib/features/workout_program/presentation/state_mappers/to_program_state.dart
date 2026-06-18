@@ -3,9 +3,8 @@ import 'package:client/features/workout_program/presentation/state/program_state
 
 ProgramState toProgramState(Program program) {
   return ProgramState(
-    plannedSessions: {},
     programName: program.name,
-    programSessionIds: program.sessionIds,
-    programSessionId: program.programId,
+    // programSessionIds: program.sessionIds,
+    programId: program.programId,
   );
 }

@@ -36,24 +36,24 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
     });
   }
   Future<void> save() async {
-    final programId = state.programSessionId.isNotEmpty
-        ? state.programSessionId
-        : IdGenerator().getId();
+    // final programId = state.programSessionId.isNotEmpty
+    //     ? state.programSessionId
+    //     : IdGenerator().getId();
 
-    final program = mapProgram(state.copyWith(programSessionId: programId));
+    // final program = mapProgram(state.copyWith(programSessionId: programId));
 
-    final result = await addProgram(program);
+    // final result = await addProgram(program);
 
-    result.fold(
-      (failure) {
-        _events.add(ShowError(mapProgramFailure(failure)));
-      },
-      (_) {
-        state = ProgramState.initial();
-        _events.add(SaveSuccess("Program saved!"));
-        reset();
-      },
-    );
+    // result.fold(
+    //   (failure) {
+    //     _events.add(ShowError(mapProgramFailure(failure)));
+    //   },
+    //   (_) {
+    //     state = ProgramState.initial();
+    //     _events.add(SaveSuccess("Program saved!"));
+    //     reset();
+    //   },
+    // );
   }
 
   @override
@@ -77,32 +77,32 @@ class ProgramViewModel extends StateNotifier<ProgramState> {
   }
 
   void addProgramSession(String sessionId) {
-    final updatedSessions = [...state.programSessionIds, sessionId];
+    // final updatedSessions = [...state.programSessionIds, sessionId];
 
-    state = state.copyWith(programSessionIds: updatedSessions);
+    // state = state.copyWith(programSessionIds: updatedSessions);
   }
 
   void deleteProgramSessionAt(int index) {
-    final sessions = List<String>.from(state.programSessionIds);
-    sessions.removeAt(index);
+    // final sessions = List<String>.from(state.programSessionIds);
+    // sessions.removeAt(index);
 
-    state = state.copyWith(programSessionIds: sessions);
+    // state = state.copyWith(programSessionIds: sessions);
   }
 
   Future<void> duplicateSession(String sessionId) async {
-    final original = state.programSessionIds.firstWhere((s) => s == sessionId);
+    // final original = state.programSessionIds.firstWhere((s) => s == sessionId);
 
-    state = state.copyWith(
-      programSessionIds: [...state.programSessionIds, original],
-    );
+    // state = state.copyWith(
+    //   programSessionIds: [...state.programSessionIds, original],
+    // );
   }
 
   void reset() {
-    state = ProgramState(
-      plannedSessions: {},
-      programSessionIds: [],
-      programName: '',
-      programSessionId: '',
-    );
+    // state = ProgramState(
+    //   plannedSessions: {},
+    //   programSessionIds: [],
+    //   programName: '',
+    //   programSessionId: '',
+    // );
   }
 }

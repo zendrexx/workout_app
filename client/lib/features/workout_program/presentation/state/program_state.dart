@@ -1,41 +1,35 @@
 import 'package:client/features/workout_planning/presentation/state/planned_session_state.dart';
+import 'package:client/features/workout_program/presentation/state/week_program_state.dart';
 
 class ProgramState {
   final String programName;
-  final String programSessionId;
-  final List<String> programSessionIds;
-  final Map<String, PlannedSessionState> plannedSessions;
+  final String programId;
+  final Map<String, WeekProgramState> weekState;
+  //final Map<String, PlannedSessionState> plannedSessions;
+
   ProgramState({
     required this.programName,
-    required this.plannedSessions,
-    required this.programSessionIds,
-    required this.programSessionId,
+    required this.programId,
+    required this.weekState,
+    //required this.plannedSessions,
   });
-  List<PlannedSessionState> get sessions => plannedSessions.values.toList();
-  List<PlannedSessionState> get programSessions => programSessionIds
-      .map((id) => plannedSessions[id])
-      .whereType<PlannedSessionState>()
-      .toList();
+
+  //List<PlannedSessionState> get sessions => plannedSessions.values.toList();
+
   factory ProgramState.initial() {
-    return ProgramState(
-      programName: '',
-      plannedSessions: {},
-      programSessionIds: [],
-      programSessionId: '',
-    );
+    return ProgramState(programName: '', programId: '', weekState: {});
   }
 
   ProgramState copyWith({
     String? programName,
-    String? programSessionId,
-    Map<String, PlannedSessionState>? plannedSessions,
-    List<String>? programSessionIds,
+    String? programId,
+    //Map<String, PlannedSessionState>? plannedSessions,
   }) {
     return ProgramState(
       programName: programName ?? this.programName,
-      programSessionId: programSessionId ?? this.programSessionId,
-      plannedSessions: plannedSessions ?? this.plannedSessions,
-      programSessionIds: programSessionIds ?? this.programSessionIds,
+      programId: programId ?? this.programId,
+      weekState: weekState,
+      // plannedSessions: plannedSessions ?? this.plannedSessions,
     );
   }
 }

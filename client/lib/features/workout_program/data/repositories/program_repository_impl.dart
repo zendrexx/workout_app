@@ -4,6 +4,7 @@ import 'package:client/features/workout_program/data/mappers/to_isar_program.dar
 import 'package:client/features/workout_program/data/models/program_isar.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/repositories/program_repository.dart';
+import 'package:client/features/workout_program/domain/usecases/watch_all_program.dart';
 
 class ProgramRepositoryImpl implements ProgramRepository {
   final ProgramSessionIsarDatasource datasource;
@@ -17,7 +18,7 @@ class ProgramRepositoryImpl implements ProgramRepository {
   }
 
   @override
-  Stream<List<Program>> watchAllSessions() {
+  Stream<List<Program>> watchAllPrograms() {
     return datasource.watchAll().map(
       (isarSessions) => isarSessions.map(toDomainProgram).toList(),
     );

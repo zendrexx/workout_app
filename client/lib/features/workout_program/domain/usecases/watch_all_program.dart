@@ -7,6 +7,6 @@ class WatchAllProgram {
   WatchAllProgram(this.repo);
 
   Stream<List<Program>> call() {
-    return repo.watchAllSessions();
+    return repo.watchAllPrograms();
   }
 }
