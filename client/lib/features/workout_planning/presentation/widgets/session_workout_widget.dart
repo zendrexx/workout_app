@@ -233,7 +233,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
               print("SETS");
               print(sets[setIndex].setId);
               return WorkoutSetWidget(
-                setNum: setIndex,
+                setIndex: setIndex,
                 exerciseIndex: widget.exerciseIndex,
                 estWeight: (sets[setIndex].estWeight % 1 == 0
                     ? sets[setIndex].estWeight.toInt().toString()
@@ -244,7 +244,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                   sets[setIndex].minRep,
                   sets[setIndex].maxRep,
                 ),
-                setId: sets[setIndex].setId,
+
                 key: ValueKey(sets[setIndex].setId),
               );
             }),

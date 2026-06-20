@@ -7,8 +7,10 @@ class PerformedSession {
 
   final String name;
   final DateTime endTime;
-  bool isCompleted = false;
   final PerformedStats performedStats;
+
+  final String plannedSessionId;
+
   final List<PerformedExercise> performedExercise;
   PerformedSession({
     required this.name,
@@ -16,7 +18,7 @@ class PerformedSession {
     required this.performedStats,
     required this.performedExercise,
     required this.endTime,
-    required this.isCompleted,
+    required this.plannedSessionId,
   });
 
   bool get hasExercise {

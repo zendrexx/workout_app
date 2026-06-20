@@ -6,7 +6,8 @@ Program toDomainProgram(ProgramIsar s) {
   final program = Program(
     name: s.name,
     programId: s.programId,
-    week: s.weeks.map((week) => toWeek(week)).toList(),
+    week: s.weeks.map((weekId) => toWeek(weekId)).toList(),
+    //week: s.weeks.map((week) => toWeek(week)).toList(),
     //sessionIds: s.sessionIds.toList(),
   );
 

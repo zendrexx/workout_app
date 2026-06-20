@@ -16,7 +16,6 @@ PerformedSet mapPerformedSet(PerformedSetState s) {
     estRep: s.estRep,
     estWeight: s.estWeight,
     isCompleted: s.isCompleted,
-    setId: s.setId,
   );
 }
 
@@ -48,6 +47,6 @@ PerformedSession mapPerformedSession(PerformedSessionState s) {
     performedStats: mapPerfomedStats(s.performedStats),
     performedExercise: s.performedExercise.map(mapPerformedExercise).toList(),
     endTime: DateTime.now(),
-    isCompleted: true,
+    plannedSessionId: s.plannedSessionId,
   );
 }

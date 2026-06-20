@@ -121,14 +121,13 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void deleteSet(int exerciseIndex, String setId) {
+  void deleteSet(int exerciseIndex, int setIndex) {
     final updatedExercises = [...state.exercises];
 
     final currentExercise = updatedExercises[exerciseIndex];
 
-    final updatedSets = currentExercise.sets
-        .where((set) => set.setId != setId)
-        .toList();
+    final updatedSets = [...currentExercise.sets];
+    updatedSets.removeAt(setIndex);
 
     updatedExercises[exerciseIndex] = currentExercise.copyWith(
       sets: updatedSets,
@@ -137,18 +136,16 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addWeightToSets(int exerciseIndex, String setId, String weight) {
+  void addWeightToSets(int exerciseIndex, int setIndex, String weight) {
     final double? parsedWeight = double.tryParse(weight);
     if (parsedWeight == null) return;
 
     final updatedExercises = [...state.exercises];
     final currentExercise = updatedExercises[exerciseIndex];
-
-    final updatedSets = currentExercise.sets.map((set) {
-      if (set.setId != setId) return set;
-
-      return set.copyWith(estWeight: parsedWeight);
-    }).toList();
+    final updatedSets = [...currentExercise.sets];
+    updatedSets[setIndex] = updatedSets[setIndex].copyWith(
+      estWeight: parsedWeight,
+    );
 
     updatedExercises[exerciseIndex] = currentExercise.copyWith(
       sets: updatedSets,
@@ -157,7 +154,7 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
     state = state.copyWith(exercises: updatedExercises);
   }
 
-  void addRepRangeToSets(int exerciseIndex, String setId, String repRange) {
+  void addRepRangeToSets(int exerciseIndex, int setIndex, String repRange) {
     final updatedExercises = [...state.exercises];
     final currentExercise = updatedExercises[exerciseIndex];
 
@@ -195,12 +192,11 @@ class PlannedSessionViewmodel extends StateNotifier<PlannedSessionState>
       minRep = single;
       maxRep = single;
     }
-
-    final updatedSets = currentExercise.sets.map((set) {
-      if (set.setId != setId) return set;
-
-      return set.copyWith(minRep: minRep, maxRep: maxRep);
-    }).toList();
+    final updatedSets = [...currentExercise.sets];
+    updatedSets[setIndex] = updatedSets[setIndex].copyWith(
+      minRep: minRep,
+      maxRep: maxRep,
+    );
 
     updatedExercises[exerciseIndex] = currentExercise.copyWith(
       sets: updatedSets,

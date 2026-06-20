@@ -33,11 +33,16 @@ PerformedStatsIsar toWorkoutStatsIsar(PerformedStats psts) {
 }
 
 PerformedSessionIsar toPerformedSessionIsar(PerformedSession psi) {
-  return PerformedSessionIsar()
-    ..performedSessionId = psi.performedSessionId
-    ..name = psi.name
-    ..endTime = psi.endTime
-    ..isCompleted = psi.isCompleted;
+  return PerformedSessionIsar(
+    endTime: psi.endTime,
+    name: psi.name,
+    plannedSessionId: psi.plannedSessionId,
+    performedSessionId: psi.performedSessionId,
+    performedExercises: psi.performedExercise
+        .map((pe) => toPerformedExercise(pe))
+        .toList(),
+    performedStats: toWorkoutStatsIsar(psi.performedStats),
+  );
 }
 
 

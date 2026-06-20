@@ -5,11 +5,11 @@ class Week {
 
   final int weekNumber;
 
-  final List<PlannedWorkoutSession> sessions;
+  final List<String> sessionIds;
 
   Week({
     required this.weekId,
     required this.weekNumber,
-    required this.sessions,
+    required this.sessionIds,
   });
 }

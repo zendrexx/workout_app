@@ -6,7 +6,6 @@ class PerformedSetState {
   final double estWeight;
   final int actRep;
   final double actWeight;
-  final String setId;
   //final double prevWeight;
   bool isCompleted;
   PerformedSetState({
@@ -16,7 +15,6 @@ class PerformedSetState {
     required this.actWeight,
     //required this.prevWeight,
     required this.isCompleted,
-    required this.setId,
   });
   factory PerformedSetState.defaultSet() {
     return PerformedSetState(
@@ -26,7 +24,6 @@ class PerformedSetState {
       actWeight: 0,
       //prevWeight: 0,
       isCompleted: false,
-      setId: IdGenerator().getId(),
     );
   }
   PerformedSetState copyWith({
@@ -45,7 +42,6 @@ class PerformedSetState {
       actWeight: actWeight ?? this.actWeight,
       //prevWeight: prevWeight ?? this.prevWeight,
       isCompleted: isCompleted ?? this.isCompleted,
-      setId: setId ?? this.setId,
     );
   }
 }

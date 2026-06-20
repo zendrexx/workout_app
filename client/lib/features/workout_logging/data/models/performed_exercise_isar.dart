@@ -5,13 +5,21 @@ import 'package:client/features/workout_logging/data/models/performed_sets_isar.
 
 part 'performed_exercise_isar.g.dart';
 
-@collection
+@embedded
 class PerformedExerciseIsar {
-  Id id = Isar.autoIncrement;
-  late String exerciseName;
-  late String imagePath;
+  String exId = "";
+
+  String exerciseName = "";
+  String imagePath = "";
+
   String? equipment;
-  late String exId;
   String? notes;
-  final sets = IsarLinks<PerformedSetsIsar>();
+  List<PerformedSetsIsar> performedSets = [];
+  PerformedExerciseIsar({
+    this.notes,
+    this.exId = "",
+    this.exerciseName = "",
+    this.equipment,
+    this.imagePath = "",
+  });
 }

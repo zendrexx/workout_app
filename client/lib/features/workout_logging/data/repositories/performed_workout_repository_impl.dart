@@ -25,18 +25,8 @@ class PerformedWorkoutRepositoryImpl implements PerformedWorkoutRepository {
   //   }
   @override
   Stream<List<PerformedSession>> watchAllPerformedSession() {
-    return datasource.watchAll().asyncMap((sessions) async {
-      for (final s in sessions) {
-        await s.performedExercises.load();
-
-        for (final ex in s.performedExercises) {
-          await ex.sets.load();
-        }
-
-        await s.performedStats.load();
-      }
-
-      return sessions.map(toDomainPerformedSession).toList();
-    });
+    return datasource.watchAll().map(
+      (sessions) => sessions.map(toDomainPerformedSession).toList(),
+    );
   }
 }

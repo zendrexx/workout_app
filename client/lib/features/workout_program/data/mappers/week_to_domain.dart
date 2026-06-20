@@ -6,8 +6,7 @@ Week toWeek(ProgramWeekIsar s) {
   return Week(
     weekId: s.weekId,
     weekNumber: s.weekNumber,
-    sessions: s.sessions
-        .map((session) => toDomainSession(session))
-        .toList(), // Assuming you have a way to map PlannedWorkoutSessionIsar to PlannedWorkoutSession
+    sessionIds: s
+        .sessionIds, // Assuming you have a way to map PlannedWorkoutSessionIsar to PlannedWorkoutSession
   );
 }

@@ -10,12 +10,14 @@ class PerformedSessionState {
   bool isCompleted = false;
   PerformedStatsState performedStats;
   final List<PerformedExerciseState> performedExercise;
+  final String plannedSessionId;
   PerformedSessionState({
     required this.name,
     required this.performedSessionId,
     required this.performedStats,
     required this.performedExercise,
     required this.endTime,
+    required this.plannedSessionId,
   });
 
   factory PerformedSessionState.initial() {
@@ -29,6 +31,7 @@ class PerformedSessionState {
       ),
       performedExercise: [],
       endTime: DateTime.fromMillisecondsSinceEpoch(0),
+      plannedSessionId: "",
     );
   }
 
@@ -39,6 +42,7 @@ class PerformedSessionState {
     bool? isCompleted,
     PerformedStatsState? performedStats,
     List<PerformedExerciseState>? performedExercise,
+    String? plannedSessionId,
   }) {
     return PerformedSessionState(
       performedSessionId: performedSessionId ?? this.performedSessionId,
@@ -46,6 +50,7 @@ class PerformedSessionState {
       performedStats: performedStats ?? this.performedStats,
       performedExercise: performedExercise ?? this.performedExercise,
       endTime: endTime ?? this.endTime,
+      plannedSessionId: plannedSessionId ?? this.plannedSessionId,
     );
   }
 }

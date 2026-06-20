@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
 import 'package:isar/isar.dart';
 
 import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
@@ -11,14 +12,22 @@ class PerformedSessionIsar {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true)
-  late String performedSessionId;
+  String performedSessionId = "";
 
-  late String name;
+  String name = "";
 
-  late DateTime endTime;
+  DateTime endTime;
 
-  bool isCompleted = false;
-  final performedStats = IsarLink<PerformedStatsIsar>();
+  String plannedSessionId = "";
 
-  final performedExercises = IsarLinks<PerformedExerciseIsar>();
+  List<PerformedExerciseIsar> performedExercises = [];
+  PerformedStatsIsar performedStats;
+  PerformedSessionIsar({
+    required this.performedSessionId,
+    required this.name,
+    required this.endTime,
+    required this.plannedSessionId,
+    required this.performedExercises,
+    required this.performedStats,
+  });
 }

@@ -7,6 +7,7 @@ Week toDomainWeek(WeekState s) {
   return Week(
     weekNumber: s.weekNumber,
     weekId: s.weekId,
-    sessions: s.plannedSessions.map((s) => mapSession(s)).toList(),
+    sessionIds: s.sessionIds,
+    // sessions: s.plannedSessions.map((s) => mapSession(s)).toList(),
   );
 }

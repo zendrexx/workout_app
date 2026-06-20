@@ -5,10 +5,10 @@ class WeekState {
 
   late int weekNumber;
 
-  final List<PlannedSessionState> plannedSessions;
+  final List<String> sessionIds;
   WeekState({
     required this.weekId,
     required this.weekNumber,
-    required this.plannedSessions,
+    required this.sessionIds,
   });
 }

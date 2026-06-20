@@ -6,17 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
-  final int setNum;
+  final int setIndex;
   final int index;
-  final String setId;
   final String? estWeight;
   final String? repRange;
   //final String? previousWeight;
   const PerformedWorkoutSetWidget({
     super.key,
-    required this.setNum,
+    required this.setIndex,
     required this.index,
-    required this.setId,
     //this.previousWeight,
     this.estWeight,
     this.repRange,
@@ -81,14 +79,14 @@ class _PerformedWorkoutSetWidgetState
     return Form(
       key: _formKey,
       child: Slidable(
-        key: ValueKey(widget.setId),
+        key: ValueKey(widget.setIndex),
         endActionPane: ActionPane(
           extentRatio: 0.10,
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
               onPressed: (_) {
-                vm.deleteSet(widget.index, widget.setNum);
+                vm.deleteSet(widget.index, widget.setIndex);
               },
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
@@ -109,7 +107,7 @@ class _PerformedWorkoutSetWidgetState
                 children: [
                   Expanded(
                     child: Text(
-                      (widget.setNum + 1).toString(),
+                      (widget.setIndex + 1).toString(),
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
@@ -155,7 +153,11 @@ class _PerformedWorkoutSetWidgetState
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                       ],
                       onChanged: (value) {
-                        vm.addWeightToSets(widget.index, widget.setNum, value);
+                        vm.addWeightToSets(
+                          widget.index,
+                          widget.setIndex,
+                          value,
+                        );
                       },
                       decoration: InputDecoration(
                         hintText: estweight,
@@ -199,7 +201,7 @@ class _PerformedWorkoutSetWidgetState
                       onChanged: (value) {
                         vm.addRepRangeToSets(
                           widget.index,
-                          widget.setNum,
+                          widget.setIndex,
                           value,
                         );
                       },
@@ -263,11 +265,11 @@ class _PerformedWorkoutSetWidgetState
                             print(weight);
                             vm.addWeightToSets(
                               widget.index,
-                              widget.setNum,
+                              widget.setIndex,
                               formatDoubleNumber(weight),
                             );
 
-                            vm.isSetCompleted(widget.index, widget.setNum);
+                            vm.isSetCompleted(widget.index, widget.setIndex);
                             vm.addStats(weight, reps);
                           } else {
                             vm.removeStats(weight, reps);

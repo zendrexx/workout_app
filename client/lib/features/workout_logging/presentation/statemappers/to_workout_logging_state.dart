@@ -17,6 +17,7 @@ PerformedSessionState toWorkoutLoggingState(PlannedWorkoutSession s) {
     ),
     performedExercise: s.exercises.map(mapPlannedExercise).toList(),
     endTime: DateTime.fromMillisecondsSinceEpoch(0),
+    plannedSessionId: s.sessionId,
   );
 }
 
@@ -45,6 +46,5 @@ PerformedSetState mapPlannedSet(PlannedWorkoutSet s) {
     actWeight: 0,
     // prevWeight: 0,
     isCompleted: false,
-    setId: s.setId,
   );
 }

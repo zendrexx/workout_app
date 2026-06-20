@@ -14,6 +14,7 @@ PerformedSessionState toPerformedSessionState(PerformedSession s) {
     performedStats: toPerformedStatsState(s.performedStats),
     performedExercise: s.performedExercise.map(toPerformedExercise).toList(),
     endTime: s.endTime,
+    plannedSessionId: s.plannedSessionId,
   );
 }
 
@@ -44,6 +45,5 @@ PerformedSetState toPlannedSet(PerformedSet s) {
     actWeight: s.actWeight,
     //prevWeight: s.prevWeight,
     isCompleted: s.isCompleted,
-    setId: s.setId,
   );
 }

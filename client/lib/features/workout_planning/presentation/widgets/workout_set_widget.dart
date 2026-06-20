@@ -5,20 +5,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class WorkoutSetWidget extends ConsumerStatefulWidget {
-  final int setNum;
+  final int setIndex;
   final int exerciseIndex;
   final bool viewing;
   final String? estWeight;
   final String? repRange;
-  final String setId;
   const WorkoutSetWidget({
     super.key,
-    required this.setNum,
+    required this.setIndex,
     required this.exerciseIndex,
     this.viewing = false,
     this.estWeight,
     this.repRange,
-    required this.setId,
   });
 
   @override
@@ -49,7 +47,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
               widget.estWeight == '0')
           ? ''
           : widget.repRange!;
-      setController.text = (widget.setNum + 1).toString();
+      setController.text = (widget.setIndex + 1).toString();
     });
   }
 
@@ -65,7 +63,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
     final vm = ref.read(plannedSessionViewModelProvider.notifier);
 
     return Slidable(
-      key: ValueKey(widget.setId),
+      key: ValueKey(widget.setIndex),
 
       enabled: !widget.viewing, // disable swipe when viewing
 
@@ -75,7 +73,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
         children: [
           SlidableAction(
             onPressed: (_) {
-              vm.deleteSet(widget.exerciseIndex, widget.setId);
+              vm.deleteSet(widget.exerciseIndex, widget.setIndex);
             },
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -115,7 +113,11 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9\.]')),
                 ],
                 onChanged: (value) {
-                  vm.addWeightToSets(widget.exerciseIndex, widget.setId, value);
+                  vm.addWeightToSets(
+                    widget.exerciseIndex,
+                    widget.setIndex,
+                    value,
+                  );
                 },
                 decoration: const InputDecoration(
                   hintText: "-",
@@ -134,7 +136,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
                 onChanged: (value) {
                   vm.addRepRangeToSets(
                     widget.exerciseIndex,
-                    widget.setId,
+                    widget.setIndex,
                     value,
                   );
                 },

@@ -254,9 +254,7 @@ class _LogSessionWorkoutWidgetState
                 //   widget.plannedSets[setIndex].prevWeight,
                 // ),
                 repRange: widget.plannedSets[setIndex].estRep,
-                setId: widget.plannedSets[setIndex].setId,
-                key: ValueKey(sets[setIndex].setId),
-              ); //still cant code its day 3
+              );
             },
           ),
           SizedBox(height: 10),

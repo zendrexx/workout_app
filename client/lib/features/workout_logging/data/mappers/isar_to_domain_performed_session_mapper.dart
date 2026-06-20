@@ -16,7 +16,6 @@ PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
     estWeight: s.estWeight ?? 0,
     estRep: s.estRep ?? "",
     isCompleted: s.isCompleted,
-    setId: s.setId,
   );
 
   return sets;
@@ -29,7 +28,7 @@ PerformedExercise toDomainPlannedExercise(PerformedExerciseIsar e) {
     imagePath: e.imagePath,
     equipment: e.equipment ?? "",
     notes: e.notes ?? "",
-    sets: e.sets.map((s) => toDomainPerformedSet(s)).toList(),
+    sets: e.performedSets.map((s) => toDomainPerformedSet(s)).toList(),
   );
 
   return ex;
@@ -50,8 +49,8 @@ PerformedSession toDomainPerformedSession(PerformedSessionIsar s) {
     performedExercise: s.performedExercises
         .map((e) => toDomainPlannedExercise(e))
         .toList(),
-    performedStats: toDomainPerformedStats(s.performedStats.value!),
+    performedStats: toDomainPerformedStats(s.performedStats),
+    plannedSessionId: s.plannedSessionId,
     endTime: s.endTime,
-    isCompleted: s.isCompleted,
   );
 }

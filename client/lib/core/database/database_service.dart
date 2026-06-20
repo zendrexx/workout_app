@@ -19,15 +19,9 @@ final isarProvider = FutureProvider<Isar>((ref) async {
 
   final isar = await Isar.open([
     PlannedSessionIsarSchema,
-    PlannedExerciseIsarSchema,
-    PlannedSetIsarSchema,
     ExerciseIsarSchema,
-    PerformedStatsIsarSchema,
-    PerformedSetsIsarSchema,
-    PerformedExerciseIsarSchema,
     PerformedSessionIsarSchema,
     ProgramIsarSchema,
-    ProgramWeekIsarSchema,
   ], directory: appDir.path);
 
   await seedExercises(isar);

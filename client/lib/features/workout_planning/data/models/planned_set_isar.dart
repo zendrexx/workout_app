@@ -6,6 +6,7 @@ part 'planned_set_isar.g.dart';
 
 @embedded
 class PlannedSetIsar {
+  double? targetPercentage;
   double? estWeight;
   int? minRep;
   int? maxRep;

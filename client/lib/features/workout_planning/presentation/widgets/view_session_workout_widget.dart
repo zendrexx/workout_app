@@ -128,7 +128,7 @@ class _ViewSessionWorkoutWidgetState
             itemCount: sets.length,
             itemBuilder: (context, setIndex) {
               return WorkoutSetWidget(
-                setNum: setIndex,
+                setIndex: setIndex,
                 exerciseIndex: widget.exerciseIndex,
                 estWeight: (sets[setIndex].estWeight % 1 == 0
                     ? sets[setIndex].estWeight.toInt().toString()
@@ -136,7 +136,6 @@ class _ViewSessionWorkoutWidgetState
 
                 repRange: plannedRepRange(setIndex),
                 viewing: true,
-                setId: sets[setIndex].setId,
               );
             },
           ),

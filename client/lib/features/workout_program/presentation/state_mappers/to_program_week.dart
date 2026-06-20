@@ -6,6 +6,6 @@ WeekState toWeekState(Week week) {
   return WeekState(
     weekId: week.weekId,
     weekNumber: week.weekNumber,
-    plannedSessions: week.sessions.map((s) => toStateSession(s)).toList(),
+    sessionIds: week.sessionIds,
   );
 }

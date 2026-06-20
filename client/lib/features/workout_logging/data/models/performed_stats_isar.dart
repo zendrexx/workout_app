@@ -2,11 +2,14 @@ import 'package:isar/isar.dart';
 
 part 'performed_stats_isar.g.dart';
 
-@collection
+@embedded
 class PerformedStatsIsar {
-  Id id = Isar.autoIncrement;
-
-  late int totalSeconds;
-  late double totalVolume;
-  late int totalSets;
+  int totalSeconds = 0;
+  double totalVolume = 0.0;
+  int totalSets = 0;
+  PerformedStatsIsar({
+    this.totalSeconds = 0,
+    this.totalVolume = 0.0,
+    this.totalSets = 0,
+  });
 }
