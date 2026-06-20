@@ -26,6 +26,12 @@ const ProgramIsarSchema = CollectionSchema(
       id: 1,
       name: r'programId',
       type: IsarType.string,
+    ),
+    r'weeks': PropertySchema(
+      id: 2,
+      name: r'weeks',
+      type: IsarType.objectList,
+      target: r'ProgramWeekIsar',
     )
   },
   estimateSize: _programIsarEstimateSize,
@@ -48,15 +54,8 @@ const ProgramIsarSchema = CollectionSchema(
       ],
     )
   },
-  links: {
-    r'weeks': LinkSchema(
-      id: 4780086802183925451,
-      name: r'weeks',
-      target: r'ProgramWeekIsar',
-      single: false,
-    )
-  },
-  embeddedSchemas: {},
+  links: {},
+  embeddedSchemas: {r'ProgramWeekIsar': ProgramWeekIsarSchema},
   getId: _programIsarGetId,
   getLinks: _programIsarGetLinks,
   attach: _programIsarAttach,
@@ -71,6 +70,15 @@ int _programIsarEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.programId.length * 3;
+  bytesCount += 3 + object.weeks.length * 3;
+  {
+    final offsets = allOffsets[ProgramWeekIsar]!;
+    for (var i = 0; i < object.weeks.length; i++) {
+      final value = object.weeks[i];
+      bytesCount +=
+          ProgramWeekIsarSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   return bytesCount;
 }
 
@@ -82,6 +90,12 @@ void _programIsarSerialize(
 ) {
   writer.writeString(offsets[0], object.name);
   writer.writeString(offsets[1], object.programId);
+  writer.writeObjectList<ProgramWeekIsar>(
+    offsets[2],
+    allOffsets,
+    ProgramWeekIsarSchema.serialize,
+    object.weeks,
+  );
 }
 
 ProgramIsar _programIsarDeserialize(
@@ -95,6 +109,13 @@ ProgramIsar _programIsarDeserialize(
     programId: reader.readString(offsets[1]),
   );
   object.id = id;
+  object.weeks = reader.readObjectList<ProgramWeekIsar>(
+        offsets[2],
+        ProgramWeekIsarSchema.deserialize,
+        allOffsets,
+        ProgramWeekIsar(),
+      ) ??
+      [];
   return object;
 }
 
@@ -109,6 +130,14 @@ P _programIsarDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readObjectList<ProgramWeekIsar>(
+            offset,
+            ProgramWeekIsarSchema.deserialize,
+            allOffsets,
+            ProgramWeekIsar(),
+          ) ??
+          []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -119,14 +148,12 @@ Id _programIsarGetId(ProgramIsar object) {
 }
 
 List<IsarLinkBase<dynamic>> _programIsarGetLinks(ProgramIsar object) {
-  return [object.weeks];
+  return [];
 }
 
 void _programIsarAttach(
     IsarCollection<dynamic> col, Id id, ProgramIsar object) {
   object.id = id;
-  object.weeks
-      .attach(col, col.isar.collection<ProgramWeekIsar>(), r'weeks', id);
 }
 
 extension ProgramIsarByIndex on IsarCollection<ProgramIsar> {
@@ -628,37 +655,42 @@ extension ProgramIsarQueryFilter
       ));
     });
   }
-}
-
-extension ProgramIsarQueryObject
-    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {}
-
-extension ProgramIsarQueryLinks
-    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {
-  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> weeks(
-      FilterQuery<ProgramWeekIsar> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'weeks');
-    });
-  }
 
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
       weeksLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'weeks', length, true, length, true);
+      return query.listLength(
+        r'weeks',
+        length,
+        true,
+        length,
+        true,
+      );
     });
   }
 
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> weeksIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'weeks', 0, true, 0, true);
+      return query.listLength(
+        r'weeks',
+        0,
+        true,
+        0,
+        true,
+      );
     });
   }
 
   QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition>
       weeksIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'weeks', 0, false, 999999, true);
+      return query.listLength(
+        r'weeks',
+        0,
+        false,
+        999999,
+        true,
+      );
     });
   }
 
@@ -668,7 +700,13 @@ extension ProgramIsarQueryLinks
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'weeks', 0, true, length, include);
+      return query.listLength(
+        r'weeks',
+        0,
+        true,
+        length,
+        include,
+      );
     });
   }
 
@@ -678,7 +716,13 @@ extension ProgramIsarQueryLinks
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'weeks', length, include, 999999, true);
+      return query.listLength(
+        r'weeks',
+        length,
+        include,
+        999999,
+        true,
+      );
     });
   }
 
@@ -690,11 +734,29 @@ extension ProgramIsarQueryLinks
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'weeks', lower, includeLower, upper, includeUpper);
+      return query.listLength(
+        r'weeks',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 }
+
+extension ProgramIsarQueryObject
+    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {
+  QueryBuilder<ProgramIsar, ProgramIsar, QAfterFilterCondition> weeksElement(
+      FilterQuery<ProgramWeekIsar> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'weeks');
+    });
+  }
+}
+
+extension ProgramIsarQueryLinks
+    on QueryBuilder<ProgramIsar, ProgramIsar, QFilterCondition> {}
 
 extension ProgramIsarQuerySortBy
     on QueryBuilder<ProgramIsar, ProgramIsar, QSortBy> {
@@ -796,6 +858,13 @@ extension ProgramIsarQueryProperty
   QueryBuilder<ProgramIsar, String, QQueryOperations> programIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'programId');
+    });
+  }
+
+  QueryBuilder<ProgramIsar, List<ProgramWeekIsar>, QQueryOperations>
+      weeksProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'weeks');
     });
   }
 }

@@ -121,9 +121,9 @@ class _HomeProgramListWidgetState extends ConsumerState<HomeProgramListWidget> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    vm.duplicateProgram(
-                                                      widget.programId,
-                                                    );
+                                                    // vm.duplicateProgram(
+                                                    //   widget.programId,
+                                                    // );
                                                     Navigator.pop(context);
                                                   },
                                                   behavior:

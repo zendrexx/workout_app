@@ -1,6 +1,7 @@
 import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:client/features/workout_program/data/models/program_isar.dart';
+import 'package:client/features/workout_program/data/models/program_week_isar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -26,6 +27,7 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     PerformedExerciseIsarSchema,
     PerformedSessionIsarSchema,
     ProgramIsarSchema,
+    ProgramWeekIsarSchema,
   ], directory: appDir.path);
 
   await seedExercises(isar);

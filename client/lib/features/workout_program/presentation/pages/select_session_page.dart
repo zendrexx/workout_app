@@ -139,21 +139,33 @@ class _SelectSessionPageState extends ConsumerState<SelectSessionPage> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.plannedSessions.length,
+                      // itemCount: state.plannedSessions.length,
+                      itemCount: 1,
                       itemBuilder: (context, index) {
-                        final session = state.sessions[index];
-
-                        return GestureDetector(
-                          onTap: () => _toggleSession(session),
-                          child: SessionCardWidget(
-                            isSelectable: true,
-                            isSelected: _selectedSessions.contains(
-                              session.sessionId,
+                        // final session = state.sessions[index];
+                        return SizedBox(
+                          height: 100,
+                          child: Center(
+                            child: Text(
+                              'Get started by adding a session to your\nprogram.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w200,
+                                fontSize: 16,
+                              ),
                             ),
-                            sessionName: session.name,
-                            exercises: session.exercises,
                           ),
                         );
+                        // return GestureDetector(
+                        //   onTap: () => _toggleSession(session),
+                        //   child: SessionCardWidget(
+                        //     isSelectable: true,
+                        //     isSelected: _selectedSessions.contains(
+                        //       session.sessionId,
+                        //     ),
+                        //     sessionName: session.name,
+                        //     exercises: session.exercises,
+                        //   ),
+                        // );
                       },
                     ),
                   ],

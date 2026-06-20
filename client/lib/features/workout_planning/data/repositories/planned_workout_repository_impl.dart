@@ -18,17 +18,13 @@ class PlannedWorkoutRepositoryImpl implements PlannedWorkoutSessionRepository {
     final isarSession = toIsarSession(plannedSession);
 
     // Map exercises & sets separately
-    final exercises = plannedSession.exercises.map(toIsarExercise).toList();
-    final setsMap = <PlannedExerciseIsar, List<PlannedSetIsar>>{
-      for (int i = 0; i < exercises.length; i++)
-        exercises[i]: plannedSession.exercises[i].sets.map(toIsarSet).toList(),
-    };
+    // final exercises = plannedSession.exercises.map(toIsarExercise).toList();
+    // final setsMap = <PlannedExerciseIsar, List<PlannedSetIsar>>{
+    //   for (int i = 0; i < exercises.length; i++)
+    //     exercises[i]: plannedSession.exercises[i].sets.map(toIsarSet).toList(),
+    // };
 
-    return datasource.addSession(
-      session: isarSession,
-      exercises: exercises,
-      setsMap: setsMap,
-    );
+    return datasource.addSession(session: isarSession);
   }
 
   @override

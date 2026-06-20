@@ -10,7 +10,6 @@ PlannedWorkoutSet toDomainSet(PlannedSetIsar s) {
     estWeight: s.estWeight ?? 0,
     maxRep: s.maxRep ?? 0,
     minRep: s.minRep ?? 0,
-    setId: s.setId,
   );
 
   return sets;
@@ -34,9 +33,7 @@ PlannedWorkoutSession toDomainSession(PlannedSessionIsar s) {
     createdAt: s.createdAt,
     name: s.name,
     sessionId: s.sessionId,
-    exercises: s.plannedExercise
-        .map((e) => toDomainPlannedExercise(e))
-        .toList(),
+    exercises: s.exercises.map((e) => toDomainPlannedExercise(e)).toList(),
   );
 
   return session;

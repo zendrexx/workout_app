@@ -4,15 +4,12 @@ import 'package:isar/isar.dart';
 
 part 'planned_set_isar.g.dart';
 
-@collection
+@embedded
 class PlannedSetIsar {
-  Id id = Isar.autoIncrement;
-
   double? estWeight;
   int? minRep;
   int? maxRep;
-  @Index(unique: true)
-  String setId = "";
+
   PlannedSetIsar({this.estWeight, this.minRep, this.maxRep});
 
   PlannedSetIsar copyWith({double? estWeight, int? minRep, int? maxRep}) {

@@ -7,25 +7,23 @@ import 'package:client/features/workout_planning/data/models/planned_set_isar.da
 
 part 'planned_exercise_isar.g.dart';
 
-@collection
+@embedded
 class PlannedExerciseIsar {
-  Id id = Isar.autoIncrement;
+  String exId = "";
 
-  String exerciseName;
-  String imagePath;
+  String exerciseName = "";
+  String imagePath = "";
   String? equipment;
-  String exId;
+
   String? notes;
 
-  var sets = IsarLinks<PlannedSetIsar>();
-
-  var session = IsarLink<PlannedSessionIsar>();
+  List<PlannedSetIsar> sets = [];
 
   PlannedExerciseIsar({
     this.notes,
-    required this.exId,
-    required this.exerciseName,
+    this.exId = "",
+    this.exerciseName = "",
     this.equipment,
-    required this.imagePath,
+    this.imagePath = "",
   });
 }

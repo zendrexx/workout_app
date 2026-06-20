@@ -4,16 +4,13 @@ import 'package:isar/isar.dart';
 
 part 'program_week_isar.g.dart';
 
-@collection
+@embedded
 class ProgramWeekIsar {
-  Id id = Isar.autoIncrement;
+  String weekId = "";
 
-  @Index(unique: true)
-  late String weekId;
+  int weekNumber = 0;
 
-  late int weekNumber;
+  List<String> sessionIds = [];
 
-  final sessions = IsarLinks<PlannedSessionIsar>();
-  final program = IsarLink<ProgramIsar>();
-  ProgramWeekIsar({required this.weekId, required this.weekNumber});
+  ProgramWeekIsar({this.weekId = "", this.weekNumber = 0});
 }

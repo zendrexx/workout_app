@@ -5,12 +5,10 @@ class PlannedSetState {
   final int minRep;
   final int maxRep;
   final double estWeight;
-  final String setId;
   PlannedSetState({
     required this.minRep,
     required this.maxRep,
     required this.estWeight,
-    required this.setId,
   });
 
   PlannedSetState copyWith({
@@ -23,16 +21,10 @@ class PlannedSetState {
       minRep: minRep ?? this.minRep,
       maxRep: maxRep ?? this.maxRep,
       estWeight: estWeight ?? this.estWeight,
-      setId: setId ?? this.setId,
     );
   }
 
   factory PlannedSetState.defaultSet() {
-    return PlannedSetState(
-      minRep: 0,
-      maxRep: 0,
-      estWeight: 0,
-      setId: IdGenerator().getId(),
-    );
+    return PlannedSetState(minRep: 0, maxRep: 0, estWeight: 0);
   }
 }

@@ -10,7 +10,6 @@ PlannedWorkoutSet mapSet(PlannedSetState s) {
     minRep: s.minRep,
     maxRep: s.maxRep,
     estWeight: s.estWeight,
-    setId: s.setId,
   );
 }
 

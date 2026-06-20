@@ -13,8 +13,8 @@ class ProgramIsar {
   late String name;
 
   //DateTime createdAt;
-
-  final weeks = IsarLinks<ProgramWeekIsar>();
+  List<ProgramWeekIsar> weeks = [];
+  // final weeks = IsarLinks<ProgramWeekIsar>();
 
   ProgramIsar({
     required this.programId,

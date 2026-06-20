@@ -4,7 +4,7 @@ import 'package:client/features/workout_program/presentation/state/week_program_
 class ProgramState {
   final String programName;
   final String programId;
-  final Map<String, WeekProgramState> weekState;
+  final List<WeekState> weekState;
   //final Map<String, PlannedSessionState> plannedSessions;
 
   ProgramState({
@@ -17,18 +17,19 @@ class ProgramState {
   //List<PlannedSessionState> get sessions => plannedSessions.values.toList();
 
   factory ProgramState.initial() {
-    return ProgramState(programName: '', programId: '', weekState: {});
+    return ProgramState(programName: '', programId: '', weekState: []);
   }
 
   ProgramState copyWith({
     String? programName,
     String? programId,
+    final List<WeekState>? weekState,
     //Map<String, PlannedSessionState>? plannedSessions,
   }) {
     return ProgramState(
       programName: programName ?? this.programName,
       programId: programId ?? this.programId,
-      weekState: weekState,
+      weekState: weekState ?? this.weekState,
       // plannedSessions: plannedSessions ?? this.plannedSessions,
     );
   }

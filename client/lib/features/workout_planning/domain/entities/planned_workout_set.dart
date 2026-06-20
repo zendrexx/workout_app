@@ -3,13 +3,11 @@ class PlannedWorkoutSet {
   final int minRep;
   final int maxRep;
   final double estWeight;
-  final String setId;
 
   PlannedWorkoutSet({
     required this.minRep,
     required this.maxRep,
     required this.estWeight,
-    required this.setId,
   });
 
   double get getEstVolume {
@@ -18,17 +16,11 @@ class PlannedWorkoutSet {
     return aveWeight * estWeight;
   }
 
-  PlannedWorkoutSet copyWith({
-    int? minRep,
-    int? maxRep,
-    double? estWeight,
-    String? setId,
-  }) {
+  PlannedWorkoutSet copyWith({int? minRep, int? maxRep, double? estWeight}) {
     return PlannedWorkoutSet(
       minRep: minRep ?? this.minRep,
       maxRep: maxRep ?? this.maxRep,
       estWeight: estWeight ?? this.estWeight,
-      setId: setId ?? this.setId,
     );
   }
 }

@@ -11,15 +11,15 @@ class PlannedSessionIsar {
   @Index(unique: true)
   String sessionId = "";
 
-  late String name;
-  //DateTime createdAt;
-  late int dayNumber;
-  final plannedExercise = IsarLinks<PlannedExerciseIsar>();
-  final week = IsarLink<ProgramWeekIsar>();
+  String name;
+  DateTime createdAt;
+  int? dayNumber;
+  List<PlannedExerciseIsar> exercises = [];
+
   PlannedSessionIsar({
     required this.name,
-
+    this.dayNumber,
     required this.sessionId,
-    //required this.createdAt,
+    required this.createdAt,
   });
 }

@@ -2,11 +2,11 @@
 import 'package:client/features/workout_planning/domain/entities/planned_workout_set.dart';
 
 class PlannedWorkoutExercise {
-  String exId;
-  String exerciseName;
-  String imagePath;
-  String equipment;
-  String notes;
+  final String exId;
+  final String exerciseName;
+  final String imagePath;
+  final String equipment;
+  final String notes;
   final List<PlannedWorkoutSet> sets;
 
   PlannedWorkoutExercise({

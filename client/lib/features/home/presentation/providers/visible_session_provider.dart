@@ -11,12 +11,13 @@ final visibleSessionsProvider = Provider<List<PlannedSessionState>>((ref) {
   }
 
   final program = state.program
-      .where((p) => p.programSessionId == state.activeProgramId)
+      .where((p) => p.programId == state.activeProgramId)
       .firstOrNull;
 
   if (program == null) return state.session;
 
-  return program.programSessionIds
-      .map((id) => state.session.firstWhere((s) => s.sessionId == id))
-      .toList();
+  return [];
+  // return program.programSessionIds
+  //     .map((id) => state.session.firstWhere((s) => s.sessionId == id))
+  //     .toList();
 });

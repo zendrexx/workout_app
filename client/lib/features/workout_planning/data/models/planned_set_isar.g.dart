@@ -3,17 +3,13 @@
 part of 'planned_set_isar.dart';
 
 // **************************************************************************
-// IsarCollectionGenerator
+// IsarEmbeddedGenerator
 // **************************************************************************
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetPlannedSetIsarCollection on Isar {
-  IsarCollection<PlannedSetIsar> get plannedSetIsars => this.collection();
-}
-
-const PlannedSetIsarSchema = CollectionSchema(
+const PlannedSetIsarSchema = Schema(
   name: r'PlannedSetIsar',
   id: -8044381193899721445,
   properties: {
@@ -37,14 +33,6 @@ const PlannedSetIsarSchema = CollectionSchema(
   serialize: _plannedSetIsarSerialize,
   deserialize: _plannedSetIsarDeserialize,
   deserializeProp: _plannedSetIsarDeserializeProp,
-  idName: r'id',
-  indexes: {},
-  links: {},
-  embeddedSchemas: {},
-  getId: _plannedSetIsarGetId,
-  getLinks: _plannedSetIsarGetLinks,
-  attach: _plannedSetIsarAttach,
-  version: '3.1.0+1',
 );
 
 int _plannedSetIsarEstimateSize(
@@ -78,7 +66,6 @@ PlannedSetIsar _plannedSetIsarDeserialize(
     maxRep: reader.readLongOrNull(offsets[1]),
     minRep: reader.readLongOrNull(offsets[2]),
   );
-  object.id = id;
   return object;
 }
 
@@ -97,100 +84,6 @@ P _plannedSetIsarDeserializeProp<P>(
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
-  }
-}
-
-Id _plannedSetIsarGetId(PlannedSetIsar object) {
-  return object.id;
-}
-
-List<IsarLinkBase<dynamic>> _plannedSetIsarGetLinks(PlannedSetIsar object) {
-  return [];
-}
-
-void _plannedSetIsarAttach(
-    IsarCollection<dynamic> col, Id id, PlannedSetIsar object) {
-  object.id = id;
-}
-
-extension PlannedSetIsarQueryWhereSort
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QWhere> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-}
-
-extension PlannedSetIsarQueryWhere
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QWhereClause> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idEqualTo(
-      Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idNotEqualTo(
-      Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idGreaterThan(
-      Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idLessThan(
-      Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
   }
 }
 
@@ -276,61 +169,6 @@ extension PlannedSetIsarQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> idEqualTo(
-      Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
-      idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
-      idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -486,151 +324,3 @@ extension PlannedSetIsarQueryFilter
 
 extension PlannedSetIsarQueryObject
     on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {}
-
-extension PlannedSetIsarQueryLinks
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QFilterCondition> {}
-
-extension PlannedSetIsarQuerySortBy
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QSortBy> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByEstWeight() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      sortByEstWeightDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByMaxRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      sortByMaxRepDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> sortByMinRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      sortByMinRepDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.desc);
-    });
-  }
-}
-
-extension PlannedSetIsarQuerySortThenBy
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QSortThenBy> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByEstWeight() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      thenByEstWeightDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'estWeight', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByMaxRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      thenByMaxRepDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'maxRep', Sort.desc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy> thenByMinRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterSortBy>
-      thenByMinRepDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minRep', Sort.desc);
-    });
-  }
-}
-
-extension PlannedSetIsarQueryWhereDistinct
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> {
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct>
-      distinctByEstWeight() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'estWeight');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> distinctByMaxRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'maxRep');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QDistinct> distinctByMinRep() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'minRep');
-    });
-  }
-}
-
-extension PlannedSetIsarQueryProperty
-    on QueryBuilder<PlannedSetIsar, PlannedSetIsar, QQueryProperty> {
-  QueryBuilder<PlannedSetIsar, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, double?, QQueryOperations> estWeightProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'estWeight');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, int?, QQueryOperations> maxRepProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'maxRep');
-    });
-  }
-
-  QueryBuilder<PlannedSetIsar, int?, QQueryOperations> minRepProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'minRep');
-    });
-  }
-}

@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final programViewModelProvider =
     StateNotifierProvider.autoDispose<ProgramViewModel, ProgramState>((ref) {
-      final getAllSession = ref.read(watchAllPlannedSessionsProvider);
+      // final getAllSession = ref.read(watchAllPlannedSessionsProvider);
       final addProgram = ref.read(addProgramProvider);
       final getProgramById = ref.read(getProgramByIdProvider);
-      return ProgramViewModel(getAllSession, addProgram, getProgramById);
+      return ProgramViewModel(addProgram, getProgramById);
     });

@@ -18,18 +18,29 @@ const PlannedSessionIsarSchema = CollectionSchema(
   name: r'PlannedSessionIsar',
   id: 6442067316243507880,
   properties: {
-    r'dayNumber': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 0,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'dayNumber': PropertySchema(
+      id: 1,
       name: r'dayNumber',
       type: IsarType.long,
     ),
+    r'exercises': PropertySchema(
+      id: 2,
+      name: r'exercises',
+      type: IsarType.objectList,
+      target: r'PlannedExerciseIsar',
+    ),
     r'name': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'sessionId': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'sessionId',
       type: IsarType.string,
     )
@@ -54,21 +65,11 @@ const PlannedSessionIsarSchema = CollectionSchema(
       ],
     )
   },
-  links: {
-    r'plannedExercise': LinkSchema(
-      id: -1460240402367288691,
-      name: r'plannedExercise',
-      target: r'PlannedExerciseIsar',
-      single: false,
-    ),
-    r'week': LinkSchema(
-      id: 5156675123931905957,
-      name: r'week',
-      target: r'ProgramWeekIsar',
-      single: true,
-    )
+  links: {},
+  embeddedSchemas: {
+    r'PlannedExerciseIsar': PlannedExerciseIsarSchema,
+    r'PlannedSetIsar': PlannedSetIsarSchema
   },
-  embeddedSchemas: {},
   getId: _plannedSessionIsarGetId,
   getLinks: _plannedSessionIsarGetLinks,
   attach: _plannedSessionIsarAttach,
@@ -81,6 +82,15 @@ int _plannedSessionIsarEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.exercises.length * 3;
+  {
+    final offsets = allOffsets[PlannedExerciseIsar]!;
+    for (var i = 0; i < object.exercises.length; i++) {
+      final value = object.exercises[i];
+      bytesCount +=
+          PlannedExerciseIsarSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.sessionId.length * 3;
   return bytesCount;
@@ -92,9 +102,16 @@ void _plannedSessionIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.dayNumber);
-  writer.writeString(offsets[1], object.name);
-  writer.writeString(offsets[2], object.sessionId);
+  writer.writeDateTime(offsets[0], object.createdAt);
+  writer.writeLong(offsets[1], object.dayNumber);
+  writer.writeObjectList<PlannedExerciseIsar>(
+    offsets[2],
+    allOffsets,
+    PlannedExerciseIsarSchema.serialize,
+    object.exercises,
+  );
+  writer.writeString(offsets[3], object.name);
+  writer.writeString(offsets[4], object.sessionId);
 }
 
 PlannedSessionIsar _plannedSessionIsarDeserialize(
@@ -104,10 +121,18 @@ PlannedSessionIsar _plannedSessionIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PlannedSessionIsar(
-    name: reader.readString(offsets[1]),
-    sessionId: reader.readString(offsets[2]),
+    createdAt: reader.readDateTime(offsets[0]),
+    dayNumber: reader.readLongOrNull(offsets[1]),
+    name: reader.readString(offsets[3]),
+    sessionId: reader.readString(offsets[4]),
   );
-  object.dayNumber = reader.readLong(offsets[0]);
+  object.exercises = reader.readObjectList<PlannedExerciseIsar>(
+        offsets[2],
+        PlannedExerciseIsarSchema.deserialize,
+        allOffsets,
+        PlannedExerciseIsar(),
+      ) ??
+      [];
   object.id = id;
   return object;
 }
@@ -120,10 +145,20 @@ P _plannedSessionIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
+      return (reader.readObjectList<PlannedExerciseIsar>(
+            offset,
+            PlannedExerciseIsarSchema.deserialize,
+            allOffsets,
+            PlannedExerciseIsar(),
+          ) ??
+          []) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -136,15 +171,12 @@ Id _plannedSessionIsarGetId(PlannedSessionIsar object) {
 
 List<IsarLinkBase<dynamic>> _plannedSessionIsarGetLinks(
     PlannedSessionIsar object) {
-  return [object.plannedExercise, object.week];
+  return [];
 }
 
 void _plannedSessionIsarAttach(
     IsarCollection<dynamic> col, Id id, PlannedSessionIsar object) {
   object.id = id;
-  object.plannedExercise.attach(
-      col, col.isar.collection<PlannedExerciseIsar>(), r'plannedExercise', id);
-  object.week.attach(col, col.isar.collection<ProgramWeekIsar>(), r'week', id);
 }
 
 extension PlannedSessionIsarByIndex on IsarCollection<PlannedSessionIsar> {
@@ -332,7 +364,81 @@ extension PlannedSessionIsarQueryWhere
 extension PlannedSessionIsarQueryFilter
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      dayNumberEqualTo(int value) {
+      createdAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      createdAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      dayNumberIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dayNumber',
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      dayNumberIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dayNumber',
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      dayNumberEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dayNumber',
@@ -343,7 +449,7 @@ extension PlannedSessionIsarQueryFilter
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       dayNumberGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -357,7 +463,7 @@ extension PlannedSessionIsarQueryFilter
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       dayNumberLessThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -371,8 +477,8 @@ extension PlannedSessionIsarQueryFilter
 
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
       dayNumberBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -384,6 +490,95 @@ extension PlannedSessionIsarQueryFilter
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
+      exercisesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'exercises',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -717,89 +912,34 @@ extension PlannedSessionIsarQueryFilter
 }
 
 extension PlannedSessionIsarQueryObject
-    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {}
-
-extension PlannedSessionIsarQueryLinks
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExercise(FilterQuery<PlannedExerciseIsar> q) {
+      exercisesElement(FilterQuery<PlannedExerciseIsar> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'plannedExercise');
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'plannedExercise', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'plannedExercise', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'plannedExercise', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'plannedExercise', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'plannedExercise', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      plannedExerciseLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'plannedExercise', lower, includeLower, upper, includeUpper);
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      week(FilterQuery<ProgramWeekIsar> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'week');
-    });
-  }
-
-  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterFilterCondition>
-      weekIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'week', 0, true, 0, true);
+      return query.object(q, r'exercises');
     });
   }
 }
 
+extension PlannedSessionIsarQueryLinks
+    on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QFilterCondition> {}
+
 extension PlannedSessionIsarQuerySortBy
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortBy> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       sortByDayNumber() {
     return QueryBuilder.apply(this, (query) {
@@ -845,6 +985,20 @@ extension PlannedSessionIsarQuerySortBy
 
 extension PlannedSessionIsarQuerySortThenBy
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QSortThenBy> {
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
+      thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QAfterSortBy>
       thenByDayNumber() {
     return QueryBuilder.apply(this, (query) {
@@ -905,6 +1059,13 @@ extension PlannedSessionIsarQuerySortThenBy
 extension PlannedSessionIsarQueryWhereDistinct
     on QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct> {
   QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
+      distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, PlannedSessionIsar, QDistinct>
       distinctByDayNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dayNumber');
@@ -934,9 +1095,23 @@ extension PlannedSessionIsarQueryProperty
     });
   }
 
-  QueryBuilder<PlannedSessionIsar, int, QQueryOperations> dayNumberProperty() {
+  QueryBuilder<PlannedSessionIsar, DateTime, QQueryOperations>
+      createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, int?, QQueryOperations> dayNumberProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dayNumber');
+    });
+  }
+
+  QueryBuilder<PlannedSessionIsar, List<PlannedExerciseIsar>, QQueryOperations>
+      exercisesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'exercises');
     });
   }
 

@@ -41,6 +41,11 @@ const PerformedSetsIsarSchema = CollectionSchema(
       id: 4,
       name: r'isCompleted',
       type: IsarType.bool,
+    ),
+    r'setId': PropertySchema(
+      id: 5,
+      name: r'setId',
+      type: IsarType.string,
     )
   },
   estimateSize: _performedSetsIsarEstimateSize,
@@ -48,7 +53,21 @@ const PerformedSetsIsarSchema = CollectionSchema(
   deserialize: _performedSetsIsarDeserialize,
   deserializeProp: _performedSetsIsarDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'setId': IndexSchema(
+      id: 2535400842924879452,
+      name: r'setId',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'setId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _performedSetsIsarGetId,
@@ -69,6 +88,7 @@ int _performedSetsIsarEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.setId.length * 3;
   return bytesCount;
 }
 
@@ -83,6 +103,7 @@ void _performedSetsIsarSerialize(
   writer.writeString(offsets[2], object.estRep);
   writer.writeDouble(offsets[3], object.estWeight);
   writer.writeBool(offsets[4], object.isCompleted);
+  writer.writeString(offsets[5], object.setId);
 }
 
 PerformedSetsIsar _performedSetsIsarDeserialize(
@@ -99,6 +120,7 @@ PerformedSetsIsar _performedSetsIsarDeserialize(
     isCompleted: reader.readBoolOrNull(offsets[4]) ?? false,
   );
   object.id = id;
+  object.setId = reader.readString(offsets[5]);
   return object;
 }
 
@@ -119,6 +141,8 @@ P _performedSetsIsarDeserializeProp<P>(
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
       return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -136,6 +160,61 @@ List<IsarLinkBase<dynamic>> _performedSetsIsarGetLinks(
 void _performedSetsIsarAttach(
     IsarCollection<dynamic> col, Id id, PerformedSetsIsar object) {
   object.id = id;
+}
+
+extension PerformedSetsIsarByIndex on IsarCollection<PerformedSetsIsar> {
+  Future<PerformedSetsIsar?> getBySetId(String setId) {
+    return getByIndex(r'setId', [setId]);
+  }
+
+  PerformedSetsIsar? getBySetIdSync(String setId) {
+    return getByIndexSync(r'setId', [setId]);
+  }
+
+  Future<bool> deleteBySetId(String setId) {
+    return deleteByIndex(r'setId', [setId]);
+  }
+
+  bool deleteBySetIdSync(String setId) {
+    return deleteByIndexSync(r'setId', [setId]);
+  }
+
+  Future<List<PerformedSetsIsar?>> getAllBySetId(List<String> setIdValues) {
+    final values = setIdValues.map((e) => [e]).toList();
+    return getAllByIndex(r'setId', values);
+  }
+
+  List<PerformedSetsIsar?> getAllBySetIdSync(List<String> setIdValues) {
+    final values = setIdValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'setId', values);
+  }
+
+  Future<int> deleteAllBySetId(List<String> setIdValues) {
+    final values = setIdValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'setId', values);
+  }
+
+  int deleteAllBySetIdSync(List<String> setIdValues) {
+    final values = setIdValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'setId', values);
+  }
+
+  Future<Id> putBySetId(PerformedSetsIsar object) {
+    return putByIndex(r'setId', object);
+  }
+
+  Id putBySetIdSync(PerformedSetsIsar object, {bool saveLinks = true}) {
+    return putByIndexSync(r'setId', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllBySetId(List<PerformedSetsIsar> objects) {
+    return putAllByIndex(r'setId', objects);
+  }
+
+  List<Id> putAllBySetIdSync(List<PerformedSetsIsar> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'setId', objects, saveLinks: saveLinks);
+  }
 }
 
 extension PerformedSetsIsarQueryWhereSort
@@ -214,6 +293,51 @@ extension PerformedSetsIsarQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterWhereClause>
+      setIdEqualTo(String setId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'setId',
+        value: [setId],
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterWhereClause>
+      setIdNotEqualTo(String setId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'setId',
+              lower: [],
+              upper: [setId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'setId',
+              lower: [setId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'setId',
+              lower: [setId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'setId',
+              lower: [],
+              upper: [setId],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
@@ -681,6 +805,142 @@ extension PerformedSetsIsarQueryFilter
       ));
     });
   }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'setId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'setId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'setId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'setId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      setIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'setId',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension PerformedSetsIsarQueryObject
@@ -758,6 +1018,20 @@ extension PerformedSetsIsarQuerySortBy
       sortByIsCompletedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isCompleted', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterSortBy>
+      sortBySetId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'setId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterSortBy>
+      sortBySetIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'setId', Sort.desc);
     });
   }
 }
@@ -846,6 +1120,20 @@ extension PerformedSetsIsarQuerySortThenBy
       return query.addSortBy(r'isCompleted', Sort.desc);
     });
   }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterSortBy>
+      thenBySetId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'setId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterSortBy>
+      thenBySetIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'setId', Sort.desc);
+    });
+  }
 }
 
 extension PerformedSetsIsarQueryWhereDistinct
@@ -882,6 +1170,13 @@ extension PerformedSetsIsarQueryWhereDistinct
       distinctByIsCompleted() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isCompleted');
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QDistinct> distinctBySetId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'setId', caseSensitive: caseSensitive);
     });
   }
 }
@@ -924,6 +1219,12 @@ extension PerformedSetsIsarQueryProperty
       isCompletedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isCompleted');
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, String, QQueryOperations> setIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'setId');
     });
   }
 }

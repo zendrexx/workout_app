@@ -9,10 +9,8 @@ import 'package:client/features/workout_planning/domain/usecases/watch_all_plann
 import 'package:client/features/workout_planning/presentation/statemappers/to_state_mapper.dart';
 import 'package:client/features/workout_program/domain/entities/program.dart';
 import 'package:client/features/workout_program/domain/usecases/delete_program.dart';
-import 'package:client/features/workout_program/domain/usecases/duplicate_program.dart';
 import 'package:client/features/workout_program/domain/usecases/watch_all_program.dart';
 import 'package:client/features/workout_program/presentation/state_mappers/to_program_state.dart';
-import 'package:client/features/workout_program/presentation/state_mappers/to_state_mapper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
@@ -23,21 +21,21 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final DeleteSession deleteSession;
   final DuplicateSession duplicateSession;
   final DeleteProgram deleteProgram;
-  final DuplicateProgram duplicateProgram;
+  //final DuplicateProgram duplicateProgram;
   HomeViewModel(
     WatchAllPlannedSession watchSessions,
     WatchAllProgram watchPrograms,
     this.deleteSession,
     this.duplicateSession,
     this.deleteProgram,
-    this.duplicateProgram,
+    //this.duplicateProgram,
   ) : super(HomeState.initial()) {
     _subSession = watchSessions().listen((sessions) {
       state = state.copyWith(session: sessions.map(toStateSession).toList());
     });
 
     _subProgram = watchPrograms().listen((programs) {
-      state = state.copyWith(program: programs.map(toStateProgram).toList());
+      //state = state.copyWith(program: programs.map(toStateProgram).toList());
     });
   }
   /*
@@ -85,17 +83,17 @@ it will automatically remove it from the program session list
     await deleteProgram.call(programSessionId);
     state = state.copyWith(
       program: state.program
-          .where((s) => s.programSessionId != programSessionId)
+          .where((s) => s.programId != programSessionId)
           .toList(),
     );
   }
 
   Future<void> duplicateProgramById(String programSessionId) async {
-    await duplicateProgram.call(programSessionId);
-    state = state.copyWith(
-      program: state.program
-          .where((s) => s.programSessionId != programSessionId)
-          .toList(),
-    );
+    // await duplicateProgram.call(programSessionId);
+    // state = state.copyWith(
+    //   program: state.program
+    //       .where((s) => s.programSessionId != programSessionId)
+    //       .toList(),
+    // );
   }
 }

@@ -164,36 +164,37 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.programSessions.length,
+                  //itemCount: state.plannedSessions.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
-                    final session = state.programSessions[index];
+                    //final session = state.programSessions[index];
                     return GestureDetector(
                       child: SessionCardWidget(
                         isSelectable: false,
-                        sessionName: session.name,
-                        exercises: session.exercises,
-                        sessionId: session.sessionId,
+                        sessionName: "",
+                        exercises: [],
+                        sessionId: "session.sessionId",
                         index: index,
                       ),
                     );
                   },
                 ),
-                state.programSessions.isEmpty
-                    ? SizedBox(
-                        height: 100,
-                        child: Center(
-                          child: Text(
-                            'Get started by adding a session to your\nprogram.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
+                //state.programSessions.isEmpty
+                SizedBox(
+                  height: 100,
+                  child: Center(
+                    child: Text(
+                      'Get started by adding a session to your\nprogram.',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
 
+                // : SizedBox.shrink(),
                 LongCustomButton(
                   title: "Add Sessions",
                   onTap: () => context.push('/home/program/select_session'),

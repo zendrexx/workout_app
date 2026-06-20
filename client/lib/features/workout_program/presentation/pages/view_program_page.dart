@@ -34,12 +34,12 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(programViewModelProvider);
 
-    if (state.plannedSessions.isEmpty) {
-      return Container(
-        decoration: BoxDecoration(color: Colors.black),
-        child: const Center(child: CircularProgressIndicator()),
-      );
-    }
+    // if (state.plannedSessions.isEmpty) {
+    //   return Container(
+    //     decoration: BoxDecoration(color: Colors.black),
+    //     child: const Center(child: CircularProgressIndicator()),
+    //   );
+    // }
 
     //final vm = ref.read(plannedViewModelProvider.notifier);
     return Scaffold(
@@ -94,18 +94,18 @@ class _ViewProgramPageState extends ConsumerState<ViewProgramPage> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.programSessions.length,
-
+                  // itemCount: state.programSessions.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
-                    final program = state.programSessions[index];
+                    // final program = state.programSessions[index];
 
-                    final exerciseList = program.exercises
-                        .map((ex) => '${ex.exerciseName} (${ex.equipment})')
-                        .join(', ');
-                    return ViewProgramWidget(
-                      title: program.name,
-                      content: exerciseList,
-                    );
+                    // final exerciseList = program.exercises
+                    //     .map((ex) => '${ex.exerciseName} (${ex.equipment})')
+                    //     .join(', ');
+                    // return ViewProgramWidget(
+                    //   title: program.name,
+                    //   content: exerciseList,
+                    // );
                   },
                 ),
               ],
