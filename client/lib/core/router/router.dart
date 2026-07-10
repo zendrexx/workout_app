@@ -9,11 +9,13 @@ import 'package:client/core/presentation/page/add_exercise_page.dart';
 import 'package:client/features/workout_planning/presentation/pages/create_session_page.dart';
 import 'package:client/features/home/presentation/pages/home_page.dart';
 import 'package:client/features/workout_logging/presentation/pages/log_workout_page.dart';
+import 'package:client/features/workout_program/presentation/pages/browse_programs_page.dart';
 import 'package:client/features/workout_program/presentation/pages/main_program_page.dart';
 import 'package:client/features/workout_program/presentation/pages/program_page.dart';
 import 'package:client/features/workout_program/presentation/pages/select_session_page.dart';
 import 'package:client/core/presentation/page/update_exercise.dart';
 import 'package:client/features/workout_planning/presentation/pages/view_session_page.dart';
+import 'package:client/features/workout_planning/presentation/pages/sessions_list_page.dart';
 import 'package:client/features/main_page.dart';
 import 'package:client/features/profile/presentation/pages/profile_page.dart';
 import 'package:client/features/workout_program/presentation/pages/view_program_page.dart';
@@ -44,18 +46,28 @@ final router = GoRouter(
       builder: (context, state, navigationShell) =>
           MainPage(navigationShell: navigationShell),
       branches: [
-        // StatefulShellBranch(
-        //   routes: [
-        //     GoRoute(
-        //       path: appDestination[0].path,
-        //       builder: (context, state) => const MainProgramPage(),
-        //     ),
-        //   ],
-        // ),
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: appDestination[0].path,
+              builder: (context, state) => const MainProgramPage(),
+              routes: [
+                GoRoute(
+                  path: 'sessions',
+                  builder: (context, state) => const SessionsListPage(),
+                ),
+                GoRoute(
+                  path: 'browse',
+                  builder: (context, state) => const BrowseProgramsPage(),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: appDestination[1].path,
               builder: (context, state) => const HistoryPage(),
               routes: [
                 GoRoute(
@@ -72,7 +84,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[1].path,
+              path: appDestination[2].path,
               builder: (context, state) => const HomePage(),
               routes: [
                 GoRoute(
@@ -107,8 +119,20 @@ final router = GoRouter(
                   path: 'log_workout',
                   builder: (context, state) {
                     final sessionIdStr = state.uri.queryParameters['sessionId'];
+                    final programId = state.uri.queryParameters['programId'];
+                    final week = int.tryParse(
+                      state.uri.queryParameters['week'] ?? '',
+                    );
+                    final day = int.tryParse(
+                      state.uri.queryParameters['day'] ?? '',
+                    );
 
-                    return LogWorkoutPage(sessionId: sessionIdStr);
+                    return LogWorkoutPage(
+                      sessionId: sessionIdStr,
+                      programId: programId,
+                      week: week,
+                      day: day,
+                    );
                   },
                 ),
                 GoRoute(
@@ -121,7 +145,6 @@ final router = GoRouter(
                   routes: [
                     GoRoute(
                       path: 'add_exercise',
-
                       builder: (context, state) {
                         final provider =
                             state.extra
@@ -154,7 +177,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: appDestination[2].path,
+              path: appDestination[3].path,
               builder: (context, state) => const ProfilePage(),
             ),
           ],

@@ -11,6 +11,15 @@ class PlannedWorkoutIsarDatasource {
 
   Future<void> addSession({required PlannedSessionIsar session}) async {
     await isar.writeTxn(() async {
+      // Reuse the existing Isar id when a row with this sessionId already
+      // exists, so put() updates it instead of inserting a duplicate and
+      // violating the unique sessionId index (edit flow).
+      final existing = await isar.plannedSessionIsars.getBySessionId(
+        session.sessionId,
+      );
+      if (existing != null) {
+        session.id = existing.id;
+      }
       await isar.plannedSessionIsars.put(session);
     });
   }

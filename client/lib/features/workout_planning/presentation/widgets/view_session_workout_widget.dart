@@ -38,7 +38,6 @@ class _ViewSessionWorkoutWidgetState
           '${widget.plannedSets[index].minRep}-${widget.plannedSets[index].maxRep}';
     }
 
-    print("THIS IS THE REP RANGE " + repRange);
     return repRange;
   }
 
@@ -91,6 +90,7 @@ class _ViewSessionWorkoutWidgetState
           TextField(
             enabled: false,
             controller: _controller,
+            style: const TextStyle(fontSize: 14, color: Colors.white),
             decoration: InputDecoration(
               hintText: "Notes here",
               border: InputBorder.none,
@@ -103,19 +103,19 @@ class _ViewSessionWorkoutWidgetState
               Expanded(
                 child: Text(
                   "SETS",
-                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xffA1A1AA)),
                 ),
               ),
               Expanded(
                 child: Text(
                   "LBS",
-                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xffA1A1AA)),
                 ),
               ),
               Expanded(
                 child: Text(
                   "REP RANGE",
-                  style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
+                  style: TextStyle(fontSize: 12, color: Color(0xffA1A1AA)),
                 ),
               ),
               Spacer(),

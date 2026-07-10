@@ -10,13 +10,13 @@ class ActiveProgramIsar {
   late String activeProgramId;
 
   /// References ProgramIsar.programId
-  late String templateProgramId;
+  String templateProgramId;
 
-  late int currentWeek;
+  int currentWeek;
 
-  late int currentDay;
+  int currentDay;
 
-  late DateTime startedAt;
+  DateTime startedAt;
 
   bool isCompleted = false;
 

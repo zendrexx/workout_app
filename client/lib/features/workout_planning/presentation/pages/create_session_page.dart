@@ -30,7 +30,7 @@ class _CreateSessionPageState extends ConsumerState<CreateSessionPage> {
   }
 
   void cancel() {
-    context.push('/home');
+    context.push('/program');
     ref.invalidate(plannedSessionViewModelProvider);
   }
 

@@ -61,324 +61,52 @@ class _HomePageState extends ConsumerState<HomePage> {
             children: [
               HomeProgramCard(),
               SizedBox(height: 16),
-              Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Color(0xff1A1A1A),
+              Material(
+                color: Color(0xff1A1A1A),
+                borderRadius: BorderRadius.circular(5),
+                child: InkWell(
                   borderRadius: BorderRadius.circular(5),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Start Empty",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                  onTap: () => context.push('/home/log_workout'),
+                  child: Container(
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Start Empty",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Log workouts on a click",
-                            style: TextStyle(
-                              color: Color(0xffA1A1AA),
-                              fontSize: 14,
+                            Text(
+                              "Log workouts on a click",
+                              style: TextStyle(
+                                color: Color(0xffA1A1AA),
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Icon(
+                          ],
+                        ),
+                        Icon(
                           Icons.arrow_forward_rounded,
                           color: Colors.white,
                           size: 24,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 16),
               StreakCard(),
-              // Text(
-              //   "Quick Start",
-              //   style: TextStyle(
-              //     fontSize: 14,
-              //     fontWeight: FontWeight.w500,
-              //     color: Color(0xff4E4E50),
-              //   ),
-              // ),
-              // SizedBox(height: 10),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     CustomButtonWidget(
-              //       title: "New Program",
-              //       icon: Icons.add,
-              //       onTap: () => context.push('/home/program'),
-              //     ),
-              //     SizedBox(width: 10),
-              //     CustomButtonWidget(
-              //       title: "New Session",
-              //       icon: Icons.explore_outlined,
-              //       onTap: () => context.push('/home/create_sessions'),
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(height: 20),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     GestureDetector(
-              //       behavior: HitTestBehavior.opaque,
-              //       onTap: () => setState(
-              //         () => _isProgramExpanded = !_isProgramExpanded,
-              //       ),
-              //       child: Padding(
-              //         padding: const EdgeInsets.symmetric(vertical: 10),
-              //         child: Row(
-              //           children: [
-              //             Icon(
-              //               _isProgramExpanded
-              //                   ? Icons.keyboard_arrow_down
-              //                   : Icons.keyboard_arrow_right,
-              //               color: Color(0xff4E4E50),
-              //               size: 25,
-              //             ),
-              //             SizedBox(width: 6),
-              //             Text(
-              //               "My Programs",
-              //               style: TextStyle(
-              //                 color: Color(0xff4E4E50),
-              //                 fontSize: 14,
-              //                 fontWeight: FontWeight.w500,
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-
-              //     // Expand/Collapse content
-              //     AnimatedCrossFade(
-              //       duration: Duration(milliseconds: 250),
-
-              //       crossFadeState: _isProgramExpanded
-              //           ? CrossFadeState.showFirst
-              //           : CrossFadeState.showSecond,
-              //       firstChild: ListView.builder(
-              //         shrinkWrap: true,
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         itemCount: state.program.length,
-              //         itemBuilder: (context, index) {
-              //           final program = state.program[index];
-              //           String text;
-              //           final mappedSessions = state.session
-              //               .where(
-              //                 (s) => program.programSessionIds.contains(
-              //                   s.sessionId,
-              //                 ),
-              //               )
-              //               .map((session) {
-              //                 final exerciseNames = session.exercises
-              //                     .map((e) => e.exerciseName)
-              //                     .join(', ');
-
-              //                 return '${session.name.toUpperCase()} - $exerciseNames';
-              //               })
-              //               .join('\n');
-              //           text = mappedSessions;
-              //           return HomeProgramListWidget(
-              //             programId: program.programSessionId,
-              //             title: program.programName.toUpperCase(),
-              //             text: text,
-              //           );
-              //         },
-              //       ),
-              //       secondChild: SizedBox.shrink(),
-              //     ),
-              //   ],
-              // ),
-
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     GestureDetector(
-              //       behavior: HitTestBehavior.opaque,
-              //       onTap: () => setState(
-              //         () => _isSessionExpanded = !_isSessionExpanded,
-              //       ),
-              //       child: Padding(
-              //         padding: const EdgeInsets.symmetric(vertical: 10),
-              //         child: Row(
-              //           children: [
-              //             Icon(
-              //               _isSessionExpanded
-              //                   ? Icons.keyboard_arrow_down
-              //                   : Icons.keyboard_arrow_right,
-              //               color: Color(0xff4E4E50),
-              //               size: 25,
-              //             ),
-              //             SizedBox(width: 6),
-              //             Text(
-              //               "My Sessions",
-              //               style: TextStyle(
-              //                 color: Color(0xff4E4E50),
-              //                 fontSize: 14,
-              //                 fontWeight: FontWeight.w500,
-              //               ),
-              //             ),
-              //             Spacer(),
-              //             IconButton(
-              //               onPressed: () {
-              //                 showModalBottomSheet(
-              //                   context: context,
-              //                   builder: (context) {
-              //                     return SizedBox(
-              //                       height: 280,
-              //                       child: Column(
-              //                         crossAxisAlignment:
-              //                             CrossAxisAlignment.center,
-              //                         children: [
-              //                           Padding(
-              //                             padding: const EdgeInsets.symmetric(
-              //                               vertical: 8,
-              //                             ),
-              //                             child: Container(
-              //                               width: 100,
-              //                               height: 5,
-              //                               decoration: BoxDecoration(
-              //                                 borderRadius:
-              //                                     BorderRadius.circular(5),
-              //                                 color: Colors.grey,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                           SizedBox(height: 10),
-
-              //                           Divider(thickness: .2),
-              //                           SizedBox(height: 10),
-              //                           Padding(
-              //                             padding: const EdgeInsets.symmetric(
-              //                               horizontal: 24.0,
-              //                             ),
-
-              //                             child: Container(
-              //                               height: 150,
-              //                               decoration: BoxDecoration(
-              //                                 color: Color(0xff2A2A2A),
-              //                                 borderRadius:
-              //                                     BorderRadius.circular(5),
-              //                               ),
-              //                               child: Column(
-              //                                 crossAxisAlignment:
-              //                                     CrossAxisAlignment.start,
-              //                                 children: [
-              //                                   Expanded(
-              //                                     child: GestureDetector(
-              //                                       onTap: () {
-              //                                         vm.showAllSession();
-              //                                         Navigator.pop(context);
-              //                                       },
-              //                                       behavior:
-              //                                           HitTestBehavior.opaque,
-              //                                       child: Row(
-              //                                         children: [
-              //                                           SizedBox(width: 10),
-              //                                           Text(
-              //                                             "Show all Sessions",
-              //                                             style: TextStyle(
-              //                                               fontSize: 14,
-              //                                               fontWeight:
-              //                                                   FontWeight.w500,
-              //                                             ),
-              //                                           ),
-              //                                         ],
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                   Divider(),
-              //                                   Expanded(
-              //                                     child: GestureDetector(
-              //                                       onTap: () {
-              //                                         vm.toProgramMode();
-              //                                         Navigator.pop(context);
-              //                                       },
-              //                                       behavior:
-              //                                           HitTestBehavior.opaque,
-              //                                       child: Row(
-              //                                         children: [
-              //                                           SizedBox(width: 10),
-              //                                           Text(
-              //                                             "Show Current Program Sessions",
-              //                                             style: TextStyle(
-              //                                               fontSize: 14,
-              //                                               fontWeight:
-              //                                                   FontWeight.w500,
-              //                                             ),
-              //                                           ),
-              //                                         ],
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                 ],
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ],
-              //                       ),
-              //                     );
-              //                   },
-              //                   backgroundColor: Color(0xff131313),
-              //                   useRootNavigator: true,
-              //                 );
-              //               },
-              //               padding: EdgeInsets.zero, // removes default padding
-              //               constraints:
-              //                   BoxConstraints(), // removes extra space
-              //               icon: Icon(
-              //                 Icons.more_horiz,
-              //                 size: 20,
-              //                 color: Color(0xff4E4E50),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-
-              //     AnimatedCrossFade(
-              //       duration: Duration(milliseconds: 250),
-
-              //       crossFadeState: _isSessionExpanded
-              //           ? CrossFadeState.showFirst
-              //           : CrossFadeState.showSecond,
-              //       firstChild: ListView.builder(
-              //         shrinkWrap: true,
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         itemCount: visibleSessionState.length,
-              //         itemBuilder: (context, index) {
-              //           final session = visibleSessionState[index];
-
-              //           return HomeSessionListWidget(
-              //             sessionId: session.sessionId,
-              //             title: session.name,
-              //           );
-              //         },
-              //       ),
-
-              //       secondChild: SizedBox.shrink(),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

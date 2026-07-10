@@ -1,4 +1,6 @@
+import 'package:client/core/constants/AppColors.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
+import 'package:client/features/home/presentation/viewmodel/home_view_model.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +22,89 @@ class HomeSessionListWidget extends ConsumerStatefulWidget {
 }
 
 class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
+  void _showSessionOptions(BuildContext context, HomeViewModel vm) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Appcolors.primaryColor,
+      useRootNavigator: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Text(
+                  widget.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const Divider(height: 1, thickness: .2),
+              ListTile(
+                leading: const Icon(Icons.copy_outlined, color: Colors.white),
+                title: const Text(
+                  "Duplicate Session",
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: const Text(
+                  "Create a copy you can edit",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  vm.duplicateSession(widget.sessionId);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit_outlined, color: Colors.white),
+                title: const Text(
+                  "Edit Session",
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: const Text(
+                  "Change exercises, sets and reps",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  context.push(
+                    '/home/create_sessions?sessionId=${widget.sessionId}',
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: Color(0xffE2725B),
+                ),
+                title: const Text(
+                  "Delete Session",
+                  style: TextStyle(color: Color(0xffE2725B)),
+                ),
+                subtitle: const Text(
+                  "Remove this session permanently",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  vm.deleteSessionById(widget.sessionId);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = ref.read(homeViewModelProvider.notifier);
@@ -51,11 +136,7 @@ class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
                 borderRadius: BorderRadius.circular(3),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 16,
-                ),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,149 +156,7 @@ class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
                         ),
 
                         IconButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return SizedBox(
-                                  height: 300,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 8,
-                                        ),
-                                        child: Container(
-                                          width: 100,
-                                          height: 5,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              5,
-                                            ),
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        widget.title,
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                      Divider(thickness: .2),
-                                      SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 24.0,
-                                        ),
-
-                                        child: Container(
-                                          height: 170,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xff2A2A2A),
-                                            borderRadius: BorderRadius.circular(
-                                              5,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    vm.duplicateSession(
-                                                      widget.sessionId,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(width: 10),
-                                                      Text(
-                                                        "Duplicate Session",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Divider(thickness: .2),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    context.push(
-                                                      '/home/create_sessions?sessionId=${widget.sessionId}',
-                                                    );
-
-                                                    Navigator.pop(context);
-                                                  },
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(width: 10),
-                                                      Text(
-                                                        "Edit Session",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Divider(thickness: .2),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  onTap: () {
-                                                    vm.deleteSessionById(
-                                                      widget.sessionId,
-                                                    );
-
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(width: 10),
-                                                      Text(
-                                                        "Delete Session",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Color(
-                                                            0xff9A1A1A,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              backgroundColor: Color(0xff131313),
-                              useRootNavigator: true,
-                            );
-                          },
+                          onPressed: () => _showSessionOptions(context, vm),
                           padding: EdgeInsets.zero, // removes default padding
                           constraints: BoxConstraints(), // removes extra space
                           icon: Icon(
@@ -243,7 +182,7 @@ class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
                     SizedBox(height: 10),
                     LongCustomButton(
                       title: "Start Session",
-
+                      Bcolor: Appcolors.accent,
                       onTap: () => context.push(
                         '/home/log_workout?sessionId=${widget.sessionId}',
                       ),

@@ -1,5 +1,6 @@
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
 import 'package:client/features/workout_program/data/models/program_isar.dart';
+import 'package:client/features/workout_program/data/models/program_session_isar.dart';
 import 'package:isar/isar.dart';
 
 part 'program_week_isar.g.dart';
@@ -10,7 +11,7 @@ class ProgramWeekIsar {
 
   int weekNumber = 0;
 
-  List<String> sessionIds = [];
+  List<ProgramSessionIsar> sessions = [];
 
   ProgramWeekIsar({this.weekId = "", this.weekNumber = 0});
 }

@@ -55,7 +55,12 @@ const ProgramIsarSchema = CollectionSchema(
     )
   },
   links: {},
-  embeddedSchemas: {r'ProgramWeekIsar': ProgramWeekIsarSchema},
+  embeddedSchemas: {
+    r'ProgramWeekIsar': ProgramWeekIsarSchema,
+    r'ProgramSessionIsar': ProgramSessionIsarSchema,
+    r'PlannedExerciseIsar': PlannedExerciseIsarSchema,
+    r'PlannedSetIsar': PlannedSetIsarSchema
+  },
   getId: _programIsarGetId,
   getLinks: _programIsarGetLinks,
   attach: _programIsarAttach,

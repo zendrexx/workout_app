@@ -10,6 +10,9 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
   final int index;
   final String? estWeight;
   final String? repRange;
+  final bool isCompleted;
+  final int actRep;
+  final double actWeight;
   //final String? previousWeight;
   const PerformedWorkoutSetWidget({
     super.key,
@@ -18,6 +21,9 @@ class PerformedWorkoutSetWidget extends ConsumerStatefulWidget {
     //this.previousWeight,
     this.estWeight,
     this.repRange,
+    this.isCompleted = false,
+    this.actRep = 0,
+    this.actWeight = 0,
   });
 
   @override
@@ -46,20 +52,16 @@ class _PerformedWorkoutSetWidgetState
   @override
   void initState() {
     super.initState();
-    if (widget.estWeight != null ||
-        widget.estWeight != "null" ||
-        widget.estWeight!.isNotEmpty) {
-      weightController.text = widget.estWeight!;
-    } else {
-      weightController.text = "";
-    }
-    if (widget.repRange != null ||
-        widget.repRange != "null" ||
-        widget.repRange!.isNotEmpty) {
-      repController.text = widget.repRange!;
-    } else {
-      repController.text = "";
-    }
+    isDone = widget.isCompleted;
+
+    // Weight starts from the actual (if already logged) or the planned estimate.
+    weightController.text = widget.actWeight > 0
+        ? formatDoubleNumber(widget.actWeight)
+        : (widget.estWeight ?? "");
+
+    // Reps: the planned target is only a hint; the user types the actual reps.
+    reprange = normalizeValue(widget.repRange);
+    repController.text = widget.actRep > 0 ? widget.actRep.toString() : "";
   }
 
   @override
@@ -236,18 +238,20 @@ class _PerformedWorkoutSetWidgetState
                     ),
                   ),
                   Expanded(
-                    child: Checkbox(
-                      fillColor: MaterialStateProperty.resolveWith<Color>((
-                        states,
-                      ) {
-                        if (states.contains(MaterialState.selected)) {
-                          return Color(0xff27B82C); // green when checked
-                        }
-                        return Colors.transparent; // grey when unchecked
-                      }),
-                      checkColor: Colors.white,
-                      value: isDone,
-                      onChanged: (bool? value) {
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Checkbox(
+                        fillColor: WidgetStateProperty.resolveWith<Color>((
+                          states,
+                        ) {
+                          if (states.contains(WidgetState.selected)) {
+                            return Color(0xff27B82C); // green when checked
+                          }
+                          return Colors.transparent; // grey when unchecked
+                        }),
+                        checkColor: Colors.white,
+                        value: isDone,
+                        onChanged: (bool? value) {
                         weightEmpty = weightController.text.isEmpty;
                         repsEmpty = repController.text.isEmpty;
                         if (weightEmpty) {
@@ -278,6 +282,7 @@ class _PerformedWorkoutSetWidgetState
                       },
                       visualDensity: VisualDensity.compact,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
                     ),
                   ),
                 ],

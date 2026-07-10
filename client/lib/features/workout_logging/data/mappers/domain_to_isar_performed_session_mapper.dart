@@ -22,7 +22,8 @@ PerformedExerciseIsar toPerformedExercise(PerformedExercise pe) {
     ..imagePath = pe.imagePath
     ..exId = pe.exId
     ..equipment = pe.equipment
-    ..notes = pe.notes;
+    ..notes = pe.notes
+    ..performedSets = pe.sets.map((s) => toPerformedSet(s)).toList();
 }
 
 PerformedStatsIsar toWorkoutStatsIsar(PerformedStats psts) {

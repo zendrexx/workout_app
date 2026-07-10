@@ -19,7 +19,7 @@ PlannedExerciseIsar toIsarExercise(PlannedWorkoutExercise e) {
     imagePath: e.imagePath,
     equipment: e.equipment,
     notes: e.notes,
-  );
+  )..sets = e.sets.map(toIsarSet).toList();
 }
 
 PlannedSessionIsar toIsarSession(PlannedWorkoutSession s) {
@@ -27,5 +27,5 @@ PlannedSessionIsar toIsarSession(PlannedWorkoutSession s) {
     sessionId: s.sessionId,
     name: s.name,
     createdAt: DateTime.now(),
-  );
+  )..exercises = s.exercises.map(toIsarExercise).toList();
 }

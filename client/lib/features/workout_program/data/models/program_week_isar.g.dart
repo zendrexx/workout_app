@@ -13,10 +13,11 @@ const ProgramWeekIsarSchema = Schema(
   name: r'ProgramWeekIsar',
   id: -6072934678512853471,
   properties: {
-    r'sessionIds': PropertySchema(
+    r'sessions': PropertySchema(
       id: 0,
-      name: r'sessionIds',
-      type: IsarType.stringList,
+      name: r'sessions',
+      type: IsarType.objectList,
+      target: r'ProgramSessionIsar',
     ),
     r'weekId': PropertySchema(
       id: 1,
@@ -41,11 +42,13 @@ int _programWeekIsarEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.sessionIds.length * 3;
+  bytesCount += 3 + object.sessions.length * 3;
   {
-    for (var i = 0; i < object.sessionIds.length; i++) {
-      final value = object.sessionIds[i];
-      bytesCount += value.length * 3;
+    final offsets = allOffsets[ProgramSessionIsar]!;
+    for (var i = 0; i < object.sessions.length; i++) {
+      final value = object.sessions[i];
+      bytesCount +=
+          ProgramSessionIsarSchema.estimateSize(value, offsets, allOffsets);
     }
   }
   bytesCount += 3 + object.weekId.length * 3;
@@ -58,7 +61,12 @@ void _programWeekIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeStringList(offsets[0], object.sessionIds);
+  writer.writeObjectList<ProgramSessionIsar>(
+    offsets[0],
+    allOffsets,
+    ProgramSessionIsarSchema.serialize,
+    object.sessions,
+  );
   writer.writeString(offsets[1], object.weekId);
   writer.writeLong(offsets[2], object.weekNumber);
 }
@@ -73,7 +81,13 @@ ProgramWeekIsar _programWeekIsarDeserialize(
     weekId: reader.readStringOrNull(offsets[1]) ?? "",
     weekNumber: reader.readLongOrNull(offsets[2]) ?? 0,
   );
-  object.sessionIds = reader.readStringList(offsets[0]) ?? [];
+  object.sessions = reader.readObjectList<ProgramSessionIsar>(
+        offsets[0],
+        ProgramSessionIsarSchema.deserialize,
+        allOffsets,
+        ProgramSessionIsar(),
+      ) ??
+      [];
   return object;
 }
 
@@ -85,7 +99,13 @@ P _programWeekIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringList(offset) ?? []) as P;
+      return (reader.readObjectList<ProgramSessionIsar>(
+            offset,
+            ProgramSessionIsarSchema.deserialize,
+            allOffsets,
+            ProgramSessionIsar(),
+          ) ??
+          []) as P;
     case 1:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 2:
@@ -98,146 +118,10 @@ P _programWeekIsarDeserializeProp<P>(
 extension ProgramWeekIsarQueryFilter
     on QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QFilterCondition> {
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'sessionIds',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'sessionIds',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'sessionIds',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'sessionIds',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'sessionIds',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsLengthEqualTo(int length) {
+      sessionsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         length,
         true,
         length,
@@ -247,10 +131,10 @@ extension ProgramWeekIsarQueryFilter
   }
 
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsIsEmpty() {
+      sessionsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         0,
         true,
         0,
@@ -260,10 +144,10 @@ extension ProgramWeekIsarQueryFilter
   }
 
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsIsNotEmpty() {
+      sessionsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         0,
         false,
         999999,
@@ -273,13 +157,13 @@ extension ProgramWeekIsarQueryFilter
   }
 
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsLengthLessThan(
+      sessionsLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         0,
         true,
         length,
@@ -289,13 +173,13 @@ extension ProgramWeekIsarQueryFilter
   }
 
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsLengthGreaterThan(
+      sessionsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         length,
         include,
         999999,
@@ -305,7 +189,7 @@ extension ProgramWeekIsarQueryFilter
   }
 
   QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
-      sessionIdsLengthBetween(
+      sessionsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -313,7 +197,7 @@ extension ProgramWeekIsarQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'sessionIds',
+        r'sessions',
         lower,
         includeLower,
         upper,
@@ -516,4 +400,11 @@ extension ProgramWeekIsarQueryFilter
 }
 
 extension ProgramWeekIsarQueryObject
-    on QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QFilterCondition> {}
+    on QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QFilterCondition> {
+  QueryBuilder<ProgramWeekIsar, ProgramWeekIsar, QAfterFilterCondition>
+      sessionsElement(FilterQuery<ProgramSessionIsar> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'sessions');
+    });
+  }
+}

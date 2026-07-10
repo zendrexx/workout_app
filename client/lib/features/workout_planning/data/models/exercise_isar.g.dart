@@ -17,33 +17,38 @@ const ExerciseIsarSchema = CollectionSchema(
   name: r'ExerciseIsar',
   id: -8781596793542487269,
   properties: {
-    r'equipment': PropertySchema(
+    r'category': PropertySchema(
       id: 0,
+      name: r'category',
+      type: IsarType.string,
+    ),
+    r'equipment': PropertySchema(
+      id: 1,
       name: r'equipment',
       type: IsarType.string,
     ),
     r'exId': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'exId',
       type: IsarType.string,
     ),
     r'imagePath': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'imagePath',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'primMuscle': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'primMuscle',
       type: IsarType.string,
     ),
     r'seconMuscle': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'seconMuscle',
       type: IsarType.string,
     )
@@ -92,6 +97,19 @@ const ExerciseIsarSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'category': IndexSchema(
+      id: -7560358558326323820,
+      name: r'category',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'category',
+          type: IndexType.hash,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -108,6 +126,12 @@ int _exerciseIsarEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.category;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.equipment.length * 3;
   bytesCount += 3 + object.exId.length * 3;
   bytesCount += 3 + object.imagePath.length * 3;
@@ -128,12 +152,13 @@ void _exerciseIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.equipment);
-  writer.writeString(offsets[1], object.exId);
-  writer.writeString(offsets[2], object.imagePath);
-  writer.writeString(offsets[3], object.name);
-  writer.writeString(offsets[4], object.primMuscle);
-  writer.writeString(offsets[5], object.seconMuscle);
+  writer.writeString(offsets[0], object.category);
+  writer.writeString(offsets[1], object.equipment);
+  writer.writeString(offsets[2], object.exId);
+  writer.writeString(offsets[3], object.imagePath);
+  writer.writeString(offsets[4], object.name);
+  writer.writeString(offsets[5], object.primMuscle);
+  writer.writeString(offsets[6], object.seconMuscle);
 }
 
 ExerciseIsar _exerciseIsarDeserialize(
@@ -143,12 +168,13 @@ ExerciseIsar _exerciseIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ExerciseIsar(
-    equipment: reader.readString(offsets[0]),
-    exId: reader.readString(offsets[1]),
-    imagePath: reader.readString(offsets[2]),
-    name: reader.readString(offsets[3]),
-    primMuscle: reader.readString(offsets[4]),
-    seconMuscle: reader.readStringOrNull(offsets[5]),
+    category: reader.readStringOrNull(offsets[0]),
+    equipment: reader.readString(offsets[1]),
+    exId: reader.readString(offsets[2]),
+    imagePath: reader.readString(offsets[3]),
+    name: reader.readString(offsets[4]),
+    primMuscle: reader.readString(offsets[5]),
+    seconMuscle: reader.readStringOrNull(offsets[6]),
   );
   object.id = id;
   return object;
@@ -162,7 +188,7 @@ P _exerciseIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -172,6 +198,8 @@ P _exerciseIsarDeserializeProp<P>(
     case 4:
       return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -502,10 +530,230 @@ extension ExerciseIsarQueryWhere
       }
     });
   }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterWhereClause> categoryIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'category',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterWhereClause>
+      categoryIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'category',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterWhereClause> categoryEqualTo(
+      String? category) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'category',
+        value: [category],
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterWhereClause>
+      categoryNotEqualTo(String? category) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [],
+              upper: [category],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [category],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [category],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [],
+              upper: [category],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
 }
 
 extension ExerciseIsarQueryFilter
     on QueryBuilder<ExerciseIsar, ExerciseIsar, QFilterCondition> {
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'category',
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'category',
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'category',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
+      categoryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterFilterCondition>
       equipmentEqualTo(
     String value, {
@@ -1398,6 +1646,18 @@ extension ExerciseIsarQueryLinks
 
 extension ExerciseIsarQuerySortBy
     on QueryBuilder<ExerciseIsar, ExerciseIsar, QSortBy> {
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> sortByEquipment() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'equipment', Sort.asc);
@@ -1475,6 +1735,18 @@ extension ExerciseIsarQuerySortBy
 
 extension ExerciseIsarQuerySortThenBy
     on QueryBuilder<ExerciseIsar, ExerciseIsar, QSortThenBy> {
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<ExerciseIsar, ExerciseIsar, QAfterSortBy> thenByEquipment() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'equipment', Sort.asc);
@@ -1564,6 +1836,13 @@ extension ExerciseIsarQuerySortThenBy
 
 extension ExerciseIsarQueryWhereDistinct
     on QueryBuilder<ExerciseIsar, ExerciseIsar, QDistinct> {
+  QueryBuilder<ExerciseIsar, ExerciseIsar, QDistinct> distinctByCategory(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ExerciseIsar, ExerciseIsar, QDistinct> distinctByEquipment(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1612,6 +1891,12 @@ extension ExerciseIsarQueryProperty
   QueryBuilder<ExerciseIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ExerciseIsar, String?, QQueryOperations> categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
     });
   }
 

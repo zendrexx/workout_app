@@ -28,7 +28,11 @@ class LongCustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

@@ -1,3 +1,6 @@
+import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
+import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
+import 'package:client/features/workout_program/data/models/program_session_isar.dart';
 import 'package:client/features/workout_program/data/models/program_week_isar.dart';
 import 'package:isar/isar.dart';
 
@@ -8,17 +11,11 @@ class ProgramIsar {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true)
-  late String programId;
+  String programId;
 
-  late String name;
+  String name;
 
-  //DateTime createdAt;
   List<ProgramWeekIsar> weeks = [];
-  // final weeks = IsarLinks<ProgramWeekIsar>();
 
-  ProgramIsar({
-    required this.programId,
-    required this.name,
-    // required this.createdAt,
-  });
+  ProgramIsar({required this.programId, required this.name});
 }

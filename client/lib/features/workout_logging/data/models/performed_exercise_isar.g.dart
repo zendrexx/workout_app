@@ -109,12 +109,13 @@ PerformedExerciseIsar _performedExerciseIsarDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = PerformedExerciseIsar();
-  object.equipment = reader.readStringOrNull(offsets[0]);
-  object.exId = reader.readString(offsets[1]);
-  object.exerciseName = reader.readString(offsets[2]);
-  object.imagePath = reader.readString(offsets[3]);
-  object.notes = reader.readStringOrNull(offsets[4]);
+  final object = PerformedExerciseIsar(
+    equipment: reader.readStringOrNull(offsets[0]),
+    exId: reader.readStringOrNull(offsets[1]) ?? "",
+    exerciseName: reader.readStringOrNull(offsets[2]) ?? "",
+    imagePath: reader.readStringOrNull(offsets[3]) ?? "",
+    notes: reader.readStringOrNull(offsets[4]),
+  );
   object.performedSets = reader.readObjectList<PerformedSetsIsar>(
         offsets[5],
         PerformedSetsIsarSchema.deserialize,
@@ -135,11 +136,11 @@ P _performedExerciseIsarDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:

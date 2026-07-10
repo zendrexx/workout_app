@@ -14,7 +14,11 @@ class AppDestination {
 }
 
 const appDestination = [
-  //AppDestination(title: "Program", icon: Icons.list_outlined, path: '/program'),
+  AppDestination(
+    title: "Programs",
+    icon: Icons.list_alt_outlined,
+    path: '/program',
+  ),
   AppDestination(title: "History", icon: Icons.history, path: '/history'),
   AppDestination(title: "Home", icon: Icons.circle_outlined, path: '/home'),
   AppDestination(title: "Profile", icon: Icons.person, path: '/profile'),

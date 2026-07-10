@@ -19,6 +19,9 @@ class ExerciseIsar {
   late String equipment;
   late String imagePath;
 
+  @Index(caseSensitive: false)
+  String? category;
+
   ExerciseIsar({
     required this.exId,
     required this.name,
@@ -26,6 +29,7 @@ class ExerciseIsar {
     this.seconMuscle,
     required this.equipment,
     required this.imagePath,
+    this.category,
   });
 
   factory ExerciseIsar.fromJson(Map<String, dynamic> json) {
@@ -36,6 +40,7 @@ class ExerciseIsar {
       seconMuscle: json['seconMuscle'],
       equipment: json['equipment'],
       imagePath: json['imagePath'],
+      category: json['category'],
     );
   }
 }

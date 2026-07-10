@@ -8,7 +8,6 @@ import 'package:client/features/workout_logging/domain/entities/performed_set.da
 import 'package:client/features/workout_logging/domain/entities/performed_stats.dart';
 
 PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
-  print(s.isCompleted);
   final sets = PerformedSet(
     actRep: s.actualRep ?? 0,
     actWeight: s.actWeight ?? 0,

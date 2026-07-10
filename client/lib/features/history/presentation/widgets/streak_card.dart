@@ -1,35 +1,33 @@
+import 'package:client/core/constants/AppColors.dart';
+import 'package:client/features/history/presentation/providers/history_overview_provider.dart';
 import 'package:client/features/history/presentation/widgets/tap_tooltip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StreakCard extends StatefulWidget {
+/// Home streak card. The count and the four-week activity grid are both
+/// derived from the days the user actually trained — no invented history.
+class StreakCard extends ConsumerWidget {
   const StreakCard({super.key});
 
   @override
-  State<StreakCard> createState() => _StreakCardState();
-}
-
-class _StreakCardState extends State<StreakCard> {
-  @override
-  Widget build(BuildContext context) {
-    // 7 columns × 4 rows
-    final List<bool> streakData = List.generate(28, (index) => index < 12);
-
-    const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final overview = ref.watch(historyOverviewProvider).valueOrNull;
+    final streak = overview?.currentStreakDays ?? 0;
+    final workoutDays = overview?.workoutDays ?? const <DateTime>{};
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A),
+        color: Appcolors.primaryColor,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFF212121),
+            decoration: const BoxDecoration(
+              color: Appcolors.secondaryColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),
                 topRight: Radius.circular(5),
@@ -38,7 +36,7 @@ class _StreakCardState extends State<StreakCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Streak",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
@@ -46,86 +44,15 @@ class _StreakCardState extends State<StreakCard> {
               ],
             ),
           ),
-
           const SizedBox(height: 12),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // LEFT SIDE → Proper column layout
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(7, (colIndex) {
-                      return Column(
-                        children: [
-                          // Day label
-                          Text(
-                            days[colIndex],
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          // 4 circles per column
-                          ...List.generate(4, (rowIndex) {
-                            final index = rowIndex * 7 + colIndex;
-
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: streakData[index]
-                                      ? Colors.white
-                                      : Colors.grey.shade700,
-                                ),
-                              ),
-                            );
-                          }),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-
+                Expanded(child: _ActivityGrid(workoutDays: workoutDays)),
                 const SizedBox(width: 16),
-
-                // RIGHT SIDE → streak info
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Column(
-                      children: [
-                        Text(
-                          "12",
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "Days streak",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 8),
-                    Icon(
-                      Icons.local_fire_department,
-                      color: Colors.orange,
-                      size: 70,
-                    ),
-                  ],
-                ),
+                _StreakCount(streak: streak),
               ],
             ),
           ),
@@ -135,17 +62,100 @@ class _StreakCardState extends State<StreakCard> {
   }
 }
 
-class DayLabel extends StatelessWidget {
-  final String text;
-  const DayLabel(this.text, {super.key});
+class _StreakCount extends StatelessWidget {
+  final int streak;
+  const _StreakCount({required this.streak});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        text,
-        style: const TextStyle(color: Colors.grey, fontSize: 12),
-      ),
+    final active = streak > 0;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            Text(
+              "$streak",
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              streak == 1 ? "Day streak" : "Days streak",
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+        const SizedBox(width: 8),
+        Icon(
+          Icons.local_fire_department,
+          color: active ? Appcolors.momentum : Colors.grey.shade700,
+          size: 70,
+        ),
+      ],
+    );
+  }
+}
+
+/// Four-week calendar grid (columns Sun→Sat, bottom row is the current week).
+/// A day lights up only if the user trained on that exact date.
+class _ActivityGrid extends StatelessWidget {
+  final Set<DateTime> workoutDays;
+  const _ActivityGrid({required this.workoutDays});
+
+  static const int _weeks = 4;
+  static const List<String> _dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    // Sunday that starts the current week (Dart weekday: Mon=1..Sun=7).
+    final currentSunday = today.subtract(Duration(days: today.weekday % 7));
+    // Top-left cell: the Sunday (_weeks - 1) weeks before the current one.
+    final gridStart = currentSunday.subtract(
+      Duration(days: 7 * (_weeks - 1)),
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(7, (col) {
+        return Column(
+          children: [
+            Text(
+              _dayLabels[col],
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+            const SizedBox(height: 8),
+            ...List.generate(_weeks, (row) {
+              final date = gridStart.add(Duration(days: row * 7 + col));
+              final trained = workoutDays.contains(date);
+              final isFuture = date.isAfter(today);
+              final isToday = date == today;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: trained
+                        ? Appcolors.momentum
+                        : isFuture
+                        ? Colors.transparent
+                        : Colors.grey.shade800,
+                    border: isToday && !trained
+                        ? Border.all(color: Appcolors.momentum, width: 1)
+                        : null,
+                  ),
+                ),
+              );
+            }),
+          ],
+        );
+      }),
     );
   }
 }

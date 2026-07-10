@@ -5,13 +5,27 @@ import 'package:client/features/workout_logging/presentation/providers/workout_l
 import 'package:client/features/workout_logging/presentation/widgets/log_session_workout_widget.dart';
 import 'package:client/features/workout_logging/presentation/widgets/log_workout_detail_widget.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
+import 'package:client/features/workout_program/presentation/providers/active_program_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class LogWorkoutPage extends ConsumerStatefulWidget {
   final String? sessionId;
-  const LogWorkoutPage({super.key, required this.sessionId});
+
+  /// When launched from an active program, these identify the scheduled day
+  /// to load instead of a standalone planned session.
+  final String? programId;
+  final int? week;
+  final int? day;
+
+  const LogWorkoutPage({
+    super.key,
+    this.sessionId,
+    this.programId,
+    this.week,
+    this.day,
+  });
 
   @override
   ConsumerState<LogWorkoutPage> createState() => _LogWorkoutPageState();
@@ -21,14 +35,23 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   Timer? _timer;
   int _seconds = 0;
   late final StreamSubscription<PerformedSessionUiEvent> _subscription;
+
+  /// True when launched from Home's "Start Empty" action: neither a planned
+  /// session nor a program day was given, so nothing is loaded and the user
+  /// builds the workout from scratch.
+  bool get _isStartEmpty => widget.programId == null && widget.sessionId == null;
+
   @override
   void initState() {
     super.initState();
 
     _startTimer();
-    ref
-        .read(workoutLoggingViewModelProvider.notifier)
-        .loadPlannedSessionToLogging(widget.sessionId!);
+    final vm = ref.read(workoutLoggingViewModelProvider.notifier);
+    if (widget.programId != null) {
+      vm.loadProgramWorkout(widget.programId!, widget.week ?? 1, widget.day ?? 1);
+    } else if (widget.sessionId != null) {
+      vm.loadPlannedSessionToLogging(widget.sessionId!);
+    }
     _subscription = ref
         .read(workoutLoggingViewModelProvider.notifier)
         .events
@@ -45,6 +68,8 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(message)));
+              // Program progress may have advanced; refresh the Home page.
+              ref.invalidate(activeProgramProvider);
               Navigator.pop(context);
               break;
           }
@@ -70,6 +95,99 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
   void cancel() {
     context.push('/home');
     ref.invalidate(workoutLoggingViewModelProvider);
+  }
+
+  /// For "Start Empty" workouts: ask whether to save the exercises logged so
+  /// far to workout history, then (if saving) ask for a name before persisting.
+  Future<void> _finishEmptyStart() async {
+    final vm = ref.read(workoutLoggingViewModelProvider.notifier);
+    final hasExercises = ref
+        .read(workoutLoggingViewModelProvider)
+        .performedExercise
+        .isNotEmpty;
+
+    if (!hasExercises) {
+      cancel();
+      return;
+    }
+
+    final shouldSave = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xff1A1A1A),
+        title: const Text(
+          "Save this workout?",
+          style: TextStyle(color: Colors.white),
+        ),
+        content: const Text(
+          "You can save it to your workout history, or discard it.",
+          style: TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text(
+              "Discard",
+              style: TextStyle(color: Color(0xffE2725B)),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text("Save", style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldSave != true) {
+      if (mounted) cancel();
+      return;
+    }
+
+    if (!mounted) return;
+    final name = await _promptForWorkoutName();
+    if (name == null || name.trim().isEmpty) return;
+
+    vm.addName(name.trim());
+    vm.addDuration(_seconds);
+    await vm.save();
+  }
+
+  Future<String?> _promptForWorkoutName() {
+    final controller = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xff1A1A1A),
+        title: const Text(
+          "Name this workout",
+          style: TextStyle(color: Colors.white),
+        ),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          cursorColor: Colors.white,
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            hintText: "Workout Name",
+            hintStyle: TextStyle(color: Colors.white38),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text(
+              "Cancel",
+              style: TextStyle(color: Color(0xffE2725B)),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, controller.text),
+            child: const Text("Save", style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
   }
 
   String _formatDuration(int totalSeconds) {
@@ -125,8 +243,12 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
               SizedBox(width: 16),
               GestureDetector(
                 onTap: () {
-                  vm.addDuration(_seconds);
-                  vm.save();
+                  if (_isStartEmpty) {
+                    _finishEmptyStart();
+                  } else {
+                    vm.addDuration(_seconds);
+                    vm.save();
+                  }
                 },
                 child: Text("Finish", style: TextStyle(color: Colors.white)),
               ),

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:client/features/workout_program/presentation/events/program_ui_event.dart';
+import 'package:client/features/workout_program/presentation/state/program_session_state.dart';
 import 'package:client/features/workout_program/presentation/widgets/session_card_widget.dart';
 import 'package:client/features/workout_program/presentation/providers/program_view_model_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -161,40 +161,50 @@ class _ProgramPageState extends ConsumerState<ProgramPage> {
                   },
                 ),
                 SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  //itemCount: state.plannedSessions.length,
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    //final session = state.programSessions[index];
-                    return GestureDetector(
-                      child: SessionCardWidget(
-                        isSelectable: false,
-                        sessionName: "",
-                        exercises: [],
-                        sessionId: "session.sessionId",
-                        index: index,
-                      ),
+                Builder(
+                  builder: (context) {
+                    final sessions = state.weekState.isEmpty
+                        ? <ProgramSessionState>[]
+                        : (List<ProgramSessionState>.from(
+                            state.weekState.first.session,
+                          )..sort((a, b) => a.dayNumber.compareTo(b.dayNumber)));
+
+                    if (sessions.isEmpty) {
+                      return SizedBox(
+                        height: 100,
+                        child: Center(
+                          child: Text(
+                            'Get started by adding a session to your\nprogram.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: sessions.length,
+                      itemBuilder: (context, index) {
+                        final session = sessions[index];
+                        return SessionCardWidget(
+                          isSelectable: false,
+                          sessionName: 'Day ${session.dayNumber}: ${session.sessionName}',
+                          exercises: session.exercises,
+                          sessionId: session.sessionId,
+                          index: index,
+                          onTap: () => context.push(
+                            '/home/view_session/${session.sessionId}',
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
-                //state.programSessions.isEmpty
-                SizedBox(
-                  height: 100,
-                  child: Center(
-                    child: Text(
-                      'Get started by adding a session to your\nprogram.',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-
-                // : SizedBox.shrink(),
                 LongCustomButton(
                   title: "Add Sessions",
                   onTap: () => context.push('/home/program/select_session'),

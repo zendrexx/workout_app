@@ -1,7 +1,11 @@
 import 'package:client/core/constants/AppColors.dart';
-import 'package:client/features/auth/presentation/widgets/progress_indicator_bar.dart';
+import 'package:client/features/workout_program/presentation/providers/active_program_providers.dart';
+import 'package:client/features/workout_program/presentation/providers/today_workout_provider.dart';
+import 'package:client/features/workout_program/presentation/state/today_workout.dart';
 import 'package:client/features/workout_program/presentation/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MainProgramPage extends StatelessWidget {
   const MainProgramPage({super.key});
@@ -9,8 +13,9 @@ class MainProgramPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0F0F0F),
+      backgroundColor: const Color(0xff0F0F0F),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           "PROGRAM",
           style: const TextStyle(
@@ -30,171 +35,339 @@ class MainProgramPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              height: 125,
-              width: double.infinity,
+            _ActiveProgramCard(),
+            const SizedBox(height: 16),
+            _ProgramActionTile(
+              title: "Browse Programs",
+              subtitle: "Coach-made",
+              onTap: () => context.push('/program/browse'),
+            ),
+            const SizedBox(height: 16),
+            _ProgramActionTile(
+              title: "Create Sessions",
+              subtitle: "Build your own",
+              onTap: () => context.push('/home/create_sessions'),
+            ),
+            const SizedBox(height: 16),
+            _ProgramActionTile(
+              title: "View Sessions",
+              subtitle: "View your own sessions",
+              onTap: () => context.push('/program/sessions'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-              decoration: BoxDecoration(
-                color: Color(0xff1A1A1A),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    blurRadius: 8,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/images/program_pic.png',
-                    width: 65,
-                    height: 65,
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "PHUL (5/3/1)",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.more_horiz,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ),
-                            ],
-                          ),
+class _ActiveProgramCard extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todayAsync = ref.watch(todayWorkoutProvider);
 
-                          SizedBox(height: 12),
-                          ProgressBar(progress: .27),
-                          SizedBox(height: 4),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "Week 3 of 12 (Strength Phase)",
-                              style: TextStyle(
-                                color: Color(0xffA1A1AA),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ],
+    return Container(
+      constraints: const BoxConstraints(minHeight: 125),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color(0xff1A1A1A),
+        borderRadius: BorderRadius.circular(5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: todayAsync.when(
+        loading: () => const SizedBox(
+          height: 93,
+          child: Center(child: CircularProgressIndicator()),
+        ),
+        error: (_, __) => const SizedBox(
+          height: 93,
+          child: Center(
+            child: Text(
+              "Could not load program",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        data: (today) => _buildContent(context, ref, today),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context, WidgetRef ref, TodayWorkout today) {
+    if (today.status == TodayStatus.none) {
+      return const SizedBox(
+        height: 93,
+        child: Center(
+          child: Text(
+            "No Active Program",
+            style: TextStyle(
+              color: Color(0xffA1A1AA),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
+
+    final isCompleted = today.status == TodayStatus.completed;
+    final totalWeeks = today.program?.week.length ?? 0;
+
+    // Fraction of the program finished, based on fully-completed weeks.
+    final double progress = isCompleted
+        ? 1.0
+        : (totalWeeks > 0
+              ? ((today.week - 1).clamp(0, totalWeeks)) / totalWeeks
+              : 0.0);
+
+    final String subtitle = isCompleted
+        ? "Completed • $totalWeeks weeks"
+        : "Week ${today.week} of $totalWeeks";
+
+    return Row(
+      children: [
+        Image.asset('assets/images/program_pic.png', width: 65, height: 65),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        today.program?.name ?? "Program",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16),
-            Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Color(0xff1A1A1A),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Browse Programs",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "Created Programs",
-                          style: TextStyle(
-                            color: Color(0xffA1A1AA),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
                     InkWell(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.arrow_forward_rounded,
+                      onTap: () => _showOptions(context, ref),
+                      child: const Icon(
+                        Icons.more_horiz,
                         color: Colors.white,
                         size: 24,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 12),
+                ProgressBar(progress: progress),
+                const SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    subtitle,
+                    style: const TextStyle(
+                      color: Color(0xffA1A1AA),
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showOptions(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Appcolors.primaryColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.refresh, color: Colors.white),
+                title: const Text(
+                  "Restart Program",
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: const Text(
+                  "Start over from Week 1, keeping this program",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _confirmRestart(context, ref);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.swap_horiz, color: Color(0xffE2725B)),
+                title: const Text(
+                  "Replace Program",
+                  style: TextStyle(color: Color(0xffE2725B)),
+                ),
+                subtitle: const Text(
+                  "Remove this program so you can pick another",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _confirmReplace(context, ref);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _confirmRestart(BuildContext context, WidgetRef ref) async {
+    final confirmed = await _confirmDialog(
+      context,
+      title: "Restart Program?",
+      message:
+          "Your progress will be reset to Week 1, Day 1. The program itself is kept.",
+      confirmLabel: "Restart",
+    );
+    if (!confirmed) return;
+
+    final active = await ref.read(activeProgramProvider.future);
+    if (active == null) return;
+
+    await ref.read(restartActiveProgramProvider).call(active);
+    ref.invalidate(activeProgramProvider);
+  }
+
+  Future<void> _confirmReplace(BuildContext context, WidgetRef ref) async {
+    final confirmed = await _confirmDialog(
+      context,
+      title: "Replace Program?",
+      message:
+          "This removes your current active program and its progress. You can start a new one afterwards.",
+      confirmLabel: "Replace",
+      isDestructive: true,
+    );
+    if (!confirmed) return;
+
+    await ref.read(clearActiveProgramProvider).call();
+    ref.invalidate(activeProgramProvider);
+  }
+
+  Future<bool> _confirmDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required String confirmLabel,
+    bool isDestructive = false,
+  }) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: Appcolors.primaryColor,
+          title: Text(title, style: const TextStyle(color: Colors.white)),
+          content: Text(
+            message,
+            style: const TextStyle(color: Appcolors.muteText),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(color: Colors.white),
               ),
             ),
-            SizedBox(height: 16),
-            Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Color(0xff1A1A1A),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Create Programs",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "Build your own",
-                          style: TextStyle(
-                            color: Color(0xffA1A1AA),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ],
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(
+                confirmLabel,
+                style: TextStyle(
+                  color: isDestructive
+                      ? const Color(0xffE2725B)
+                      : Appcolors.accent,
                 ),
               ),
             ),
           ],
+        );
+      },
+    );
+    return result ?? false;
+  }
+}
+
+class _ProgramActionTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _ProgramActionTile({
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: const Color(0xff1A1A1A),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      color: Color(0xffA1A1AA),
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              const Icon(
+                Icons.arrow_forward_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,18 +1,14 @@
-import 'package:client/features/workout_logging/data/models/performed_sets_isar.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
+import 'package:client/features/workout_program/data/models/active_program_isar.dart';
 import 'package:client/features/workout_program/data/models/program_isar.dart';
-import 'package:client/features/workout_program/data/models/program_week_isar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:client/features/workout_planning/data/models/planned_session_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_exercise_isar.dart';
-import 'package:client/features/workout_planning/data/models/planned_set_isar.dart';
-import 'package:client/features/workout_logging/data/models/performed_stats_isar.dart';
-import 'package:client/features/workout_logging/data/models/performed_exercise_isar.dart';
 import 'package:client/features/workout_logging/data/models/performed_session_isar.dart';
 import 'package:client/data/services/exercise_service.dart';
+import 'package:client/data/services/program_service.dart';
 
 final isarProvider = FutureProvider<Isar>((ref) async {
   final appDir = await getApplicationDocumentsDirectory();
@@ -22,9 +18,11 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     ExerciseIsarSchema,
     PerformedSessionIsarSchema,
     ProgramIsarSchema,
+    ActiveProgramIsarSchema,
   ], directory: appDir.path);
 
   await seedExercises(isar);
+  await seedPrograms(isar);
 
   debugPrint('✅ Isar database opened at: ${appDir.path}');
   return isar;

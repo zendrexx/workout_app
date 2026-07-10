@@ -1,7 +1,9 @@
+import 'package:client/core/constants/AppColors.dart';
 import 'package:client/features/workout_planning/presentation/providers/planned_session_view_model_provider.dart';
+import 'package:client/features/workout_planning/presentation/viewmodel/planned_session_viewmodel.dart';
 import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
+import 'package:client/features/workout_planning/presentation/state/planned_set_state.dart';
 import 'package:client/features/workout_planning/presentation/widgets/workout_set_widget.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +37,62 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
     notesController.text = widget.note ?? "";
   }
 
+  void _showExerciseOptions(BuildContext context, PlannedSessionViewmodel vm) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Appcolors.primaryColor,
+      useRootNavigator: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.swap_horiz, color: Colors.white),
+                title: const Text(
+                  "Replace Exercise",
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: const Text(
+                  "Swap this for a different exercise",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  context.push(
+                    "/home/create_sessions/update_exercise/${widget.exerciseIndex}",
+                    extra: plannedSessionViewModelProvider,
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: Color(0xffE2725B),
+                ),
+                title: const Text(
+                  "Delete Exercise",
+                  style: TextStyle(color: Color(0xffE2725B)),
+                ),
+                subtitle: const Text(
+                  "Remove this exercise from the session",
+                  style: TextStyle(color: Appcolors.muteText),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  vm.deleteExercise(widget.exerciseIndex);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   String? plannedRepRange(int index, int? minRep, int? maxRep) {
     String? repRange;
 
@@ -51,7 +109,9 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
     final vm = ref.read(plannedSessionViewModelProvider.notifier);
     final sets = ref.watch(
       plannedSessionViewModelProvider.select((state) {
-        if (widget.exerciseIndex >= state.exercises.length) return [];
+        if (widget.exerciseIndex >= state.exercises.length) {
+          return <PlannedSetState>[];
+        }
         return state.exercises[widget.exerciseIndex].sets;
       }),
     );
@@ -89,102 +149,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
               ),
               Spacer(),
               GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return SizedBox(
-                        height: 200,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Container(
-                                width: 100,
-                                height: 5,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                              ),
-                              child: Container(
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff2A2A2A),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                          context.push(
-                                            "/home/create_sessions/update_exercise/${widget.exerciseIndex}",
-                                            extra:
-                                                plannedSessionViewModelProvider,
-                                          );
-                                        },
-                                        behavior: HitTestBehavior.opaque,
-                                        child: Row(
-                                          children: [
-                                            SizedBox(width: 10),
-                                            Text(
-                                              "Replace Exercise",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(thickness: .2),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () {
-                                          vm.deleteExercise(
-                                            widget.exerciseIndex,
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SizedBox(width: 10),
-                                            Text(
-                                              "Delete Exercise",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff9A1A1A),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    backgroundColor: Color(0xff131313),
-                    useRootNavigator: true,
-                  );
-                },
+                onTap: () => _showExerciseOptions(context, vm),
                 child: Icon(Icons.more_vert_outlined, color: Colors.white),
               ),
             ],
@@ -230,8 +195,6 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: ((context, setIndex) {
-              print("SETS");
-              print(sets[setIndex].setId);
               return WorkoutSetWidget(
                 setIndex: setIndex,
                 exerciseIndex: widget.exerciseIndex,
@@ -245,7 +208,7 @@ class _SessionWorkoutWidgetState extends ConsumerState<SessionWorkoutWidget> {
                   sets[setIndex].maxRep,
                 ),
 
-                key: ValueKey(sets[setIndex].setId),
+                key: ValueKey(setIndex),
               );
             }),
             itemCount: sets.length,

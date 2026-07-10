@@ -27,6 +27,11 @@ const PlannedSetIsarSchema = Schema(
       id: 2,
       name: r'minRep',
       type: IsarType.long,
+    ),
+    r'targetPercentage': PropertySchema(
+      id: 3,
+      name: r'targetPercentage',
+      type: IsarType.double,
     )
   },
   estimateSize: _plannedSetIsarEstimateSize,
@@ -53,6 +58,7 @@ void _plannedSetIsarSerialize(
   writer.writeDouble(offsets[0], object.estWeight);
   writer.writeLong(offsets[1], object.maxRep);
   writer.writeLong(offsets[2], object.minRep);
+  writer.writeDouble(offsets[3], object.targetPercentage);
 }
 
 PlannedSetIsar _plannedSetIsarDeserialize(
@@ -66,6 +72,7 @@ PlannedSetIsar _plannedSetIsarDeserialize(
     maxRep: reader.readLongOrNull(offsets[1]),
     minRep: reader.readLongOrNull(offsets[2]),
   );
+  object.targetPercentage = reader.readDoubleOrNull(offsets[3]);
   return object;
 }
 
@@ -82,6 +89,8 @@ P _plannedSetIsarDeserializeProp<P>(
       return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
+    case 3:
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -317,6 +326,90 @@ extension PlannedSetIsarQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'targetPercentage',
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'targetPercentage',
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'targetPercentage',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'targetPercentage',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'targetPercentage',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PlannedSetIsar, PlannedSetIsar, QAfterFilterCondition>
+      targetPercentageBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'targetPercentage',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }

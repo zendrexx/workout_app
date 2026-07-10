@@ -49,13 +49,13 @@ class _LogSessionWorkoutWidgetState
       _controller.text = widget.notes!;
     }
     note = "Add notes here";
-    print(widget.plannedSets);
   }
 
   @override
   Widget build(BuildContext context) {
     final vm = ref.watch(workoutLoggingViewModelProvider.notifier);
     final sets = widget.plannedSets;
+    final allDone = sets.isNotEmpty && sets.every((s) => s.isCompleted);
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -207,36 +207,54 @@ class _LogSessionWorkoutWidgetState
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
-              children: const [
-                Expanded(
+              children: [
+                const Expanded(
                   child: Text(
                     "SET",
                     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                   ),
                 ),
-                // Expanded(
-                //   child: Text(
-                //     "PREV",
-                //     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
-                //   ),
-                // ),
-                //nooo codee
-                //still cant codesadas
-                Expanded(
+                const Expanded(
                   child: Text(
                     "LBS",
                     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                   ),
                 ),
-                SizedBox(width: 5),
-                Expanded(
+                const SizedBox(width: 5),
+                const Expanded(
                   child: Text(
                     "REPS",
                     style: TextStyle(fontSize: 12, color: Color(0xff4E4E50)),
                   ),
                 ),
-
-                Spacer(),
+                // Master checkbox: complete / uncomplete every set at once.
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Checkbox(
+                      value: allDone,
+                      onChanged: (value) {
+                        if (value == true) {
+                          vm.completeAllSets(widget.index);
+                        } else {
+                          vm.uncompleteAllSets(widget.index);
+                        }
+                      },
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return const Color(0xff27B82C);
+                        }
+                        return Colors.transparent;
+                      }),
+                      checkColor: Colors.white,
+                      side: const BorderSide(color: Color(0xff4E4E50)),
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -246,14 +264,18 @@ class _LogSessionWorkoutWidgetState
             shrinkWrap: true,
             itemCount: sets.length,
             itemBuilder: (context, setIndex) {
+              final set = widget.plannedSets[setIndex];
               return PerformedWorkoutSetWidget(
-                setNum: setIndex,
+                // Rebuild the row fresh when its completion flips (e.g. via the
+                // master checkbox) so it reflects the new state and actuals.
+                key: ValueKey('${widget.index}-$setIndex-${set.isCompleted}'),
+                setIndex: setIndex,
                 index: widget.index,
-                estWeight: formatNumber(widget.plannedSets[setIndex].estWeight),
-                // previousWeight: formatNumber(
-                //   widget.plannedSets[setIndex].prevWeight,
-                // ),
-                repRange: widget.plannedSets[setIndex].estRep,
+                estWeight: formatNumber(set.estWeight),
+                repRange: set.estRep,
+                isCompleted: set.isCompleted,
+                actRep: set.actRep,
+                actWeight: set.actWeight,
               );
             },
           ),
