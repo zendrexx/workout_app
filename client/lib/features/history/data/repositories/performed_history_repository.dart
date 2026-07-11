@@ -74,14 +74,17 @@ class PerformedHistoryRepository implements HistoryRepository {
     final recentRecords = latestRecordByExercise.values.toList()
       ..sort((a, b) => b.achievedAt.compareTo(a.achievedAt));
 
+    final streakDetail = _streakDaysDetailed(workoutDays, _dayStart(now));
+
     return HistoryOverview(
       totalWorkouts: summaries.length,
       workoutsThisWeek: workoutsThisWeek,
       volumeThisWeek: volumeThisWeek,
       secondsThisWeek: secondsThisWeek,
       currentStreakWeeks: _streakWeeks(volumeByWeek.keys, currentWeekStart),
-      currentStreakDays: _streakDays(workoutDays, _dayStart(now)),
+      currentStreakDays: streakDetail.count,
       workoutDays: workoutDays,
+      streakDayIndexByDate: streakDetail.indexByDate,
       weeklyVolume: _weeklyVolume(volumeByWeek, currentWeekStart),
       sessions: summaries.reversed.toList(),
       recentRecords: recentRecords.take(_maxRecentRecords).toList(),
@@ -180,25 +183,40 @@ class PerformedHistoryRepository implements HistoryRepository {
   /// inflate the number.
   static const int _restDaysBeforeReset = 3;
 
-  int _streakDays(Set<DateTime> daysWithWorkout, DateTime today) {
-    if (daysWithWorkout.isEmpty) return 0;
+  /// Same walk as the doc above, but also records each trained day's
+  /// 1-based position within the streak (earliest = 1), so the UI can
+  /// recolor the activity grid by milestone as the streak grows.
+  ({int count, Map<DateTime, int> indexByDate}) _streakDaysDetailed(
+    Set<DateTime> daysWithWorkout,
+    DateTime today,
+  ) {
+    if (daysWithWorkout.isEmpty) return (count: 0, indexByDate: {});
 
     final earliest = daysWithWorkout.reduce((a, b) => a.isBefore(b) ? a : b);
     var streak = 0;
     var restGap = 0;
     var cursor = today;
+    // Trained days encountered walking backward from today, so the first
+    // entry is the most recent day and the last is the streak's start.
+    final trainedNewestFirst = <DateTime>[];
 
     while (!cursor.isBefore(earliest)) {
       if (daysWithWorkout.contains(cursor)) {
         streak++;
         restGap = 0;
+        trainedNewestFirst.add(cursor);
       } else {
         restGap++;
         if (restGap >= _restDaysBeforeReset) break;
       }
       cursor = _previousDay(cursor);
     }
-    return streak;
+
+    final indexByDate = <DateTime, int>{
+      for (var i = 0; i < trainedNewestFirst.length; i++)
+        trainedNewestFirst[i]: streak - i,
+    };
+    return (count: streak, indexByDate: indexByDate);
   }
 
   DateTime _previousDay(DateTime day) {

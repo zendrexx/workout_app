@@ -118,7 +118,15 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
               ),
             );
 
-    if (result == null || !result.save || !mounted) return;
+    if (result == null || !mounted) return;
+
+    if (!result.save) {
+      // Discarding from the summary abandons the whole workout, not just
+      // the summary screen — otherwise the lifter lands back on the
+      // exercise list with nowhere to go but "Finish" again.
+      _discard();
+      return;
+    }
 
     final vm = ref.read(workoutLoggingViewModelProvider.notifier);
     vm.addName(result.name);
@@ -176,7 +184,13 @@ class _LogWorkoutPageState extends ConsumerState<LogWorkoutPage> {
 
   void _discard() {
     ref.invalidate(workoutLoggingViewModelProvider);
-    context.push('/home');
+    // Return to wherever this workout was started from (Home, Program,
+    // a session's detail page…) instead of always forcing the Home tab.
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/home');
+    }
   }
 
   @override

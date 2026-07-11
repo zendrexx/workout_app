@@ -23,7 +23,7 @@ PerformedSet mapPerformedSet(PerformedSetState s) {
 // Map PlannedExerciseState → PlannedWorkoutExercise
 PerformedExercise mapPerformedExercise(PerformedExerciseState e) {
   return PerformedExercise(
-    exId: e.exerciseName, // or generate an ID if you want
+    exId: e.exId,
     imagePath: e.imagePath,
     exerciseName: e.exerciseName,
     equipment: e.equipment,
@@ -42,9 +42,10 @@ PerformedStats mapPerfomedStats(PerformedStatsState pstate) {
 
 // Map PlannedSessionState → PlannedWorkoutSession
 PerformedSession mapPerformedSession(PerformedSessionState s) {
+  final name = s.name.trim();
   return PerformedSession(
     performedSessionId: IdGenerator().getId(),
-    name: s.name,
+    name: name.isEmpty ? "Quick Workout" : name,
     performedStats: mapPerfomedStats(s.performedStats),
     performedExercise: s.performedExercise.map(mapPerformedExercise).toList(),
     endTime: DateTime.now(),

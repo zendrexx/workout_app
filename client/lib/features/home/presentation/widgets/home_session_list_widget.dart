@@ -1,7 +1,6 @@
 import 'package:client/core/constants/AppColors.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/viewmodel/home_view_model.dart';
-import 'package:client/features/home/presentation/widgets/long_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -118,80 +117,94 @@ class _HomeSessionListWidgetState extends ConsumerState<HomeSessionListWidget> {
         .join(', ');
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: InkWell(
-        onTap: () {
-          context.push('/home/view_session/${widget.sessionId}');
-        }, // call your tap function
-        borderRadius: BorderRadius.circular(3),
-        splashColor: Colors.white.withOpacity(0.1), // light ripple
-        highlightColor: Colors.white.withOpacity(0.05),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xff3B4141)),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            widget.title.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                          ),
-                        ),
-
-                        IconButton(
-                          onPressed: () => _showSessionOptions(context, vm),
-                          padding: EdgeInsets.zero, // removes default padding
-                          constraints: BoxConstraints(), // removes extra space
-                          icon: Icon(
-                            Icons.more_horiz,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Text(
-                      exerciseList,
-                      maxLines: 2, // limit to 2 lines
-                      overflow: TextOverflow.ellipsis, // show ... when overflow
-                      softWrap: true,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.4, // optional for spacing
-                      ),
-                    ),
-
-                    SizedBox(height: 10),
-                    LongCustomButton(
-                      title: "Start Session",
-                      Bcolor: Appcolors.accent,
-                      onTap: () => context.push(
-                        '/home/log_workout?sessionId=${widget.sessionId}',
-                      ),
-                    ),
-                  ],
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Material(
+        color: Appcolors.primaryColor,
+        borderRadius: BorderRadius.circular(5),
+        child: InkWell(
+          onTap: () {
+            context.push('/home/view_session/${widget.sessionId}');
+          },
+          borderRadius: BorderRadius.circular(5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Appcolors.secondaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.fitness_center_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        exerciseList,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Appcolors.muteText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Material(
+                  color: Appcolors.accent,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: () => context.push(
+                      '/home/log_workout?sessionId=${widget.sessionId}',
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  onPressed: () => _showSessionOptions(context, vm),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.more_horiz,
+                    size: 20,
+                    color: Appcolors.muteText,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

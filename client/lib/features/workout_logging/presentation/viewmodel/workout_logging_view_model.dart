@@ -86,8 +86,10 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
       },
       (_) async {
         // Ad-hoc ("Start Empty") workouts have no planned session behind
-        // them, so also save them as a reusable template.
-        if (state.plannedSessionId.isEmpty) {
+        // them, so also save them as a reusable template — but only when the
+        // lifter actually named it. An unnamed quick workout still saves to
+        // history; it just isn't kept around as a session to repeat.
+        if (state.plannedSessionId.isEmpty && state.name.trim().isNotEmpty) {
           await _saveAsTemplate(state);
         }
         // Advance the active program past the day we just completed.

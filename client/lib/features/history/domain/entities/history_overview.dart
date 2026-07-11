@@ -107,6 +107,14 @@ class HistoryOverview {
   /// paint the home activity grid — membership means "trained that day".
   final Set<DateTime> workoutDays;
 
+  /// For each trained day that falls inside the *current* active streak
+  /// (see [currentStreakDays]), its 1-based position counting from the
+  /// streak's first day. A trained day outside the current streak (an old,
+  /// already-broken run) has no entry here. Lets the UI recolor the activity
+  /// grid by milestone as a streak grows, without re-deriving the same
+  /// reset rule ([currentStreakDays]'s "3 missed days in a row") twice.
+  final Map<DateTime, int> streakDayIndexByDate;
+
   /// Volume per calendar week, oldest first. Covers at most the last 8
   /// weeks and never reaches further back than the first recorded workout.
   final List<WeeklyVolume> weeklyVolume;
@@ -126,6 +134,7 @@ class HistoryOverview {
     required this.currentStreakWeeks,
     required this.currentStreakDays,
     required this.workoutDays,
+    required this.streakDayIndexByDate,
     required this.weeklyVolume,
     required this.sessions,
     required this.recentRecords,

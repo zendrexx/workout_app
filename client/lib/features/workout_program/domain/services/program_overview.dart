@@ -54,7 +54,7 @@ ProgramOverview summarizeProgram(Program program) {
 
 ProgramDifficulty _difficulty(int trainingDaysPerWeek) {
   if (trainingDaysPerWeek <= 3) return ProgramDifficulty.beginner;
-  if (trainingDaysPerWeek <= 5) return ProgramDifficulty.intermediate;
+  if (trainingDaysPerWeek <= 4) return ProgramDifficulty.intermediate;
   return ProgramDifficulty.advanced;
 }
 

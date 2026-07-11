@@ -1,4 +1,7 @@
+import 'package:client/core/constants/AppColors.dart';
+import 'package:client/core/widgets/section_header.dart';
 import 'package:client/features/history/presentation/widgets/streak_card.dart';
+import 'package:client/features/history/presentation/widgets/tap_tooltip.dart';
 import 'package:client/features/home/presentation/providers/home_view_model_provider.dart';
 import 'package:client/features/home/presentation/providers/visible_session_provider.dart';
 import 'package:client/features/home/presentation/widgets/custom_button_widget.dart';
@@ -21,8 +24,6 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   List<PlannedSessionState> sessions = [];
-  bool _isProgramExpanded = true;
-  bool _isSessionExpanded = true;
   @override
   void initState() {
     super.initState();
@@ -30,9 +31,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final visibleSessionState = ref.watch(visibleSessionsProvider);
-    final state = ref.watch(homeViewModelProvider);
-    final vm = ref.watch(homeViewModelProvider.notifier);
     return Scaffold(
       backgroundColor: Color(0xff0F0F0F),
       appBar: AppBar(
@@ -59,53 +57,75 @@ class _HomePageState extends ConsumerState<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SectionHeader(title: "Today"),
+              const SizedBox(height: 8),
               HomeProgramCard(),
-              SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const SectionHeader(title: "Quick Start"),
+              const SizedBox(height: 8),
               Material(
-                color: Color(0xff1A1A1A),
+                color: Appcolors.primaryColor,
                 borderRadius: BorderRadius.circular(5),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () => context.push('/home/log_workout'),
                   child: Container(
-                    height: 60,
+                    height: 68,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Start Empty",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Log workouts on a click",
-                              style: TextStyle(
-                                color: Color(0xffA1A1AA),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Appcolors.accent.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.add_rounded,
+                            color: Appcolors.accent,
+                            size: 22,
+                          ),
                         ),
-                        Icon(
+                        const SizedBox(width: 14),
+                        const Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Start Empty",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                "Log a workout on a click",
+                                style: TextStyle(
+                                  color: Appcolors.muteText,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
                           Icons.arrow_forward_rounded,
-                          color: Colors.white,
-                          size: 24,
+                          color: Appcolors.muteText,
+                          size: 20,
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 24),
+              SectionHeader(title: "Streak", trailing: TapTooltip()),
+              const SizedBox(height: 8),
               StreakCard(),
             ],
           ),

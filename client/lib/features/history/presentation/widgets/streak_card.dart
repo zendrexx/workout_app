@@ -1,6 +1,5 @@
 import 'package:client/core/constants/AppColors.dart';
 import 'package:client/features/history/presentation/providers/history_overview_provider.dart';
-import 'package:client/features/history/presentation/widgets/tap_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,52 +13,44 @@ class StreakCard extends ConsumerWidget {
     final overview = ref.watch(historyOverviewProvider).valueOrNull;
     final streak = overview?.currentStreakDays ?? 0;
     final workoutDays = overview?.workoutDays ?? const <DateTime>{};
+    final streakDayIndexByDate =
+        overview?.streakDayIndexByDate ?? const <DateTime, int>{};
 
     return Container(
       decoration: BoxDecoration(
         color: Appcolors.primaryColor,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: const BoxDecoration(
-              color: Appcolors.secondaryColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(5),
-                topRight: Radius.circular(5),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Streak",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                TapTooltip(),
-              ],
+          Expanded(
+            child: _ActivityGrid(
+              workoutDays: workoutDays,
+              streakDayIndexByDate: streakDayIndexByDate,
             ),
           ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _ActivityGrid(workoutDays: workoutDays)),
-                const SizedBox(width: 16),
-                _StreakCount(streak: streak),
-              ],
-            ),
-          ),
+          const SizedBox(width: 16),
+          _StreakCount(streak: streak),
         ],
       ),
     );
   }
+}
+
+/// Escalating milestone colors so a longer streak visibly reads as a bigger
+/// achievement: building (orange) → consistent (green) → dedicated (blue) →
+/// elite (purple) → legendary (gold) at a full year. [streakDayIndex] is a
+/// trained day's 1-based position within the current streak (day 1, day 2…),
+/// not the raw streak total — so the grid can recolor day-by-day as it grows.
+Color _streakTierColor(int streakDayIndex) {
+  if (streakDayIndex >= 365) return Appcolors.gold;
+  if (streakDayIndex >= 100) return Appcolors.accent;
+  if (streakDayIndex >= 30) return Appcolors.info;
+  if (streakDayIndex >= 15) return Appcolors.success;
+  if (streakDayIndex > 0) return Appcolors.momentum;
+  return Colors.grey.shade700;
 }
 
 class _StreakCount extends StatelessWidget {
@@ -69,29 +60,42 @@ class _StreakCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final active = streak > 0;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    final accent = _streakTierColor(streak);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
+        Icon(Icons.local_fire_department, color: accent, size: 32),
+        const SizedBox(height: 4),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "$streak",
-              style: const TextStyle(
-                fontSize: 28,
+              style: TextStyle(
+                fontSize: 34,
+                height: 1,
                 fontWeight: FontWeight.bold,
+                color: active ? Colors.white : Colors.grey.shade500,
               ),
             ),
+            const SizedBox(width: 4),
             Text(
-              streak == 1 ? "Day streak" : "Days streak",
-              style: const TextStyle(color: Colors.grey),
+              "d",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: accent,
+              ),
             ),
           ],
         ),
-        const SizedBox(width: 8),
-        Icon(
-          Icons.local_fire_department,
-          color: active ? Appcolors.momentum : Colors.grey.shade700,
-          size: 70,
+        const SizedBox(height: 2),
+        const Text(
+          "day streak",
+          style: TextStyle(color: Appcolors.muteText, fontSize: 12),
         ),
       ],
     );
@@ -104,7 +108,16 @@ class _StreakCount extends StatelessWidget {
 /// paging forward stops at the present — no invented history, no future.
 class _ActivityGrid extends StatefulWidget {
   final Set<DateTime> workoutDays;
-  const _ActivityGrid({required this.workoutDays});
+
+  /// Trained day → 1-based position within the current active streak.
+  /// Dots for these days are tinted by milestone; trained days without an
+  /// entry (outside the current streak) fall back to the base streak color.
+  final Map<DateTime, int> streakDayIndexByDate;
+
+  const _ActivityGrid({
+    required this.workoutDays,
+    required this.streakDayIndexByDate,
+  });
 
   @override
   State<_ActivityGrid> createState() => _ActivityGridState();
@@ -114,8 +127,18 @@ class _ActivityGridState extends State<_ActivityGrid> {
   static const int _weeks = 4;
   static const List<String> _dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   static const List<String> _monthAbbr = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   /// 0 = the most recent 4 weeks (bottom row is the current week). Each step
@@ -217,6 +240,10 @@ class _ActivityGridState extends State<_ActivityGrid> {
                   final trained = widget.workoutDays.contains(date);
                   final isFuture = date.isAfter(today);
                   final isToday = date == today;
+                  final streakDayIndex = widget.streakDayIndexByDate[date];
+                  final dotColor = streakDayIndex != null
+                      ? _streakTierColor(streakDayIndex)
+                      : Appcolors.momentum;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -226,7 +253,7 @@ class _ActivityGridState extends State<_ActivityGrid> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: trained
-                            ? Appcolors.momentum
+                            ? dotColor
                             : isFuture
                             ? Colors.transparent
                             : Colors.grey.shade800,

@@ -1,4 +1,5 @@
 import 'package:client/core/constants/AppColors.dart';
+import 'package:client/core/widgets/section_header.dart';
 import 'package:client/features/workout_program/presentation/providers/active_program_providers.dart';
 import 'package:client/features/workout_program/presentation/providers/today_workout_provider.dart';
 import 'package:client/features/workout_program/presentation/state/today_workout.dart';
@@ -31,30 +32,40 @@ class MainProgramPage extends StatelessWidget {
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            _ActiveProgramCard(),
-            const SizedBox(height: 16),
-            _ProgramActionTile(
-              title: "Browse Programs",
-              subtitle: "Coach-made",
-              onTap: () => context.push('/program/browse'),
-            ),
-            const SizedBox(height: 16),
-            _ProgramActionTile(
-              title: "Create Sessions",
-              subtitle: "Build your own",
-              onTap: () => context.push('/home/create_sessions'),
-            ),
-            const SizedBox(height: 16),
-            _ProgramActionTile(
-              title: "View Sessions",
-              subtitle: "View your own sessions",
-              onTap: () => context.push('/program/sessions'),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SectionHeader(title: "Active Program"),
+              const SizedBox(height: 8),
+              _ActiveProgramCard(),
+              const SizedBox(height: 24),
+              const SectionHeader(title: "Manage"),
+              const SizedBox(height: 8),
+              _ProgramActionTile(
+                icon: Icons.storefront_rounded,
+                title: "Browse Programs",
+                subtitle: "Coach-made",
+                onTap: () => context.push('/program/browse'),
+              ),
+              const SizedBox(height: 12),
+              _ProgramActionTile(
+                icon: Icons.add_circle_outline_rounded,
+                title: "Create Sessions",
+                subtitle: "Build your own",
+                onTap: () => context.push('/home/create_sessions'),
+              ),
+              const SizedBox(height: 12),
+              _ProgramActionTile(
+                icon: Icons.event_note_rounded,
+                title: "View Sessions",
+                subtitle: "View your own sessions",
+                onTap: () => context.push('/program/sessions'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -72,6 +83,7 @@ class _ActiveProgramCard extends ConsumerWidget {
       decoration: BoxDecoration(
         color: const Color(0xff1A1A1A),
         borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Appcolors.secondaryColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.5),
@@ -89,9 +101,9 @@ class _ActiveProgramCard extends ConsumerWidget {
         error: (_, __) => const SizedBox(
           height: 93,
           child: Center(
-            child: Text(
-              "Could not load program",
-              style: TextStyle(color: Colors.white),
+            child: _EmptyState(
+              icon: Icons.error_outline_rounded,
+              message: "Could not load program",
             ),
           ),
         ),
@@ -105,13 +117,9 @@ class _ActiveProgramCard extends ConsumerWidget {
       return const SizedBox(
         height: 93,
         child: Center(
-          child: Text(
-            "No Active Program",
-            style: TextStyle(
-              color: Color(0xffA1A1AA),
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+          child: _EmptyState(
+            icon: Icons.fitness_center_rounded,
+            message: "No Active Program",
           ),
         ),
       );
@@ -133,8 +141,17 @@ class _ActiveProgramCard extends ConsumerWidget {
 
     return Row(
       children: [
-        Image.asset('assets/images/program_pic.png', width: 65, height: 65),
-        const SizedBox(width: 8),
+        Container(
+          width: 65,
+          height: 65,
+          decoration: BoxDecoration(
+            color: Appcolors.accent.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.all(8),
+          child: Image.asset('assets/images/program_pic.png'),
+        ),
+        const SizedBox(width: 12),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -313,11 +330,13 @@ class _ActiveProgramCard extends ConsumerWidget {
 }
 
 class _ProgramActionTile extends StatelessWidget {
+  final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
 
   const _ProgramActionTile({
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.onTap,
@@ -325,51 +344,87 @@ class _ProgramActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return Material(
+      color: const Color(0xff1A1A1A),
       borderRadius: BorderRadius.circular(5),
-      child: Container(
-        height: 60,
-        decoration: BoxDecoration(
-          color: const Color(0xff1A1A1A),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          height: 68,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Appcolors.accent.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: Appcolors.accent, size: 20),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: Color(0xffA1A1AA),
-                      fontSize: 14,
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: Appcolors.muteText,
+                        fontSize: 13,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const Icon(
                 Icons.arrow_forward_rounded,
-                color: Colors.white,
-                size: 24,
+                color: Appcolors.muteText,
+                size: 20,
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  final IconData icon;
+  final String message;
+
+  const _EmptyState({required this.icon, required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, color: Appcolors.muteText, size: 26),
+        const SizedBox(height: 8),
+        Text(
+          message,
+          style: const TextStyle(
+            color: Color(0xffA1A1AA),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

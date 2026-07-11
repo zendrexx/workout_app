@@ -1,3 +1,4 @@
+import 'package:client/core/constants/AppColors.dart';
 import 'package:client/core/presentation/abstract/update_exercise_abstract.dart';
 import 'package:client/features/workout_planning/domain/entities/exercise.dart';
 import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
@@ -54,6 +55,13 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
   Widget build(BuildContext context) {
     final state = ref.watch(exerciseViewModelProvider);
     final vm = ref.read(widget.provider.notifier);
+    final query = _controller.text.trim().toLowerCase();
+    final exercises = query.isEmpty
+        ? state.exercises
+        : state.exercises
+              .where((e) => e.name.toLowerCase().contains(query))
+              .toList();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -66,33 +74,28 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
             letterSpacing: 1,
           ),
         ),
-        backgroundColor: const Color(0xff0F0F0F),
+        backgroundColor: Appcolors.backgroundColor,
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
                 onTap: () => context.pop(),
-                child: Text(
+                child: const Text(
                   "Cancel",
-                  style: TextStyle(color: Color(0xffE2725B)),
+                  style: TextStyle(color: Appcolors.danger),
                 ),
               ),
-              SizedBox(width: 16),
-              // GestureDetector(
-              //   onTap: () {},
-              //   child: Text("Create", style: TextStyle(color: Colors.white)),
-              // ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
             ],
           ),
         ],
         elevation: 5,
-        shadowColor: Colors.black.withOpacity(0.8),
+        shadowColor: Colors.black.withValues(alpha: 0.8),
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      backgroundColor: Color(0xff0F0F0F),
+      backgroundColor: Appcolors.backgroundColor,
       body: Stack(
         children: [
           SizedBox.expand(
@@ -103,7 +106,7 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 35,
+                      height: 44,
                       child: TextField(
                         style: const TextStyle(
                           fontSize: 14,
@@ -112,31 +115,37 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                         cursorColor: Colors.white,
                         controller: _controller,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                          ),
                           filled: true,
-                          fillColor: Color(0xff4E4A43),
+                          fillColor: Appcolors.primaryColor,
                           hintText: "Search Exercise",
-                          hintStyle: TextStyle(
-                            color: Color(0xff89898Ad),
+                          hintStyle: const TextStyle(
+                            color: Appcolors.muteText,
                             fontSize: 14,
                           ),
-                          prefixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.search,
-                              color: Color(0xff89898A),
-                              size: 20,
-                            ),
-                            onPressed: () {
-                              _controller.clear();
-                              setState(() {}); // refresh to hide the X
-                            },
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Appcolors.muteText,
+                            size: 20,
                           ),
+                          suffixIcon: query.isEmpty
+                              ? null
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Appcolors.muteText,
+                                    size: 18,
+                                  ),
+                                  onPressed: () {
+                                    _controller.clear();
+                                    setState(() {});
+                                  },
+                                ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ), // rounded corners
-                            borderSide:
-                                BorderSide.none, // removes the border line
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -144,7 +153,9 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide.none,
+                            borderSide: const BorderSide(
+                              color: Appcolors.accent,
+                            ),
                           ),
                         ),
                         onChanged: (value) {
@@ -152,33 +163,52 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       "All Exercises",
-                      style: TextStyle(color: Color(0xff4E4E50)),
+                      style: TextStyle(
+                        color: Appcolors.muteText,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.exercises.length,
-                      itemBuilder: (context, index) {
-                        final exercise = state.exercises[index];
-                        return GestureDetector(
-                          onTap: () => _toggleExercise(exercise),
-                          child: ExerciseCardWidget(
-                            isSelectable: true,
-                            isSelected: _selectedExercise.contains(
-                              exercise.exId,
+                    const SizedBox(height: 10),
+                    if (exercises.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32.0),
+                        child: Center(
+                          child: Text(
+                            'No exercises match "$query".',
+                            style: const TextStyle(
+                              color: Appcolors.muteText,
+                              fontSize: 14,
                             ),
-                            name: exercise.name,
-                            imagePath: exercise.imagePath,
-                            primMuscle: exercise.primMuscle,
-                            equipment: exercise.equipment,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: exercises.length,
+                        itemBuilder: (context, index) {
+                          final exercise = exercises[index];
+                          return GestureDetector(
+                            onTap: () => _toggleExercise(exercise),
+                            child: ExerciseCardWidget(
+                              isSelectable: true,
+                              isSelected: _selectedExercise.contains(
+                                exercise.exId,
+                              ),
+                              name: exercise.name,
+                              imagePath: exercise.imagePath,
+                              primMuscle: exercise.primMuscle,
+                              equipment: exercise.equipment,
+                            ),
+                          );
+                        },
+                      ),
+                    const SizedBox(height: 72),
                   ],
                 ),
               ),
@@ -186,39 +216,42 @@ class _UpdateExerciseState extends ConsumerState<UpdateExercise> {
           ),
           if (_selectedExercise.isNotEmpty) ...[
             Positioned(
-              right: 0,
-              bottom: 30,
-              child: ElevatedButton(
-                onPressed: () {
-                  for (final exId in _selectedExercise) {
-                    final exercise = state.exercises.firstWhere(
-                      (e) => e.exId == exId,
-                    );
+              right: 16,
+              bottom: 24,
+              child: Material(
+                color: Appcolors.accent,
+                borderRadius: BorderRadius.circular(30),
+                elevation: 4,
+                shadowColor: Colors.black.withValues(alpha: 0.5),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  onTap: () {
+                    for (final exId in _selectedExercise) {
+                      final exercise = state.exercises.firstWhere(
+                        (e) => e.exId == exId,
+                      );
 
-                    (vm as UpdateExerciseAbstract).updateExerciseAt(
-                      widget.index,
-                      exercise,
-                    );
-                    context.pop();
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2F4F4F),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      bottomLeft: Radius.circular(12),
+                      (vm as UpdateExerciseAbstract).updateExerciseAt(
+                        widget.index,
+                        exercise,
+                      );
+                      context.pop();
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
+                    ),
+                    child: Text(
+                      "Update exercise",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  elevation: 4,
-                ),
-                child: Text(
-                  "Update exercise",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),

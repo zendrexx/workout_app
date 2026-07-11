@@ -31,7 +31,6 @@ class WorkoutSummaryPage extends ConsumerStatefulWidget {
 
 class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
   late final TextEditingController _nameController;
-  bool _nameError = false;
 
   @override
   void initState() {
@@ -49,10 +48,6 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
 
   void _onSave() {
     final name = _nameController.text.trim();
-    if (name.isEmpty) {
-      setState(() => _nameError = true);
-      return;
-    }
     Navigator.of(context).pop(WorkoutSummaryResult(save: true, name: name));
   }
 
@@ -199,15 +194,10 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
           controller: _nameController,
           cursorColor: Colors.white,
           style: const TextStyle(color: Colors.white, fontSize: 16),
-          onChanged: (v) {
-            if (_nameError && v.trim().isNotEmpty) {
-              setState(() => _nameError = false);
-            }
-          },
           decoration: InputDecoration(
             filled: true,
             fillColor: Appcolors.primaryColor,
-            hintText: "Name this workout",
+            hintText: "Name this workout (optional)",
             hintStyle: const TextStyle(color: Appcolors.muteText),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
@@ -217,9 +207,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: _nameError
-                  ? const BorderSide(color: Appcolors.danger)
-                  : BorderSide.none,
+              borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -227,13 +215,11 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
             ),
           ),
         ),
-        if (_nameError) ...[
-          const SizedBox(height: 6),
-          const Text(
-            "Give your workout a name to save it",
-            style: TextStyle(color: Appcolors.danger, fontSize: 12),
-          ),
-        ],
+        const SizedBox(height: 6),
+        const Text(
+          "Unnamed workouts are still saved to history — just not kept as a reusable session.",
+          style: TextStyle(color: Appcolors.muteText, fontSize: 12),
+        ),
       ],
     );
   }

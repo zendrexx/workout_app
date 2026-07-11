@@ -1,3 +1,4 @@
+import 'package:client/core/constants/AppColors.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseCardWidget extends StatelessWidget {
@@ -22,57 +23,77 @@ class ExerciseCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      padding: const EdgeInsets.only(bottom: 8),
       child: GestureDetector(
         onTap: isSelectable ? null : onTap,
         child: Container(
-          decoration: BoxDecoration(),
           width: double.infinity,
-          height: 80,
-          child: Column(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Appcolors.accent.withValues(alpha: 0.12)
+                : Appcolors.primaryColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected
+                  ? Appcolors.accent
+                  : Colors.white.withValues(alpha: 0.04),
+            ),
+          ),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  if (isSelected) ...[
-                    Container(
-                      height: 40,
-                      width: 5,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffE2725B),
-                        borderRadius: BorderRadius.circular(5),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: Appcolors.secondaryColor,
+                backgroundImage: AssetImage(imagePath),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      equipment != null ? "$name ($equipment)" : name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: 20),
+                    const SizedBox(height: 2),
+                    Text(
+                      primMuscle,
+                      style: const TextStyle(
+                        color: Appcolors.muteText,
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundImage: AssetImage(imagePath),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 5),
-                      Text(
-                        equipment != null ? "$name ($equipment)" : name,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        primMuscle,
-                        style: TextStyle(
-                          color: Color(0xff919596),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-              SizedBox(height: 10),
-              Divider(thickness: 0.5),
+              if (isSelectable) ...[
+                const SizedBox(width: 8),
+                Container(
+                  width: 22,
+                  height: 22,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isSelected ? Appcolors.accent : Colors.transparent,
+                    border: Border.all(
+                      color: isSelected
+                          ? Appcolors.accent
+                          : Appcolors.muteText,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: isSelected
+                      ? const Icon(Icons.check, size: 14, color: Colors.black)
+                      : null,
+                ),
+              ],
             ],
           ),
         ),

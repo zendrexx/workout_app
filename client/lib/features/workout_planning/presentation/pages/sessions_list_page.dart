@@ -44,76 +44,90 @@ class _SessionsListPageState extends ConsumerState<SessionsListPage> {
         surfaceTintColor: Colors.transparent,
       ),
       backgroundColor: const Color(0xff0F0F0F),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 35,
-                child: TextField(
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
-                  cursorColor: Colors.white,
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(0),
-                    filled: true,
-                    fillColor: Appcolors.primaryColor,
-                    hintText: "Search sessions",
-                    hintStyle: TextStyle(
-                      color: Appcolors.muteText,
-                      fontSize: 14,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Appcolors.muteText,
-                      size: 20,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: const BorderSide(color: Appcolors.accent),
-                    ),
-                  ),
-                  onChanged: (value) => setState(() {}),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          SizedBox(
+            height: 44,
+            child: TextField(
+              style: const TextStyle(fontSize: 14, color: Colors.white),
+              cursorColor: Colors.white,
+              controller: _controller,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                filled: true,
+                fillColor: Appcolors.primaryColor,
+                hintText: "Search sessions",
+                hintStyle: const TextStyle(
+                  color: Appcolors.muteText,
+                  fontSize: 14,
+                ),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Appcolors.muteText,
+                  size: 20,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: const BorderSide(color: Appcolors.accent),
                 ),
               ),
-              SizedBox(height: 16),
-              if (sessions.isEmpty)
-                SizedBox(
-                  height: 100,
-                  child: Center(
-                    child: Text(
-                      'No sessions yet.\nCreate one or save a workout to get started.',
-                      style: TextStyle(fontWeight: FontWeight.w200, fontSize: 16),
+              onChanged: (value) => setState(() {}),
+            ),
+          ),
+          const SizedBox(height: 20),
+          if (sessions.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 48),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.event_note_rounded,
+                    color: Appcolors.muteText,
+                    size: 32,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    query.isEmpty
+                        ? "No sessions yet."
+                        : 'No sessions match "$query".',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  if (query.isEmpty) ...[
+                    const SizedBox(height: 4),
+                    const Text(
+                      "Create one or save a workout to get started.",
+                      style: TextStyle(
+                        color: Appcolors.muteText,
+                        fontSize: 13,
+                      ),
                       textAlign: TextAlign.center,
                     ),
-                  ),
-                )
-              else
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: sessions.length,
-                  itemBuilder: (context, index) {
-                    final session = sessions[index];
-                    return HomeSessionListWidget(
-                      sessionId: session.sessionId,
-                      title: session.name,
-                    );
-                  },
-                ),
-            ],
-          ),
-        ),
+                  ],
+                ],
+              ),
+            )
+          else
+            ...sessions.map(
+              (session) => HomeSessionListWidget(
+                sessionId: session.sessionId,
+                title: session.name,
+              ),
+            ),
+        ],
       ),
     );
   }

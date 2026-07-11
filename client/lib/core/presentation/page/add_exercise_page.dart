@@ -1,3 +1,4 @@
+import 'package:client/core/constants/AppColors.dart';
 import 'package:client/core/presentation/abstract/add_exercise_absract.dart';
 
 import 'package:client/features/home/presentation/widgets/exercise_card_widget.dart';
@@ -33,6 +34,13 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
   Widget build(BuildContext context) {
     final state = ref.watch(exerciseViewModelProvider);
     final vm = ref.read(widget.provider.notifier);
+    final query = _controller.text.trim().toLowerCase();
+    final exercises = query.isEmpty
+        ? state.exercises
+        : state.exercises
+              .where((e) => e.name.toLowerCase().contains(query))
+              .toList();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -45,33 +53,28 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
             letterSpacing: 1,
           ),
         ),
-        backgroundColor: const Color(0xff0F0F0F),
+        backgroundColor: Appcolors.backgroundColor,
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
                 onTap: () => context.pop(),
-                child: Text(
+                child: const Text(
                   "Cancel",
-                  style: TextStyle(color: Color(0xffE2725B)),
+                  style: TextStyle(color: Appcolors.danger),
                 ),
               ),
-              SizedBox(width: 16),
-              // GestureDetector(
-              //   onTap: () {},
-              //   child: Text("Create", style: TextStyle(color: Colors.white)),
-              // ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
             ],
           ),
         ],
         elevation: 5,
-        shadowColor: Colors.black.withOpacity(0.8),
+        shadowColor: Colors.black.withValues(alpha: 0.8),
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
       ),
-      backgroundColor: Color(0xff0F0F0F),
+      backgroundColor: Appcolors.backgroundColor,
       body: Stack(
         children: [
           SizedBox.expand(
@@ -82,7 +85,7 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 35,
+                      height: 44,
                       child: TextField(
                         style: const TextStyle(
                           fontSize: 14,
@@ -91,25 +94,34 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                         cursorColor: Colors.white,
                         controller: _controller,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                          ),
                           filled: true,
-                          fillColor: Color(0xff4E4A43),
+                          fillColor: Appcolors.primaryColor,
                           hintText: "Search Exercise",
-                          hintStyle: TextStyle(
-                            color: Color(0xff89898A),
+                          hintStyle: const TextStyle(
+                            color: Appcolors.muteText,
                             fontSize: 14,
                           ),
-                          prefixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.search,
-                              color: Color(0xff89898A),
-                              size: 20,
-                            ),
-                            onPressed: () {
-                              _controller.clear();
-                              setState(() {}); // refresh to hide the X
-                            },
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Appcolors.muteText,
+                            size: 20,
                           ),
+                          suffixIcon: query.isEmpty
+                              ? null
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Appcolors.muteText,
+                                    size: 18,
+                                  ),
+                                  onPressed: () {
+                                    _controller.clear();
+                                    setState(() {});
+                                  },
+                                ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                             borderSide: BorderSide.none,
@@ -120,7 +132,9 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide.none,
+                            borderSide: const BorderSide(
+                              color: Appcolors.accent,
+                            ),
                           ),
                         ),
                         onChanged: (value) {
@@ -128,33 +142,54 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       "All Exercises",
-                      style: TextStyle(color: Color(0xff4E4E50)),
+                      style: TextStyle(
+                        color: Appcolors.muteText,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.exercises.length,
-                      itemBuilder: (context, index) {
-                        final exercise = state.exercises[index];
-                        return GestureDetector(
-                          onTap: () => _toggleExercise(exercise),
-                          child: ExerciseCardWidget(
-                            isSelectable: true,
-                            isSelected: _selectedExercise.contains(
-                              exercise.exId,
+                    const SizedBox(height: 10),
+                    if (exercises.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32.0),
+                        child: Center(
+                          child: Text(
+                            'No exercises match "$query".',
+                            style: const TextStyle(
+                              color: Appcolors.muteText,
+                              fontSize: 14,
                             ),
-                            name: exercise.name,
-                            imagePath: exercise.imagePath,
-                            primMuscle: exercise.primMuscle,
-                            equipment: exercise.equipment,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: exercises.length,
+                        itemBuilder: (context, index) {
+                          final exercise = exercises[index];
+                          return GestureDetector(
+                            onTap: () => _toggleExercise(exercise),
+                            child: ExerciseCardWidget(
+                              isSelectable: true,
+                              isSelected: _selectedExercise.contains(
+                                exercise.exId,
+                              ),
+                              name: exercise.name,
+                              imagePath: exercise.imagePath,
+                              primMuscle: exercise.primMuscle,
+                              equipment: exercise.equipment,
+                            ),
+                          );
+                        },
+                      ),
+                    // Leaves room so the last card isn't hidden behind the
+                    // floating "Add" button once exercises are selected.
+                    const SizedBox(height: 72),
                   ],
                 ),
               ),
@@ -162,35 +197,38 @@ class _AddExercisePageState extends ConsumerState<AddExercisePage> {
           ),
           if (_selectedExercise.isNotEmpty) ...[
             Positioned(
-              right: 0,
-              bottom: 30,
-              child: ElevatedButton(
-                onPressed: () {
-                  for (final exId in _selectedExercise) {
-                    final exercise = state.exercises.firstWhere(
-                      (e) => e.exId == exId,
-                    );
-                    (vm as AddExerciseAbsract).addExercise(exercise);
-                  }
-                  context.pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2F4F4F),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      bottomLeft: Radius.circular(12),
+              right: 16,
+              bottom: 24,
+              child: Material(
+                color: Appcolors.accent,
+                borderRadius: BorderRadius.circular(30),
+                elevation: 4,
+                shadowColor: Colors.black.withValues(alpha: 0.5),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  onTap: () {
+                    for (final exId in _selectedExercise) {
+                      final exercise = state.exercises.firstWhere(
+                        (e) => e.exId == exId,
+                      );
+                      (vm as AddExerciseAbsract).addExercise(exercise);
+                    }
+                    context.pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
+                    ),
+                    child: Text(
+                      "Add ${_selectedExercise.length} exercise${_selectedExercise.length == 1 ? '' : 's'}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  elevation: 4,
-                ),
-                child: Text(
-                  "Add ${_selectedExercise.length} exercise",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),
