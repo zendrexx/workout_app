@@ -140,10 +140,7 @@ class _ProgramCard extends ConsumerWidget {
               const SizedBox(height: 4),
               Text(
                 overview.splitLabel,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Appcolors.muteText,
-                ),
+                style: const TextStyle(fontSize: 13, color: Appcolors.muteText),
               ),
               const SizedBox(height: 16),
               Row(
@@ -155,10 +152,7 @@ class _ProgramCard extends ConsumerWidget {
                     label: "DAYS / WEEK",
                   ),
                   _statDivider(),
-                  _Stat(
-                    value: "${overview.totalWorkouts}",
-                    label: "WORKOUTS",
-                  ),
+                  _Stat(value: "${overview.totalWorkouts}", label: "WORKOUTS"),
                 ],
               ),
               const SizedBox(height: 16),
@@ -175,9 +169,8 @@ class _ProgramCard extends ConsumerWidget {
                   width: double.infinity,
                   child: _SecondaryButton(
                     label: "View Program",
-                    onTap: () => context.push(
-                      '/home/view_program/${program.programId}',
-                    ),
+                    onTap: () =>
+                        context.push('/home/view_program/${program.programId}'),
                   ),
                 )
               else
@@ -401,7 +394,7 @@ class _AccentButton extends StatelessWidget {
           child: Text(
             label,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),

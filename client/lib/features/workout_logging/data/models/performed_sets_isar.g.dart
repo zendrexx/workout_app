@@ -37,6 +37,11 @@ const PerformedSetsIsarSchema = Schema(
       id: 4,
       name: r'isCompleted',
       type: IsarType.bool,
+    ),
+    r'rpe': PropertySchema(
+      id: 5,
+      name: r'rpe',
+      type: IsarType.double,
     )
   },
   estimateSize: _performedSetsIsarEstimateSize,
@@ -71,6 +76,7 @@ void _performedSetsIsarSerialize(
   writer.writeString(offsets[2], object.estRep);
   writer.writeDouble(offsets[3], object.estWeight);
   writer.writeBool(offsets[4], object.isCompleted);
+  writer.writeDouble(offsets[5], object.rpe);
 }
 
 PerformedSetsIsar _performedSetsIsarDeserialize(
@@ -85,6 +91,7 @@ PerformedSetsIsar _performedSetsIsarDeserialize(
     estRep: reader.readStringOrNull(offsets[2]),
     estWeight: reader.readDoubleOrNull(offsets[3]),
     isCompleted: reader.readBoolOrNull(offsets[4]) ?? false,
+    rpe: reader.readDoubleOrNull(offsets[5]),
   );
   return object;
 }
@@ -106,6 +113,8 @@ P _performedSetsIsarDeserializeProp<P>(
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
       return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 5:
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -515,6 +524,90 @@ extension PerformedSetsIsarQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isCompleted',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'rpe',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'rpe',
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rpe',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rpe',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rpe',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<PerformedSetsIsar, PerformedSetsIsar, QAfterFilterCondition>
+      rpeBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rpe',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }

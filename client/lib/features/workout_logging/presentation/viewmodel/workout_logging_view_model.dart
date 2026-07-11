@@ -235,6 +235,24 @@ class WorkoutLoggingViewModel extends StateNotifier<PerformedSessionState>
     state = state.copyWith(performedExercise: updatedExercises);
   }
 
+  /// RPE is optional, so an unparsable/blank value simply leaves it unset
+  /// rather than blocking the update like weight/reps do.
+  void addRpeToSets(int exerciseIndex, int setIndex, String rpe) {
+    final updatedExercises = [...state.performedExercise];
+    final currentExercise = updatedExercises[exerciseIndex];
+    final updatedSets = [...currentExercise.sets];
+
+    final updatedSet = updatedSets[setIndex].copyWith(
+      actRpe: double.tryParse(rpe),
+    );
+    updatedSets[setIndex] = updatedSet;
+
+    final updatedExercise = currentExercise.copyWith(sets: updatedSets);
+    updatedExercises[exerciseIndex] = updatedExercise;
+
+    state = state.copyWith(performedExercise: updatedExercises);
+  }
+
   /// Best-effort parse of a planned rep target ("8-10" / "8") into a number,
   /// used when auto-filling actual reps for the "complete all" action.
   int _parsePlannedReps(String estRep) {

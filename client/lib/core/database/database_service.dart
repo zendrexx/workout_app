@@ -1,3 +1,4 @@
+import 'package:client/features/profile/data/models/user_profile_isar.dart';
 import 'package:client/features/workout_planning/data/models/exercise_isar.dart';
 import 'package:client/features/workout_program/data/models/active_program_isar.dart';
 import 'package:client/features/workout_program/data/models/program_isar.dart';
@@ -19,6 +20,7 @@ final isarProvider = FutureProvider<Isar>((ref) async {
     PerformedSessionIsarSchema,
     ProgramIsarSchema,
     ActiveProgramIsarSchema,
+    UserProfileIsarSchema,
   ], directory: appDir.path);
 
   await seedExercises(isar);

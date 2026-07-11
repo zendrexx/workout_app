@@ -15,6 +15,7 @@ PerformedSet mapPerformedSet(PerformedSetState s) {
     //prevWeight: s.prevWeight,
     estRep: s.estRep,
     estWeight: s.estWeight,
+    rpe: s.actRpe,
     isCompleted: s.isCompleted,
   );
 }

@@ -124,8 +124,18 @@ class _MonthGroup {
 /// Groups sessions (already newest first) into calendar months.
 List<_MonthGroup> _groupByMonth(List<HistorySessionSummary> sessions) {
   const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   final groups = <_MonthGroup>[];

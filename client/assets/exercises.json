@@ -1,16 +1,16 @@
 [
-  { "id": "push_up", "name": "Push Up", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Bodyweight", "imagePath": "assets/images/pushupW.png", "category": "Bodyweight" },
-  { "id": "squat", "name": "Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/squatW.png", "category": "Compound" },
-  { "id": "bench_press", "name": "Bench Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Barbell", "imagePath": "assets/images/benchpress.png", "category": "Compound" },
-  { "id": "deadlift", "name": "Deadlift", "primMuscle": "Back", "seconMuscle": "Hamstrings", "equipment": "Barbell", "imagePath": "assets/images/deadliftW.png", "category": "Compound" },
+  { "id": "push_up", "name": "Push Up", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Bodyweight" },
+  { "id": "squat", "name": "Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "bench_press", "name": "Bench Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "deadlift", "name": "Deadlift", "primMuscle": "Back", "seconMuscle": "Hamstrings", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
 
-  { "id": "incline_bench_press", "name": "Incline Bench Press", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Barbell", "imagePath": "assets/images/benchpress.png", "category": "Compound" },
-  { "id": "dumbbell_bench_press", "name": "Dumbbell Bench Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Dumbbell", "imagePath": "assets/images/bench.png", "category": "Compound" },
+  { "id": "incline_bench_press", "name": "Incline Bench Press", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "dumbbell_bench_press", "name": "Dumbbell Bench Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "chest_fly", "name": "Chest Fly", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "cable_crossover", "name": "Cable Crossover", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
 
   { "id": "pull_up", "name": "Pull Up", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Bodyweight" },
-  { "id": "barbell_row", "name": "Barbell Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Barbell", "imagePath": "assets/images/deadlift.png", "category": "Compound" },
+  { "id": "barbell_row", "name": "Barbell Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "lat_pulldown", "name": "Lat Pulldown", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "seated_cable_row", "name": "Seated Cable Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "face_pull", "name": "Face Pull", "primMuscle": "Back", "seconMuscle": "Shoulders", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
@@ -21,9 +21,9 @@
   { "id": "front_raise", "name": "Front Raise", "primMuscle": "Shoulders", "seconMuscle": "Chest", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "rear_delt_fly", "name": "Rear Delt Fly", "primMuscle": "Shoulders", "seconMuscle": "Back", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
 
-  { "id": "front_squat", "name": "Front Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/squat.png", "category": "Compound" },
+  { "id": "front_squat", "name": "Front Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "leg_press", "name": "Leg Press", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
-  { "id": "romanian_deadlift", "name": "Romanian Deadlift", "primMuscle": "Hamstrings", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/deadlift.png", "category": "Compound" },
+  { "id": "romanian_deadlift", "name": "Romanian Deadlift", "primMuscle": "Hamstrings", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "leg_curl", "name": "Leg Curl", "primMuscle": "Hamstrings", "seconMuscle": "Calves", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "leg_extension", "name": "Leg Extension", "primMuscle": "Quads", "seconMuscle": "Quads", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "walking_lunge", "name": "Walking Lunge", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
@@ -35,7 +35,7 @@
   { "id": "hammer_curl", "name": "Hammer Curl", "primMuscle": "Bicep", "seconMuscle": "Forearms", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "tricep_pushdown", "name": "Tricep Pushdown", "primMuscle": "Tricep", "seconMuscle": "Tricep", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
   { "id": "overhead_tricep_extension", "name": "Overhead Tricep Extension", "primMuscle": "Tricep", "seconMuscle": "Tricep", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
-  { "id": "close_grip_bench_press", "name": "Close Grip Bench Press", "primMuscle": "Tricep", "seconMuscle": "Chest", "equipment": "Barbell", "imagePath": "assets/images/benchpress.png", "category": "Compound" },
+  { "id": "close_grip_bench_press", "name": "Close Grip Bench Press", "primMuscle": "Tricep", "seconMuscle": "Chest", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
   { "id": "dips", "name": "Dips", "primMuscle": "Tricep", "seconMuscle": "Chest", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Bodyweight" },
 
   { "id": "plank", "name": "Plank", "primMuscle": "Core", "seconMuscle": "Shoulders", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Core" },
@@ -44,5 +44,46 @@
   { "id": "russian_twist", "name": "Russian Twist", "primMuscle": "Core", "seconMuscle": "Obliques", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Core" },
 
   { "id": "treadmill_run", "name": "Treadmill Run", "primMuscle": "Legs", "seconMuscle": "Cardio", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Cardio" },
-  { "id": "rowing_machine", "name": "Rowing Machine", "primMuscle": "Back", "seconMuscle": "Legs", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Cardio" }
+  { "id": "rowing_machine", "name": "Rowing Machine", "primMuscle": "Back", "seconMuscle": "Legs", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Cardio" },
+
+  { "id": "pause_squat", "name": "Pause Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "box_squat", "name": "Box Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "good_morning", "name": "Good Morning", "primMuscle": "Hamstrings", "seconMuscle": "Lower Back", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "bulgarian_split_squat", "name": "Bulgarian Split Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "hack_squat", "name": "Hack Squat", "primMuscle": "Quads", "seconMuscle": "Glutes", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+
+  { "id": "pause_bench_press", "name": "Pause Bench Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "spoto_press", "name": "Spoto Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "floor_press", "name": "Floor Press", "primMuscle": "Chest", "seconMuscle": "Tricep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "incline_dumbbell_press", "name": "Incline Dumbbell Press", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "pec_deck", "name": "Pec Deck", "primMuscle": "Chest", "seconMuscle": "Shoulders", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+
+  { "id": "pendlay_row", "name": "Pendlay Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "t_bar_row", "name": "T-Bar Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "single_arm_dumbbell_row", "name": "Single Arm Dumbbell Row", "primMuscle": "Back", "seconMuscle": "Bicep", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "straight_arm_pulldown", "name": "Straight Arm Pulldown", "primMuscle": "Back", "seconMuscle": "Lats", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+  { "id": "shrug", "name": "Barbell Shrug", "primMuscle": "Traps", "seconMuscle": "Shoulders", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+
+  { "id": "sumo_deadlift", "name": "Sumo Deadlift", "primMuscle": "Glutes", "seconMuscle": "Hamstrings", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "deficit_deadlift", "name": "Deficit Deadlift", "primMuscle": "Hamstrings", "seconMuscle": "Back", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "rack_pull", "name": "Rack Pull", "primMuscle": "Back", "seconMuscle": "Glutes", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "stiff_leg_deadlift", "name": "Stiff Leg Deadlift", "primMuscle": "Hamstrings", "seconMuscle": "Lower Back", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "back_extension", "name": "Back Extension", "primMuscle": "Lower Back", "seconMuscle": "Glutes", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+
+  { "id": "arnold_press", "name": "Arnold Press", "primMuscle": "Shoulders", "seconMuscle": "Tricep", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "upright_row", "name": "Upright Row", "primMuscle": "Shoulders", "seconMuscle": "Traps", "equipment": "Barbell", "imagePath": "assets/images/workouticon.png", "category": "Compound" },
+  { "id": "cable_lateral_raise", "name": "Cable Lateral Raise", "primMuscle": "Shoulders", "seconMuscle": "Traps", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+
+  { "id": "preacher_curl", "name": "Preacher Curl", "primMuscle": "Bicep", "seconMuscle": "Forearms", "equipment": "Machine", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+  { "id": "incline_dumbbell_curl", "name": "Incline Dumbbell Curl", "primMuscle": "Bicep", "seconMuscle": "Forearms", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+  { "id": "skull_crusher", "name": "Skull Crusher", "primMuscle": "Tricep", "seconMuscle": "Forearms", "equipment": "EZ Bar", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+  { "id": "cable_overhead_extension", "name": "Cable Overhead Extension", "primMuscle": "Tricep", "seconMuscle": "Tricep", "equipment": "Cable", "imagePath": "assets/images/workouticon.png", "category": "Isolation" },
+
+  { "id": "ab_wheel_rollout", "name": "Ab Wheel Rollout", "primMuscle": "Core", "seconMuscle": "Shoulders", "equipment": "Ab Wheel", "imagePath": "assets/images/workouticon.png", "category": "Core" },
+  { "id": "decline_sit_up", "name": "Decline Sit Up", "primMuscle": "Core", "seconMuscle": "Hip Flexors", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Core" },
+  { "id": "side_plank", "name": "Side Plank", "primMuscle": "Obliques", "seconMuscle": "Core", "equipment": "Bodyweight", "imagePath": "assets/images/workouticon.png", "category": "Core" },
+
+  { "id": "farmer_walk", "name": "Farmer Walk", "primMuscle": "Forearms", "seconMuscle": "Traps", "equipment": "Dumbbell", "imagePath": "assets/images/workouticon.png", "category": "Functional" },
+  { "id": "sled_push", "name": "Sled Push", "primMuscle": "Legs", "seconMuscle": "Conditioning", "equipment": "Sled", "imagePath": "assets/images/workouticon.png", "category": "Functional" }
+
 ]

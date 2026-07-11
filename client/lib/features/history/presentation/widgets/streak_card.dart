@@ -98,64 +98,174 @@ class _StreakCount extends StatelessWidget {
   }
 }
 
-/// Four-week calendar grid (columns Sun→Sat, bottom row is the current week).
-/// A day lights up only if the user trained on that exact date.
-class _ActivityGrid extends StatelessWidget {
+/// Four-week calendar grid (columns Sun→Sat). By default the bottom row is
+/// the current week; the chevrons page back one 4-week block at a time.
+/// Paging back stops once the earliest recorded workout has been shown, and
+/// paging forward stops at the present — no invented history, no future.
+class _ActivityGrid extends StatefulWidget {
   final Set<DateTime> workoutDays;
   const _ActivityGrid({required this.workoutDays});
 
+  @override
+  State<_ActivityGrid> createState() => _ActivityGridState();
+}
+
+class _ActivityGridState extends State<_ActivityGrid> {
   static const int _weeks = 4;
   static const List<String> _dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  static const List<String> _monthAbbr = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
+
+  /// 0 = the most recent 4 weeks (bottom row is the current week). Each step
+  /// back moves a full 4-week block further into the past.
+  int _blockOffset = 0;
+
+  /// Compact label for the visible block, e.g. "Jul 2026" when it sits
+  /// inside one month, or "Jun – Jul 2026" when it spans two.
+  String _blockLabel(DateTime start, DateTime end) {
+    final startMonth = _monthAbbr[start.month - 1];
+    final endMonth = _monthAbbr[end.month - 1];
+    if (start.year == end.year && start.month == end.month) {
+      return "$startMonth ${start.year}";
+    }
+    if (start.year == end.year) {
+      return "$startMonth – $endMonth ${end.year}";
+    }
+    return "$startMonth ${start.year} – $endMonth ${end.year}";
+  }
+
+  DateTime? get _earliestWorkoutDay {
+    if (widget.workoutDays.isEmpty) return null;
+    return widget.workoutDays.reduce((a, b) => a.isBefore(b) ? a : b);
+  }
+
+  /// Sunday that starts the block [offset] steps back from the present one.
+  DateTime _blockStart(int offset) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final currentSunday = today.subtract(Duration(days: today.weekday % 7));
+    return currentSunday.subtract(
+      Duration(days: 7 * (_weeks - 1) + 7 * _weeks * offset),
+    );
+  }
+
+  bool get _canGoBack {
+    final earliest = _earliestWorkoutDay;
+    if (earliest == null) return false;
+    final earliestSunday = earliest.subtract(
+      Duration(days: earliest.weekday % 7),
+    );
+    return _blockStart(_blockOffset).isAfter(earliestSunday);
+  }
+
+  bool get _canGoForward => _blockOffset > 0;
+
+  void _goPrev() {
+    if (_canGoBack) setState(() => _blockOffset++);
+  }
+
+  void _goNext() {
+    if (_canGoForward) setState(() => _blockOffset--);
+  }
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    // Sunday that starts the current week (Dart weekday: Mon=1..Sun=7).
-    final currentSunday = today.subtract(Duration(days: today.weekday % 7));
-    // Top-left cell: the Sunday (_weeks - 1) weeks before the current one.
-    final gridStart = currentSunday.subtract(
-      Duration(days: 7 * (_weeks - 1)),
-    );
+    final gridStart = _blockStart(_blockOffset);
+    final gridEnd = gridStart.add(Duration(days: 7 * _weeks - 1));
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(7, (col) {
-        return Column(
+    return Column(
+      children: [
+        Row(
           children: [
-            Text(
-              _dayLabels[col],
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
+            _NavArrow(
+              icon: Icons.chevron_left,
+              enabled: _canGoBack,
+              onTap: _goPrev,
             ),
-            const SizedBox(height: 8),
-            ...List.generate(_weeks, (row) {
-              final date = gridStart.add(Duration(days: row * 7 + col));
-              final trained = workoutDays.contains(date);
-              final isFuture = date.isAfter(today);
-              final isToday = date == today;
-
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: trained
-                        ? Appcolors.momentum
-                        : isFuture
-                        ? Colors.transparent
-                        : Colors.grey.shade800,
-                    border: isToday && !trained
-                        ? Border.all(color: Appcolors.momentum, width: 1)
-                        : null,
-                  ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  _blockLabel(gridStart, gridEnd),
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
                 ),
-              );
-            }),
+              ),
+            ),
+            _NavArrow(
+              icon: Icons.chevron_right,
+              enabled: _canGoForward,
+              onTap: _goNext,
+            ),
           ],
-        );
-      }),
+        ),
+        const SizedBox(height: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(7, (col) {
+            return Column(
+              children: [
+                Text(
+                  _dayLabels[col],
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                ...List.generate(_weeks, (row) {
+                  final date = gridStart.add(Duration(days: row * 7 + col));
+                  final trained = widget.workoutDays.contains(date);
+                  final isFuture = date.isAfter(today);
+                  final isToday = date == today;
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: trained
+                            ? Appcolors.momentum
+                            : isFuture
+                            ? Colors.transparent
+                            : Colors.grey.shade800,
+                        border: isToday && !trained
+                            ? Border.all(color: Appcolors.momentum, width: 1)
+                            : null,
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            );
+          }),
+        ),
+      ],
+    );
+  }
+}
+
+class _NavArrow extends StatelessWidget {
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+  const _NavArrow({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: enabled ? onTap : null,
+      child: Icon(
+        icon,
+        size: 16,
+        color: enabled ? Colors.grey.shade400 : Colors.grey.shade800,
+      ),
     );
   }
 }

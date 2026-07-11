@@ -5,6 +5,7 @@ class PerformedSet {
   final int actRep;
   final double actWeight;
   //final double prevWeight;
+  final double? rpe;
   final bool isCompleted;
 
   PerformedSet({
@@ -13,6 +14,7 @@ class PerformedSet {
     required this.actRep,
     required this.actWeight,
     //required this.prevWeight,
+    this.rpe,
     required this.isCompleted,
   });
 }

@@ -7,6 +7,9 @@ class PerformedSetState {
   final int actRep;
   final double actWeight;
   //final double prevWeight;
+  /// Rate of Perceived Exertion (1-10, half-steps allowed, e.g. 8.5). Optional
+  /// — a set can be completed without recording one.
+  final double? actRpe;
   bool isCompleted;
   PerformedSetState({
     required this.estWeight,
@@ -14,6 +17,7 @@ class PerformedSetState {
     required this.actRep,
     required this.actWeight,
     //required this.prevWeight,
+    this.actRpe,
     required this.isCompleted,
   });
   factory PerformedSetState.defaultSet() {
@@ -23,6 +27,7 @@ class PerformedSetState {
       actRep: 0,
       actWeight: 0,
       //prevWeight: 0,
+      actRpe: null,
       isCompleted: false,
     );
   }
@@ -32,6 +37,7 @@ class PerformedSetState {
     int? actRep,
     double? actWeight,
     //double? prevWeight,
+    double? actRpe,
     bool? isCompleted,
     String? setId,
   }) {
@@ -41,6 +47,7 @@ class PerformedSetState {
       actRep: actRep ?? this.actRep,
       actWeight: actWeight ?? this.actWeight,
       //prevWeight: prevWeight ?? this.prevWeight,
+      actRpe: actRpe ?? this.actRpe,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }

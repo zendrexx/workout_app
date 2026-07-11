@@ -9,6 +9,7 @@ class PerformedSetsIsar {
 
   double? actWeight;
   int? actualRep;
+  double? rpe;
   bool isCompleted;
 
   PerformedSetsIsar({
@@ -16,6 +17,7 @@ class PerformedSetsIsar {
     this.actWeight,
     this.estRep,
     this.actualRep,
+    this.rpe,
     this.isCompleted = false,
   });
 }

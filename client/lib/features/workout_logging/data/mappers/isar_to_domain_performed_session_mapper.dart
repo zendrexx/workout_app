@@ -14,6 +14,7 @@ PerformedSet toDomainPerformedSet(PerformedSetsIsar s) {
     //prevWeight: s.prevWeight ?? 0,
     estWeight: s.estWeight ?? 0,
     estRep: s.estRep ?? "",
+    rpe: s.rpe,
     isCompleted: s.isCompleted,
   );
 

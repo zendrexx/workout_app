@@ -13,6 +13,7 @@ PerformedSetsIsar toPerformedSet(PerformedSet ps) {
     ..actualRep = ps.actRep
     ..estRep = ps.estRep
     ..estWeight = ps.estWeight
+    ..rpe = ps.rpe
     ..isCompleted = ps.isCompleted;
 }
 

@@ -33,15 +33,15 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
           borderRadius: BorderRadius.circular(8),
           onTap: () => setState(() => _expanded = !_expanded),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _CompletedMark(),
-                    const SizedBox(width: 12),
+                    //const _CompletedMark(),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,25 +82,29 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  children: [
-                    _SessionFact(
-                      value: "${formatCompactNumber(session.totalVolume)} lbs",
-                      label: "volume",
-                    ),
-                    _factDivider(),
-                    _SessionFact(
-                      value: "${session.completedSets}",
-                      label: session.completedSets == 1 ? "set" : "sets",
-                    ),
-                    _factDivider(),
-                    _SessionFact(
-                      value: "${session.exerciseCount}",
-                      label: session.exerciseCount == 1
-                          ? "exercise"
-                          : "exercises",
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      _SessionFact(
+                        value:
+                            "${formatCompactNumber(session.totalVolume)} lbs",
+                        label: "volume",
+                      ),
+                      _factDivider(),
+                      _SessionFact(
+                        value: "${session.completedSets}",
+                        label: session.completedSets == 1 ? "set" : "sets",
+                      ),
+                      _factDivider(),
+                      _SessionFact(
+                        value: "${session.exerciseCount}",
+                        label: session.exerciseCount == 1
+                            ? "exercise"
+                            : "exercises",
+                      ),
+                    ],
+                  ),
                 ),
                 AnimatedCrossFade(
                   duration: const Duration(milliseconds: 200),
@@ -150,8 +154,18 @@ class _HistorySessionCardState extends State<HistorySessionCard> {
 String _friendlyDate(DateTime dateTime) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   final now = DateTime.now();
@@ -178,10 +192,14 @@ class _CompletedMark extends StatelessWidget {
       width: 30,
       height: 30,
       decoration: BoxDecoration(
-        color: Appcolors.success.withValues(alpha: 0.12),
+        color: Appcolors.accent,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: const Icon(Icons.check, size: 16, color: Appcolors.success),
+      child: const Icon(
+        Icons.check,
+        size: 16,
+        color: Appcolors.backgroundColor,
+      ),
     );
   }
 }
@@ -311,11 +329,7 @@ class _ExerciseRow extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.notes,
-                size: 12,
-                color: Appcolors.muteText,
-              ),
+              const Icon(Icons.notes, size: 12, color: Appcolors.muteText),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(

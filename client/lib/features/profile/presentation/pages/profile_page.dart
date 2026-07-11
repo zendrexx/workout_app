@@ -1,279 +1,131 @@
-import 'package:client/core/utils/format_number.dart';
-import 'package:client/features/profile/presentation/providers/overall_stats_provider.dart';
-import 'package:client/features/profile/presentation/widgets/heatmap_widget.dart';
-import 'package:client/features/profile/presentation/widgets/pr_card_widget.dart';
-import 'package:client/features/profile/presentation/widgets/stat_card_widget.dart';
+import 'package:client/core/constants/AppColors.dart';
+import 'package:client/features/profile/domain/entities/lifter_overview.dart';
+import 'package:client/features/profile/presentation/pages/profile_setup_flow.dart';
+import 'package:client/features/profile/presentation/providers/profile_providers.dart';
+import 'package:client/features/profile/presentation/widgets/identity_header.dart';
+import 'package:client/features/profile/presentation/widgets/lifetime_stats_section.dart';
+import 'package:client/features/profile/presentation/widgets/personal_records_section.dart';
+import 'package:client/features/profile/presentation/widgets/profile_section_header.dart';
+import 'package:client/features/profile/presentation/widgets/sbd_total_card.dart';
+import 'package:client/features/profile/presentation/widgets/strength_level_card.dart';
+import 'package:client/features/profile/presentation/widgets/training_insights_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+/// The lifter's identity. History answers "what did I do?"; this page
+/// answers "what have I become?" — strength level, records, the total and
+/// lifetime numbers. Until setup runs, the tab hosts the onboarding flow.
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(overallStatsProvider);
+    final overviewAsync = ref.watch(lifterOverviewProvider);
+
+    return overviewAsync.when(
+      loading: () => const Scaffold(
+        backgroundColor: Appcolors.backgroundColor,
+        body: Center(
+          child: CircularProgressIndicator(color: Appcolors.accent),
+        ),
+      ),
+      error: (_, __) => const Scaffold(
+        backgroundColor: Appcolors.backgroundColor,
+        body: Center(
+          child: Text(
+            "Could not load your profile",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+      data: (overview) => overview == null
+          ? const ProfileSetupFlow()
+          : _ProfileScaffold(overview: overview),
+    );
+  }
+}
+
+class _ProfileScaffold extends StatelessWidget {
+  final LifterOverview overview;
+  const _ProfileScaffold({required this.overview});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0F0F0F),
+      backgroundColor: Appcolors.backgroundColor,
       appBar: AppBar(
-        title: Text(
-          "ZHEVION",
-          style: const TextStyle(
+        title: const Text(
+          "PROFILE",
+          style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
             letterSpacing: 2,
           ),
         ),
-        backgroundColor: const Color(0xff0F0F0F),
+        backgroundColor: Appcolors.backgroundColor,
         elevation: 5,
-        shadowColor: Colors.black.withOpacity(0.8),
+        shadowColor: Colors.black.withValues(alpha: 0.8),
         scrolledUnderElevation: 6,
         surfaceTintColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/profile/edit'),
+            icon: const Icon(Icons.edit_outlined, color: Colors.white),
+            tooltip: "Edit profile",
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 15),
+      body: _ProfileContent(overview: overview),
+    );
+  }
+}
 
-            // Profile Section
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage("assets/images/profile.jpg"),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Zendrex Adversalo",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == 'edit') {
-                                // handle edit profile action
-                              } else if (value == 'share') {
-                                // handle share profile action
-                              }
-                            },
-                            itemBuilder: (BuildContext context) => [
-                              const PopupMenuItem(
-                                value: 'edit',
-                                child: Text("Edit Profile"),
-                              ),
-                              const PopupMenuItem(
-                                value: 'share',
-                                child: Text("Share Profile"),
-                              ),
-                            ],
-                            child: const Icon(
-                              Icons.more_horiz_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "@zen",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        "The body achieves what the mind believes",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
+class _ProfileContent extends StatelessWidget {
+  final LifterOverview overview;
+  const _ProfileContent({required this.overview});
 
-            // Stats
-            const SizedBox(height: 10),
-            const Text("STATS", style: TextStyle(color: Colors.grey)),
-            const Divider(color: Colors.grey),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: StatCardWidget(
-                    title: "TOTAL VOLUME",
-                    value: formatDoubleNumber(state.totalVolume),
-                    imagePath: "assets/images/volume.png",
-                  ),
-                ),
-                Expanded(
-                  child: StatCardWidget(
-                    title: "TOTAL SETS",
-                    value: state.totalSets.toString(),
-                    imagePath: "assets/images/totalSets.png",
-                  ),
-                ),
-                //none
-                //asd
-                Expanded(
-                  child: StatCardWidget(
-                    title: "DAY STREAK",
-                    value: state.streak.toString(),
-                    imagePath: "assets/images/streakBw.png",
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
+  @override
+  Widget build(BuildContext context) {
+    final assessment = overview.assessment;
+    final sbdTotal = overview.sbdTotal;
+    final unit = overview.profile.unit;
 
-            // Calendar Heatmap placeholder
-            Text(
-              "135 Days of working out",
-              style: TextStyle(color: Color(0xff8F8F8F), fontSize: 12),
-            ),
-            SizedBox(height: 5),
-            HeatmapWidget(dates: state.dates),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    color: Color(0xff132020),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text("Less"),
-                SizedBox(width: 10),
-                Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    color: Color(0xff2F4F4F),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text("More"),
-              ],
-            ),
-            const SizedBox(height: 30),
+    void goToEdit() => context.go('/profile/edit');
 
-            // Personal Records
-            const Text(
-              "PERSONAL RECORDS",
-              style: TextStyle(color: Colors.grey),
-            ),
-            const Divider(color: Colors.grey),
-            const SizedBox(height: 12),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5),
-                      Text(
-                        "Leaderboards",
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
-                      SizedBox(height: 10),
-                      SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: CircularProgressIndicator(
-                            value: 0,
-                            strokeWidth: 8,
-                            backgroundColor: Colors.grey,
-                            valueColor: AlwaysStoppedAnimation(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "TOP 0%",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        IdentityHeader(overview: overview, onEdit: goToEdit),
+        const SizedBox(height: 24),
 
-                      Text(
-                        "In Weight Class",
-                        style: TextStyle(
-                          color: Color(0xff494949),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: PrCardWidget(
-                        color: Colors.orange,
-                        title: "Squat",
-                        value: state.prSquat != null
-                            ? "${formatDoubleNumber(state.prSquat!)} lbs"
-                            : "0lbs",
-                        iconPath: "assets/images/squat.png",
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: PrCardWidget(
-                        color: Colors.green,
-                        title: "Bench",
-                        value: state.prBench != null
-                            ? "${formatDoubleNumber(state.prBench!)} lbs"
-                            : "0lbs",
-                        iconPath: "assets/images/bench.png",
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: PrCardWidget(
-                        color: Colors.blue,
-                        title: "Deadlift",
-                        value: state.prDeadlift != null
-                            ? "${formatDoubleNumber(state.prDeadlift!)} lbs"
-                            : "0lbs",
-                        iconPath: "assets/images/deadlift.png",
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+        const ProfileSectionHeader(title: "Strength Level"),
+        const SizedBox(height: 8),
+        if (assessment != null)
+          StrengthLevelCard(assessment: assessment, unit: unit)
+        else
+          StrengthLevelEmptyCard(onAddMaxes: goToEdit),
+        const SizedBox(height: 24),
+
+        PersonalRecordsSection(overview: overview, onAddRecord: goToEdit),
+        const SizedBox(height: 16),
+
+        if (sbdTotal != null) ...[
+          const ProfileSectionHeader(title: "The Total"),
+          const SizedBox(height: 8),
+          SbdTotalCard(total: sbdTotal, unit: unit),
+          const SizedBox(height: 24),
+        ],
+
+        LifetimeStatsSection(stats: overview.stats, unit: unit),
+        const SizedBox(height: 24),
+
+        if (TrainingInsightsSection.hasContent(overview.stats)) ...[
+          TrainingInsightsSection(stats: overview.stats, unit: unit),
+          const SizedBox(height: 16),
+        ],
+      ],
     );
   }
 }
