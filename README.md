@@ -1,4 +1,4 @@
-<img width="845" height="4032" alt="image" src="https://github.com/user-attachments/assets/29baac4e-2209-4a7c-a1e3-8be3d40f4184" /># Zhevion
+# Zhevion
 
 An offline-first workout tracker built with Flutter to help you plan, log, and monitor your training.
 
