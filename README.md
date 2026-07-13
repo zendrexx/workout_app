@@ -41,7 +41,7 @@ An offline-first workout tracker built with Flutter to help you plan, log, and m
 
 
 ### Statistics
-<img src="<img width="1080" height="3580" alt="image" src="https://github.com/user-attachments/assets/d66793ce-9f1b-4cbe-83b0-e8239158e7ed" width="250" alt="Statistics">
+<img src="https://github.com/user-attachments/assets/7713569e-ce09-4a2a-9bcf-99c443713f1f" width="250" alt="Statistics">
 
 
 </div>
