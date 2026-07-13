@@ -1,4 +1,4 @@
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/9dcf7fe9-8e29-4a45-a56e-d5a7be1fd849" /># Zhevion
+<img width="845" height="4032" alt="image" src="https://github.com/user-attachments/assets/29baac4e-2209-4a7c-a1e3-8be3d40f4184" /># Zhevion
 
 An offline-first workout tracker built with Flutter to help you plan, log, and monitor your training.
 
@@ -17,29 +17,34 @@ An offline-first workout tracker built with Flutter to help you plan, log, and m
 
 ---
 
-## Screenshots
+## 📸 Screenshots
+
+<div align="center">
 
 ### Home
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/afd1a33e-9cf8-4f4e-86e4-7ae6f3ea4319" />
+<img src="https://github.com/user-attachments/assets/afd1a33e-9cf8-4f4e-86e4-7ae6f3ea4319" width="250" alt="Home Screen">
 
-### Program page
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/9401f48c-c9bf-4ea8-90f3-a3ab1b8e3f7b" />
+### Program Page
+<img src="https://github.com/user-attachments/assets/9401f48c-c9bf-4ea8-90f3-a3ab1b8e3f7b" width="250" alt="Program Page">
 
 ### Programs
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/d2dc35f8-415f-466c-8260-eb5cbc023853" />
+<img src="https://github.com/user-attachments/assets/d2dc35f8-415f-466c-8260-eb5cbc023853" width="250" alt="Programs Screen">
 
 ### Week View
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/0caf0484-4301-42b7-9117-9bfc36311cae" />
+<img src="https://github.com/user-attachments/assets/0caf0484-4301-42b7-9117-9bfc36311cae" width="250" alt="Week View">
 
 ### Workout Logging
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/2e6908bb-205b-429d-88e6-8c36ff5d725e" />
+<img src="https://github.com/user-attachments/assets/2e6908bb-205b-429d-88e6-8c36ff5d725e" width="250" alt="Workout Logging">
 
 ### History
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/44465bba-a66a-4f97-a1a4-12a41e7503e2" />
+<img src="https://github.com/user-attachments/assets/44465bba-a66a-4f97-a1a4-12a41e7503e2" width="250" alt="History">
+
 
 ### Statistics
-![Uploading image.png…]()
+<img src="<img width="1080" height="3580" alt="image" src="https://github.com/user-attachments/assets/d66793ce-9f1b-4cbe-83b0-e8239158e7ed" width="250" alt="Statistics">
 
+
+</div>
 
 ---
 
